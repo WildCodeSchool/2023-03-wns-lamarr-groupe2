@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import Challenge from "./Challenge";
+import User from "./User";
 
 @ObjectType()
 @Entity()
@@ -16,12 +17,16 @@ export default class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  sender_id: string;
+  @Field(() => [User])
+  @OneToMany(() => User, (user) => user.id)
+  @JoinTable()
+  sender_id: number;
 
   @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   creationDate: Date;
 
   @Field(() => [Challenge])

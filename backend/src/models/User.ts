@@ -29,7 +29,7 @@ export default class User extends BaseEntity {
   username: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Field()
@@ -37,15 +37,18 @@ export default class User extends BaseEntity {
   password: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true, default: false })
   admin: boolean;
 
   @Field()
-  @Column({ default: 0 })
+  @Column({ nullable: true, default: 0 })
   points: number;
 
   @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   creationDate: Date;
 
   @Field(() => [Company])

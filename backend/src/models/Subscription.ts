@@ -24,4 +24,12 @@ export default class Subscription extends BaseEntity {
   @Field()
   @Column()
   paid: boolean;
+
+  @Field()
+  @Column({ type: "date" })
+  startAt: Date;
+
+  @Field()
+  @Column({ type: "date" })
+  endAt: Date;
 }

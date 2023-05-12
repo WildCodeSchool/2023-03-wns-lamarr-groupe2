@@ -21,6 +21,9 @@ export default class Notification extends BaseEntity {
   type: number;
 
   @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   send_date: Date;
 }

@@ -1,5 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ObjectType, Field } from "type-graphql";
+import { User } from ".";
 
 @ObjectType()
 @Entity()
@@ -16,7 +24,8 @@ export default class Company extends BaseEntity {
   @Column()
   email: string;
 
-  @Field()
-  @Column()
-  owner: number;
+  @Field(() => [User])
+  @OneToMany(() => User, (user) => user.id)
+  @JoinTable()
+  ownner: number;
 }

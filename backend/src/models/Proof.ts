@@ -1,6 +1,5 @@
 import {
   BaseEntity,
-  Column,
   Entity,
   JoinTable,
   ManyToOne,
@@ -23,15 +22,7 @@ export default class Proof extends BaseEntity {
   user_id: number;
 
   @Field(() => [EcoAction])
-  @ManyToOne(() => EcoAction, (eco_action) => eco_action.id)
+  @ManyToOne(() => EcoAction, (ecoAction) => ecoAction.id)
   @JoinTable()
   eco_action_id: number;
-
-  @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
-  startedAt: Date;
-
-  @Field()
-  @Column({ type: "timestamp" })
-  finishedAt: Date;
 }
