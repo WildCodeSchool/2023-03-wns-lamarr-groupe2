@@ -18,5 +18,9 @@ export default class EcoAction extends BaseEntity {
 
   @Field()
   @Column()
-  type: number;
+  points: number;
+
+  @Field()
+  @Column()
+  need_proof: boolean;
 }

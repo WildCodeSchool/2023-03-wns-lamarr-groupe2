@@ -11,3 +11,5 @@ export { default as InvitationChallenge } from "./InvitationChallenge";
 export { default as InvitationStatus } from "./InvitationStatus";
 export { default as Comment } from "./Comment";
 export { default as EcoAction } from "./EcoAction";
+export { default as Proof } from "./Proof";
+export { default as Subscription } from "./Subscription";
