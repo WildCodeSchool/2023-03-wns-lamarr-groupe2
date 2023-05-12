@@ -6,7 +6,7 @@ import {
   JoinTable,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { Company } from "./";
+import { Company, CompanyGroup } from "./index";
 
 @ObjectType()
 @Entity()
@@ -51,4 +51,9 @@ export default class User {
   @ManyToMany(() => Company, { eager: true })
   @JoinTable()
   company_id: number;
+
+  @Field(() => [CompanyGroup])
+  @ManyToMany(() => CompanyGroup, { eager: true })
+  @JoinTable()
+  company_group_id: number;
 }
