@@ -10,15 +10,16 @@ export class AuthResolver {
     @Arg("username") username: string,
     @Arg("email") email: string,
     @Arg("password") password: string
-  ): Promise<string> {
-    await User.create({
+  ): Promise<User> {
+    const newUser = await User.create({
       firstname,
       lastname,
       username,
       email,
       password,
     }).save();
-    return "Account created !";
+    console.log("newUser:", newUser);
+    return newUser;
   }
 
   @Query(() => String)

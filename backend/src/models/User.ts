@@ -37,24 +37,27 @@ export default class User extends BaseEntity {
   password: string;
 
   @Field()
-  @Column()
+  @Column({ default: false })
   admin: boolean;
 
   @Field()
-  @Column()
+  @Column({ nullable: true, default: 0 })
   points: number;
 
   @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
+  @Column({
+    type: "timestamp",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   creationDate: Date;
 
-  @Field(() => [Company])
-  @OneToMany(() => Company, (company) => company.id)
-  @JoinTable()
-  company_id: number;
+  // @Field(() => [Company])
+  // @OneToMany(() => Company, (company) => company.id)
+  // @JoinTable()
+  // company_id: number;
 
-  @Field(() => [CompanyGroup])
-  @OneToMany(() => CompanyGroup, (company_group) => company_group.id)
-  @JoinTable()
-  company_group_id: number;
+  // @Field(() => [CompanyGroup])
+  // @OneToMany(() => CompanyGroup, (company_group) => company_group.id)
+  // @JoinTable()
+  // company_group_id: number;
 }
