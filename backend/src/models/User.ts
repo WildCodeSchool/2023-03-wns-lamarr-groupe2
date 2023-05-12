@@ -2,15 +2,16 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  ManyToMany,
+  OneToMany,
   JoinTable,
+  BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Company, CompanyGroup } from "./index";
 
 @ObjectType()
 @Entity()
-export default class User {
+export default class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,7 +29,7 @@ export default class User {
   username: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Field()
@@ -36,24 +37,27 @@ export default class User {
   password: string;
 
   @Field()
-  @Column()
+  @Column({ default: false })
   admin: boolean;
 
   @Field()
-  @Column()
+  @Column({ nullable: true, default: 0 })
   points: number;
 
   @Field()
-  @Column({ type: "timestamptz" })
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   creationDate: Date;
 
   @Field(() => [Company])
-  @ManyToMany(() => Company, { eager: true })
+  @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
   company_id: number;
 
   @Field(() => [CompanyGroup])
-  @ManyToMany(() => CompanyGroup, { eager: true })
+  @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
   company_group_id: number;
 }
