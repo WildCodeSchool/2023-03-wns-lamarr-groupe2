@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Column, Entity, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
-=======
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
->>>>>>> origin/backendModels
 import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
