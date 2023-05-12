@@ -37,7 +37,7 @@ export default class User extends BaseEntity {
   password: string;
 
   @Field()
-  @Column({ nullable: true, default: false })
+  @Column({ default: false })
   admin: boolean;
 
   @Field()
