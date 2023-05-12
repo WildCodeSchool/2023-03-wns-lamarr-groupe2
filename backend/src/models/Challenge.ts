@@ -37,7 +37,7 @@ export default class Challenge extends BaseEntity {
   creator: number;
 
   @Field(() => [ChallengeStatus])
-  @ManyToOne(() => ChallengeStatus, (challenge_status) => challenge_status.id)
+  @ManyToOne(() => ChallengeStatus, (challengeStatus) => challengeStatus.id)
   @JoinTable()
   challenge_status_id: number;
 }

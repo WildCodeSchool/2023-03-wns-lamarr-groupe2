@@ -41,7 +41,7 @@ export default class User extends BaseEntity {
   admin: boolean;
 
   @Field()
-  @Column()
+  @Column({ default: 0 })
   points: number;
 
   @Field()
@@ -54,7 +54,7 @@ export default class User extends BaseEntity {
   company_id: number;
 
   @Field(() => [CompanyGroup])
-  @OneToMany(() => CompanyGroup, (company_group) => company_group.id)
+  @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
   company_group_id: number;
 }
