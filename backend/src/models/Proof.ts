@@ -1,31 +1,28 @@
 import {
   BaseEntity,
-  Column,
   Entity,
   JoinTable,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { User } from ".";
+import { EcoAction, User } from ".";
 
 @ObjectType()
 @Entity()
-export default class Company extends BaseEntity {
+export default class Proof extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  name: string;
-
-  @Field()
-  @Column()
-  email: string;
-
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  ownner: number;
+  user_id: number;
+
+  @Field(() => [EcoAction])
+  @ManyToOne(() => EcoAction, (ecoAction) => ecoAction.id)
+  @JoinTable()
+  eco_action_id: number;
 }

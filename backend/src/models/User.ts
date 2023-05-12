@@ -29,7 +29,7 @@ export default class User extends BaseEntity {
   username: string;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Field()
@@ -46,18 +46,18 @@ export default class User extends BaseEntity {
 
   @Field()
   @Column({
-    type: "timestamp",
+    type: "timestamptz",
     default: new Date(new Date().getTime() + 2 * 3600 * 1000),
   })
   creationDate: Date;
 
-  // @Field(() => [Company])
-  // @OneToMany(() => Company, (company) => company.id)
-  // @JoinTable()
-  // company_id: number;
+  @Field(() => [Company])
+  @OneToMany(() => Company, (company) => company.id)
+  @JoinTable()
+  company_id: number;
 
-  // @Field(() => [CompanyGroup])
-  // @OneToMany(() => CompanyGroup, (company_group) => company_group.id)
-  // @JoinTable()
-  // company_group_id: number;
+  @Field(() => [CompanyGroup])
+  @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
+  @JoinTable()
+  company_group_id: number;
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Column, Entity, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
+=======
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+>>>>>>> origin/backendModels
 import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
@@ -21,6 +25,9 @@ export default class Notification extends BaseEntity {
   type: number;
 
   @Field()
-  @Column({ type: "timestamp", default: () => "now()" })
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
   send_date: Date;
 }

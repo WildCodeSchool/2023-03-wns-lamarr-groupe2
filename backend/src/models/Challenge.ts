@@ -5,9 +5,10 @@ import {
   JoinTable,
   ManyToOne,
   BaseEntity,
+  OneToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { ChallengeStatus } from "./index";
+import { ChallengeStatus, User } from "./index";
 
 @ObjectType()
 @Entity()
@@ -25,19 +26,20 @@ export default class Challenge extends BaseEntity {
   description: string;
 
   @Field()
-  @Column({ type: "timestamp" })
+  @Column({ type: "date" })
   startAt: Date;
 
   @Field()
-  @Column({ type: "timestamp" })
+  @Column({ type: "date" })
   endAt: Date;
 
-  @Field()
-  @Column()
-  creator: number;
-
   @Field(() => [ChallengeStatus])
-  @ManyToOne(() => ChallengeStatus, (challenge_status) => challenge_status.id)
+  @ManyToOne(() => ChallengeStatus, (challengeStatus) => challengeStatus.id)
   @JoinTable()
   challenge_status_id: number;
+
+  @Field(() => [User])
+  @OneToMany(() => User, (user) => user.id)
+  @JoinTable()
+  creator: number;
 }
