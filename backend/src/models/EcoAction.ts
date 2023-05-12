@@ -2,21 +2,21 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
-@Entity()
-export default class Company extends BaseEntity {
+@Entity({ name: "eco_action" })
+export default class EcoAction extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
   @Field()
   @Column()
-  name: string;
+  name: number;
+
+  @Field()
+  @Column({ type: "text" })
+  description: string;
 
   @Field()
   @Column()
-  email: string;
-
-  @Field()
-  @Column()
-  owner: number;
+  type: number;
 }

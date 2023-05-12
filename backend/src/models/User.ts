@@ -2,15 +2,16 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  ManyToMany,
+  OneToMany,
   JoinTable,
+  BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Company, CompanyGroup } from "./index";
 
 @ObjectType()
 @Entity()
-export default class User {
+export default class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -44,16 +45,16 @@ export default class User {
   points: number;
 
   @Field()
-  @Column({ type: "timestamptz" })
+  @Column({ type: "timestamp", default: () => "now()" })
   creationDate: Date;
 
   @Field(() => [Company])
-  @ManyToMany(() => Company, { eager: true })
+  @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
   company_id: number;
 
   @Field(() => [CompanyGroup])
-  @ManyToMany(() => CompanyGroup, { eager: true })
+  @OneToMany(() => CompanyGroup, (company_group) => company_group.id)
   @JoinTable()
   company_group_id: number;
 }
