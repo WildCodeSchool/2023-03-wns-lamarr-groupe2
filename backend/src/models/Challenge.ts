@@ -3,14 +3,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   JoinTable,
-  ManyToOne,
   BaseEntity,
   ManyToMany,
   OneToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
-import { ChallengeStatus } from "./ChallengeStatus";
+
+enum ChallengeStatus {
+  COMING,
+  PROGRESS,
+  FINISHED,
+}
 
 @ObjectType()
 @Entity()
@@ -35,10 +39,9 @@ export class Challenge extends BaseEntity {
   @Column({ type: "date" })
   endAt: Date;
 
-  @Field(() => [ChallengeStatus])
-  @ManyToOne(() => ChallengeStatus, (challengeStatus) => challengeStatus.id)
-  @JoinTable()
-  challenge_status_id: number;
+  @Field()
+  @Column()
+  challenge_status_id: ChallengeStatus;
 
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)

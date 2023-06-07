@@ -8,7 +8,12 @@ import {
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
-import { InvitationStatus } from "./InvitationStatus";
+
+enum InvitationStatus {
+  ACCEPTED,
+  PENDING,
+  REFUSED,
+}
 
 @ObjectType()
 @Entity({ name: "invitation_challenge" })
@@ -30,8 +35,7 @@ export class InvitationChallenge extends BaseEntity {
   @JoinTable()
   company_id: number;
 
-  @Field(() => [InvitationStatus])
-  @OneToMany(() => InvitationStatus, (invitationStatus) => invitationStatus.id)
-  @JoinTable()
-  invitaion_status_id: number;
+  @Field()
+  @Column()
+  invitaion_status_id: InvitationStatus;
 }
