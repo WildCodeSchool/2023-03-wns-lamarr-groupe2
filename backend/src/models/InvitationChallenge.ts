@@ -7,12 +7,12 @@ import {
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import Challenge from "./Challenge";
-import InvitationStatus from "./InvitationStatus";
+import { Challenge } from "./Challenge";
+import { InvitationStatus } from "./InvitationStatus";
 
 @ObjectType()
 @Entity({ name: "invitation_challenge" })
-export default class InvitationChallenge extends BaseEntity {
+export class InvitationChallenge extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;

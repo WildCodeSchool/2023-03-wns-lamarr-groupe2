@@ -7,11 +7,12 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { EcoAction, User } from ".";
+import { EcoAction } from "./EcoAction";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export default class Proof extends BaseEntity {
+export class Proof extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;

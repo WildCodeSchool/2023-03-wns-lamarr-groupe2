@@ -7,11 +7,11 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { User } from ".";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export default class Company extends BaseEntity {
+export class Company extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;

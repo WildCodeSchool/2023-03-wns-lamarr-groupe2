@@ -3,7 +3,7 @@ import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 @Entity({ name: "challenge_status" })
-export default class ChallengeStatus extends BaseEntity {
+export class ChallengeStatus extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;

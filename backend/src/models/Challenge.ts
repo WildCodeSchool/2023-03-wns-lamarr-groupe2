@@ -5,14 +5,16 @@ import {
   JoinTable,
   ManyToOne,
   BaseEntity,
+  ManyToMany,
   OneToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { ChallengeStatus, User } from "./index";
+import { User } from "./User";
+import { ChallengeStatus } from "./ChallengeStatus";
 
 @ObjectType()
 @Entity()
-export default class Challenge extends BaseEntity {
+export class Challenge extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -42,4 +44,20 @@ export default class Challenge extends BaseEntity {
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
   creator: number;
+
+  // challenge_member
+  @ManyToMany(() => User, (userId) => userId.id, { lazy: true })
+  @JoinTable({
+    name: "challenge_member", // table name for the junction table of this relation
+    joinColumn: {
+      name: "challengeId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+  })
+  @Field(() => [User])
+  authors: Promise<User[]>;
 }

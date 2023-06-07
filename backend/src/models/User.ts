@@ -3,15 +3,18 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToMany,
   JoinTable,
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { Company, CompanyGroup } from "./index";
+import { Company } from "./Company";
+import { Challenge } from "./Challenge";
+import { CompanyGroup } from "./CompanyGroup";
 
 @ObjectType()
 @Entity()
-export default class User extends BaseEntity {
+export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -60,4 +63,25 @@ export default class User extends BaseEntity {
   @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
   company_group_id: number;
+
+  // friend_list
+  @ManyToMany(() => User, (friendId) => friendId.id, { lazy: true })
+  @JoinTable({
+    name: "friend_list", // table name for the junction table of this relation
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "friendId",
+      referencedColumnName: "id",
+    },
+  })
+  @Field(() => [User])
+  authors: Promise<User[]>;
+
+  // challenge_member
+  @ManyToMany(() => Challenge, (challengeId) => challengeId.id, { lazy: true })
+  @Field(() => [Challenge])
+  books: Promise<Challenge[]>;
 }

@@ -7,12 +7,12 @@ import {
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import Challenge from "./Challenge";
-import User from "./User";
+import { Challenge } from "./Challenge";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export default class Comment extends BaseEntity {
+export class Comment extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
