@@ -20,10 +20,10 @@ export class Proof extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  user_id: number;
+  user_id: User;
 
   @Field(() => [EcoAction])
   @ManyToOne(() => EcoAction, (ecoAction) => ecoAction.id)
   @JoinTable()
-  eco_action_id: number;
+  eco_action_id: EcoAction;
 }

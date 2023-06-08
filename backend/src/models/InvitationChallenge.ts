@@ -33,7 +33,7 @@ export class InvitationChallenge extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)
   @JoinTable()
-  company_id: number;
+  company_id: Challenge;
 
   @Field()
   @Column()

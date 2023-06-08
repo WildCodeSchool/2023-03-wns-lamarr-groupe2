@@ -24,10 +24,10 @@ export class CompanyGroup extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)
   @JoinTable()
-  challenge_id: number;
+  challenge_id: Challenge;
 
   @Field(() => [Company])
   @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
-  company_id: number;
+  company_id: Company;
 }
