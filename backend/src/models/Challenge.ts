@@ -16,6 +16,11 @@ enum ChallengeStatus {
   FINISHED,
 }
 
+enum Tags {
+  ALIMENTATION,
+  ACTIVITE,
+}
+
 @ObjectType()
 @Entity()
 export class Challenge extends BaseEntity {
@@ -42,6 +47,10 @@ export class Challenge extends BaseEntity {
   @Field()
   @Column()
   challenge_status_id: ChallengeStatus;
+
+  @Field()
+  @Column()
+  tag: Tags;
 
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)

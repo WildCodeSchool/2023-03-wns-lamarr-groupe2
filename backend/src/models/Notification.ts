@@ -18,7 +18,7 @@ export class Notification extends BaseEntity {
 
   @Field()
   @Column()
-  type: number;
+  type: string;
 
   @Field()
   @Column({
