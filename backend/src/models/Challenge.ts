@@ -58,7 +58,7 @@ export class Challenge extends BaseEntity {
   creator: number;
 
   // challenge_member
-  @ManyToMany(() => User, (userId) => userId.id, { lazy: true })
+  @ManyToMany(() => User, (userId) => userId.id)
   @JoinTable({
     name: "challenge_member", // table name for the junction table of this relation
     joinColumn: {
@@ -71,5 +71,5 @@ export class Challenge extends BaseEntity {
     },
   })
   @Field(() => [User])
-  authors: Promise<User[]>;
+  member: Promise<User[]>;
 }

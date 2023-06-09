@@ -20,7 +20,7 @@ export class Comment extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  sender_id: number;
+  sender_id: User;
 
   @Field()
   @Column({

@@ -33,7 +33,7 @@ export class EcoAction extends BaseEntity {
   need_proof: boolean;
 
   // challenge_eco_action_list
-  @ManyToMany(() => Challenge, (challengeId) => challengeId.id, { lazy: true })
+  @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   @JoinTable({
     name: "challenge_eco_action_list", // table name for the junction table of this relation
     joinColumn: {

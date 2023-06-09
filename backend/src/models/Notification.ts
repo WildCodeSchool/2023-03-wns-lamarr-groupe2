@@ -1,5 +1,14 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  ManyToOne,
+  JoinTable,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ObjectType, Field } from "type-graphql";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
@@ -8,13 +17,15 @@ export class Notification extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  sender_id: number;
+  @Field(() => [User])
+  @OneToMany(() => User, (user) => user.id)
+  @JoinTable()
+  sender: User;
 
-  @Field()
-  @Column()
-  recipient_id: number;
+  @Field(() => [User])
+  @ManyToOne(() => User, (user) => user.id)
+  @JoinTable()
+  recipient: User;
 
   @Field()
   @Column()

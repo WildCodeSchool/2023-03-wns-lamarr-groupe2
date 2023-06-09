@@ -65,7 +65,7 @@ export class User extends BaseEntity {
   company_group_id: CompanyGroup;
 
   // friend_list
-  @ManyToMany(() => User, (friendId) => friendId.id, { lazy: true })
+  @ManyToMany(() => User, (friendId) => friendId.id)
   @JoinTable({
     name: "friend_list", // table name for the junction table of this relation
     joinColumn: {
@@ -78,10 +78,10 @@ export class User extends BaseEntity {
     },
   })
   @Field(() => [User])
-  authors: Promise<User[]>;
+  friend: User[];
 
   // challenge_member
-  @ManyToMany(() => Challenge, (challengeId) => challengeId.id, { lazy: true })
+  @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   @Field(() => [Challenge])
-  books: Promise<Challenge[]>;
+  challenge: Challenge[];
 }
