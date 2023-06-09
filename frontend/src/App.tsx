@@ -9,6 +9,7 @@ export default function App() {
         onClick={() => console.log("salut")}
         styled={"btnGood"}
       />
+      <p className="underline">hey</p>
     </>
   );
 }

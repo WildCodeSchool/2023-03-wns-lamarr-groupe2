@@ -7,7 +7,7 @@ const dataSource = new DataSource({
   // if we run backend without docker, the host has to be 'localhost'
   // if we run backend with docker, the host has to be 'postgres'
   type: "postgres",
-  host: "postgres",
+  host: "localhost",
   port: 5432,
   username: "postgres",
   password: "example",
