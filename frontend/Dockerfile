@@ -8,6 +8,7 @@ COPY public public
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 COPY tsconfig.json ./
+COPY tailwind.config.js /
 
 RUN npm install
 
