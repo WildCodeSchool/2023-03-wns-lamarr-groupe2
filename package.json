@@ -1,0 +1,16 @@
+{
+  "name": "echoes-of-future",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "setup": "npm i && npm --prefix ./frontend i --force && npm --prefix ./backend i",
+    "dev": "concurrently -n front,back -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm --prefix ./frontend run start\" \"npm --prefix ./backend run dev\"",
+    "docker": "docker compose -f docker-compose.yml up"
+  },
+  "author": "Madeline Thomas, Morgan Mezaache, Jonathan Caillon, Carl Marion, Marion Lalonde",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "8.1.0"
+  }
+}

@@ -1,28 +1,28 @@
 services:
-                    backend:
-                                        build: ./backend
-                                        ports:
-                                                            - 5000:5000
-                                        volumes:
-                                                            - ./backend/src:/app/src
+  backend:
+    build: ./backend
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/src:/app/src
 
-                    frontend:
-                                        build: ./frontend
-                                        ports:
-                                                            - 3000:3000
-                                        volumes:
-                                                            - ./frontend/src:/app/src
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/node_modules:/app/node_modules
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
 
-                    postgres:
-                                        image: postgres
-                                        restart: always
-                                        ports:
-                                                            - 5432:5432
-                                        environment:
-                                                            POSTGRES_PASSWORD: example
-
-                    adminer:
-                                        image: adminer
-                                        restart: always
-                                        ports:
-                                                            - 8080:8080
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
