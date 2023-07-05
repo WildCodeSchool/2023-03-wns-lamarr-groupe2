@@ -24,7 +24,7 @@ export class NotificationResolver {
 
     const newNotification = await Notification.create({
       sender: [sender],
-      recipient: recipient,
+      recipient,
       type,
     }).save();
 
