@@ -17,15 +17,15 @@ export class Notification extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => [User])
-  @OneToMany(() => User, (user) => user.id)
-  @JoinTable()
-  sender: User;
-
-  @Field(() => [User])
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.id)
   @JoinTable()
   recipient: User;
+
+  @Field(() => [User])
+  @OneToMany(() => User, (user) => user.id)
+  @JoinTable()
+  sender: User[];
 
   @Field()
   @Column()

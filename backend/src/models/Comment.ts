@@ -20,7 +20,7 @@ export class Comment extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  sender_id: User;
+  sender_id: User[];
 
   @Field()
   @Column({
@@ -32,7 +32,7 @@ export class Comment extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)
   @JoinTable()
-  company_id: Challenge;
+  company_id: Challenge[];
 
   @Field()
   @Column()

@@ -55,7 +55,7 @@ export class Challenge extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  creator: number;
+  creator: User[];
 
   // challenge_member
   @ManyToMany(() => User, (userId) => userId.id)

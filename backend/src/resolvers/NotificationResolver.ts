@@ -23,8 +23,8 @@ export class NotificationResolver {
     }
 
     const newNotification = await Notification.create({
-      sender,
-      recipient,
+      sender: [sender],
+      recipient: recipient,
       type,
     }).save();
 

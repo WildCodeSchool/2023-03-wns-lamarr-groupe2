@@ -5,12 +5,14 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  ManyToOne,
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Company } from "./Company";
 import { Challenge } from "./Challenge";
 import { CompanyGroup } from "./CompanyGroup";
+import { Notification } from "./Notification";
 
 @ObjectType()
 @Entity()
@@ -57,12 +59,12 @@ export class User extends BaseEntity {
   @Field(() => Company)
   @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
-  company?: Company;
+  company?: Company[];
 
   @Field(() => [CompanyGroup])
   @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
-  company_group_id: CompanyGroup;
+  company_group_id: CompanyGroup[];
 
   // friend_list
   @ManyToMany(() => User, (friendId) => friendId.id)
@@ -84,4 +86,20 @@ export class User extends BaseEntity {
   @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   @Field(() => [Challenge])
   challenge: Challenge[];
+
+  // creator
+  @Field(() => Challenge)
+  @ManyToOne(() => Challenge, (challengeId) => challengeId.id)
+  @JoinTable()
+  creator: Challenge;
+
+  @Field(() => Notification)
+  @ManyToOne(() => Notification, (notification) => notification.id)
+  @JoinTable()
+  recipient: Notification;
+
+  @Field(() => [Notification])
+  @OneToMany(() => Notification, (notification) => notification.id)
+  @JoinTable()
+  sender: Notification[];
 }

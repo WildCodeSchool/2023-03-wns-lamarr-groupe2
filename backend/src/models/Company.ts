@@ -27,5 +27,5 @@ export class Company extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  ownner: User;
+  ownner: User[];
 }

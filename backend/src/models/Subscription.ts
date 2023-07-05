@@ -19,7 +19,7 @@ export class Subscription extends BaseEntity {
   @Field(() => [Company])
   @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
-  company_id: Company;
+  company_id: Company[];
 
   @Field()
   @Column()
