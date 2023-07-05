@@ -64,7 +64,7 @@ export class User extends BaseEntity {
   @Field(() => [CompanyGroup])
   @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
-  company_group_id: CompanyGroup[];
+  company_group?: CompanyGroup[];
 
   // friend_list
   @ManyToMany(() => User, (friendId) => friendId.id)
