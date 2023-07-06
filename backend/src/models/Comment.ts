@@ -7,12 +7,12 @@ import {
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import Challenge from "./Challenge";
-import User from "./User";
+import { Challenge } from "./Challenge";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export default class Comment extends BaseEntity {
+export class Comment extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +20,7 @@ export default class Comment extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  sender_id: number;
+  sender_id: User[];
 
   @Field()
   @Column({
@@ -32,7 +32,7 @@ export default class Comment extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)
   @JoinTable()
-  company_id: number;
+  company_id: Challenge[];
 
   @Field()
   @Column()

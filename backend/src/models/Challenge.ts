@@ -3,16 +3,27 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   JoinTable,
-  ManyToOne,
   BaseEntity,
+  ManyToMany,
   OneToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { ChallengeStatus, User } from "./index";
+import { User } from "./User";
+
+enum ChallengeStatus {
+  COMING,
+  PROGRESS,
+  FINISHED,
+}
+
+enum Tags {
+  ALIMENTATION,
+  ACTIVITE,
+}
 
 @ObjectType()
 @Entity()
-export default class Challenge extends BaseEntity {
+export class Challenge extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -33,13 +44,32 @@ export default class Challenge extends BaseEntity {
   @Column({ type: "date" })
   endAt: Date;
 
-  @Field(() => [ChallengeStatus])
-  @ManyToOne(() => ChallengeStatus, (challengeStatus) => challengeStatus.id)
-  @JoinTable()
-  challenge_status_id: number;
+  @Field()
+  @Column()
+  challenge_status_id: ChallengeStatus;
+
+  @Field()
+  @Column()
+  tag: Tags;
 
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  creator: number;
+  creator: User[];
+
+  // challenge_member
+  @ManyToMany(() => User, (userId) => userId.id)
+  @JoinTable({
+    name: "challenge_member", // table name for the junction table of this relation
+    joinColumn: {
+      name: "challengeId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+  })
+  @Field(() => [User])
+  member: Promise<User[]>;
 }

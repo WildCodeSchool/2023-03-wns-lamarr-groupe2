@@ -1,9 +1,17 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  ManyToMany,
+  Entity,
+  JoinTable,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ObjectType, Field } from "type-graphql";
+import { Challenge } from "./Challenge";
 
 @ObjectType()
 @Entity({ name: "eco_action" })
-export default class EcoAction extends BaseEntity {
+export class EcoAction extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,4 +31,20 @@ export default class EcoAction extends BaseEntity {
   @Field()
   @Column()
   need_proof: boolean;
+
+  // challenge_eco_action_list
+  @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
+  @JoinTable({
+    name: "challenge_eco_action_list", // table name for the junction table of this relation
+    joinColumn: {
+      name: "ecoActionId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "challengeId",
+      referencedColumnName: "id",
+    },
+  })
+  @Field(() => [Challenge])
+  authors: Promise<Challenge[]>;
 }

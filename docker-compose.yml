@@ -12,10 +12,12 @@ services:
       - 3000:3000
     volumes:
       - ./frontend/src:/app/src
-
+      - ./frontend/node_modules:/app/node_modules
   postgres:
     image: postgres
     restart: always
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD: example
 

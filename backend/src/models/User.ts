@@ -3,15 +3,20 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToMany,
   JoinTable,
+  ManyToOne,
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { Company, CompanyGroup } from "./index";
+import { Company } from "./Company";
+import { Challenge } from "./Challenge";
+import { CompanyGroup } from "./CompanyGroup";
+import { Notification } from "./Notification";
 
 @ObjectType()
 @Entity()
-export default class User extends BaseEntity {
+export class User extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -51,13 +56,50 @@ export default class User extends BaseEntity {
   })
   creationDate: Date;
 
-  @Field(() => [Company])
+  @Field(() => Company)
   @OneToMany(() => Company, (company) => company.id)
   @JoinTable()
-  company_id: number;
+  company?: Company[];
 
   @Field(() => [CompanyGroup])
   @OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
   @JoinTable()
-  company_group_id: number;
+  company_group?: CompanyGroup[];
+
+  // friend_list
+  @ManyToMany(() => User, (friendId) => friendId.id)
+  @JoinTable({
+    name: "friend_list", // table name for the junction table of this relation
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "friendId",
+      referencedColumnName: "id",
+    },
+  })
+  @Field(() => [User])
+  friend: User[];
+
+  // challenge_member
+  @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
+  @Field(() => [Challenge])
+  challenge: Challenge[];
+
+  // creator
+  @Field(() => Challenge)
+  @ManyToOne(() => Challenge, (challengeId) => challengeId.id)
+  @JoinTable()
+  creator: Challenge;
+
+  @Field(() => Notification)
+  @ManyToOne(() => Notification, (notification) => notification.id)
+  @JoinTable()
+  recipient: Notification;
+
+  @Field(() => [Notification])
+  @OneToMany(() => Notification, (notification) => notification.id)
+  @JoinTable()
+  sender: Notification[];
 }

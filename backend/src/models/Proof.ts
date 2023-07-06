@@ -7,11 +7,12 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import { EcoAction, User } from ".";
+import { EcoAction } from "./EcoAction";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
-export default class Proof extends BaseEntity {
+export class Proof extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,10 +20,10 @@ export default class Proof extends BaseEntity {
   @Field(() => [User])
   @OneToMany(() => User, (user) => user.id)
   @JoinTable()
-  user_id: number;
+  user_id: User[];
 
-  @Field(() => [EcoAction])
+  @Field(() => EcoAction)
   @ManyToOne(() => EcoAction, (ecoAction) => ecoAction.id)
   @JoinTable()
-  eco_action_id: number;
+  eco_action_id: EcoAction;
 }

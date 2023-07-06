@@ -7,12 +7,17 @@ import {
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
-import Challenge from "./Challenge";
-import InvitationStatus from "./InvitationStatus";
+import { Challenge } from "./Challenge";
+
+enum InvitationStatus {
+  ACCEPTED,
+  PENDING,
+  REFUSED,
+}
 
 @ObjectType()
 @Entity({ name: "invitation_challenge" })
-export default class InvitationChallenge extends BaseEntity {
+export class InvitationChallenge extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,10 +33,9 @@ export default class InvitationChallenge extends BaseEntity {
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)
   @JoinTable()
-  company_id: number;
+  company_id: Challenge[];
 
-  @Field(() => [InvitationStatus])
-  @OneToMany(() => InvitationStatus, (invitationStatus) => invitationStatus.id)
-  @JoinTable()
-  invitaion_status_id: number;
+  @Field()
+  @Column()
+  invitaion_status_id: InvitationStatus;
 }
