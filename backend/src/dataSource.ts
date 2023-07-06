@@ -4,7 +4,7 @@ import { join } from "path";
 
 require("dotenv").config();
 const path = join(__dirname, "./models/*.ts");
-
+console.log("ENV: ", process.env);
 const DBport =
   process.env.DB_PORT != null ? parseInt(process.env.DB_PORT, 10) : undefined;
 

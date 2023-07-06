@@ -14,6 +14,7 @@
     "apollo-server": "^3.12.0",
     "argon2": "^0.30.3",
     "dotenv": "^16.1.4",
+    "echoes-of-future": "file:..",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "type-graphql": "^1.1.1",

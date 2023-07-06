@@ -22,13 +22,14 @@ export class NotificationResolver {
       throw new Error(`The user with id: ${recipientId} does not exist!`);
     }
 
-    const newNotification = await Notification.create({
-      sender: [sender],
-      recipient,
-      type,
-    }).save();
+    const notification = new Notification();
+    notification.recipient = recipient;
+    notification.sender = [sender];
+    notification.type = type;
 
-    return newNotification;
+    await notification.save();
+
+    return notification;
   }
 
   @Query(() => Notification)
