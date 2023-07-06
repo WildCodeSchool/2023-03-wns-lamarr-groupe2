@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
 type BtnProps = {
   onClick: () => void;
@@ -7,21 +7,8 @@ type BtnProps = {
 };
 
 const BtnExample: FC<BtnProps> = ({ onClick, styled, text }) => {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsPressed((prevState) => !prevState);
-    onClick();
-  };
-
   return (
-    <button
-      className={`${
-        isPressed ? "text-white" : ""
-      } hover:bg-primary-danger ${styled}`}
-      onMouseDown={handleButtonClick}
-      onMouseUp={() => setIsPressed(false)}
-    >
+    <button className={` hover:bg-primary-danger ${styled}`} onClick={onClick}>
       {text}
     </button>
   );

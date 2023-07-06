@@ -5,8 +5,6 @@ services:
       - 5000:5000
     volumes:
       - ./backend/src:/app/src
-    env_file:
-      - ./backend/.env
 
   frontend:
     build: ./frontend
