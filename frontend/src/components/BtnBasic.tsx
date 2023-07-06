@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
 
-type BtnProps = {
+type BtnBasicProps = {
   onClick: () => void;
   styled: "btnDanger" | "btnAttention" | "btnGood";
   text: string;
 };
 
-const BtnExample: FC<BtnProps> = ({ onClick, styled, text }) => {
+const BtnBasic: FC<BtnBasicProps> = ({ onClick, styled, text }) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleButtonClick = () => {
@@ -27,4 +27,4 @@ const BtnExample: FC<BtnProps> = ({ onClick, styled, text }) => {
   );
 };
 
-export default BtnExample;
+export default BtnBasic;
