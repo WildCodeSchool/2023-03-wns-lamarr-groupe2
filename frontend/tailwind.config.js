@@ -17,6 +17,8 @@ module.exports = {
       "primary-danger": "#CE7677",
       "primary-attention": "#FFCB66",
       "primary-good": "#96B9A0",
+      black: "#000",
+      white: "#fff",
     },
     fontFamily: {
       titles: ["Montserrat", "sans-serif"],
