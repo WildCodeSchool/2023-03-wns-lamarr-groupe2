@@ -23,7 +23,9 @@ export class Notification extends BaseEntity {
   recipient: User;
 
   @Field(() => [User])
-  @OneToMany(() => User, (user) => user.id)
+  @OneToMany(() => User, (user) => user.id, {
+    cascade: true,
+  })
   @JoinTable()
   sender: User[];
 

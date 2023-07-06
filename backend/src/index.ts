@@ -9,7 +9,6 @@ import { User } from "./models/User";
 import { JwtPayload, verify } from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-console.log("ENV: ", process.env);
 
 // const path = join(__dirname, "./models/*.ts");
 const start = async (): Promise<void> => {
