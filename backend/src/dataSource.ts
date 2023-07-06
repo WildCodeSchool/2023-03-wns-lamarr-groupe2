@@ -30,5 +30,5 @@ const dataSource = new DataSource({
 
   entities: [path],
 });
-
+console.log("PROCESS:", process.env);
 export default dataSource;
