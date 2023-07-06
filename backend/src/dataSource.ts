@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { DataSource } from "typeorm";
 import { join } from "path";
 
@@ -19,7 +18,7 @@ const dataSource = new DataSource({
 	// if we run backend without docker, the host has to be 'localhost'
 	// if we run backend with docker, the host has to be 'postgres'
 	type: process.env.DB_TYPE as any,
-	host: process.env.DB_HOST,
+	host: "localhost",
 	port: DBport,
 	username: process.env.DB_USER,
 	password: process.env.DB_PASSWORD as string,
