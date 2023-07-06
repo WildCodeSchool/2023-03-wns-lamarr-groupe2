@@ -5,10 +5,23 @@
 
 @layer components {
   .btnGood {
-    @apply bg-primary-good font-content font-bold rounded-small py-1 px-2;
+    @apply bg-primary-good font-content font-bold rounded-small py-3 px-2;
   }
   .btnDanger {
-    @apply bg-primary-danger font-content font-bold rounded-small py-1 px-2;
+    @apply bg-primary-danger font-content font-bold rounded-small py-3 px-2;
+  }
+  .btnAttention {
+    @apply bg-primary-attention font-content font-bold rounded-small drop-shadow-lg py-3 px-2;
+  }
+
+  .btnSmallGood {
+    @apply bg-primary-good font-content font-bold rounded-rounder py-3 px-6;
+  }
+  .btnSmallDanger {
+    @apply bg-primary-danger font-content font-bold rounded-rounder py-3 px-6;
+  }
+  .btnSmallAttention {
+    @apply bg-primary-attention font-content font-bold rounded-rounder py-3 px-6;
   }
 }
 

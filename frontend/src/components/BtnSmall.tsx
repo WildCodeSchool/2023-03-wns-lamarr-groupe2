@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
 
-type BtnExampleProps = {
+type BtnSmallProps = {
   onClick: () => void;
-  styled: "btnDanger" | "btnAttention" | "btnGood";
+  styled: "btnSmallGood" | "btnSmallDanger" | "btnSmallAttention";
   text: string;
 };
 
-const BtnExample: FC<BtnExampleProps> = ({ onClick, styled, text }) => {
+const BtnSmall: FC<BtnSmallProps> = ({ onClick, styled, text }) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleButtonClick = () => {
@@ -17,8 +17,8 @@ const BtnExample: FC<BtnExampleProps> = ({ onClick, styled, text }) => {
   return (
     <button
       className={`${
-        isPressed ? "text-white" : ""
-      } hover:bg-primary-danger ${styled}`}
+        isPressed ? "drop-shadow-none" : ""
+      } drop-shadow-custom border border-color-black ${styled} hover:text-white hover:border-black`}
       onMouseDown={handleButtonClick}
       onMouseUp={() => setIsPressed(false)}
     >
@@ -26,5 +26,4 @@ const BtnExample: FC<BtnExampleProps> = ({ onClick, styled, text }) => {
     </button>
   );
 };
-
-export default BtnExample;
+export default BtnSmall;

@@ -17,6 +17,8 @@ module.exports = {
       "primary-danger": "#CE7677",
       "primary-attention": "#FFCB66",
       "primary-good": "#96B9A0",
+      white: "#fff",
+      black: "#000",
     },
     fontFamily: {
       titles: ["Montserrat", "sans-serif"],
@@ -29,6 +31,16 @@ module.exports = {
         medium: 6,
         large: 8,
         xlarge: 10,
+        rounder: 25,
+      },
+      borderWidth: {
+        1: "1px",
+      },
+      borderColor: {
+        black: "#000",
+      },
+      dropShadow: {
+        custom: "5px 6px 0px rgba(0, 0, 0, 1)",
       },
     },
   },
