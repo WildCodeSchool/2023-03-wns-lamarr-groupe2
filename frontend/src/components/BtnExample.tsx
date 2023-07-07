@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
 
-type BtnProps = {
+type BtnExampleProps = {
   onClick: () => void;
   styled: "btnDanger" | "btnAttention" | "btnGood";
   text: string;
 };
 
-const BtnExample: FC<BtnProps> = ({ onClick, styled, text }) => {
+const BtnExample: FC<BtnExampleProps> = ({ onClick, styled, text }) => {
   const [isPressed, setIsPressed] = useState(false);
 
   const handleButtonClick = () => {
