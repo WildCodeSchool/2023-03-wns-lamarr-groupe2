@@ -37,4 +37,30 @@ export class FriendResolver {
 
     return await user.save();
   }
+
+  @Mutation(() => User)
+  async deleteFriend(
+    @Arg("userid") userId: number,
+    @Arg("friendid") friendId: number
+  ): Promise<User> {
+    const user = await User.findOne({
+      relations: {
+        friend: true,
+      },
+      where: {
+        id: userId,
+      },
+    });
+
+    if (user === null) {
+      throw new Error(`The user with id: ${userId} does not exist!`);
+    }
+
+    let friends = user.friend;
+
+    friends = friends.filter((item) => item.id !== friendId);
+    user.friend = friends;
+
+    return await user.save();
+  }
 }
