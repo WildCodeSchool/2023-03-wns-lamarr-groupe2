@@ -17,6 +17,7 @@ module.exports = {
       "primary-danger": "#CE7677",
       "primary-attention": "#FFCB66",
       "primary-good": "#96B9A0",
+      "main-grey": "#D9D9D9",
       white: "#fff",
       black: "#000",
     },
@@ -38,6 +39,7 @@ module.exports = {
       },
       dropShadow: {
         custom: "5px 6px 0px rgba(0, 0, 0, 1)",
+        progressbar: "3px 4px 0px rgba(0, 0, 0, 1)",
       },
     },
   },
