@@ -8,22 +8,13 @@ type BtnCustomProps = {
 };
 
 const BtnCustom: FC<BtnCustomProps> = ({ onClick, styled, text, size }) => {
-  const [isPressed, setIsPressed] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsPressed((prevState) => !prevState);
-    onClick();
-  };
 
   return (
     <button
-      className={`${isPressed ? "drop-shadow-none" : ""}
-      ${
-        size && "small"
-      } drop-shadow-custom border customBorder ${styled} hover:text-white hover:border-black`}
-      onMouseDown={handleButtonClick}
-      onMouseUp={() => setIsPressed(false)}
-    >
+      className={`$
+      ${size && "small"
+        } customBorder ${styled}`}
+      onClick={onClick}>
       {text}
     </button>
   );

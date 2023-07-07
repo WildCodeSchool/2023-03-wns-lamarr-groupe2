@@ -11,8 +11,8 @@ const NavBtn: FC<PropsWithChildren> = () => {
     // const navigate = useNavigate()
 
     return (
-        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} /* onClick={() => navigate(-1)}  */>
-            <img src={isHovered ? leftArrowLight : leftArrow} className='w-6 h-6' />
+        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} className='cursor-pointer' /* onClick={() => navigate(-1)}  */>
+            <img alt='navigation icon' src={isHovered ? leftArrowLight : leftArrow} className='btnAttention customBorder rounded-full' />
         </div>
     )
 }
