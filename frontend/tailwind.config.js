@@ -13,7 +13,7 @@ module.exports = {
       "secondary-dark": "#706565",
       "tertiary-dark": "#A59999",
       "main-bg": "#FFFCF6",
-      "element-bg": "#FFFCF6",
+      "element-bg": "#FFFFFF",
       "primary-danger": "#CE7677",
       "primary-attention": "#FFCB66",
       "primary-good": "#96B9A0",
