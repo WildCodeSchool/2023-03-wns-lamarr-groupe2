@@ -1,18 +1,32 @@
-import { FC, PropsWithChildren, useState } from 'react'
+import { FC, useState } from 'react'
 import leftArrow from "../assets/icons/return/left-arrow-dark.svg"
 import leftArrowLight from "../assets/icons/return/left-arrow-light.svg"
+import { useNavigate } from 'react-router-dom'
 
-const NavBtn: FC<PropsWithChildren> = () => {
+type NavBtnProps = {
+    type: 'return' | 'specific'
+    link?: string
+}
+
+const NavBtn: FC<NavBtnProps> = ({ type, link }) => {
     const [isHovered, setIsHovered] = useState(false)
 
     const handleMouseEvent = () => {
         setIsHovered(prev => !prev)
     }
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
+
+    const road = () => {
+        if (type === 'return') {
+            navigate(-1)
+        } else {
+            navigate(link ?? '')
+        }
+    }
 
     return (
-        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} className='cursor-pointer' /* onClick={() => navigate(-1)}  */>
-            <img alt='navigation icon' src={isHovered ? leftArrowLight : leftArrow} className='btnAttention customBorder rounded-full' />
+        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} className='btnAttention customBorder rounded-full cursor-pointer h-10 w-10' onClick={road}>
+            <img alt='navigation icon' src={isHovered ? leftArrowLight : leftArrow} className={` ${link && 'rotate-180'}`} />
         </div>
     )
 }
