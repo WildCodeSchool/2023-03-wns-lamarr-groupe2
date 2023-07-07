@@ -36,9 +36,6 @@ module.exports = {
       borderWidth: {
         1: "1px",
       },
-      borderColor: {
-        black: "#000",
-      },
       dropShadow: {
         custom: "5px 6px 0px rgba(0, 0, 0, 1)",
       },
