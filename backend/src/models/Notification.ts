@@ -2,10 +2,10 @@ import {
   BaseEntity,
   Column,
   Entity,
-  OneToMany,
   ManyToOne,
   JoinTable,
   PrimaryGeneratedColumn,
+  ManyToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
@@ -13,21 +13,17 @@ import { User } from "./User";
 @ObjectType()
 @Entity()
 export class Notification extends BaseEntity {
-  @Field()
+  @Field({ nullable: true })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinTable()
-  recipient: User;
-
   @Field(() => [User])
-  @OneToMany(() => User, (user) => user.id, {
-    cascade: true,
-  })
-  @JoinTable()
-  sender: User[];
+  @ManyToMany(() => User, (user) => user.receivedNotifications)
+  receivers: User[];
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.sentNotifications)
+  sender: User;
 
   @Field()
   @Column()

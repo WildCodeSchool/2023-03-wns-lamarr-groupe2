@@ -32,7 +32,6 @@ export class FriendResolver {
     if (friend === null) {
       throw new Error(`The user with id: ${friendid} does not exist!`);
     }
-    console.log("user.friend", user.friend);
 
     user.friend.push(friend);
 
