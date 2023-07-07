@@ -33,6 +33,7 @@ module.exports = {
         large: 8,
         xlarge: 10,
         rounder: 25,
+        round: 50,
       },
       borderWidth: {
         1: "1px",
