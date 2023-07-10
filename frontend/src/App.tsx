@@ -9,8 +9,7 @@ import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
 import CompanyGroupsPage from "./pages/company/company-groups/CompanyGroupsPage";
 import CompanyDashboardPage from "./pages/company/company-dashboard/CompanyDashboardPage";
-import Toggle from "./components/Toggle";
-import Radio from "./components/Radio";
+
 export default function App() {
   return (
     <>
@@ -35,9 +34,6 @@ export default function App() {
         />
         <Route path="/admin/settings" element={<SettingsPage />} />
       </Routes>
-      <Toggle onClick={() => console.log("toggled")} styled={"toggle"} />
-      <Radio onClick={() => console.log("radioso")} styled={"radio"} />
-      <Radio onClick={() => console.log("radioso")} styled={"radio"} />
     </>
   );
 }

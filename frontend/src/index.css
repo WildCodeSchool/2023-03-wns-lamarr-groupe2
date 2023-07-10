@@ -24,9 +24,12 @@
   }
   .toggleSpan {
     @apply w-3 h-3 py-3 px-3 ml-0 bg-primary-attention customBorder drop-shadow-none rounded-rounder;
+<<<<<<< HEAD
   }
   .radio {
     @apply w-5 h-5 bg-white customBorder cursor-pointer rounded-full;
+=======
+>>>>>>> 4141fedc40d3ecc94b7dba715e890055efe486f9
   }
 }
 
