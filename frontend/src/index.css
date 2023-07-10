@@ -31,6 +31,24 @@
   .largePic {
     @apply h-36 w-36;
   }
+  .strokeGood {
+    @apply stroke-primary-good;
+  }
+  .strokeAttention {
+    @apply stroke-primary-attention;
+  }
+  .strokeDanger {
+    @apply stroke-primary-danger;
+  }
+  .bgGood {
+    @apply bg-primary-good;
+  }
+  .bgAttention {
+    @apply bg-primary-attention;
+  }
+  .bgDanger {
+    @apply bg-primary-danger;
+  }
 }
 
 body {

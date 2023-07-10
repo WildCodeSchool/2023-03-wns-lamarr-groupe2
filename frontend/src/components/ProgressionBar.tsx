@@ -5,22 +5,22 @@ type ProgressionBarProps = {
     value: number
 }
 
-const colorIndicator = (progression: number) => {
+const colorIndicator = (progression: number, type: boolean) => {
     if (progression >= 0 && progression <= 32) {
-        return 'danger';
+        return 'bgDanger';
     }
     if (progression >= 33 && progression <= 66) {
-        return 'attention';
+        return 'bgAttention';
     }
-    return 'good';
+    return 'bgGood';
 };
 
 export const ProgressionBar: React.FC<ProgressionBarProps> = ({ size, value }) => {
-    const colorClass = colorIndicator(value);
+    const colorClass = colorIndicator(value, false);
 
     return (
         <div className={`relative h-4 max-w-[119px] ${!size && 'md:h-8 md:max-w-[275px]'} bg-white dark:bg-white rounded-r-rounder border border-primary-dark drop-shadow-progressbar`}>
-            <div className={`h-[14px] max-w-[119px] ${!size && 'md:h-[30px] md:max-w-[275px]'} bg-primary-${colorClass} pr-2`} style={{ width: `${value}%` }}>
+            <div className={`h-[14px] max-w-[119px] ${!size && 'md:h-[30px] md:max-w-[275px]'} ${colorClass} pr-2`} style={{ width: `${value}%` }}>
                 <p className={`absolute right-3 text-xs font-bold ${!size && 'md:text-xl'}`}>{value}%</p>
             </div>
         </div>
@@ -29,13 +29,13 @@ export const ProgressionBar: React.FC<ProgressionBarProps> = ({ size, value }) =
 
 
 export const ProgressionAdminBar: React.FC<ProgressionBarProps> = ({ size, value }) => {
-    const colorClass = colorIndicator(value);
 
     const strokeWidth = 8
     const radius = 40;
     const circumference = 2 * Math.PI * radius;
     const progress = (value / 100) * circumference;
     const remaining = circumference - progress;
+
 
     return (
         <div className="flex justify-center items-center h-screen ">
@@ -53,7 +53,7 @@ export const ProgressionAdminBar: React.FC<ProgressionBarProps> = ({ size, value
                     strokeDasharray={circumference}
                 />
                 <circle
-                    className={`stroke-primary-${colorClass}`}
+                    className={`${value >= 0 && value <= 32 ? 'strokeDanger' : value >= 33 && value <= 66 ? 'strokeAttention' : 'strokeGood'}`}
                     cx="50"
                     cy="50"
                     r={radius}
