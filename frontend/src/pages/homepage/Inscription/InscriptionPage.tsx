@@ -12,6 +12,10 @@ export type UserInformations = {
 const InscriptionPage: FC<PropsWithChildren> = () => {
 
     // TO-DO : Import UserContext register function
+    // TO-DO : When submitting, give a random hermes picture : 
+    /*  import hermesG from "../assets/hermes/green-hermes.svg"
+        import hermesY from "../assets/hermes/yellow-hermes.svg"
+        import hermesR from "../assets/hermes/red-hermes.svg" */
 
     const [userInformations, setUserInformations] = useState<UserInformations>({
         username: '',
@@ -33,7 +37,7 @@ const InscriptionPage: FC<PropsWithChildren> = () => {
 
 
     return (
-        <div>
+        <form>
             <InputCustom
                 type="email"
                 label="Email"
@@ -69,7 +73,7 @@ const InscriptionPage: FC<PropsWithChildren> = () => {
                 value={password}
                 onChange={handleInputChange('password')}
             />
-        </div>
+        </form>
     )
 }
 
