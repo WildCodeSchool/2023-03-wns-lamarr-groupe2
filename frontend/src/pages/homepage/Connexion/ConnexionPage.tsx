@@ -1,11 +1,12 @@
 import { FC, PropsWithChildren, useState } from "react";
 import InputCustom from "../../../components/InputCustom";
-import { UserInformations } from "../Inscription/InscriptionPage";
+import useUserContext, { LoginInformations } from "../../../features/contexts/UserContext";
+
 
 const ConnexionPage: FC<PropsWithChildren> = () => {
-
+    const { login } = useUserContext()
     // TO-DO : Import UserContext login function
-    const [userInformations, setUserInformations] = useState<Partial<UserInformations>>({
+    const [userInformations, setUserInformations] = useState<LoginInformations>({
         email: '',
         password: ''
     });
@@ -21,7 +22,7 @@ const ConnexionPage: FC<PropsWithChildren> = () => {
     const { email, password } = userInformations;
 
     return (
-        <div>
+        <form onSubmit={(e) => login(e, userInformations)}>
             <InputCustom
                 label="Email"
                 type="email"
@@ -36,7 +37,8 @@ const ConnexionPage: FC<PropsWithChildren> = () => {
                 value={password ?? ''}
                 onChange={handleInputChange('password')}
             />
-        </div>
+            <button type='submit' > click </button>
+        </form>
     )
 }
 
