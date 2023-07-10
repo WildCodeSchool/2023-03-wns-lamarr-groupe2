@@ -1,75 +1,98 @@
 import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  JoinTable,
-  BaseEntity,
-  ManyToMany,
-  OneToMany,
+	Column,
+	Entity,
+	PrimaryGeneratedColumn,
+	JoinTable,
+	BaseEntity,
+	ManyToMany,
+	ManyToOne,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
 
-enum ChallengeStatus {
-  COMING,
-  PROGRESS,
-  FINISHED,
+export enum ChallengeStatus {
+	COMING = "COMING",
+	PROGRESS = "PROGRESS",
+	FINISHED = "FINISHED",
 }
 
-enum Tags {
-  ALIMENTATION,
-  ACTIVITE,
+export enum Tags {
+	ALIMENTATION = "ALIMENTATION",
+	ACTIVITE = "ACTIVITE",
 }
 
 @ObjectType()
 @Entity()
 export class Challenge extends BaseEntity {
-  @Field()
-  @PrimaryGeneratedColumn()
-  id: number;
+	@Field()
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Field()
-  @Column()
-  name: string;
+	@Field()
+	@Column({ nullable: false })
+	name: string;
 
-  @Field()
-  @Column({ type: "text" })
-  description: string;
+	@Field()
+	@Column({ type: "text", nullable: false })
+	description: string;
 
-  @Field()
-  @Column({ type: "date" })
-  startAt: Date;
+	// create a field for the start and end date
+	@Field()
+	@Column({
+		type: "timestamp",
+		nullable: false,
+		transformer: {
+			from(value: string): Date {
+				return new Date(value);
+			},
+			to(value: string): string {
+				return value;
+			},
+		},
+	})
+	startAt: Date;
 
-  @Field()
-  @Column({ type: "date" })
-  endAt: Date;
+	@Field()
+	@Column({
+		type: "timestamp",
+		nullable: false,
+		transformer: {
+			from(value: string): Date {
+				return new Date(value);
+			},
+			to(value: string): string {
+				return value;
+			},
+		},
+	})
+	endAt: Date;
 
-  @Field()
-  @Column()
-  challenge_status_id: ChallengeStatus;
+	@Field()
+	@Column({ nullable: false, default: ChallengeStatus.COMING })
+	challenge_status: ChallengeStatus;
 
-  @Field()
-  @Column()
-  tag: Tags;
+	@Field()
+	@Column({ nullable: false })
+	tags: Tags;
 
-  @Field(() => [User])
-  @OneToMany(() => User, (user) => user.id)
-  @JoinTable()
-  creator: User[];
+	// create a field to join the user table with the challenge table (one user can create many challenges but one challenge can only be created by one user)
+	@Field(() => User)
+	@ManyToOne(() => User, (user) => user.createdChallenges) // Jeter à l'oeil à la doc de TypeORM
+	creator: User;
 
-  // challenge_member
-  @ManyToMany(() => User, (userId) => userId.id)
-  @JoinTable({
-    name: "challenge_member", // table name for the junction table of this relation
-    joinColumn: {
-      name: "challengeId",
-      referencedColumnName: "id",
-    },
-    inverseJoinColumn: {
-      name: "userId",
-      referencedColumnName: "id",
-    },
-  })
-  @Field(() => [User])
-  member: Promise<User[]>;
+	// create a field to join the user table with the challenge table (one user can participate to many challenges and challenges can have many users)
+	@Field(() => User, { nullable: true })
+	@ManyToMany(() => User, (user) => user.challenge)
+	@JoinTable({
+		name: "challenge_member", // table name for the junction table of this relation
+		joinColumn: {
+			name: "challengeId",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "userId",
+			referencedColumnName: "id",
+		},
+	})
+	member: User[];
 }
