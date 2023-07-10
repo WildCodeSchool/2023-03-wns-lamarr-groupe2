@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 
 type ToggleProps = {
   onClick: () => void;
-  styled: "toggle" | "toggleUntoggled";
+  styled: "toggle";
 };
 
 const Toggle: FC<ToggleProps> = ({ onClick, styled }) => {
