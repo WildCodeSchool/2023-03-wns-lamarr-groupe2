@@ -1,28 +1,43 @@
-import { FC, useState } from "react";
-import { CarouselItemType } from "./CarouselItemType";
+// @ts-nocheck
 import CarouselItem from "./CarouselItem";
-import styles from "./Carousel.module.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { CarouselItemType } from "./CarouselItemType";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 type Props = {
   carouselItems: Array<CarouselItemType>;
 };
 
 export const CarouselHome = ({ carouselItems }: Props) => {
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    appendDots: (dots: any) => (
+      <div
+        style={{
+          position: "absolute",
+          left: "12px",
+          bottom: "10px",
+          alignItems: "start",
+        }}
+      >
+        <ul style={{ margin: "0" }}> {dots} </ul>
+      </div>
+    ),
+  };
+
   return (
-    <Swiper
-      //   pagination={true}
-      //   modules={[Pagination]}
-      className={`${styles.swiper}  ${styles.swiperSlide}`}
+    <Slider
+      {...settings}
+      className="aspect-square max-h-[620px] m-10 bg-tertiary-dark"
     >
-      <ul>
-        {carouselItems.map((item, index) => (
-          <SwiperSlide key={index}>
-            <CarouselItem {...item} />
-          </SwiperSlide>
-        ))}
-      </ul>
-    </Swiper>
+      {carouselItems.map((carouselItem, index) => (
+        <CarouselItem key={index} {...carouselItem} />
+      ))}
+    </Slider>
   );
 };
