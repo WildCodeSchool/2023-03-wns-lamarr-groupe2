@@ -26,7 +26,7 @@ const AppLayout = () => {
         // TO-DO : navigate to efficient route
         navigate("/");
       }
-    }, [isUserEmpty, disconnect, navigate]);
+    }, [isUserEmpty, disconnect, navigate, isValidToken]);
 
 
     return (
