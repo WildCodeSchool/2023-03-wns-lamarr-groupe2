@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TUser } from "../contexts/UserContext";
+import { TUser } from "../contexts/types";
 
 function getStorageValue(key: 'user' | 'token', defaultValue: string | {} | TUser) {
   /* We get the value in the localstorage

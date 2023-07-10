@@ -12,52 +12,10 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { equals, isEmpty } from "remeda";
 import jwtDecode from "jwt-decode";
 import axios from 'axios';
+import { UserContextType, TUser, LoginInformations, RegisterInformations } from "./types";
 
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? ''
-
-
-
-export type TUser = {
-    id: number;
-    firstname: string;
-    lastname: string;
-    username: string,
-    email: string;
-    password: string;
-    admin: boolean;
-    points?: number,
-    siret?: number,
-    company_id?: number,
-    company_group_id?: number,
-    creationDate?: string;
-}
-
-export type LoginInformations = {
-    email: string;
-    password: string;
-};
-export type RegisterInformations = {
-    firstname: string;
-    lastname: string;
-    username: string;
-    email: string;
-    password: string;
-
-};
-
-export type RegisterCompanyInformations = RegisterInformations & { siret: number }
-
-
-export type UserContextType = {
-    user: TUser,
-    token: string,
-    login: (e: React.FormEvent, value: LoginInformations) => void
-};
-
-export interface ApiReponse<ResponseType, Key extends string> {
-    data: { viewer: Record<Key, { hits: ResponseType[] }> };
-}
 
 
 const UserContext = createContext<UserContextType>({} as UserContextType);
@@ -118,7 +76,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         e.preventDefault();
 
     };
-
     const isValidToken = () => {
         try {
             const decodedToken = jwtDecode(token);
@@ -144,7 +101,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login }}
+            value={{ token, user, login, disconnect, isValidToken }}
         >
             {children}
         </UserContext.Provider>

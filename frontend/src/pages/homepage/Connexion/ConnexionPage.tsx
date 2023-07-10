@@ -1,11 +1,11 @@
 import { FC, PropsWithChildren, useState } from "react";
 import InputCustom from "../../../components/InputCustom";
-import useUserContext, { LoginInformations } from "../../../features/contexts/UserContext";
+import useUserContext from "../../../features/contexts/UserContext";
+import { LoginInformations } from "../../../features/contexts/types";
 
 
 const ConnexionPage: FC<PropsWithChildren> = () => {
     const { login } = useUserContext()
-    // TO-DO : Import UserContext login function
     const [userInformations, setUserInformations] = useState<LoginInformations>({
         email: '',
         password: ''

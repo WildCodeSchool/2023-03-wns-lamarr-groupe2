@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Homepage from "./pages/homepage/Homepage";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ScoresPage from "./pages/scores/ScoresPage";
@@ -9,12 +9,27 @@ import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
 import CompanyGroupsPage from "./pages/company/company-groups/CompanyGroupsPage";
 import CompanyDashboardPage from "./pages/company/company-dashboard/CompanyDashboardPage";
-import ContextProvider from "./features/contexts/AppProvider";
+import { isEmpty } from "remeda";
+import useUserContext, { UserContextProvider } from "./features/contexts/UserContext";
+import { useEffect } from "react";
+
+const AppLayout = () => {
+
+  const App = () => {
+    const { disconnect, isValidToken, user } = useUserContext()
+    const navigate = useNavigate()
+    const isUserEmpty = isEmpty(user);
+
+    useEffect(() => {
+      if (!isUserEmpty && !isValidToken()) {
+        disconnect();
+        // TO-DO : navigate to efficient route
+        navigate("/");
+      }
+    }, [isUserEmpty, disconnect, navigate]);
 
 
-export default function App() {
-  return (
-    <ContextProvider >
+    return (
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
@@ -24,7 +39,8 @@ export default function App() {
         <Route path="/challenges/:id" element={<ChallengePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/notifications   " element={<NotificationsPage />} />
-        {/* Admin routes for company accounts */}
+        {/* company routes for company accounts  */}
+        {/* TO-DO : user ternary */}
         <Route path="/company/dashboard" element={<CompanyDashboardPage />} />
         <Route path="/company/challenges" element={<ChallengesPage />} />
         <Route path="/company/challenges/:id" element={<ChallengePage />} />
@@ -36,6 +52,15 @@ export default function App() {
         />
         <Route path="/company/settings" element={<SettingsPage />} />
       </Routes>
-    </ContextProvider>
-  );
+    )
+  }
+
+
+  return (
+    <UserContextProvider>
+      <App />
+    </UserContextProvider>
+  )
 }
+
+export default AppLayout
