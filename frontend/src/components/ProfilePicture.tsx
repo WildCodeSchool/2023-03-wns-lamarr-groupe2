@@ -18,7 +18,7 @@ const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick }) => {
     }
 
     return (
-        <div className={`${!url && 'bg-primary-good'} rounded-full ${size}`} style={customPic} onClick={onClick} />
+        <div className={`${!url && 'bg-primary-good'} rounded-full ${size} `} style={customPic} onClick={onClick} />
     )
 }
 
