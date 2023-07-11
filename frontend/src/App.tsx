@@ -16,6 +16,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { ErrorPage } from "./pages/homepage/ErrorPage";
 import Homepage from "./pages/homepage/Homepage";
 import useUserContext from "./features/contexts/UserContext";
+import Footer from "./components/Footer";
 
 const AuthRoutes = () => {
   return (
@@ -34,40 +35,44 @@ const App = () => {
 
 
 
-  return !isUser ? <AuthRoutes /> : (
-    <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
-      {isUser && <NavigationBar />}
-      <main className="flex flex-col flex-grow lg:flex-col w-full">
-        {isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
 
-        <Routes>
-          {isCompany ? (
-            <>
-              <Route path="/" element={<CompanyDashboardPage />} />
-              <Route path={"/company/dashboard"} element={<CompanyDashboardPage />} />
-              <Route path="/company/challenges" element={<ChallengesPage />} />
-              <Route path="/company/challenges/:id" element={<ChallengePage />} />
-              <Route path="/company/scores" element={<ScoresPage />} />
-              <Route path="/company/teams" element={<CompanyGroupsPage />} />
-              <Route
-                path="/company/challenges/creation"
-                element={<CreateChallengePage />}
-              />
-              <Route path="/company/settings" element={<SettingsPage />} />
-            </>
-          ) :
-            <>
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/scores" element={<ScoresPage />} />
-              <Route path="/challenges" element={<ChallengesPage />} />
-              <Route path="/challenges/creation" element={<CreateChallengePage />} />
-              <Route path="/challenges/:id" element={<ChallengePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-            </>}
-          <Route path='*' element={<ErrorPage />} />
-        </Routes>
+  return isUser ? <AuthRoutes /> : (
+    <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
+      {!isUser && <NavigationBar />}
+      <main className=" flex flex-col flex-grow lg:flex-col w-full">
+        {!isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
+
+        <div className="screen">
+          <Routes>
+            {isCompany ? (
+              <>
+                <Route path="/" element={<CompanyDashboardPage />} />
+                <Route path={"/company/dashboard"} element={<CompanyDashboardPage />} />
+                <Route path="/company/challenges" element={<ChallengesPage />} />
+                <Route path="/company/challenges/:id" element={<ChallengePage />} />
+                <Route path="/company/scores" element={<ScoresPage />} />
+                <Route path="/company/teams" element={<CompanyGroupsPage />} />
+                <Route
+                  path="/company/challenges/creation"
+                  element={<CreateChallengePage />}
+                />
+                <Route path="/company/settings" element={<SettingsPage />} />
+              </>
+            ) :
+              <>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/scores" element={<ScoresPage />} />
+                <Route path="/challenges" element={<ChallengesPage />} />
+                <Route path="/challenges/creation" element={<CreateChallengePage />} />
+                <Route path="/challenges/:id" element={<ChallengePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+              </>}
+            <Route path='*' element={<ErrorPage />} />
+          </Routes>
+        </div>
+        <Footer />
       </main>
     </div>)
 }

@@ -14,7 +14,7 @@ const AddBtn: FC<AddBtnProps> = ({ onClick }) => {
     }
 
     return (
-        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} onClick={onClick} className=' h-10 w-10 cursor-pointer'>
+        <div onMouseEnter={handleMouseEvent} onMouseLeave={handleMouseEvent} onClick={onClick} className='cursor-pointer'>
             <img alt='add icon' src={isHovered ? addIconLight : addIcon} className="btnAttention customBorder  rounded-rounder" />
         </div>
     )

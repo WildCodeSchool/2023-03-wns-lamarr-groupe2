@@ -49,6 +49,10 @@
   .bgDanger {
     @apply bg-primary-danger;
   }
+
+  .screen {
+    @apply flex flex-grow p-8;
+  }
 }
 
 @layer base {
