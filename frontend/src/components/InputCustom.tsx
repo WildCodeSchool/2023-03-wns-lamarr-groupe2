@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, useMemo } from 'react'
+import { ChangeEvent, FC } from 'react'
 import search from "../assets/icons/search.svg"
-import { url } from 'inspector';
+
 
 type InputCustomProps = {
     mode?: 'search',
