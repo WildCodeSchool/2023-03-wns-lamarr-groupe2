@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import modale from "../assets/modaleProfile.svg"
-import { Dispatch, FC, SetStateAction } from "react"
+import { Dispatch, FC, SetStateAction, useEffect } from "react"
+import useUserContext from "../features/contexts/UserContext"
 
 type HeaderBarModaleProps = {
     setShowModale: Dispatch<SetStateAction<boolean>>
 }
 export const HeaderBarModale: FC<HeaderBarModaleProps> = ({ setShowModale }) => {
+    const { disconnect } = useUserContext()
     const isCompany = false // user.company
     const navigate = useNavigate()
     // TO-DO : disconnect by userContext
@@ -21,7 +23,8 @@ export const HeaderBarModale: FC<HeaderBarModaleProps> = ({ setShowModale }) => 
             navigate(isCompany ? '/company/settings' : 'settings')
         }
         if (value === 'disconnect') {
-            //disconnect
+            console.log('test')
+            disconnect()
         }
         setShowModale((prev => !prev))
     }

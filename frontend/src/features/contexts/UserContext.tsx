@@ -53,21 +53,24 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             };
 
             const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
-            console.log(getProfileResponse)
-            setIsUser(getProfileResponse.data.data)
+            console.log("Profile Response : ", getProfileResponse.data.data.getProfile)
+            setIsUser(getProfileResponse.data.data.getProfile)
+
+
         } catch (error) {
             console.error(error);
         }
-    }, [setToken]);
+    }, [setToken, setIsUser, isUser]);
 
 
     // Disconnect
     const disconnect = useCallback(() => {
         setUser({});
+        setIsUser(prev => !prev)
         navigate("/");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-    }, [user, navigate, setUser]);
+    }, [user, navigate, setUser, isUser]);
 
     // Register
     const register = (
