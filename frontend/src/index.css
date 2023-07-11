@@ -51,6 +51,11 @@
   }
 }
 
+@layer base {
+  body {
+    @apply bg-main-bg;
+  }
+}
 body {
   @apply font-content;
   @apply text-main-p;
