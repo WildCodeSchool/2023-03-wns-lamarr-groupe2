@@ -32,6 +32,7 @@ module.exports = {
         medium: 6,
         large: 8,
         xlarge: 10,
+        customBtn: 12,
         rounder: 25,
       },
       borderWidth: {

@@ -4,6 +4,7 @@ import {
     createContext,
     useCallback,
     useContext,
+    useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -21,6 +22,8 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useLocalStorage("user", {} as TUser);
     const [token, setToken] = useLocalStorage("token", "");
+    // TO-DO : Delete isUser when we will recieve user from backend
+    const [isUser, setIsUser] = useState(false)
 
     // Login
     const login = useCallback(async (e: React.FormEvent, loginInformations: LoginInformations) => {
@@ -50,11 +53,12 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             };
 
             const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
-            console.log(getProfileResponse.data.data)
+            console.log(getProfileResponse)
+            setIsUser(getProfileResponse.data.data)
         } catch (error) {
             console.error(error);
         }
-    }, [navigate, setToken, setUser]);
+    }, [setToken]);
 
 
     // Disconnect
@@ -63,7 +67,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         navigate("/");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-    }, [user]);
+    }, [user, navigate, setUser]);
 
     // Register
     const register = (
@@ -82,7 +86,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect/* , isValidToken */ }}
+            value={{ token, user, login, disconnect, isUser }}
         >
             {children}
         </UserContext.Provider>

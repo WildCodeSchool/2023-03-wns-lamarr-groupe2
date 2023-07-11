@@ -22,10 +22,11 @@ const AppLayout = () => {
 
   const App = () => {
     const location = useLocation();
-    const isUserEmpty = false; //isEmpty(user);
+    const { disconnect, user, isUser } = useUserContext()
+    const isUserEmpty = !isUser; //isEmpty(user);
     const isCompany = false; //user.company
-    // const { disconnect, user } = useUserContext()
 
+    console.log(isUser)
     const AuthRoutes = () => {
       return (
         <Routes>

@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent } from "react";
 
 type BtnCustomProps = {
-  onClick: () => void;
+  onClick: (e?: FormEvent<Element>) => void;
   styled: "btnDanger" | "btnAttention" | "btnGood";
   size?: "small";
   text: string;
