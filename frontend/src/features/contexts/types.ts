@@ -37,7 +37,6 @@ export type UserContextType = {
   token: string;
   login: (e: React.FormEvent, value: LoginInformations) => void;
   disconnect: () => void;
-  isValidToken: () => boolean;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

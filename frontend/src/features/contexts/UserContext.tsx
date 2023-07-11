@@ -4,13 +4,10 @@ import {
     createContext,
     useCallback,
     useContext,
-    useEffect,
-    useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { equals, isEmpty } from "remeda";
-import jwtDecode from "jwt-decode";
+import { equals } from "remeda";
 import axios from 'axios';
 import { UserContextType, TUser, LoginInformations, RegisterInformations } from "./types";
 
@@ -76,32 +73,16 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         e.preventDefault();
 
     };
-    const isValidToken = () => {
-        try {
-            const decodedToken = jwtDecode(token);
-            const currentTime = Date.now() / 1000;
-            //@ts-ignore
-            if (decodedToken?.exp < currentTime) {
-                return false;
-            }
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
 
-    useEffect(() => {
-        const checkAdminStatus = async () => {
-        };
-        if (!isEmpty(user) && user.admin) {
-            checkAdminStatus();
-        }
-    }, [user.admin, user.id, token]);
+    // TO-DO : isValidToken is needed to check if the token is valid, if not => back to login screen
+
+
+    // TO-DO : It will be needed to check the AdminStatus or Company  to prevent a localhost
 
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect, isValidToken }}
+            value={{ token, user, login, disconnect/* , isValidToken */ }}
         >
             {children}
         </UserContext.Provider>

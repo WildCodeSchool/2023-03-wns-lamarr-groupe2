@@ -8,7 +8,7 @@ import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
 import CompanyGroupsPage from "./pages/company/company-groups/CompanyGroupsPage";
 import CompanyDashboardPage from "./pages/company/company-dashboard/CompanyDashboardPage";
-//import { isEmpty } from "remeda";
+import { isEmpty } from "remeda";
 import useUserContext, { UserContextProvider } from "./features/contexts/UserContext";
 import { useEffect } from "react";
 import InscriptionPage from "./pages/homepage/Inscription/InscriptionPage";
@@ -24,16 +24,7 @@ const AppLayout = () => {
     const location = useLocation();
     const isUserEmpty = false; //isEmpty(user);
     const isCompany = false; //user.company
-    const { disconnect, isValidToken, user } = useUserContext()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-      if (!isUserEmpty && !isValidToken()) {
-        disconnect();
-        // TO-DO : navigate to efficient route
-        navigate("/");
-      }
-    }, [isUserEmpty, disconnect, navigate, isValidToken]);
+    // const { disconnect, user } = useUserContext()
 
     const AuthRoutes = () => {
       return (
