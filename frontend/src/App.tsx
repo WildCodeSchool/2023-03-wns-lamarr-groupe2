@@ -14,35 +14,53 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { HeaderBar } from "./components/HeaderBar";
 import { ErrorPage } from "./pages/homepage/ErrorPage";
 import NavBtn from "./components/NavBtn";
+import Homepage from "./pages/homepage/Homepage";
 
 const AuthRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<ConnexionPage />} />
       <Route path="/register" element={<InscriptionPage />} />
-      <Route path="/" element={<ConnexionPage />} />
+      <Route path="/" element={<Homepage />} />
     </Routes>
   );
-}
+};
 
 const App = () => {
   const location = useLocation();
-  const isUserEmpty = false; //isEmpty(user);
+  const isUserEmpty = true; //isEmpty(user);
   const isCompany = false; //user.company
 
-  return isUserEmpty ? <AuthRoutes /> : (
+  return isUserEmpty ? (
+    <AuthRoutes />
+  ) : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
       {!isUserEmpty && <NavigationBar />}
       <main className="flex flex-col flex-grow lg:flex-col w-full">
-        {!isUserEmpty && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
+        {!isUserEmpty && (
+          <>
+            <HeaderBar />{" "}
+            {location.pathname !== "/" &&
+              location.pathname !== "/dashboard" &&
+              location.pathname !== "/company/dashboard" && (
+                <NavBtn type="return" />
+              )}{" "}
+          </>
+        )}
 
         <Routes>
           {isCompany ? (
             <>
               <Route path="/" element={<CompanyDashboardPage />} />
-              <Route path={"/company/dashboard"} element={<CompanyDashboardPage />} />
+              <Route
+                path={"/company/dashboard"}
+                element={<CompanyDashboardPage />}
+              />
               <Route path="/company/challenges" element={<ChallengesPage />} />
-              <Route path="/company/challenges/:id" element={<ChallengePage />} />
+              <Route
+                path="/company/challenges/:id"
+                element={<ChallengePage />}
+              />
               <Route path="/company/scores" element={<ScoresPage />} />
               <Route path="/company/teams" element={<CompanyGroupsPage />} />
               <Route
@@ -51,21 +69,26 @@ const App = () => {
               />
               <Route path="/company/settings" element={<SettingsPage />} />
             </>
-          ) :
+          ) : (
             <>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/scores" element={<ScoresPage />} />
               <Route path="/challenges" element={<ChallengesPage />} />
-              <Route path="/challenges/creation" element={<CreateChallengePage />} />
+              <Route
+                path="/challenges/creation"
+                element={<CreateChallengePage />}
+              />
               <Route path="/challenges/:id" element={<ChallengePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/notifications" element={<NotificationsPage />} />
-            </>}
-          <Route path='*' element={<ErrorPage />} />
+            </>
+          )}
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
-    </div>)
-}
+    </div>
+  );
+};
 
-export default App
+export default App;

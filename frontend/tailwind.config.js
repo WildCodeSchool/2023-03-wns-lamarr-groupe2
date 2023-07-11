@@ -24,6 +24,13 @@ module.exports = {
     fontFamily: {
       titles: ["Montserrat", "sans-serif"],
       content: ["Open Sans", "sans-serif"],
+      button: ["Rowdies", "sans-serif"],
+    },
+    fontSize: {
+      "main-title": 40,
+      "secondary-title": 28,
+      "small-p": 12,
+      "main-p": 18,
     },
     extend: {
       spacing: {},
