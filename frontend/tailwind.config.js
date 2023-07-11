@@ -28,9 +28,9 @@ module.exports = {
     },
     fontSize: {
       "main-title": 40,
-      "secondary-title": 24,
-      "small-p": 10,
-      "main-p": 14,
+      "secondary-title": 28,
+      "small-p": 12,
+      "main-p": 18,
     },
     extend: {
       spacing: {},

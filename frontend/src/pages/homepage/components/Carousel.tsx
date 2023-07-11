@@ -22,8 +22,8 @@ export const CarouselHome = ({ carouselItems }: Props) => {
       <div
         style={{
           position: "absolute",
-          left: "2.5rem",
-          bottom: "2rem",
+          left: "80px",
+          bottom: "60px",
           textAlign: "start",
         }}
       >
@@ -33,7 +33,10 @@ export const CarouselHome = ({ carouselItems }: Props) => {
   };
 
   return (
-    <Slider {...sliderSettings} className="aspect-square max-h-[85vh] ml-10">
+    <Slider
+      {...sliderSettings}
+      className="aspect-square max-h-[85vh] ml-10 rounded-md"
+    >
       {carouselItems.map((carouselItem, index) => (
         <CarouselItem key={index} {...carouselItem} />
       ))}

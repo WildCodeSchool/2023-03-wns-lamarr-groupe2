@@ -53,6 +53,7 @@
 
 body {
   @apply font-content;
+  @apply text-main-p;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -86,4 +87,34 @@ h2 {
 button {
   @apply font-button;
   @apply text-main-p;
+}
+
+.slick-arrow,
+.slick-prev {
+  display: none !important;
+}
+
+.slick-dots li {
+  margin: 0 !important;
+}
+
+.slick-dots li button:before {
+  font-size: 10px !important;
+  color: white !important;
+  opacity: 1 !important;
+}
+
+.slick-dots li.slick-active button:before {
+  color: black !important;
+}
+
+.slick-list,
+.slick-track,
+.slick-slide div {
+  height: 100%;
+}
+
+.slick-list {
+  border-radius: 6px;
+  @apply border-primary-dark drop-shadow-custom;
 }

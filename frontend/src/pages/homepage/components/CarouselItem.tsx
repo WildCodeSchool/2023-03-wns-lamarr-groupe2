@@ -14,7 +14,7 @@ export default function CarouselItem({ title, content, id }: CarouselItemType) {
   };
 
   return (
-    <div className={`h-[90vh] ${bgColor()} p-10`}>
+    <div className={` ${bgColor()} p-20`}>
       <h1 className="uppercase">{title}</h1>
       <p>{content}</p>
     </div>

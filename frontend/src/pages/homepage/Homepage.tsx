@@ -4,9 +4,9 @@ import { carouselItems } from "./components/CarouselData";
 
 function Homepage() {
   return (
-    <div className="h-screen md:flex items-center">
+    <div className="h-screen w-screen flex items-center">
       {/* Carousel will be hidden on mobile phone */}
-      <div className="hidden md:block max-h-screen justify-center">
+      <div className="hidden lg:block lg:w-7/12">
         <CarouselHome carouselItems={carouselItems} />
       </div>
     </div>
