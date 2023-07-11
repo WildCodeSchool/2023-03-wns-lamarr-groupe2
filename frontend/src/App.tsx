@@ -34,8 +34,8 @@ const App = () => {
   return isUserEmpty ? <AuthRoutes /> : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
       {!isUserEmpty && <NavigationBar />}
-      <main className="flex flex-grow lg:flex-col w-full">
-        {!isUserEmpty && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard') && <NavBtn type="return" />} </>}
+      <main className="flex flex-col flex-grow lg:flex-col w-full">
+        {!isUserEmpty && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
 
         <Routes>
           {isCompany ? (

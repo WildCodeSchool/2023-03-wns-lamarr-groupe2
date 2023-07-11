@@ -28,5 +28,5 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({ link, inde
         importImage();
     }, [link, activeRoute]);
 
-    return url ? <img src={url} alt={link} onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className={`h-9 w-9 ${index === 4 && 'hidden'} lg:block`} /> : null;
+    return url ? <img src={url} alt={link} onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className={`h-9 w-9 cursor-pointer ${index === 4 && 'hidden'} lg:block`} /> : null;
 };
