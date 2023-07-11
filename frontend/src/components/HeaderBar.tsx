@@ -9,24 +9,6 @@ export const HeaderBar = () => {
     const location = useLocation()
     const mobileHeader = (location.pathname === '/' || location.pathname === '/dashboard' || location.pathname === '/company/dashboard')
 
-    /* Close menu when click outside */
-    /*  const concernedElement = document.getElementById("header-modale");
-     document.addEventListener("mousedown", (event) => {
-         if (concernedElement === null) {
-             return;
-         }
-         if (
-             !concernedElement.contains(event.target) &&
-             event.target.id !== "menu-burger" &&
-             event.target.id !== "menu-burger1" &&
-             event.target.id !== "menu-burger2"
-         ) {
-             setShowModale(false);
-         }
-     }); */
-
-
-
     const HeaderElement = ({ label, value }: { label: string, value: string | number }) => (
         <div className={`${label === 'Challenges en cours : ' && 'hidden'} lg:flex items-center`}>
             <p className="inline-block">{label}</p>
