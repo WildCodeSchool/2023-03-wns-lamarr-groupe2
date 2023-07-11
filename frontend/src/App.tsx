@@ -27,7 +27,6 @@ const AuthRoutes = () => {
 
 const App = () => {
   const location = useLocation();
-  console.log(location)
   const isUserEmpty = false; //isEmpty(user);
   const isCompany = false; //user.company
 

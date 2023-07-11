@@ -18,7 +18,7 @@ export const HeaderBar = () => {
             <h1 className="hidden lg:block font-bold text-[3em]">ECHOES OF FUTURE</h1>
             <HeaderElement label='Challenges en cours : ' value={3} />
             <HeaderElement label={isCompany ? 'Mes Employés : ' : 'Points : '} value={186} />
-            <ProfilePicture size="mediumPic" onClick={() => console.log('click')} />
+            <ProfilePicture size="mediumPic" onClick={() => console.log('TO-DO : Add Modale')} />
         </header>
     )
 }
