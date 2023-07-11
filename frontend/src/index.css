@@ -5,19 +5,19 @@
 
 @layer components {
   .btnGood {
-    @apply bg-primary-good font-content font-bold rounded-small py-3 px-2;
+    @apply bg-primary-good font-button font-bold  rounded-small py-3 px-2 max-w-[270px] text-button;
   }
   .btnDanger {
-    @apply bg-primary-danger font-content font-bold rounded-small py-3 px-2;
+    @apply bg-primary-danger font-button font-bold rounded-small py-3 px-2  max-w-[270px] text-button;
   }
   .btnAttention {
-    @apply bg-primary-attention font-content font-bold rounded-small drop-shadow-lg py-3 px-2;
+    @apply bg-primary-attention font-button font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[270px] text-button;
   }
   .small {
-    @apply rounded-rounder py-3 px-6;
+    @apply rounded-rounder py-3 px-6  text-button w-36;
   }
   .customBorder {
-    @apply border border-primary-dark drop-shadow-custom hover:text-white hover:border-black hover:drop-shadow-none;
+    @apply border rounded-customBtn border-primary-dark drop-shadow-custom hover:text-white hover:border-black hover:drop-shadow-none;
   }
   .toggleGood {
     @apply w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600;
@@ -121,5 +121,5 @@ button {
 
 .slick-list {
   border-radius: 6px;
-  @apply border-primary-dark drop-shadow-custom;
+  @apply border-primary-dark drop-shadow-[18px_20px_0px_black];
 }

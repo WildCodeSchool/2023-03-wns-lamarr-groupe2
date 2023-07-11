@@ -35,7 +35,7 @@ export const CarouselHome = ({ carouselItems }: Props) => {
   return (
     <Slider
       {...sliderSettings}
-      className="aspect-square max-h-[85vh] ml-10 rounded-md"
+      className="aspect-square  max-h-[82vh] max-w-[56vw] lg:w-full "
     >
       {carouselItems.map((carouselItem, index) => (
         <CarouselItem key={index} {...carouselItem} />
