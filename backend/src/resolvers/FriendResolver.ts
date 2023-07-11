@@ -10,34 +10,6 @@ export class NewFriendInput {
   friendid: number;
 }
 
-/*
-
-mutation NewFriend($input: NewFriendInput!) {
-  newFriend(input: $input) {
-    id
-    name
-    email
-    friend {
-      id
-    }
-}
-
-// X (plus vrai)
-{
-  "friendid": 2,
-  "userid": 1
-}
-
-// Vrai
-{
-  "input": {
-    "friendid": 2,
-    "userid": 1
-  }
-}
-
-*/
-
 export class FriendResolver {
   // Mutation to insert a user in database
   @Mutation(() => User)
@@ -85,9 +57,7 @@ export class FriendResolver {
   ): Promise<User> {
     const user = context.user;
 
-    if (user === null) {
-      throw new Error(`The user is not connected!`);
-    }
+    if (user === null) throw new Error(`The user is not connected!`);
 
     const userFriends = await User.findOne({
       relations: {
@@ -98,9 +68,7 @@ export class FriendResolver {
       },
     });
 
-    if (userFriends === null) {
-      throw new Error(`The user doesn't exist!`);
-    }
+    if (userFriends === null) throw new Error(`The user doesn't exist!`);
 
     let friends = userFriends.friend;
 
