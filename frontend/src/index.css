@@ -5,16 +5,16 @@
 
 @layer components {
   .btnGood {
-    @apply bg-primary-good font-content font-bold rounded-small py-3 px-2;
+    @apply bg-primary-good font-content font-bold  rounded-small py-3 px-2 max-w-[270px] text-xl;
   }
   .btnDanger {
-    @apply bg-primary-danger font-content font-bold rounded-small py-3 px-2;
+    @apply bg-primary-danger font-content font-bold rounded-small py-3 px-2  max-w-[270px] text-xl;
   }
   .btnAttention {
-    @apply bg-primary-attention font-content font-bold rounded-small drop-shadow-lg py-3 px-2;
+    @apply bg-primary-attention font-content font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[270px] text-xl;
   }
   .small {
-    @apply rounded-rounder py-3 px-6;
+    @apply rounded-rounder py-3 px-6  text-xl w-36;
   }
   .customBorder {
     @apply border rounded-customBtn border-primary-dark drop-shadow-custom hover:text-white hover:border-black hover:drop-shadow-none;

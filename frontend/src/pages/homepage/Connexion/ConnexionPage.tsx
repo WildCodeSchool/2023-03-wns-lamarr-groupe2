@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, useState } from "react";
 import InputCustom from "../../../components/InputCustom";
-import { UserInformations } from "../Inscription/InscriptionPage";
 import BtnCustom from "../../../components/BtnCustom";
 import { Link } from "react-router-dom";
+import { UserInformations } from "../Inscription/InscriptionForm";
 
 const ConnexionPage: FC<PropsWithChildren> = () => {
 
@@ -46,6 +46,7 @@ const ConnexionPage: FC<PropsWithChildren> = () => {
                     </div>
                 </form>
                 <div className="text-tertiary-dark  text-xl font-content text-center gap-3">
+                    {/* TO-DO : Add lost password logic */}
                     <p>Mot de passe oublié ?</p>
                     <Link to='/register' className="underline">S'inscrire</Link>
                 </div>
