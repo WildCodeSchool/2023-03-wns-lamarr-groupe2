@@ -9,6 +9,8 @@ import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
 import CompanyGroupsPage from "./pages/company/company-groups/CompanyGroupsPage";
 import CompanyDashboardPage from "./pages/company/company-dashboard/CompanyDashboardPage";
+import Loading from "./components/Loading";
+import Toggle from "./components/Toggle";
 
 export default function App() {
   return (
@@ -34,6 +36,7 @@ export default function App() {
         />
         <Route path="/admin/settings" element={<SettingsPage />} />
       </Routes>
+      <Loading styled={"loading"} />
     </>
   );
 }

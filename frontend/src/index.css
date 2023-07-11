@@ -28,6 +28,16 @@
   .radio {
     @apply w-5 h-5 bg-white customBorder cursor-pointer rounded-full;
   }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
   .smallPic {
     @apply h-8 w-8;
   }

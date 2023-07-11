@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -39,10 +40,47 @@ module.exports = {
         1: "1px",
       },
       dropShadow: {
-        custom: "5px 6px 0px rgba(0, 0, 0, 1)",
+        custom: "3px 4px 0px rgba(0, 0, 0, 1)",
         progressbar: "3px 4px 0px rgba(0, 0, 0, 1)",
       },
     },
   },
-  plugins: [],
+  variants: {
+    extend: {
+      animation: [
+        "responsive",
+        "motion-safe",
+        "motion-reduce",
+        "hover",
+        "focus",
+      ],
+      animationDuration: {
+        200: "200ms",
+        400: "400ms",
+        800: "800ms",
+      },
+      animationDelay: {
+        200: "200ms",
+        400: "400ms",
+        600: "600ms",
+        800: "800ms",
+      },
+    },
+  },
+  plugins: [
+    plugin(({ matchUtilities, theme }) => {
+      matchUtilities(
+        {
+          "animation-delay": (value) => {
+            return {
+              "animation-delay": value,
+            };
+          },
+        },
+        {
+          values: theme("transitionDelay"),
+        }
+      );
+    }),
+  ],
 };
