@@ -5,6 +5,7 @@ import { buildSchema } from "type-graphql";
 // import { join } from "path";
 import { AuthResolver } from "./resolvers/AuthResolver";
 import { ChallengeResolver } from "./resolvers/ChallengeResolver";
+import { EcoActionResolver } from "./resolvers/EcoActionResolver";
 import { User } from "./models/User";
 import { JwtPayload, verify } from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -15,7 +16,7 @@ dotenv.config();
 const start = async (): Promise<void> => {
 	await dataSource.initialize();
 	const schema = await buildSchema({
-		resolvers: [AuthResolver, ChallengeResolver],
+		resolvers: [AuthResolver, ChallengeResolver, EcoActionResolver],
 		authChecker: ({ context }) => {
 			return !!context.user;
 		},
@@ -42,7 +43,7 @@ const start = async (): Promise<void> => {
 		});
 		console.log(`Server ready at ${url}`);
 	} catch {
-		console.log("Error starting the server");
+		console.error("Error starting the server");
 	}
 };
 void start();

@@ -14,7 +14,7 @@ export class AuthResolver {
 		@Arg("username") username: string,
 		@Arg("email") email: string,
 		@Arg("password") password: string
-	): Promise<String> {
+	): Promise<User> {
 		// We hash the password send by the user with argon2 and store it in the database
 		const hashedPassword = await argon2.hash(password);
 
@@ -25,8 +25,7 @@ export class AuthResolver {
 			email,
 			password: hashedPassword,
 		}).save();
-		console.log("newUser:", newUser);
-		return "You're signed up !";
+		return newUser;
 	}
 
 	// Query to connect a user and return a token
@@ -51,14 +50,12 @@ export class AuthResolver {
 		const token = sign(payload, process.env.JWT_SECRET as string, {
 			expiresIn: process.env.JWT_TIMING,
 		});
-		console.log("token:", token);
 		return token;
 	}
 
 	@Authorized()
-	@Query(() => String)
+	@Query(() => User)
 	async getProfile(@Ctx() context: any): Promise<Boolean> {
-		console.log("context:", context);
-		return !!context.user;
+		return context.user;
 	}
 }

@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
+import { EcoAction } from "./EcoAction";
 
 export enum ChallengeStatus {
 	COMING = "COMING",
@@ -66,6 +67,21 @@ export class Challenge extends BaseEntity {
 		},
 	})
 	endAt: Date;
+
+	@Field(() => [EcoAction])
+	@ManyToMany(() => EcoAction, (ecoAction) => ecoAction.id)
+	@JoinTable({
+		name: "challenge_eco_action_list", // table name for the junction table of this relation
+		joinColumn: {
+			name: "challengeId",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "ecoActionId",
+			referencedColumnName: "id",
+		},
+	})
+	ecoActions: EcoAction[];
 
 	@Field()
 	@Column({ nullable: false, default: ChallengeStatus.COMING })
