@@ -32,9 +32,9 @@ const App = () => {
   const isCompany = false; //user.company
 
   return isUserEmpty ? <AuthRoutes /> : (
-    <div className="border-2 border-primary-danger flex w-screen">
+    <div className="border-2 border-primary-danger flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
       {!isUserEmpty && <NavigationBar />}
-      <main className="flex flex-col w-full">
+      <main className="flex flex-grow lg:flex-col w-full">
         {!isUserEmpty && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard') && <NavBtn type="return" />} </>}
 
         <Routes>

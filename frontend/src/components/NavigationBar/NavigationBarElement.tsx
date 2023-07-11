@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 export type NavigationBarElementProps = {
     link: string,
+    index: number
 };
 
-export const NavigationBarElement: FC<NavigationBarElementProps> = ({ link }) => {
+export const NavigationBarElement: FC<NavigationBarElementProps> = ({ link, index }) => {
     const isCompany = false // import userContext
     const navigate = useNavigate();
     const location = useLocation();
@@ -27,5 +28,5 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({ link }) =>
         importImage();
     }, [link, activeRoute]);
 
-    return url ? <img src={url} alt={link} onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className="h-9 w-9" /> : null;
+    return url ? <img src={url} alt={link} onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className={`h-9 w-9 ${index === 4 && 'hidden'} lg:block`} /> : null;
 };
