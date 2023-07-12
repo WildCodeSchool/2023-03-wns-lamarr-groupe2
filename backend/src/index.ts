@@ -4,6 +4,8 @@ import dataSource from "./dataSource";
 import { buildSchema } from "type-graphql";
 // import { join } from "path";
 import { AuthResolver } from "./resolvers/AuthResolver";
+import { NotificationResolver } from "./resolvers/NotificationResolver";
+import { FriendResolver } from "./resolvers/FriendResolver";
 import { User } from "./models/User";
 import { JwtPayload, verify } from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -13,7 +15,7 @@ dotenv.config();
 const start = async (): Promise<void> => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [AuthResolver],
+    resolvers: [AuthResolver, NotificationResolver, FriendResolver],
     authChecker: ({ context }) => {
       return !!context.user;
     },

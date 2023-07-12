@@ -14,11 +14,9 @@ const Homepage = () => {
       <div className="hidden lg:w-8/12  max-w-[56vw] lg:flex justify-center">
         <CarouselHome carouselItems={carouselItems} />
       </div>
-      {pathName !== '/register' ? <ConnexionPage /> : <InscriptionPage />}
+      {pathName !== "/register" ? <ConnexionPage /> : <InscriptionPage />}
     </div>
   );
-}
+};
 
 export default Homepage;
-
-

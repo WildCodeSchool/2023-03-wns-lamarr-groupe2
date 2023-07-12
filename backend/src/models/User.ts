@@ -94,12 +94,26 @@ export class User extends BaseEntity {
   creator: Challenge;
 
   @Field(() => Notification)
-  @ManyToOne(() => Notification, (notification) => notification.id)
-  @JoinTable()
-  recipient: Notification;
+  @ManyToMany(() => Notification, (notification) => notification.receivers, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: "received_notifications", // table name for the junction table of this relation
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "notificationId",
+      referencedColumnName: "id",
+    },
+  })
+  receivedNotifications: Notification[];
 
   @Field(() => [Notification])
-  @OneToMany(() => Notification, (notification) => notification.id)
+  @OneToMany(() => Notification, (notification) => notification.sender, {
+    cascade: true,
+  })
   @JoinTable()
-  sender: Notification[];
+  sentNotifications: Notification[];
 }
