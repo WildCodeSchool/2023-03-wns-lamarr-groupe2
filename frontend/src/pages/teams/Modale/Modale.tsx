@@ -12,7 +12,7 @@ const TeamMembersModale: FC<ModaleProps> = ({
     setIsOpenModale, companyName, companyId
 }) => {
     // To-Do : Fetch company members by companyId
-    const isCompanyOwner = true // Role and Company Id from User + Company id 
+    const isCompanyOwner = false // Role and Company Id from User + Company id 
     const [searchValue, setSearchValue] = useState<string>('')
     const handleMember = (e: any) => {
         setSearchValue(e.target.value)
@@ -36,7 +36,7 @@ const TeamMembersModale: FC<ModaleProps> = ({
                             <div className="bg-primary z-50  min-h-[60vh] max-h-[60vh] h-max px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div className=" sm:flex sm:items-start">
                                     <div onClick={() => setIsOpenModale(prev => !prev)} className="bg-light  mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-main-white sm:mx-0 sm:h-10 sm:w-10">
-                                        <img src={close} alt='close modale' />
+                                        <img src={close} alt='close modale' className="cursor-pointer" />
                                     </div>
                                     <div className=" w-full mt-3  mr-12 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                         <h3

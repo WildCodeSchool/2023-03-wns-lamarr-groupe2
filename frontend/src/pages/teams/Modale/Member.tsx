@@ -7,7 +7,7 @@ export type Member = {
     username: string,
 }
 const Member: FC<{ member: Member, teamsLength: number, index: number }> = ({ member, index, teamsLength }) => {
-    const isCompanyOwner = true // Role and Company Id from User + Company id s 
+    const isCompanyOwner = false // Role and Company Id from User + Company id s 
     const isLastMember = teamsLength === index + 1
 
     // TO-DO : add remove member logic (team context)
