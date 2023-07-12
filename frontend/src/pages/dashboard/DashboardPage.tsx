@@ -1,6 +1,6 @@
 import React from "react";
 import FriendsLeaderboard from "./FriendsLeaderboard";
-import MyChallenges from "./MyChallenges";
+import MyChallenges from "./challenge/MyChallenges";
 import MyTeams from "./MyTeams";
 
 export default function DashboardPage() {

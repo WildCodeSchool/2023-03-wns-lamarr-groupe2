@@ -21,7 +21,7 @@ export const ProgressionBar: React.FC<ProgressionBarProps> = ({ size, value }) =
     return (
         <div className={`relative h-4 max-w-[119px] ${!size && 'md:h-8 md:max-w-[275px]'} bg-white dark:bg-white rounded-r-rounder border border-primary-dark drop-shadow-progressbar`}>
             <div className={`h-[14px] max-w-[119px] ${!size && 'md:h-[30px] md:max-w-[275px]'} ${colorClass} pr-2`} style={{ width: `${value}%` }}>
-                <p className={`absolute right-3 text-xs font-bold ${!size && 'md:text-xl'}`}>{value}%</p>
+                <p className={`absolute right-3 text-small-p font-bold ${!size && 'md:text-main-p'}`}>{value}%</p>
             </div>
         </div>
     );

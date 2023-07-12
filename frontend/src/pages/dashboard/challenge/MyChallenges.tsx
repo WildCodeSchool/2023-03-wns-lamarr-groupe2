@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
 import { Challenge } from "./Challenge";
-import AddBtn from "../../components/AddBtn";
+import AddBtn from "../../../components/AddBtn";
 
 const MyChallenges: FC<PropsWithChildren> = () => {
   const challenges: Challenge[] = [
@@ -20,8 +20,8 @@ const MyChallenges: FC<PropsWithChildren> = () => {
         points: 5,
         need_proof: false
       }],
-      startAt: '2018-09-22T15:00:0',
-      endAt: '2018-10-22T15:00:0',
+      startAt: '2018-07-22T15:00:0',
+      endAt: '2018-07-22T19:00:0',
       challenge_status_id: 0,
       creator: 1
     }
@@ -84,7 +84,7 @@ const MyChallenges: FC<PropsWithChildren> = () => {
         need_proof: false
       }],
       startAt: '2018-09-22T15:00:0',
-      endAt: '2018-09-25T15:00:0',
+      endAt: '2018-09-22T15:30:0',
       challenge_status_id: 1,
       creator: 2
     }];
