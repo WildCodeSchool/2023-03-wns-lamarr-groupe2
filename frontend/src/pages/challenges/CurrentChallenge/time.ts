@@ -1,7 +1,13 @@
 import dayjs from "dayjs";
 
-// Fonction pour formater le temps restant
-export const calculateTimeLeft = (start: string, end: string) => {
+export const timeLeft = (start: string, end: string) => {
+  const startDate = dayjs(start);
+  const endDate = dayjs(end);
+
+  return endDate.diff(startDate);
+};
+
+export const formattedTimeLeft = (start: string, end: string) => {
   const startDate = dayjs(start);
   const endDate = dayjs(end);
 

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { ProgressionBar } from "../../../components/ProgressionBar";
 import NavBtn from "../../../components/NavBtn";
-import { calculateTimeLeft } from "./time";
+import { formattedTimeLeft } from "./time";
 import edit from "../../../assets/icons/edit.svg"
 import ProfilePicture from "../../../components/ProfilePicture";
 export type EcoAction = {
@@ -23,10 +23,12 @@ export type TChallenge = {
 };
 
 export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
+  const userId = 1 // UserContext user.id
+  const isOwner = challenge.creator === userId
   const progress = 70 //TO-DO : Calculate progression (actions done / nbr of actions)
 
   const TimeLeft = () => {
-    const timeLeft = calculateTimeLeft(challenge?.startAt, challenge?.endAt);
+    const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
     const [url, setUrl] = useState<string | undefined>(undefined);
 
     const colorIndicator = (timeLeft: any, type?: 'clock') => {
@@ -60,21 +62,23 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
 
   return (
 
-    <div className="border-1 h-44  p-3 rounded-medium">
+    <div className="border-1 h-full  p-3 rounded-medium">
 
       <div className=" flex h-full justify-between ">
 
-        <div className=" w-9/12">
-          <h4 className="uppercase text-main-p font-bold truncate">{challenge?.name}</h4>
-          <ProgressionBar value={progress} />
-          <p className="text-main-p my-2 text-primary-dark"> Nb d'éco-gestes : {challenge?.actions.length}</p>
+        <div className="flex flex-col  w-9/12">
+          <div className="flex-grow">
+            <h4 className="uppercase text-main-p font-bold truncate">{challenge?.name}</h4>
+            <ProgressionBar value={progress} />
+            <p className="text-main-p my-2 text-primary-dark"> Nb d'éco-gestes : {challenge?.actions.length}</p>
+          </div>
           <TimeLeft />
         </div>
 
 
         <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-between  items-end lg:items-end lg:justify-between">
           <div className="lg:flex">
-            <img src={edit} alt='edit' onClick={() => console.log('TO-DO : Add edit navigation and edit logic')} className="m-2" />
+            {isOwner && <img src={edit} alt='edit' onClick={() => console.log('TO-DO : Add edit navigation and edit logic')} className="m-2" />}
             <NavBtn type="specific" link={`/challenges/${challenge?.id}`} />
           </div>
 
