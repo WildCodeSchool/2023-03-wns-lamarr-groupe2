@@ -7,7 +7,7 @@ module.exports = {
       sm: "480px",
       md: "768px",
       lg: "976px",
-      xl: "1440px",
+      xl: "16O0px",
     },
     colors: {
       "primary-dark": "#000000",
@@ -25,6 +25,14 @@ module.exports = {
     fontFamily: {
       titles: ["Montserrat", "sans-serif"],
       content: ["Open Sans", "sans-serif"],
+      button: ["Rowdies", "sans-serif"],
+    },
+    fontSize: {
+      "main-title": 40,
+      "secondary-title": 28,
+      "small-p": 12,
+      "main-p": 18,
+      button: 20,
     },
     extend: {
       spacing: {},
@@ -33,6 +41,7 @@ module.exports = {
         medium: 6,
         large: 8,
         xlarge: 10,
+        customBtn: 12,
         rounder: 25,
         round: 50,
       },
