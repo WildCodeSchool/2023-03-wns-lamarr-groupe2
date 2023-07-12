@@ -10,9 +10,9 @@ import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
 
 enum InvitationStatus {
-  ACCEPTED,
-  PENDING,
-  REFUSED,
+  ATTENTE = "ATTENTE",
+  REFUSE = "REFUSE",
+  ACCEPTE = "ACCEPTE",
 }
 
 @ObjectType()
@@ -36,6 +36,6 @@ export class InvitationChallenge extends BaseEntity {
   company_id: Challenge[];
 
   @Field()
-  @Column()
+  @Column({ type: "enum", enum: InvitationStatus })
   invitaion_status_id: InvitationStatus;
 }

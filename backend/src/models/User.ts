@@ -1,70 +1,61 @@
-import {
-	Column,
-	Entity,
-	PrimaryGeneratedColumn,
-	OneToMany,
-	ManyToMany,
-	JoinTable,
-	ManyToOne,
-	BaseEntity,
-} from "typeorm";
-import { ObjectType, Field } from "type-graphql";
-import { Company } from "./Company";
-import { Challenge } from "./Challenge";
-import { CompanyGroup } from "./CompanyGroup";
-import { Notification } from "./Notification";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, BaseEntity } from "typeorm"
+import { ObjectType, Field } from "type-graphql"
+import { Company } from "./Company"
+import { Challenge } from "./Challenge"
+import { CompanyGroup } from "./CompanyGroup"
+import { Notification } from "./Notification"
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
 	@Field()
 	@PrimaryGeneratedColumn()
-	id: number;
+	id: number
 
 	@Field()
 	@Column()
-	firstname: string;
+	firstname: string
 
 	@Field()
 	@Column()
-	lastname: string;
+	lastname: string
 
 	@Field()
 	@Column()
-	username: string;
+	username: string
 
 	@Field()
 	@Column({ unique: true })
-	email: string;
+	email: string
 
 	@Field()
 	@Column()
-	password: string;
+	password: string
 
 	@Field()
 	@Column({ default: false })
-	admin: boolean;
+	admin: boolean
 
 	@Field()
 	@Column({ nullable: true, default: 0 })
-	points: number;
+	points: number
 
 	@Field()
 	@Column({
 		type: "timestamptz",
 		default: new Date(new Date().getTime() + 2 * 3600 * 1000),
 	})
-	creationDate: Date;
+	creationDate: Date
 
 	@Field(() => Company)
 	@OneToMany(() => Company, (company) => company.id)
 	@JoinTable()
-	company?: Company[];
+	company?: Company[]
 
 	@Field(() => [CompanyGroup])
 	@OneToMany(() => CompanyGroup, (companyGroup) => companyGroup.id)
 	@JoinTable()
-	company_group?: CompanyGroup[];
+	company_group?: CompanyGroup[]
 
 	// friend_list
 	@ManyToMany(() => User, (friendId) => friendId.id)
@@ -80,23 +71,39 @@ export class User extends BaseEntity {
 		},
 	})
 	@Field(() => [User])
-	friend: User[];
+	friend: User[]
 
 	// challenge_member
 	@Field(() => [Challenge])
 	@ManyToMany(() => Challenge, (challenge) => challenge.member)
-	challenge: Challenge[];
+	challenge: Challenge[]
 
 	// creator
 	@Field(() => Challenge)
 	@OneToMany(() => Challenge, (challengeId) => challengeId.creator)
-	createdChallenges: Challenge;
+	createdChallenges: Challenge
 
 	@Field(() => Notification)
-	@ManyToOne(() => Notification, (notification) => notification.id)
-	recipient: Notification;
+	@ManyToMany(() => Notification, (notification) => notification.receivers, {
+		cascade: true,
+	})
+	@JoinTable({
+		name: "received_notifications", // table name for the junction table of this relation
+		joinColumn: {
+			name: "userId",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "notificationId",
+			referencedColumnName: "id",
+		},
+	})
+	receivedNotifications: Notification[]
 
 	@Field(() => [Notification])
-	@OneToMany(() => Notification, (notification) => notification.id)
-	sender: Notification[];
+	@OneToMany(() => Notification, (notification) => notification.sender, {
+		cascade: true,
+	})
+	@JoinTable()
+	sentNotifications: Notification[]
 }

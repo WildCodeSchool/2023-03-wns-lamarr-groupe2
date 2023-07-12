@@ -3,21 +3,19 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-
-const apolloClient = new ApolloClient({
-  uri: "http://localhost:5000",
-  cache: new InMemoryCache(),
-});
+import { BrowserRouter } from "react-router-dom";
+import { UserContextProvider } from "./features/contexts/UserContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={apolloClient}>
-      <App />
-    </ApolloProvider>
+    <BrowserRouter>
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

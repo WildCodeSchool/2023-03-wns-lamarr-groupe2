@@ -6,6 +6,8 @@ import { buildSchema } from "type-graphql"
 import { AuthResolver } from "./resolvers/AuthResolver"
 import { ChallengeResolver } from "./resolvers/ChallengeResolver"
 import { EcoActionResolver } from "./resolvers/EcoActionResolver"
+import { NotificationResolver } from "./resolvers/NotificationResolver"
+import { FriendResolver } from "./resolvers/FriendResolver"
 import { User } from "./models/User"
 import { JwtPayload, verify } from "jsonwebtoken"
 import dotenv from "dotenv"
@@ -16,7 +18,13 @@ dotenv.config()
 const start = async (): Promise<void> => {
 	await dataSource.initialize()
 	const schema = await buildSchema({
-		resolvers: [AuthResolver, ChallengeResolver, EcoActionResolver],
+		resolvers: [
+			AuthResolver,
+			ChallengeResolver,
+			EcoActionResolver,
+			NotificationResolver,
+			FriendResolver,
+		],
 		authChecker: ({ context }) => {
 			return context.user
 		},

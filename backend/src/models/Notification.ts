@@ -2,34 +2,49 @@ import {
   BaseEntity,
   Column,
   Entity,
-  OneToMany,
   ManyToOne,
-  JoinTable,
   PrimaryGeneratedColumn,
+  ManyToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
 
+export enum Status {
+  LU = "LU",
+  NONLU = "NONLU",
+  ATTENTE = "ATTENTE",
+  REFUSE = "REFUSE",
+  ACCEPTE = "ACCEPTE",
+}
+
+export enum Type {
+  INFORMATION = "INFORMATION",
+  CHALLENGE = "CHALLENGE",
+  AMI = "AMI",
+}
+
 @ObjectType()
 @Entity()
 export class Notification extends BaseEntity {
-  @Field()
+  @Field({ nullable: true })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => User)
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinTable()
-  recipient: User;
-
   @Field(() => [User])
-  @OneToMany(() => User, (user) => user.id)
-  @JoinTable()
-  sender: User[];
+  @ManyToMany(() => User, (user) => user.receivedNotifications)
+  receivers: User[];
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User, (user) => user.sentNotifications)
+  sender: User;
 
   @Field()
-  @Column()
-  type: string;
+  @Column({ type: "enum", enum: Type })
+  type: Type;
+
+  @Field()
+  @Column({ type: "enum", enum: Status })
+  status: Status;
 
   @Field()
   @Column({
