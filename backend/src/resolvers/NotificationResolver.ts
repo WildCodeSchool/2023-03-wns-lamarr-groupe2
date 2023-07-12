@@ -2,7 +2,21 @@ import { Ctx, Arg, Mutation, Query, InputType, Field, Int } from "type-graphql";
 import { In } from "typeorm";
 import { Notification } from "../models/Notification";
 import { User } from "../models/User";
-import { IsNumber } from "class-validator";
+import { IsEnum, IsNumber } from "class-validator";
+
+enum Status {
+  LU = "LU",
+  NONLU = "NONLU",
+  ATTENTE = "ATTENTE",
+  REFUSE = "REFUSE",
+  ACCEPTE = "ACCEPTE",
+}
+
+enum Type {
+  INFORMATION = "INFORMATION",
+  CHALLENGE = "CHALLENGE",
+  AMI = "AMI",
+}
 
 @InputType()
 export class NotificationInput {
@@ -11,7 +25,21 @@ export class NotificationInput {
   recipientIds: number[];
 
   @Field()
-  type: string;
+  @IsEnum(Type)
+  type: Type;
+
+  @Field()
+  @IsEnum(Status)
+  status: Status;
+}
+
+@InputType()
+export class NotificationStatus {
+  @Field()
+  id: number;
+
+  @Field()
+  status: Status;
 }
 
 export class NotificationResolver {
@@ -31,13 +59,37 @@ export class NotificationResolver {
 
     const type = input.type;
 
+    const status = input.status;
+
     const notification = await Notification.create({
       sender,
       receivers,
       type,
+      status,
     }).save();
 
     return notification;
+  }
+
+  @Mutation(() => Notification)
+  async updateNotificationStatus(
+    @Ctx() context: { user: User },
+    @Arg("input") input: NotificationStatus
+  ): Promise<Notification> {
+    const notification = await Notification.findOne({
+      where: {
+        id: input.id,
+        sender: {
+          id: context.user.id,
+        },
+      },
+    });
+
+    if (notification === null) throw new Error(`Notification id invalid`);
+
+    notification.status = input.status;
+
+    return notification.save();
   }
 
   @Query(() => [Notification])
@@ -46,18 +98,17 @@ export class NotificationResolver {
   ): Promise<Notification[]> {
     if (context.user === null) throw new Error(`The user is not connected!`);
 
-    const receiver = await User.findOne({
+    const notification = await Notification.find({
       relations: {
-        receivedNotifications: true,
+        sender: true,
+        receivers: true,
       },
       where: {
-        id: context.user.id,
+        receivers: {
+          id: context.user.id,
+        },
       },
     });
-
-    if (receiver === null) throw new Error(`The user does not exist!`);
-
-    const notification = receiver.receivedNotifications;
 
     if (notification === null)
       throw new Error(`User doesn't have any notifications`);
