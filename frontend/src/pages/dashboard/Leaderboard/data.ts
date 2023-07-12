@@ -2,40 +2,54 @@ import hermesGood from "../../../assets/hermes/green-hermes.svg";
 import hermesAttention from "../../../assets/hermes/yellow-hermes.svg";
 import hermesDanger from "../../../assets/hermes/red-hermes.svg";
 
-export const teamMembers = [
+export const me = {
+  id: 6,
+  username: "Sergueï",
+  score: 999,
+  picture: hermesGood,
+};
+
+export const leaderBoardData = [
   {
     id: 1,
     username: "Kobgones",
+    score: 100,
     picture: hermesGood,
   },
   {
     id: 2,
     username: "MadzMaddie",
+    score: 200,
     picture: hermesAttention,
   },
   {
     id: 3,
     username: "Carlmascotte",
-    picture: hermesDanger,
+    score: 300,
+    picture: hermesGood,
   },
   {
     id: 4,
     username: "Jonathack",
-    picture: hermesGood,
+    score: 400,
+    picture: hermesDanger,
   },
   {
     id: 5,
     username: "Hysilie",
-    picture: hermesDanger,
+    score: 100,
+    picture: hermesAttention,
   },
   {
     id: 6,
     username: "Sergueï",
+    score: 999,
     picture: hermesGood,
   },
   {
     id: 7,
     username: "Yuri",
-    picture: hermesAttention,
+    score: 999,
+    picture: hermesDanger,
   },
 ];

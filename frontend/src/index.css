@@ -51,7 +51,7 @@
   }
 
   .screen {
-    @apply flex flex-grow p-8;
+    @apply flex flex-grow px-6 py-8;
   }
 }
 
