@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { DataSource } from "typeorm";
-import { join } from "path";
+import { DataSource } from "typeorm"
+import { join } from "path"
 
-require("dotenv").config();
-const path = join(__dirname, "./models/*.ts");
-const DBport = process.env.DB_PORT != null ? parseInt(process.env.DB_PORT, 10) : undefined;
+require("dotenv").config()
+const path = join(__dirname, "./models/*.ts")
+const DBport = process.env.DB_PORT != null ? parseInt(process.env.DB_PORT, 10) : undefined
 
 // We check if DB_PORT is a number
 if (typeof DBport === "number" && isNaN(DBport)) {
 	// If conversion failed, exit
-	console.error(`Invalid DB_PORT: ${DBport}`);
-	process.exit();
+	console.error(`Invalid DB_PORT: ${DBport}`)
+	process.exit()
 }
 
 // Create a new DataSource with the following configuration :
@@ -27,6 +27,6 @@ const dataSource = new DataSource({
 	synchronize: true,
 
 	entities: [path],
-});
+})
 
-export default dataSource;
+export default dataSource

@@ -1,15 +1,7 @@
-import {
-	Column,
-	Entity,
-	PrimaryGeneratedColumn,
-	JoinTable,
-	BaseEntity,
-	ManyToMany,
-	ManyToOne,
-} from "typeorm";
-import { ObjectType, Field } from "type-graphql";
-import { User } from "./User";
-import { EcoAction } from "./EcoAction";
+import { Column, Entity, PrimaryGeneratedColumn, JoinTable, BaseEntity, ManyToMany, ManyToOne } from "typeorm"
+import { ObjectType, Field } from "type-graphql"
+import { User } from "./User"
+import { EcoAction } from "./EcoAction"
 
 export enum ChallengeStatus {
 	COMING = "COMING",
@@ -27,15 +19,15 @@ export enum Tags {
 export class Challenge extends BaseEntity {
 	@Field()
 	@PrimaryGeneratedColumn()
-	id: number;
+	id: number
 
 	@Field()
 	@Column({ nullable: false })
-	name: string;
+	title: string
 
 	@Field()
 	@Column({ type: "text", nullable: false })
-	description: string;
+	description: string
 
 	// create a field for the start and end date
 	@Field()
@@ -44,14 +36,14 @@ export class Challenge extends BaseEntity {
 		nullable: false,
 		transformer: {
 			from(value: string): Date {
-				return new Date(value);
+				return new Date(value)
 			},
 			to(value: string): string {
-				return value;
+				return value
 			},
 		},
 	})
-	startAt: Date;
+	startAt: Date
 
 	@Field()
 	@Column({
@@ -59,14 +51,14 @@ export class Challenge extends BaseEntity {
 		nullable: false,
 		transformer: {
 			from(value: string): Date {
-				return new Date(value);
+				return new Date(value)
 			},
 			to(value: string): string {
-				return value;
+				return value
 			},
 		},
 	})
-	endAt: Date;
+	endAt: Date
 
 	@Field(() => [EcoAction])
 	@ManyToMany(() => EcoAction, (ecoAction) => ecoAction.id)
@@ -81,20 +73,20 @@ export class Challenge extends BaseEntity {
 			referencedColumnName: "id",
 		},
 	})
-	ecoActions: EcoAction[];
+	ecoActions: EcoAction[]
 
 	@Field()
 	@Column({ nullable: false, default: ChallengeStatus.COMING })
-	challenge_status: ChallengeStatus;
+	challenge_status: ChallengeStatus
 
 	@Field()
 	@Column({ nullable: false })
-	tags: Tags;
+	tags: Tags
 
 	// create a field to join the user table with the challenge table (one user can create many challenges but one challenge can only be created by one user)
 	@Field(() => User)
 	@ManyToOne(() => User, (user) => user.createdChallenges) // Jeter à l'oeil à la doc de TypeORM
-	creator: User;
+	creator: User
 
 	// create a field to join the user table with the challenge table (one user can participate to many challenges and challenges can have many users)
 	@Field(() => User, { nullable: true })
@@ -110,5 +102,5 @@ export class Challenge extends BaseEntity {
 			referencedColumnName: "id",
 		},
 	})
-	member: User[];
+	member: User[]
 }
