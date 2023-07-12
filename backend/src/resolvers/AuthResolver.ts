@@ -25,7 +25,6 @@ export class AuthResolver {
       email,
       password: hashedPassword,
     }).save();
-    console.log("newUser:", newUser);
     return "You're signed up !";
   }
 
@@ -57,14 +56,12 @@ export class AuthResolver {
     const token = sign(payload, process.env.JWT_SECRET as string, {
       expiresIn: process.env.JWT_TIMING,
     });
-    console.log("token:", token);
     return token;
   }
 
   @Authorized()
   @Query(() => String)
   async getProfile(@Ctx() context: any): Promise<Boolean> {
-    console.log("context:", context);
     return !!context.user;
   }
 }
