@@ -1,7 +1,7 @@
 import React from "react";
-import FriendsLeaderboard from "./FriendsLeaderboard";
+import FriendsLeaderboard from "./leaderboard/FriendsLeaderboard";
 import MyChallenges from "./challenge/MyChallenges";
-import MyTeams from "./MyTeams";
+import MyTeams from "./teams/MyTeams";
 
 export default function DashboardPage() {
   const width = window.innerWidth

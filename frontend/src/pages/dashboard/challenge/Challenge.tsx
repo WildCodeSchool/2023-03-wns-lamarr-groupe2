@@ -62,7 +62,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
 
     <div className="border-1 h-44  p-3 rounded-medium">
 
-      <div className=" flex justify-between ">
+      <div className=" flex h-full justify-between ">
 
         <div className=" w-9/12">
           <h4 className="uppercase text-main-p font-bold truncate">{challenge?.name}</h4>
@@ -72,8 +72,8 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
         </div>
 
 
-        <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-start  items-end lg:items-end lg:justify-between">
-          <div>
+        <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-between  items-end lg:items-end lg:justify-between">
+          <div className="lg:flex">
             <img src={edit} alt='edit' onClick={() => console.log('TO-DO : Add edit navigation and edit logic')} className="m-2" />
             <NavBtn type="specific" link={`/challenges/${challenge?.id}`} />
           </div>
