@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
+import { InvitationChallenge } from "./InvitationChallenge";
 
 enum ChallengeStatus {
   COMING,
@@ -72,4 +73,8 @@ export class Challenge extends BaseEntity {
   })
   @Field(() => [User])
   member: Promise<User[]>;
+
+  @Field(() => [InvitationChallenge])
+  @OneToMany(() => InvitationChallenge, (invitation) => invitation.id)
+  invitation: InvitationChallenge[];
 }

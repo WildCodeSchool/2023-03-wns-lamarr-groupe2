@@ -3,13 +3,15 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  JoinTable,
+  ManyToMany,
   BaseEntity,
+  ManyToOne,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
+import { User } from "./User";
 
-enum InvitationStatus {
+export enum InvitationStatus {
   ATTENTE = "ATTENTE",
   REFUSE = "REFUSE",
   ACCEPTE = "ACCEPTE",
@@ -22,20 +24,15 @@ export class InvitationChallenge extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  email_sender: string;
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.receivedChallengeInvitation)
+  receivers: User[];
 
-  @Field()
-  @Column()
-  email_recipient: string;
-
-  @Field(() => [Challenge])
-  @OneToMany(() => Challenge, (challenge) => challenge.id)
-  @JoinTable()
-  company_id: Challenge[];
+  @Field(() => Challenge)
+  @ManyToOne(() => Challenge, (challenge) => challenge.id)
+  challenge_id: Challenge;
 
   @Field()
   @Column({ type: "enum", enum: InvitationStatus })
-  invitaion_status_id: InvitationStatus;
+  invitation_status_id: InvitationStatus;
 }
