@@ -9,7 +9,7 @@ export default function DashboardPage() {
 
     <div className="border rounded-medium hidden w-5/12 max-w-[328px]  lg:flex xl:max-w-[500px]"><FriendsLeaderboard /></div>
     <div className="lg:flex lg:w-5/12 xl:w-3/12  "><MyChallenges /></div>
-    {isUserGotTeams && <div className="  hidden w-5/12 lg:flex max-w-[328px] xl:max-w-full "><MyTeams /></div>}
+    {isUserGotTeams && <div className="  hidden w-5/12 lg:flex max-w-[328px] xl:max-w-full"><MyTeams /></div>}
 
 
   </section>;

@@ -23,7 +23,7 @@ const Team: FC<{ team: TTeam }> = ({ team }) => {
 
     return (
         <>
-            <div className={`md:max-h-36 md:max-w-36 lg:h-32 lg:w-32  xl:h-36 xl:w-36 cursor-pointer flex justify-center items-center uppercase rounded-full border-1 ${team?.color}`} onClick={() => setIsOpenModale(prev => !prev)}>{acronymGenerator(team?.company_name)}</div>
+            <div className={`md:max-h-36 md:max-w-36 lg:h-24 lg:w-24 xl:h-36 xl:w-36 cursor-pointer flex justify-center items-center uppercase rounded-full border-1 ${team?.color}`} onClick={() => setIsOpenModale(prev => !prev)}>{acronymGenerator(team?.company_name)}</div>
             {isOpenModale && <Modale setIsOpenModale={setIsOpenModale} companyName={team.company_name} companyId={team.id} />}
         </>
     )

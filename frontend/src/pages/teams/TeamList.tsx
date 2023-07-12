@@ -12,7 +12,7 @@ const TeamList: FC<TeamListProps> = ({ teams, view }) => {
     const companyView = ``
 
     return (
-        <div className={`${view === 'user' ? userView : companyView} md:flex md:flex-wrap `}>
+        <div className={`${view === 'user' ? userView : companyView} md:flex md:flex-wrap md:flex-shrink md:justify-center xl:justify-start overflow-scroll  `}>
             {teams?.slice(0, 6).map((team, index) => (
                 <Team key={index} team={team} />
             ))}
