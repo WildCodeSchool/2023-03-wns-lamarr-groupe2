@@ -1,5 +1,5 @@
 import { Ctx, Arg, Mutation, Query, InputType, Field, Int } from "type-graphql";
-import { Generated, In } from "typeorm";
+import { In } from "typeorm";
 import { Notification, Type, Status } from "../models/Notification";
 import { User } from "../models/User";
 import { IsEnum, IsNumber } from "class-validator";
