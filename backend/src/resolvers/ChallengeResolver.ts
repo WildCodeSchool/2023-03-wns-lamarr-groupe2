@@ -1,4 +1,4 @@
-import { Ctx, Arg, Mutation, Query, Int } from "type-graphql"
+import { Ctx, Arg, Mutation, Query, Int, Authorized } from "type-graphql"
 import { FindOneOptions, In } from "typeorm"
 import { Challenge, Tags, ChallengeStatus } from "../models/Challenge"
 import { EcoAction } from "../models/EcoAction"
@@ -99,16 +99,15 @@ export class ChallengeResolver {
 	}
 
 	// create a mutation to delete a challenge and only the creator of the challenge or an admin can delete it. If the creator is not the user who is logged in, we throw an error
-
 	@Mutation(() => Boolean)
 	async deleteChallenge(@Ctx() context: { user: User }, @Arg("id") id: number): Promise<boolean> {
 		const user = context.user
-		const options: FindOneOptions<Challenge> = { where: { id }, relations: ["creator"] }
+		const options: FindOneOptions<Challenge> = { where: { id }, relations: { creator: true } }
 		const challenge = await Challenge.findOne(options)
 
 		if (challenge == null) throw new Error("Challenge not found!")
 
-		if (challenge.creator.id !== user.id || !user.admin) {
+		if (challenge.creator.id === user.id || user.admin) {
 			await challenge.remove()
 		} else {
 			throw new Error("You are not authorized to delete this challenge!")

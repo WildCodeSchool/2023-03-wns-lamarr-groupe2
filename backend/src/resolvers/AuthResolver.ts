@@ -7,7 +7,7 @@ dotenv.config()
 
 export class AuthResolver {
 	// Mutation to create a new user
-	@Mutation(() => String)
+	@Mutation(() => User)
 	async signUp(
 		@Arg("firstname") firstname: string,
 		@Arg("lastname") lastname: string,
