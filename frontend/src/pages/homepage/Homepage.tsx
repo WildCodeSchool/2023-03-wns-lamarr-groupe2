@@ -1,8 +1,8 @@
-import { CarouselHome } from "./components/Carousel";
-import { carouselItems } from "./components/CarouselData";
 import ConnexionPage from "./Connexion/ConnexionPage";
 import { useLocation } from "react-router-dom";
 import InscriptionPage from "./Inscription/InscriptionPage";
+import { carouselItems } from "./Carousel/CarouselData";
+import { CarouselHome } from "./Carousel/Carousel";
 
 const Homepage = () => {
   const location = useLocation();
