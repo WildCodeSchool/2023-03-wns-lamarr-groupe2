@@ -9,7 +9,7 @@ import {
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
 
-enum Status {
+export enum Status {
   LU = "LU",
   NONLU = "NONLU",
   ATTENTE = "ATTENTE",
@@ -17,7 +17,7 @@ enum Status {
   ACCEPTE = "ACCEPTE",
 }
 
-enum Type {
+export enum Type {
   INFORMATION = "INFORMATION",
   CHALLENGE = "CHALLENGE",
   AMI = "AMI",

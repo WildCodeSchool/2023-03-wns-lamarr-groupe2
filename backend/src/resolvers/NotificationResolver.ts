@@ -1,22 +1,8 @@
 import { Ctx, Arg, Mutation, Query, InputType, Field, Int } from "type-graphql";
 import { In } from "typeorm";
-import { Notification } from "../models/Notification";
+import { Notification, Type, Status } from "../models/Notification";
 import { User } from "../models/User";
 import { IsEnum, IsNumber } from "class-validator";
-
-enum Status {
-  LU = "LU",
-  NONLU = "NONLU",
-  ATTENTE = "ATTENTE",
-  REFUSE = "REFUSE",
-  ACCEPTE = "ACCEPTE",
-}
-
-enum Type {
-  INFORMATION = "INFORMATION",
-  CHALLENGE = "CHALLENGE",
-  AMI = "AMI",
-}
 
 @InputType()
 export class NotificationInput {
