@@ -25,16 +25,17 @@ export class NotificationStatus {
   id: number;
 
   @Field()
+  @IsEnum(Status)
   status: Status;
 }
 
 export class NotificationResolver {
   // Mutation to insert a user in database
-  @Mutation(() => Notification)
+  @Mutation(() => [Notification])
   async newNotification(
     @Ctx() context: { user: User },
     @Arg("input") input: NotificationInput
-  ): Promise<Notification> {
+  ): Promise<Notification[]> {
     const sender = context.user;
 
     if (sender === null) throw new Error(`The user is not connected!`);
@@ -46,15 +47,19 @@ export class NotificationResolver {
     const type = input.type;
 
     const status = input.status;
+    let notifications: Notification[] = [];
 
-    const notification = await Notification.create({
-      sender,
-      receivers,
-      type,
-      status,
-    }).save();
+    for (const receiver of receivers) {
+      let newNotif = await Notification.create({
+        sender,
+        receivers: receiver,
+        type,
+        status,
+      }).save();
+      notifications = [...notifications, newNotif];
+    }
 
-    return notification;
+    return notifications;
   }
 
   @Mutation(() => Notification)
@@ -65,7 +70,7 @@ export class NotificationResolver {
     const notification = await Notification.findOne({
       where: {
         id: input.id,
-        sender: {
+        receivers: {
           id: context.user.id,
         },
       },
