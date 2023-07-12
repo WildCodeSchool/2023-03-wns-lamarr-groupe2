@@ -23,6 +23,7 @@ export type TChallenge = {
 };
 
 export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
+  const challMember = [1, 2, 3] // TO-DO : Get the list of chall members (not only teams)
   const userId = 1 // UserContext user.id
   const isOwner = challenge.creator === userId
   const progress = 70 //TO-DO : Calculate progression (actions done / nbr of actions)
@@ -84,9 +85,11 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
 
           {/* TO-DO : make simething like the maquet */}
           <div className="flex">
-            <ProfilePicture size="smallPic" />
-            <ProfilePicture size="smallPic" />
-            <ProfilePicture size="smallPic" />
+            {challMember?.slice(0, 3)?.map((member, index) =>
+              <div className="mr-[-10px]">
+                <ProfilePicture key={index} /* url={member.picture} */ size="smallPic" />
+              </div>)}
+
           </div>
         </div>
 
