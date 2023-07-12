@@ -11,7 +11,7 @@ const Homepage = () => {
   return (
     <div className="flex w-screen items-center  ">
       {/* Carousel will be hidden on mobile phone */}
-      <div className="border-2 h-screen hidden xl:flex w-full flew-grow  justify-center items-center">
+      <div className="h-screen hidden xl:flex w-full flew-grow  justify-center items-center">
         <CarouselHome carouselItems={carouselItems} />
       </div>
       {pathName !== "/register" ? <ConnexionPage /> : <InscriptionPage />}

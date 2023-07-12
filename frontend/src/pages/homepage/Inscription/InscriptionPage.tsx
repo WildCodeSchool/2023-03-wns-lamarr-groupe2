@@ -9,7 +9,7 @@ const InscriptionPage: FC<PropsWithChildren> = () => {
     const [isChoiceDone, setIsChoiceDone] = useState(false)
 
     return (
-        <div className="relative  lg:w-4/12 w-full h-screen items-center flex justify-center">
+        <div className="relative xl:w-5/12 w-full h-screen items-center flex justify-center">
             <div className="max-w-[276px]  w-full flex flex-col">
 
                 {!isChoiceDone && <InscriptionChoice setIsCompany={setIsCompany} setIsChoiceDone={setIsChoiceDone} />}
