@@ -3,11 +3,11 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
-      sm: "480px",
+      sm: "640px",
       md: "768px",
-      lg: "976px",
-      lgPlus: "1440px",
-      xl: "16O0px",
+      lg: "1024px",
+      xl: "1440px",
+      xxl: "1536px",
     },
     colors: {
       "primary-dark": "#000000",

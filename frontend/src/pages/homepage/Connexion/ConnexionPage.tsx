@@ -23,7 +23,7 @@ const ConnexionPage: FC<PropsWithChildren> = () => {
     const { email, password } = userInformations;
 
     return (
-        <div className="relative  lg:w-4/12 w-full h-screen items-center flex justify-center">
+        <div className="border relative xl:w-5/12 w-full h-screen items-center flex justify-center">
             <div className="max-w-[276px]  w-full flex flex-col">
                 <h2 className="text-center font-titles font-bold text-2xl mb-7">S'IDENTIFIER</h2>
                 <form>

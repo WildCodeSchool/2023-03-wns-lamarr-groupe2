@@ -63,7 +63,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
 
   return (
 
-    <div className="border-1 h-full  p-3 rounded-medium">
+    <div className="border-1 h-full max-h-[228px] p-3 rounded-medium">
 
       <div className=" flex h-full justify-between ">
 

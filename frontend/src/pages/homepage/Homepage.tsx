@@ -9,9 +9,9 @@ const Homepage = () => {
   const pathName = location.pathname;
 
   return (
-    <div className="screen justify-between lg:px-10 xl:hidden flex items-center">
+    <div className="flex w-screen items-center  ">
       {/* Carousel will be hidden on mobile phone */}
-      <div className="hidden lg:w-8/12  max-w-[56vw] lg:flex justify-center">
+      <div className="border-2 h-screen hidden xl:flex w-full flew-grow  justify-center items-center">
         <CarouselHome carouselItems={carouselItems} />
       </div>
       {pathName !== "/register" ? <ConnexionPage /> : <InscriptionPage />}
