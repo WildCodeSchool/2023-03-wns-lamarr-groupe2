@@ -1,9 +1,9 @@
 import { FC, PropsWithChildren } from "react";
-import { Challenge } from "./Challenge";
+import { Challenge, TChallenge } from "./Challenge";
 import AddBtn from "../../../components/AddBtn";
 
 const MyChallenges: FC<PropsWithChildren> = () => {
-  const challenges: Challenge[] = [
+  const challenges: TChallenge[] = [
     {
       id: 1,
       name: "Arrêtons de niquer nos mers",
@@ -91,7 +91,7 @@ const MyChallenges: FC<PropsWithChildren> = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <h3 className="flex gap-4 mb-4">MES CHALLENGES : <AddBtn onClick={() => console.log('TO-DO : Add the add logic')} /></h3>
+      <h3 className="flex gap-4 mb-4">MES CHALLENGES<AddBtn onClick={() => console.log('TO-DO : Add the add logic')} /></h3>
       <div className="h-full flex flex-col justify-around gap-4">
         {challenges ? challenges?.map((challenge, index) => <Challenge key={index} challenge={challenge} />) : 'Aucun challenge'}
       </div>

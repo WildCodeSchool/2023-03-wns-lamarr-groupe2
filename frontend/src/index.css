@@ -55,12 +55,8 @@
   }
 }
 
-@layer base {
-  body {
-    @apply bg-main-bg;
-  }
-}
 body {
+  @apply bg-main-bg;
   @apply font-content;
   @apply text-main-p;
   margin: 0;

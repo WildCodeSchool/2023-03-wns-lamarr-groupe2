@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import { ProgressionBar } from "../../../components/ProgressionBar";
-import dayjs from 'dayjs';
 import NavBtn from "../../../components/NavBtn";
 import { calculateTimeLeft } from "./time";
 export type EcoAction = {
@@ -11,7 +10,7 @@ export type EcoAction = {
   need_proof: boolean
 }
 
-export type Challenge = {
+export type TChallenge = {
   id: number,
   name: string,
   actions: EcoAction[],
@@ -21,7 +20,7 @@ export type Challenge = {
   creator: number
 };
 
-export const Challenge: FC<{ challenge: Challenge }> = ({ challenge }) => {
+export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const progress = 70 //TO-DO : Calculate progression (actions done / nbr of actions)
 
   const TimeLeft = () => {
@@ -51,15 +50,15 @@ export const Challenge: FC<{ challenge: Challenge }> = ({ challenge }) => {
       importImage();
     }, [timeLeft]);
 
-    return <span className={`${colorIndicator(timeLeft)} flex gap-3`}> <img src={url} /> {Object.values(timeLeft)} {Object.keys(timeLeft)} </span >;
+    return <span className={`${colorIndicator(timeLeft)} flex gap-3`}> <img src={url} alt='clock' /> {Object.values(timeLeft)} {Object.keys(timeLeft)} </span >;
   };
 
   return <div className="border-1 h-44 p-3 rounded-medium">
     <div className="flex justify-between">
       <h4 className="uppercase text-main-p font-bold">{challenge?.name}</h4>
-      <NavBtn type="specific" link={`/challenge/${challenge?.id}`} />
+      <NavBtn type="specific" link={`/challenges/${challenge?.id}`} />
     </div>
-    <ProgressionBar value={70} />
+    <ProgressionBar value={progress} />
     <p className="text-main-p my-2 text-primary-dark"> Nb d'éco-gestes : {challenge?.actions.length}</p>
     <TimeLeft />
 
