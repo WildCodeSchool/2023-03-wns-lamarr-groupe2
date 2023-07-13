@@ -7,7 +7,6 @@ export class EcoActionResolver {
 	async getAllEcoActions(): Promise<EcoAction[]> {
 		// Added return type Promise<EcoAction[]>
 		const ecoActions = await EcoAction.find()
-		console.log("ecoActions:", ecoActions)
 		return ecoActions
 	}
 

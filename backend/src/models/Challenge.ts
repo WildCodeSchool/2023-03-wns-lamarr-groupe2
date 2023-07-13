@@ -1,6 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn, JoinTable, BaseEntity, ManyToMany, ManyToOne } from "typeorm"
+import {
+	Column,
+	Entity,
+	PrimaryGeneratedColumn,
+	JoinTable,
+	BaseEntity,
+	ManyToMany,
+	OneToMany,
+	ManyToOne,
+} from "typeorm"
 import { ObjectType, Field } from "type-graphql"
 import { User } from "./User"
+import { InvitationChallenge } from "./InvitationChallenge"
 import { EcoAction } from "./EcoAction"
 
 export enum ChallengeStatus {
@@ -88,9 +98,8 @@ export class Challenge extends BaseEntity {
 	@ManyToOne(() => User, (user) => user.createdChallenges) // Jeter à l'oeil à la doc de TypeORM
 	creator: User
 
-	// create a field to join the user table with the challenge table (one user can participate to many challenges and challenges can have many users)
-	@Field(() => User, { nullable: true })
-	@ManyToMany(() => User, (user) => user.challenge)
+	// challenge_member
+	@ManyToMany(() => User, (userId) => userId.id)
 	@JoinTable({
 		name: "challenge_member", // table name for the junction table of this relation
 		joinColumn: {
@@ -102,5 +111,10 @@ export class Challenge extends BaseEntity {
 			referencedColumnName: "id",
 		},
 	})
-	member: User[]
+	@Field(() => [User])
+	member: Promise<User[]>
+
+	@Field(() => [InvitationChallenge])
+	@OneToMany(() => InvitationChallenge, (invitation) => invitation.id)
+	invitation: InvitationChallenge[]
 }

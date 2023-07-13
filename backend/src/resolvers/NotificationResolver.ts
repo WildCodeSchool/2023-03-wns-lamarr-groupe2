@@ -8,7 +8,7 @@ import { IsEnum, IsNumber, IsString } from "class-validator"
 export class NotificationInput {
 	@Field()
 	@IsString()
-	message: string
+	message?: string
 
 	@Field(() => [Int])
 	@IsNumber({}, { each: true })
@@ -70,7 +70,6 @@ export class NotificationResolver {
 		@Ctx() context: { user: User },
 		@Arg("input") input: NotificationStatus
 	): Promise<Notification> {
-		// console.log(input)
 		const notification = await Notification.findOne({
 			where: {
 				id: input.id,
