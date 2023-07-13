@@ -13,6 +13,7 @@ import { Company } from "./Company";
 import { Challenge } from "./Challenge";
 import { CompanyGroup } from "./CompanyGroup";
 import { Notification } from "./Notification";
+import { InvitationChallenge } from "./InvitationChallenge";
 
 @ObjectType()
 @Entity()
@@ -93,21 +94,11 @@ export class User extends BaseEntity {
   @JoinTable()
   creator: Challenge;
 
-  @Field(() => Notification)
-  @ManyToMany(() => Notification, (notification) => notification.receivers, {
+  @Field(() => [Notification])
+  @OneToMany(() => Notification, (notification) => notification.receivers, {
     cascade: true,
   })
-  @JoinTable({
-    name: "received_notifications", // table name for the junction table of this relation
-    joinColumn: {
-      name: "userId",
-      referencedColumnName: "id",
-    },
-    inverseJoinColumn: {
-      name: "notificationId",
-      referencedColumnName: "id",
-    },
-  })
+  @JoinTable()
   receivedNotifications: Notification[];
 
   @Field(() => [Notification])
@@ -116,4 +107,21 @@ export class User extends BaseEntity {
   })
   @JoinTable()
   sentNotifications: Notification[];
+
+  @Field(() => InvitationChallenge)
+  @ManyToMany(() => InvitationChallenge, (invitation) => invitation.receivers, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: "received_invitation", // table name for the junction table of this relation
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "challenge_invitation",
+      referencedColumnName: "id",
+    },
+  })
+  receivedChallengeInvitation: InvitationChallenge[];
 }

@@ -26,15 +26,15 @@ export enum Type {
 @ObjectType()
 @Entity()
 export class Notification extends BaseEntity {
-  @Field({ nullable: true })
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => [User])
-  @ManyToMany(() => User, (user) => user.receivedNotifications)
-  receivers: User[];
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.receivedNotifications)
+  receivers: User;
 
-  @Field(() => User, { nullable: true })
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.sentNotifications)
   sender: User;
 
