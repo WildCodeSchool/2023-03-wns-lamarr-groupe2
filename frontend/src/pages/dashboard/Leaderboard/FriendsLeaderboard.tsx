@@ -1,11 +1,12 @@
 
 import leaderboardIcon from '../../../assets/icons/leaderboard.svg'
+import useUserContext from '../../../features/contexts/UserContext';
 import Leaderboard from './Leaderboard';
 import LeaderboardElement from './LeaderboardElement';
 import { me } from './data';
 
 const FriendsLeaderboard = () => {
-  // get user from context (position => order from request ?)
+  const { user } = useUserContext()
 
   return <div className="h-full flex flex-col w-full">
     <div className="flex items-center px-5 pt-6 w-full justify-center lg:gap-6 mb-4">
@@ -14,7 +15,8 @@ const FriendsLeaderboard = () => {
     </div>
     <div className='w-full justify-center'>
       <div className='border-b-1 mb-5'>
-        <LeaderboardElement id={me.id} username={me.username} score={me.score} position={1} picture={me.picture} mode="header" /></div>
+        {/* TO-DO : calculate position */}
+        <LeaderboardElement id={user.id} username={user.username} score={user.score} position={1} picture={user?.picture} mode="header" /></div>
     </div>
     <Leaderboard />
   </div>;

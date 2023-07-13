@@ -4,7 +4,7 @@ import MyChallenges from "./MyChallenges";
 import MyTeams from "./MyTeams";
 
 export default function DashboardPage() {
-  const isUserGotTeams = true // userContext check
+  const isUserGotTeams = true // userContext check need comany be not null back
 
   return <section className="gap-10  xl:gap-20 flex justify-center lg:justify-start w-full  h-full">
 

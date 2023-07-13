@@ -1,4 +1,4 @@
-import { Routes, Route, /* useNavigate,  */useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ScoresPage from "./pages/scores/ScoresPage";
 import ChallengesPage from "./pages/challenges/ChallengesPage";
@@ -6,16 +6,15 @@ import NotificationsPage from "./pages/notifications/NotificationsPage";
 import SettingsPage from "./pages/settings-account/SettingsPage";
 import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
-/* import { isEmpty } from "remeda"; */
-/* import { useEffect, useState } from "react"; */
 import { HeaderBar } from "./components/HeaderBar";
 import NavBtn from "./components/NavBtn";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { ErrorPage } from "./pages/homepage/ErrorPage";
 import Homepage from "./pages/homepage/Homepage";
 import useUserContext from "./features/contexts/UserContext";
-import Footer from "./components/Footer";
 import CompanyGroupsPage from "./pages/teams/CompanyGroupsPage";
+import { isEmpty } from "remeda";
+import Footer from "./components/Footer";
 
 const AuthRoutes = () => {
   return (
@@ -24,24 +23,21 @@ const AuthRoutes = () => {
       <Route path="/register" element={<Homepage />} />
       <Route path="/" element={<Homepage />} />
     </Routes>
-  );
+  )
 }
 
 const App = () => {
-  const { isUser } = useUserContext()
-  const location = useLocation();
-  const isCompany = false; //user.company
+  const { user } = useUserContext()
+  const location = useLocation()
+  const isCompany = false //user.company
 
 
 
-
-  return !isUser ? <AuthRoutes /> : (
+  return isEmpty(user) ? <AuthRoutes /> : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
-
-      {isUser && <NavigationBar />}
+      {user.username && <NavigationBar />}
       <main className="flex flex-col flex-grow lg:flex-col w-full">
-        {isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
-
+        {user.username && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
         <div className="screen">
           <Routes>
             {isCompany ? (

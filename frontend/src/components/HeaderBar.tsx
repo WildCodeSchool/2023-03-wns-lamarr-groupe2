@@ -17,7 +17,7 @@ export const HeaderBar = () => {
     );
 
     return (
-        <header className={`relative border-b-1 border-tertiary-dark  h-20 ${mobileHeader ? 'flex  px-8  ' : 'hidden'}  lg:flex font-titles justify-between items-center lg:px-2`}>
+        <header className={`relative  border-b-1 border-tertiary-dark  h-20 ${mobileHeader ? 'flex  px-8  ' : 'hidden'}  lg:flex font-titles justify-between items-center lg:px-2`}>
             <h1 className="hidden lg:block font-bold text-[3em]">ECHOES OF FUTURE</h1>
             <HeaderElement label='Challenges : ' value={3} />
             <HeaderElement label={isCompany ? 'Mes Employés : ' : 'Points : '} value={186} />

@@ -24,8 +24,8 @@ export const leaderBoardData = [
   },
   {
     id: 3,
-    username: "Carlmascotte",
-    score: 300,
+    username: "Test",
+    score: 0,
     picture: hermesGood,
   },
   {

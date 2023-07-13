@@ -7,14 +7,14 @@ dotenv.config();
 
 export class AuthResolver {
   // Mutation to create a new user
-  @Mutation(() => String)
+  @Mutation(() => User)
   async signUp(
     @Arg("firstname") firstname: string,
     @Arg("lastname") lastname: string,
     @Arg("username") username: string,
     @Arg("email") email: string,
     @Arg("password") password: string
-  ): Promise<String> {
+  ): Promise<User> {
     // We hash the password send by the user with argon2 and store it in the database
     const hashedPassword = await argon2.hash(password);
 
@@ -25,7 +25,7 @@ export class AuthResolver {
       email,
       password: hashedPassword,
     }).save();
-    return "You're signed up !";
+    return newUser;
   }
 
   // Query to connect a user and return a token
@@ -60,8 +60,8 @@ export class AuthResolver {
   }
 
   @Authorized()
-  @Query(() => String)
+  @Query(() => User)
   async getProfile(@Ctx() context: any): Promise<Boolean> {
-    return !!context.user;
+    return context.user;
   }
 }

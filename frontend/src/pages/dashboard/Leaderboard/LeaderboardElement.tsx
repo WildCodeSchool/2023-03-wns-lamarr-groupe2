@@ -1,18 +1,25 @@
 import { FC } from "react"
 import ProfilePicture from "../../../components/ProfilePicture"
-import { me } from './data';
+import useUserContext from "../../../features/contexts/UserContext";
 
 export type LeaderboardElement = {
     id: number,
     username: string,
-    picture: string,
+    picture?: string,
     position: number,
     score: number
     mode?: "header"
 }
 
 const LeaderboardElement: FC<LeaderboardElement> = ({ id, username, picture, score, position, mode }) => {
-    const isUser = me.id === id // user context && user id
+    const { user } = useUserContext()
+    const isUser = user.id === id
+    const ScoreOrZero = ((score || user?.score) > 0 ? (isUser ? user.score : score) : 0)/* {
+        if (score > 0 || user?.score > 0) {
+            return isUser ? user?.score : score
+        }
+        return 0 */
+
 
     return (
         <div className={`mx-3 flex justify-between  items-center  ${isUser && !mode && 'border-y-1 bg-primary-attention'} ${mode && 'mb-5'}`}>
@@ -25,7 +32,7 @@ const LeaderboardElement: FC<LeaderboardElement> = ({ id, username, picture, sco
             </div>
 
             <div className="w-2/12 flex mr-5 ">
-                <p className=" text-secondary-title font-bold">{score}</p>
+                <p className=" text-secondary-title font-bold w-12 text-right">{ScoreOrZero}</p>
                 <p className=" flex items-center text-small-p ">pts</p>
             </div>
         </div>
