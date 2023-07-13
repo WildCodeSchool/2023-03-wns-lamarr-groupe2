@@ -8,7 +8,7 @@ import { IsEnum, IsNumber, IsString } from "class-validator"
 export class NotificationInput {
 	@Field()
 	@IsString()
-	message?: string
+	message: string
 
 	@Field(() => [Int])
 	@IsNumber({}, { each: true })
@@ -34,12 +34,13 @@ export class NotificationStatus {
 }
 
 export class NotificationResolver {
-	// Mutation to insert a user in database
-	@Mutation(() => Notification)
+	// Mutation to insert a notification in database
+
+	@Mutation(() => [Notification])
 	async newNotification(
 		@Ctx() context: { user: User },
 		@Arg("input") input: NotificationInput
-	): Promise<Notification> {
+	): Promise<Notification[]> {
 		const sender = context.user
 
 		if (sender === null) throw new Error(`The user is not connected!`)
@@ -49,20 +50,23 @@ export class NotificationResolver {
 		if (receivers === null) throw new Error(`The users does not exist!`)
 
 		const message = input.message
-
-		const type = input.type
-
 		const status = input.status
+		const notifications: Notification[] = []
 
-		const notification = await Notification.create({
-			message,
-			sender,
-			receivers,
-			type,
-			status,
-		}).save()
+		for (const receiver of receivers) {
+			const newNotif = new Notification()
+			newNotif.sender = sender
+			newNotif.receivers = receiver
+			newNotif.message = message
+			newNotif.type = input.type // Assurez-vous d'utiliser la bonne propriété pour le type
+			newNotif.status = status
 
-		return notification
+			await newNotif.save()
+
+			notifications.push(newNotif)
+		}
+
+		return notifications
 	}
 
 	@Mutation(() => Notification)
@@ -73,7 +77,7 @@ export class NotificationResolver {
 		const notification = await Notification.findOne({
 			where: {
 				id: input.id,
-				sender: {
+				receivers: {
 					id: context.user.id,
 				},
 			},

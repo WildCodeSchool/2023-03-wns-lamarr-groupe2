@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany } from "typeorm"
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { ObjectType, Field } from "type-graphql"
 import { User } from "./User"
 
@@ -23,13 +23,13 @@ export class Notification extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number
 
+	@Field(() => User)
+	@ManyToOne(() => User, (user) => user.receivedNotifications)
+	receivers: User
+
 	@Field()
 	@Column({ nullable: false })
 	message: string
-
-	@Field(() => [User])
-	@ManyToMany(() => User, (user) => user.receivedNotifications)
-	receivers: User[]
 
 	@Field(() => User)
 	@ManyToOne(() => User, (user) => user.sentNotifications)
