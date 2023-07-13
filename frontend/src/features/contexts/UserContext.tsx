@@ -11,6 +11,8 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { equals } from "remeda";
 import axios from 'axios';
 import { UserContextType, TUser, LoginInformations, RegisterInformations } from "./types";
+import { useToaster } from "../../components/Toaster/useToaster";
+
 
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? ''
@@ -24,18 +26,25 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const [token, setToken] = useLocalStorage("token", "");
     // TO-DO : Delete isUser when we will recieve user from backend
     const [isUser, setIsUser] = useState(false)
+    const { notifyRegister, notifyErrorRegister, notifyErrorConnexion } = useToaster()
 
     // Login
     const login = useCallback(async (e: React.FormEvent, loginInformations: LoginInformations) => {
         e.preventDefault();
 
         try {
-            // Sign in to obtain the token
             const signInQuery = {
-                "query": "query ($password: String!, $email: String!) { signIn(password: $password, email: $email) }",
-                "variables": {
-                    "email": `${loginInformations.email}`,
-                    "password": `${loginInformations.password}`
+                query: `query (
+                    $password: String!,
+                    $email: String!
+                ) { 
+                signIn(
+                    password: $password,
+                    email: $email
+                    )}` ,
+                variables: {
+                    email: loginInformations.email,
+                    password: loginInformations.password
                 }
             }
             const signInResponse = await axios.post(BACKEND_URL, signInQuery);
@@ -53,15 +62,15 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             };
 
             const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
-            console.log("Profile Response : ", getProfileResponse.data.data.getProfile)
+            console.log("Profile Response : TO-DO // Set User ", getProfileResponse.data.data.getProfile)
             setIsUser(getProfileResponse.data.data.getProfile)
-
+            navigate('/')
 
         } catch (error) {
+            notifyErrorConnexion()
             console.error(error);
         }
-    }, [setToken, setIsUser, isUser]);
-
+    }, [setToken, setIsUser, notifyErrorConnexion, navigate]);
 
     // Disconnect
     const disconnect = useCallback(() => {
@@ -70,17 +79,59 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         navigate("/");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-    }, [user, navigate, setUser, isUser]);
+    }, [navigate, setUser]);
 
     // Register
-    const register = (
+    const register = async (
         e: React.FormEvent,
         registerInformations: RegisterInformations
     ) => {
         e.preventDefault();
+        try {
+            const signUpQuery = {
+                query: `
+              mutation SignUp(
+                $password: String!,
+                $email: String!,
+                $username: String!,
+                $lastname: String!,
+                $firstname: String!
+              ) {
+                signUp(
+                  password: $password,
+                  email: $email,
+                  username: $username,
+                  lastname: $lastname,
+                  firstname: $firstname
+                )
+              }
+            `,
+                variables: {
+                    password: registerInformations.password,
+                    email: registerInformations.email,
+                    username: registerInformations.username,
+                    lastname: registerInformations.lastname,
+                    firstname: registerInformations.firstname,
+                },
+            };
 
+            const signUpResponse = await axios.post(BACKEND_URL, signUpQuery);
+            const responseData = signUpResponse.data;
+
+            if (responseData.errors) {
+                notifyErrorRegister()
+                // TO-DO  : Custom error message
+            } else {
+                notifyRegister();
+                setTimeout(() => {
+                    navigate("/");
+                }, 1500);
+            }
+        } catch (error: any) {
+            console.error(error);
+            notifyErrorRegister()
+        }
     };
-
     // TO-DO : isValidToken is needed to check if the token is valid, if not => back to login screen
 
 
@@ -89,7 +140,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect, isUser }}
+            value={{ token, user, login, disconnect, isUser, register }}
         >
             {children}
         </UserContext.Provider>

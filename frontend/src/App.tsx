@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, /* useNavigate,  */useLocation } from "react-router-dom";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import ScoresPage from "./pages/scores/ScoresPage";
 import ChallengesPage from "./pages/challenges/ChallengesPage";
@@ -6,8 +6,8 @@ import NotificationsPage from "./pages/notifications/NotificationsPage";
 import SettingsPage from "./pages/settings-account/SettingsPage";
 import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
-import { isEmpty } from "remeda";
-import { useEffect, useState } from "react";
+/* import { isEmpty } from "remeda"; */
+/* import { useEffect, useState } from "react"; */
 import { HeaderBar } from "./components/HeaderBar";
 import NavBtn from "./components/NavBtn";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
@@ -37,6 +37,7 @@ const App = () => {
 
   return !isUser ? <AuthRoutes /> : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
+
       {isUser && <NavigationBar />}
       <main className="flex flex-col flex-grow lg:flex-col w-full">
         {isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}

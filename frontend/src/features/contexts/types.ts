@@ -38,6 +38,7 @@ export type UserContextType = {
   login: (e: React.FormEvent, value: LoginInformations) => void;
   disconnect: () => void;
   isUser: boolean;
+  register: (e: React.FormEvent, value: RegisterInformations) => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

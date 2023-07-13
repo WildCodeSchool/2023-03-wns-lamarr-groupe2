@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom";
 import InscriptionPage from "./Inscription/InscriptionPage";
 import { carouselItems } from "./Carousel/CarouselData";
 import { CarouselHome } from "./Carousel/Carousel";
+import { Toaster } from "react-hot-toast";
+
+
 
 const Homepage = () => {
   const location = useLocation();
@@ -10,6 +13,7 @@ const Homepage = () => {
 
   return (
     <div className="flex w-screen items-center  ">
+      <Toaster reverseOrder={false} position="top-center" />
       {/* Carousel will be hidden on mobile phone */}
       <div className="h-screen hidden xl:flex w-full flew-grow  justify-center items-center">
         <CarouselHome carouselItems={carouselItems} />
