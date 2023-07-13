@@ -58,7 +58,6 @@ const TeamMembersModale: FC<ModaleProps> = ({
                     </div>
                 </div>
             </div>
-            )
         </div>
     );
 };
