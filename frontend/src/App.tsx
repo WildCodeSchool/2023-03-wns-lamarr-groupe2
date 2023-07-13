@@ -35,12 +35,12 @@ const App = () => {
 
 
 
-  return !isUser ? <AuthRoutes /> : (
+  return isUser ? <AuthRoutes /> : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
 
       {isUser && <NavigationBar />}
       <main className="flex flex-col flex-grow lg:flex-col w-full">
-        {isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
+        {!isUser && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
 
         <div className="screen">
           <Routes>
