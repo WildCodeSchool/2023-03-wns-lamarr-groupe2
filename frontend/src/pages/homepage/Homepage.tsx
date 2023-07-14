@@ -3,15 +3,19 @@ import { useLocation } from "react-router-dom";
 import InscriptionPage from "./Inscription/InscriptionPage";
 import { carouselItems } from "./Carousel/CarouselData";
 import { CarouselHome } from "./Carousel/Carousel";
+import { Toaster } from "react-hot-toast";
+
+
 
 const Homepage = () => {
   const location = useLocation();
   const pathName = location.pathname;
 
   return (
-    <div className="screen justify-between lg:px-10 xl:hidden flex items-center">
+    <div className="flex w-screen items-center  ">
+      <Toaster reverseOrder={false} position="top-center" />
       {/* Carousel will be hidden on mobile phone */}
-      <div className="hidden lg:w-8/12  max-w-[56vw] lg:flex justify-center">
+      <div className="h-screen hidden xl:flex w-full flew-grow  justify-center items-center">
         <CarouselHome carouselItems={carouselItems} />
       </div>
       {pathName !== "/register" ? <ConnexionPage /> : <InscriptionPage />}

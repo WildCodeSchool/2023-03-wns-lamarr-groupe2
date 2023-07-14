@@ -49,14 +49,14 @@
   .bgDanger {
     @apply bg-primary-danger;
   }
-}
 
-@layer base {
-  body {
-    @apply bg-main-bg;
+  .screen {
+    @apply flex flex-grow px-6 py-8;
   }
 }
+
 body {
+  @apply bg-main-bg;
   @apply font-content;
   @apply text-main-p;
   margin: 0;

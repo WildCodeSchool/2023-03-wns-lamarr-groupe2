@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import BtnCustom from "../../../components/BtnCustom";
 import InputCustom from "../../../components/InputCustom";
+import useUserContext from "../../../features/contexts/UserContext";
 
 export type UserInformations = {
     username: string;
@@ -13,7 +14,7 @@ export type UserInformations = {
 }
 
 const InscriptionForm: FC<{ isCompany: boolean }> = ({ isCompany }) => {
-
+    const { register } = useUserContext()
     // TO-DO : Import UserContext register function
 
 
@@ -40,7 +41,7 @@ const InscriptionForm: FC<{ isCompany: boolean }> = ({ isCompany }) => {
     return (
         <>
             <h2 className="text-center font-titles font-bold text-2xl mb-7">S'INSCRIRE</h2>
-            <form>
+            <form >
                 <InputCustom
                     type="text"
                     label="Nom"
@@ -84,7 +85,7 @@ const InscriptionForm: FC<{ isCompany: boolean }> = ({ isCompany }) => {
                     onChange={handleInputChange('password')}
                 />
                 <div className=" my-9 flex justify-center">
-                    <BtnCustom text="CRÉER" size="small" onClick={() => console.log('connexion')} styled="btnGood" />
+                    <BtnCustom text="CRÉER" size="small" onClick={(e) => register(e!, userInformations)} styled="btnGood" />
                 </div>
             </form>
             <div className="text-tertiary-dark  text-xl font-content text-center gap-3">

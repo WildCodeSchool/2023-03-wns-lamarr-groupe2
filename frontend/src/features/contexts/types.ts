@@ -1,6 +1,7 @@
 // User Context Types
 
 export type TUser = {
+  score: number;
   id: number;
   firstname: string;
   lastname: string;
@@ -13,6 +14,7 @@ export type TUser = {
   company_id?: number;
   company_group_id?: number;
   creationDate?: string;
+  picture?: string;
 };
 
 export type LoginInformations = {
@@ -37,7 +39,7 @@ export type UserContextType = {
   token: string;
   login: (e: React.FormEvent, value: LoginInformations) => void;
   disconnect: () => void;
-  isUser: boolean;
+  register: (e: React.FormEvent, value: RegisterInformations) => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

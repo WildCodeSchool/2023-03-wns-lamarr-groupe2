@@ -23,38 +23,41 @@ const ConnexionPage: FC<PropsWithChildren> = () => {
     const { email, password } = userInformations;
 
     return (
-        <div className="relative  lg:w-4/12 w-full h-screen items-center flex justify-center">
-            <div className="max-w-[276px]  w-full flex flex-col">
-                <h2 className="text-center font-titles font-bold text-2xl mb-7">S'IDENTIFIER</h2>
-                <form>
-                    <InputCustom
-                        label="Email"
-                        type="email"
-                        name='email'
-                        value={email ?? ''}
-                        onChange={handleInputChange('email')}
-                    />
-                    <InputCustom
-                        label="Mot de passe"
-                        type="password"
-                        name='password'
-                        value={password ?? ''}
-                        onChange={handleInputChange('password')}
-                    />
-                    <div className=" my-9 flex justify-center">
-                        <BtnCustom text="CONNEXION" onClick={(e) => login(e!, userInformations)} styled="btnGood" />
+        <div className="z-99 relative xl:w-5/12 w-full h-screen items-center flex justify-center">
+            <div className="w-full  z-20 h-screen items-center flex justify-center">
+                <div className="max-w-[276px] bg-main-bg  w-full flex flex-col">
+                    <h2 className="text-center font-titles font-bold text-2xl mb-7">S'IDENTIFIER</h2>
+                    <form>
+                        <InputCustom
+                            label="Email"
+                            type="email"
+                            name='email'
+                            value={email ?? ''}
+                            onChange={handleInputChange('email')}
+                        />
+                        <InputCustom
+                            label="Mot de passe"
+                            type="password"
+                            name='password'
+                            value={password ?? ''}
+                            onChange={handleInputChange('password')}
+                        />
+                        <div className=" my-9 flex justify-center">
+                            <BtnCustom text="CONNEXION" onClick={(e) => login(e!, userInformations)} styled="btnGood" />
+                        </div>
+                    </form>
+                    <div className="text-tertiary-dark  text-xl font-content text-center gap-3">
+                        {/* TO-DO : Add lost password logic */}
+                        <p>Mot de passe oublié ?</p>
+                        <Link to='/register' className="underline">S'inscrire</Link>
                     </div>
-                </form>
-                <div className="text-tertiary-dark  text-xl font-content text-center gap-3">
-                    {/* TO-DO : Add lost password logic */}
-                    <p>Mot de passe oublié ?</p>
-                    <Link to='/register' className="underline">S'inscrire</Link>
                 </div>
 
-            </div>
-            <p className="absolute bottom-8 text-tertiary-dark  text-small-p">©2023, Echoes of Future. Tous droits réservés</p>
-        </div>
+                <p className="absolute z-[-20] ml-2 bottom-8 text-tertiary-dark   text-small-p">©2023, Echoes of Future. Tous droits réservés</p>
+            </div> </div>
     )
+
+
 }
 
 export default ConnexionPage

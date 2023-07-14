@@ -30,7 +30,7 @@ export const HeaderBarModale: FC<HeaderBarModaleProps> = ({ setShowModale }) => 
     }
 
     return (
-        <div onMouseLeave={() => setShowModale(false)} className="absolute right-10 top-20  w-60 h-28" style={modaleStyle}>
+        <div onMouseLeave={() => setShowModale(false)} className="absolute right-10 top-20 z-[99] w-60 h-28" style={modaleStyle}>
             <div className=" flex w-44 flex-col justify-center h-full">
                 <div className="pl-3 font-bold ">
                     <div onClick={() => handleClick('settings')} className="pt-3   hover:text-element-bg">paramètres</div>
