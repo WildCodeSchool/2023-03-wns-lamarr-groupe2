@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import modale from "../../assets/modale-dashboard.svg"
 import check from "../../assets/icons/high5Thin.svg"
 import checkbold from "../../assets/icons/high5Bold.svg"
+import useUserContext from '../../features/contexts/UserContext'
 
 const DashboardPageModale = () => {
-    const username = 'Hermès' // get username
+    const { user } = useUserContext()
     const [isPressed, setIsPressed] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
     const modaleStyle: React.CSSProperties = {
@@ -20,9 +21,9 @@ const DashboardPageModale = () => {
         <div className=" flex w-full h-full justify-center  pb-10 items-center  gap-10"
             onMouseEnter={handleMouseEvent}
             onMouseLeave={handleMouseEvent}>
-            <div className="pl-3 ">
+            <div className="pl-3 truncate">
                 <p>Bonjour</p>
-                {username}
+                {user?.username}
             </div>
             <img alt='check icon' src={isHovered ? check : checkbold} onClick={() => setIsPressed(prev => !prev)} className='cursor-pointer' />
 

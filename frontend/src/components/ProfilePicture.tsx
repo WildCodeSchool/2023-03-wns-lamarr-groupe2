@@ -2,7 +2,7 @@ import { FC } from "react"
 import hermesG from "../assets/hermes/green-hermes.svg"
 
 type ProfilePictureProps = {
-    size: 'smallPic' | 'mediumPic' | 'largePic',
+    size: 'smallPic' | 'mediumPic' | 'largePic' | 'xlargePic',
     url?: string,
     onClick?: () => void
 }
