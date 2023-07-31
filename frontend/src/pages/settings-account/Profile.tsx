@@ -3,11 +3,28 @@ import edit from "../../assets/icons/edit.svg"
 import ProfilePicture from "../../components/ProfilePicture"
 import useUserContext from "../../features/contexts/UserContext"
 import BtnCustom from "../../components/BtnCustom"
+import InputCustom from "../../components/InputCustom"
+import { UserInformations } from "../homepage/Inscription/InscriptionForm"
 
 const Profile = () => {
     const { user } = useUserContext()
     const [isEdit, setIsEdit] = useState(false)
 
+    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email, password: user?.password })
+
+    const handleInputChange = (fieldName: string) => (event: { target: { value: string }; }) => {
+        const { value } = event.target;
+        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email' | 'password'>) => ({
+            ...prevUserInformations,
+            [fieldName]: value
+        }));
+    };
+
+    const { email, username, password } = userInformations;
+
+    const handleModifications = () => {
+        console.log('enregistrer')
+    }
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
         if (string.length < size) {
@@ -36,9 +53,9 @@ const Profile = () => {
     }
 
     return (
-        <section className=" flex-1 w-full lg:w-max lg:max-w-[457px]">
+        <section className="lg:flex-1 w-full lg:w-max lg:max-w-[457px]">
             {/* Mobile Header */}
-            <div className="lg:hidden  border-1 flex w-full justify-center pr-5">
+            <div className="lg:hidden  flex w-full justify-center pr-5">
                 <div className="w-fit pr-4">
                     <ProfilePicture size="largePic" />
                 </div>
@@ -59,7 +76,9 @@ const Profile = () => {
 
                 <img className="w-1/12 h-8 pb-2 cursor-pointer self-end " src={edit} alt='edit profile' onClick={() => setIsEdit(prev => !prev)} />
             </div>
-
+            <div className="flex justify-center w-full">
+                <div className="border-b-1 w-11/12 my-9 " />
+            </div>
             {/* Desktop Header */}
             <div className="hidden lg:flex flex-col w-full justify-between">
                 <div className="w-fit gap-9 flex pr-1 mb-14">
@@ -76,15 +95,27 @@ const Profile = () => {
             </div>
 
             {/* Informations */}
-            <div className="p-3 lg:p-0">
-                <form className="flex flex-col gap-4 text-button mb-12">
-                    <p>pseudo : {user?.username}</p>
-                    <p>email : {user?.email}</p>
-                    <p>password : ************* </p>
+            <div className="px-3 lg:p-0">
+                <form className="flex flex-col gap-4 text-button mb-5 lg:mb-12">
+                    <div className="flex items-center gap-3">
+                        <p>pseudo: </p>
+                        {isEdit ? <InputCustom label="" name="username" type='text' value={username} onChange={handleInputChange('username')} /> : user.username}
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <p>email: </p>
+                        {isEdit ? <InputCustom label="" name="email" type='email' value={email} onChange={handleInputChange('email')} /> : user.email}
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <p>mot de passe: </p>
+                        {isEdit ? <InputCustom label="" name="password" type='password' value={password} onChange={handleInputChange('password')} /> : <span className="font-bold">*********</span>}
+                    </div>
+
                 </form>
 
-                <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => console.log('TO-DO : delete account')} />
-                <div onClick={() => console.log('TO - DO : Supprimer le cache')} className="underline italic font-normal mt-6">Supprimer mon cache</div>
+                <div className="hidden lg:block ">
+                    {isEdit ? <BtnCustom styled="btnGood" text='ENREGISTRER' onClick={handleModifications} /> : <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => console.log('TO-DO : delete account')} />}
+                    <div onClick={() => console.log('TO - DO : Supprimer le cache')} className=" hidden lg:block underline italic font-normal mt-6">Supprimer mon cache</div>
+                </div>
             </div>
         </section >
     )
