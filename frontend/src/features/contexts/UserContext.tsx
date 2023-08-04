@@ -11,7 +11,7 @@ import { equals } from "remeda";
 import axios from 'axios';
 import { UserContextType, TUser, LoginInformations, RegisterInformations, UpdatedUser } from "./types";
 import { useToaster } from "../hooks/useToaster";
-
+import { querySignIn, queryProfile, updateQuery, deleteQuery, updatePictureQuery } from "./queries";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? ''
 
@@ -29,9 +29,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
         try {
             const signInQuery = {
-                query: `query ($password: String!, $email: String!) {
-                    signIn(password: $password, email: $email)
-                  }` ,
+                query: querySignIn ,
                 variables: {
                     email: loginInformations.email,
                     password: loginInformations.password
@@ -44,18 +42,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             setToken(token);
 
             const getProfileQuery = {
-                query: `query GetProfile {
-                  getProfile {
-                    id
-                    firstname
-                    lastname
-                    username
-                    admin
-                    points
-                    email
-                    picture
-                  }
-                }`
+                query:  queryProfile 
             };
 
             const config = {
@@ -130,14 +117,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         e.preventDefault();
         try {
           const updateUserQuery = {
-            query: `
-            mutation UpdateUser($username: String, $email: String) {
-                updateUser(username: $username, email: $email) {
-                  username
-                  email
-                }
-              }
-            `,
+            query: updateQuery,
             variables: {
               username: userInformationsUpdate.username,
               email: userInformationsUpdate.email,
@@ -156,16 +136,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
           } else {
 
             const getProfileQuery = {
-                query: `query  {
-                    getProfile {
-                      email
-                      firstname
-                      lastname
-                      admin
-                      id
-                      username
-                    }
-                  }`
+                query: queryProfile
             };
             const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
             setUser(getProfileResponse.data.data.getProfile)
@@ -177,13 +148,47 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       };
 
+      // UpdatePicture
+
+      const updatePicture = async (pictureChoice: string ) => {
+        console.log('pictureChoice : ', pictureChoice)
+        try {
+          const updateUserQuery = {
+            query: updatePictureQuery,
+            variables: {
+              picture: pictureChoice
+            },
+          };
+
+          const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+      
+          const updateUserResponse = await axios.post(BACKEND_URL, updateUserQuery, config);
+          const responseData = updateUserResponse.data;
+      
+          if (responseData.errors) {
+            notifyErrorUpdate();
+          } else {
+
+            const getProfileQuery = {
+                query: queryProfile
+            };
+            const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
+            setUser(getProfileResponse.data.data.getProfile)
+          }
+        } catch (error: any) {
+          console.error(error);
+         notifyErrorUpdate();
+        }
+      };
+
+
     // Delete UserAccount
     const deleteUserAccount = useCallback(() => {
   try {
       const deleteUserQuery = {
-        query: `mutation Mutation {
-          deleteUser
-        }`
+        query: deleteQuery
     };
   
     const config = {
@@ -210,7 +215,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect, register, updateUser, deleteUserAccount }}
+            value={{ token, user, login, disconnect, register, updateUser, deleteUserAccount, updatePicture }}
         >
             {children}
         </UserContext.Provider>

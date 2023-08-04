@@ -5,6 +5,8 @@ import BtnCustom from "../../components/BtnCustom"
 import InputCustom from "../../components/InputCustom"
 import { TUser } from "../../features/contexts/types"
 import ProfileModale from "./ProfileModale"
+import modifyPic from "../../assets/icons/modifyPic.svg"
+import { ModalePictureChoice } from "./ModalePictureChoice"
 
 
 export type SettingsPageParameters = {
@@ -19,7 +21,7 @@ export type SettingsPageParameters = {
 
 const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, username, email, handleInputChange, setIsEdit}) => {
     const [isOpenModale, setIsOpenModale] = useState(false)
-
+    const [isOpenPictureChoice, setOpenPictureChoice] = useState(false)
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
         if (string.length < size) {
@@ -51,8 +53,9 @@ const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, 
         <section className="lg:flex-1 w-full lg:w-max lg:max-w-[457px]">
             {/* Mobile Header */}
             <div className="lg:hidden  flex w-full justify-center pr-5">
-                <div className="w-fit pr-4">
-                    <ProfilePicture size="largePic" />
+                <div className="w-fit pr-4 relative">
+                    <ProfilePicture url={user.picture} size="largePic" />
+                    <img src={modifyPic} alt='Modify Profile Picture' className="absolute right-4 bottom-0 h-6 w-6 cursor-pointer" onClick={() => setOpenPictureChoice(true)}/>
                 </div>
 
                 <div className="flex flex-col  w-9/12 justify-center md:hidden">
@@ -81,7 +84,7 @@ const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, 
                    {!isEdit ?  <img className="w-6 self-end pb-2  cursor-pointer" src={edit} alt='edit profile' onClick={() => setIsEdit(true)} /> : null}
                 </div>
                 <div>
-                    <ProfilePicture size="xlargePic" />
+                    <ProfilePicture  url={user.picture} size="xlargePic" />
                 </div>
                 <div className="flex flex-col  w-9/12 justify-center mt-12">
                     <h2 className="w-full "> {user?.firstname}  {formattedString(user.lastname, 14)}
@@ -117,6 +120,7 @@ const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, 
                 </div>
             </div>
             {isOpenModale ? <ProfileModale setIsOpenModale={setIsOpenModale} /> : null}
+            {isOpenPictureChoice ? <ModalePictureChoice setOpenPictureChoice={setOpenPictureChoice} /> : null}
         </section >
     )
 }

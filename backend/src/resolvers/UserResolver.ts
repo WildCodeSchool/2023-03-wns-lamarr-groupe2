@@ -32,6 +32,30 @@ export class UserResolver {
     return existingUser;
   }
 
+  @Mutation(() => User)
+  async updatePicture(
+    @Ctx() context: { user: User },
+    @Arg("picture", { nullable: true }) picture?: string,
+  ): Promise<User> {
+    const user = context.user;
+    
+    // We check if the user exists
+    const options: FindOneOptions<User> = { where: { id: user.id } };
+    const existingUser = await User.findOne(options);
+
+    if (!existingUser) throw new Error("User not found!");
+
+    // Update username and email if provided
+    if (picture !== null && picture !== undefined) {
+      existingUser.picture = picture;
+    }
+
+    await existingUser.save();
+
+    return existingUser;
+  }
+
+  
   // Mutation to delete a user
   @Mutation(() => Boolean)
   async deleteUser(@Ctx() context: { user: User }): Promise<boolean> {

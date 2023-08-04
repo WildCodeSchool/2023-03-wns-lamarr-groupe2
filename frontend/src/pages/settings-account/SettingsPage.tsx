@@ -12,7 +12,6 @@ const SettingsPage = () => {
   const { user, updateUser } = useUserContext()
   const {notifyErrorUpdate} = useToaster()
 
-
   const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email})
 
   const handleInputChange = (fieldName: string) => (event: { target: { value: string }; }) => {

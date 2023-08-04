@@ -11,6 +11,7 @@ export type UserInformations = {
     firstname: string;
     password: string;
     siret?: string;
+    picture?:string
 }
 
 const InscriptionForm: FC<{ isCompany: boolean }> = ({ isCompany }) => {

@@ -48,6 +48,7 @@ export type UserContextType = {
   register: (e: React.FormEvent, value: RegisterInformations) => void;
   updateUser : (e : React.FormEvent, value : UpdatedUser) => void;
   deleteUserAccount : () => void;
+  updatePicture : (pictureChoice : string) => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {
