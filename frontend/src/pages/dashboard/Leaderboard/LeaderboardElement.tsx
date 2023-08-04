@@ -14,12 +14,7 @@ export type LeaderboardElement = {
 const LeaderboardElement: FC<LeaderboardElement> = ({ id, username, picture, score, position, mode }) => {
     const { user } = useUserContext()
     const isUser = user.id === id
-    const ScoreOrZero = ((score || user?.score) > 0 ? (isUser ? user.score : score) : 0)/* {
-        if (score > 0 || user?.score > 0) {
-            return isUser ? user?.score : score
-        }
-        return 0 */
-
+    const ScoreOrZero = (isUser ? user.points : score)
 
     return (
         <div className={`mx-3 flex justify-between  items-center  ${isUser && !mode && 'border-y-1 bg-primary-attention'} ${mode && 'mb-5'}`}>

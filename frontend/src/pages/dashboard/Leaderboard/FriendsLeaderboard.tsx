@@ -3,7 +3,6 @@ import leaderboardIcon from '../../../assets/icons/leaderboard.svg'
 import useUserContext from '../../../features/contexts/UserContext';
 import Leaderboard from './Leaderboard';
 import LeaderboardElement from './LeaderboardElement';
-import { me } from './data';
 
 const FriendsLeaderboard = () => {
   const { user } = useUserContext()
@@ -16,7 +15,7 @@ const FriendsLeaderboard = () => {
     <div className='w-full justify-center'>
       <div className='border-b-1 mb-5'>
         {/* TO-DO : calculate position */}
-        <LeaderboardElement id={user.id} username={user.username} score={user.score} position={1} picture={user?.picture} mode="header" /></div>
+        <LeaderboardElement id={user.id} username={user.username} score={user.points ?? 0} position={1} picture={user?.picture} mode="header" /></div>
     </div>
     <Leaderboard />
   </div>;

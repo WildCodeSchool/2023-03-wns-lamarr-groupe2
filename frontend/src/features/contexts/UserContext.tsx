@@ -53,6 +53,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
                       admin
                       id
                       username
+                      points
                     }
                   }`
             };
@@ -180,7 +181,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     // Delete UserAccount
     const deleteUserAccount = useCallback(() => {
-      console.log('pressed')
   try {
       const deleteUserQuery = {
         query: `mutation Mutation {
