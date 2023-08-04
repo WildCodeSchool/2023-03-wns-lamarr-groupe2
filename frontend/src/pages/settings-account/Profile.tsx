@@ -83,8 +83,10 @@ const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, 
                     <h3 className="font-bold text-primary-good">PROFIL</h3>
                    {!isEdit ?  <img className="w-6 self-end pb-2  cursor-pointer" src={edit} alt='edit profile' onClick={() => setIsEdit(true)} /> : null}
                 </div>
-                <div>
+                <div className="w-fit pr-4 relative">
                     <ProfilePicture  url={user.picture} size="xlargePic" />
+                    <img src={modifyPic} alt='Modify Profile Picture' className="absolute right-6 bottom-2 h-8 w-8 cursor-pointer" onClick={() => setOpenPictureChoice(true)}/>
+
                 </div>
                 <div className="flex flex-col  w-9/12 justify-center mt-12">
                     <h2 className="w-full "> {user?.firstname}  {formattedString(user.lastname, 14)}
