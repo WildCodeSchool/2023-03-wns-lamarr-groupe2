@@ -23,8 +23,8 @@ export type LoginInformations = {
 };
 
 export type UpdatedUser = {
-  email : string;
-  username : string;
+  email: string;
+  username: string;
 };
 
 export type RegisterInformations = {
@@ -34,7 +34,6 @@ export type RegisterInformations = {
   email: string;
   password: string;
 };
-
 
 export type RegisterCompanyInformations = RegisterInformations & {
   siret: number;
@@ -46,9 +45,9 @@ export type UserContextType = {
   login: (e: React.FormEvent, value: LoginInformations) => void;
   disconnect: () => void;
   register: (e: React.FormEvent, value: RegisterInformations) => void;
-  updateUser : (e : React.FormEvent, value : UpdatedUser) => void;
-  deleteUserAccount : () => void;
-  updatePicture : (pictureChoice : string) => void;
+  updateUser: (e: React.FormEvent, value: UpdatedUser) => void;
+  deleteUserAccount: () => void;
+  updatePicture: (pictureChoice: string) => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

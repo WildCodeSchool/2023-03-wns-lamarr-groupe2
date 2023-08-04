@@ -13,26 +13,33 @@ const pictureMap = {
 type PictureChoiceProps = {
   hermesChoice: string;
   last: number;
-  handleSelect : (option : string) => void
-  selectedOption : string
+  handleSelect: (option: string) => void;
+  selectedOption: string;
 };
 
 const PictureChoice: FC<PictureChoiceProps> = ({
   hermesChoice,
-  last, handleSelect, selectedOption
+  last,
+  handleSelect,
+  selectedOption,
 }) => {
-
-const isOptionChoose =  selectedOption === hermesChoice 
+  const isOptionChoose = selectedOption === hermesChoice;
 
   return (
     <li className={`${last !== 2 ? "border-r-1" : ""} py-2`}>
-      <div className="flex flex-col items-cente m-3 items-center" onClick={() => handleSelect(hermesChoice)}>
-{/*         <RadioBtn isChoose={isOptionChoose} />
- */}       {/* @ts-ignore */}
-        <img src={pictureMap[hermesChoice]} alt={hermesChoice} className="h-20" />
+      <div
+        className="flex flex-col items-cente m-3 items-center"
+        onClick={() => handleSelect(hermesChoice)}
+      >
+        {/*         <RadioBtn isChoose={isOptionChoose} />
+         */}{" "}
+        {/* @ts-ignore */}
+        <img
+          src={pictureMap[hermesChoice]}
+          alt={hermesChoice}
+          className="h-20"
+        />
         <RadioBtn isChoose={isOptionChoose} />
-
-        
       </div>
     </li>
   );

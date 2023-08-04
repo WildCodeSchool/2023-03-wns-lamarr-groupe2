@@ -9,22 +9,25 @@ export const useToaster = () => {
       paddingBottom: "16px",
       paddingLeft: "40px",
       paddingRight: "40px",
-      color: 'white',
+      color: "white",
       backgroundColor: "#96B9A0",
       boxShadow: "5px 6px 0px rgba(0, 0, 0, 1)",
-      fontFamily: 'Montserrat',
-      fontWeight: 600
+      fontFamily: "Montserrat",
+      fontWeight: 600,
     };
 
     return toastStyle;
   }, []);
 
-  const showToast = (message: string, options?: {
-    error: boolean;
-  }) => {
+  const showToast = (
+    message: string,
+    options?: {
+      error: boolean;
+    }
+  ) => {
     const mergedStyle = {
       ...s,
-      backgroundColor: options?.error ? "#CE7677" : s.backgroundColor
+      backgroundColor: options?.error ? "#CE7677" : s.backgroundColor,
     };
 
     return toast(message, { style: mergedStyle });
@@ -61,6 +64,6 @@ export const useToaster = () => {
     notifyImage,
     notifyPost,
     notifyErrorUpdate,
-    notifyUpdate
+    notifyUpdate,
   };
 };

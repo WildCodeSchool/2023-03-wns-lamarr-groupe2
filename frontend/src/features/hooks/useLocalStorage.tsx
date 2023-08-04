@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { TUser } from "../contexts/types";
 
-function getStorageValue(key: 'user' | 'token', defaultValue: string | {} | TUser) {
+function getStorageValue(
+  key: "user" | "token",
+  defaultValue: string | {} | TUser
+) {
   /* We get the value in the localstorage
   then we convert it and send back at the defautl value */
   const saved = localStorage.getItem(key);
@@ -9,7 +12,10 @@ function getStorageValue(key: 'user' | 'token', defaultValue: string | {} | TUse
   return initial || defaultValue;
 }
 
-const useLocalStorage = (key: 'user' | 'token', defaultValue: string | {} | TUser) => {
+const useLocalStorage = (
+  key: "user" | "token",
+  defaultValue: string | {} | TUser
+) => {
   /* The value is the result of the getStorageValue function */
   const [value, setValue] = useState(() => {
     return getStorageValue(key, defaultValue);

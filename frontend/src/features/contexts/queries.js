@@ -10,11 +10,10 @@ const queryProfile = `query  {
       points
     }
   }`;
-  
 
-  const querySignIn =  `query ($password: String!, $email: String!) {
+const querySignIn = `query ($password: String!, $email: String!) {
     signIn(password: $password, email: $email)
-  }`
+  }`;
 
 const updateQuery = `
 mutation UpdateUser($username: String, $email: String) {
@@ -23,24 +22,22 @@ mutation UpdateUser($username: String, $email: String) {
       email
     }
   }
-`
+`;
 
 const updatePictureQuery = `mutation UpdatePicture($picture: String) {
   updatePicture(picture: $picture) {
     picture 
   }
-}`
+}`;
 
 const deleteQuery = `mutation Mutation {
   deleteUser
-}`
+}`;
 
-
-
-  module.exports = {
-    queryProfile,
-    querySignIn,
-    updateQuery,
-    deleteQuery,
-    updatePictureQuery
-  };
+module.exports = {
+  queryProfile,
+  querySignIn,
+  updateQuery,
+  deleteQuery,
+  updatePictureQuery,
+};

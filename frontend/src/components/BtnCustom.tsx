@@ -8,13 +8,12 @@ type BtnCustomProps = {
 };
 
 const BtnCustom: FC<BtnCustomProps> = ({ onClick, styled, text, size }) => {
-
   return (
     <button
       className={`$
-      ${size && "small"
-        } customBorder ${styled}`}
-      onClick={onClick}>
+      ${size && "small"} customBorder ${styled}`}
+      onClick={onClick}
+    >
       {text}
     </button>
   );

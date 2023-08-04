@@ -23,29 +23,47 @@ const AuthRoutes = () => {
       <Route path="/register" element={<Homepage />} />
       <Route path="/" element={<Homepage />} />
     </Routes>
-  )
-}
+  );
+};
 
 const App = () => {
-  const { user } = useUserContext()
-  const location = useLocation()
-  const isCompany = false //user.company
+  const { user } = useUserContext();
+  const location = useLocation();
+  const isCompany = false; //user.company
 
-
-
-  return isEmpty(user) ? <AuthRoutes /> : (
+  return isEmpty(user) ? (
+    <AuthRoutes />
+  ) : (
     <div className="flex flex-col-reverse min-h-screen lg:flex lg:flex-row w-screen lg:h-screen">
       {user.username && <NavigationBar />}
       <main className="flex flex-col flex-grow lg:flex-col w-full">
-        {user.username && <><HeaderBar /> {(location.pathname !== '/' && location.pathname !== '/dashboard' && location.pathname !== '/company/dashboard') && <NavBtn type="return" />} </>}
+        {user.username && (
+          <>
+            <HeaderBar />{" "}
+            {location.pathname !== "/" &&
+              location.pathname !== "/dashboard" &&
+              location.pathname !== "/company/dashboard" && (
+                <NavBtn type="return" />
+              )}{" "}
+          </>
+        )}
         <div className="screen">
           <Routes>
             {isCompany ? (
               <>
                 <Route path="/" element={<DashboardPage />} />
-                <Route path={"/company/dashboard"} element={<DashboardPage />} />
-                <Route path="/company/challenges" element={<ChallengesPage />} />
-                <Route path="/company/challenges/:id" element={<ChallengePage />} />
+                <Route
+                  path={"/company/dashboard"}
+                  element={<DashboardPage />}
+                />
+                <Route
+                  path="/company/challenges"
+                  element={<ChallengesPage />}
+                />
+                <Route
+                  path="/company/challenges/:id"
+                  element={<ChallengePage />}
+                />
                 <Route path="/company/scores" element={<ScoresPage />} />
                 <Route path="/company/teams" element={<CompanyGroupsPage />} />
                 <Route
@@ -54,23 +72,28 @@ const App = () => {
                 />
                 <Route path="/company/settings" element={<SettingsPage />} />
               </>
-            ) :
+            ) : (
               <>
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/scores" element={<ScoresPage />} />
                 <Route path="/challenges" element={<ChallengesPage />} />
-                <Route path="/challenges/creation" element={<CreateChallengePage />} />
+                <Route
+                  path="/challenges/creation"
+                  element={<CreateChallengePage />}
+                />
                 <Route path="/challenges/:id" element={<ChallengePage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/notifications" element={<NotificationsPage />} />
-              </>}
-            <Route path='*' element={<ErrorPage />} />
+              </>
+            )}
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
         <Footer />
       </main>
-    </div>)
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
