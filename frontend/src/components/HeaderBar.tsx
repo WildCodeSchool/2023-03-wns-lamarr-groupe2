@@ -24,7 +24,7 @@ export const HeaderBar = () => {
             <HeaderElement label='Challenges : ' value={3} />
             <HeaderElement label={isCompany ? 'Mes Employés : ' : 'Points : '} value={user?.points ?? 0} />
             <div className="cursor-pointer">
-                <ProfilePicture size="mediumPic" onClick={() => setShowModale((prev => !prev))} />
+                <ProfilePicture size="mediumPic" url={user.picture} onClick={() => setShowModale((prev => !prev))} />
                 {showModale && <HeaderBarModale setShowModale={setShowModale} />}
             </div>
         </header>

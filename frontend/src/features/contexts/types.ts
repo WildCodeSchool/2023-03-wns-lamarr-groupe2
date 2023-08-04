@@ -14,7 +14,7 @@ export type TUser = {
   company_id?: number;
   company_group_id?: number;
   creationDate?: string;
-  picture?: string;
+  picture: string;
 };
 
 export type LoginInformations = {

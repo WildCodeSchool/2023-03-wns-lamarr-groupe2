@@ -51,6 +51,11 @@ export class User extends BaseEntity {
 	points: number
 
 	@Field()
+	@Column({ nullable: false, default: 'hermesG' })
+	picture: string
+
+
+	@Field()
 	@Column({
 		type: "timestamptz",
 		default: new Date(new Date().getTime() + 2 * 3600 * 1000),

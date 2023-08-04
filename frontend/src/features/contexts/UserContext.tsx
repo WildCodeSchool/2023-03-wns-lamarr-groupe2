@@ -23,7 +23,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useLocalStorage("user", {} as TUser);
     const [token, setToken] = useLocalStorage("token", "");
     const { notifyRegister, notifyErrorRegister, notifyErrorConnexion, notifyErrorUpdate , notifyUpdate} = useToaster()
-
     // Login
     const login = useCallback(async (e: React.FormEvent, loginInformations: LoginInformations) => {
         e.preventDefault();
@@ -45,17 +44,18 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             setToken(token);
 
             const getProfileQuery = {
-                query: `query  {
-                    getProfile {
-                      email
-                      firstname
-                      lastname
-                      admin
-                      id
-                      username
-                      points
-                    }
-                  }`
+                query: `query GetProfile {
+                  getProfile {
+                    id
+                    firstname
+                    lastname
+                    username
+                    admin
+                    points
+                    email
+                    picture
+                  }
+                }`
             };
 
             const config = {
@@ -65,8 +65,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
             setUser(getProfileResponse.data.data.getProfile)
             navigate('/')
-
-
         } catch (error) {
             notifyErrorConnexion()
             console.error(error);
