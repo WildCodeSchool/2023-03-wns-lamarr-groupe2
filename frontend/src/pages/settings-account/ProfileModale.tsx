@@ -1,25 +1,11 @@
-import {  Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import close from "../../../assets/icons/close.svg"
-import TeamMembers from "./TeamMembers";
-import InputCustom from "../../../components/InputCustom";
+
 
 type ModaleProps = {
     setIsOpenModale: Dispatch<SetStateAction<boolean>>,
-    companyName: string,
-    companyId: number
-};
-const TeamMembersModale: FC<ModaleProps> = ({
-    setIsOpenModale, companyName, companyId
-}) => {
-    // To-Do : Fetch company members by companyId
-    const isCompanyOwner = false // Role and Company Id from User + Company id 
-    const [searchValue, setSearchValue] = useState<string>('')
-    const handleMember = (e: any) => {
-        setSearchValue(e.target.value)
-        // TO-DO : Search and Add Member Logic
-        // TO-DO  : Add delete member logic
-    }
-
+}
+const ProfileModale : FC<ModaleProps>= ({setIsOpenModale}) => {
     return (
         <div className="z-40">
             <div
@@ -43,11 +29,10 @@ const TeamMembersModale: FC<ModaleProps> = ({
                                             className=" text-secondary-title font-bold  text-center"
                                             id="modal-title"
                                         >
-                                            {companyName}
+                                            {/* title */}
                                         </h3>
                                         <div className="mt-2 ">
-                                            {isCompanyOwner && <InputCustom mode="search" name='' type="text" value={searchValue} onChange={(e) => handleMember(e)} />}
-                                            <TeamMembers />
+                                           {/* content  */}
                                         </div>
                                     </div>
                                 </div>
@@ -60,6 +45,6 @@ const TeamMembersModale: FC<ModaleProps> = ({
             </div>
         </div>
     );
-};
+}
 
-export default TeamMembersModale;
+export default ProfileModale

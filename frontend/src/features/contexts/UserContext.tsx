@@ -13,7 +13,6 @@ import { UserContextType, TUser, LoginInformations, RegisterInformations, Update
 import { useToaster } from "../hooks/useToaster";
 
 
-
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? ''
 
 

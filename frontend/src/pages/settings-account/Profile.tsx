@@ -1,50 +1,23 @@
-import { FC, useState } from "react"
+import { Dispatch, FC, SetStateAction } from "react"
 import edit from "../../assets/icons/edit.svg"
 import ProfilePicture from "../../components/ProfilePicture"
-import useUserContext from "../../features/contexts/UserContext"
 import BtnCustom from "../../components/BtnCustom"
 import InputCustom from "../../components/InputCustom"
-import { UserInformations } from "../homepage/Inscription/InscriptionForm"
-import { userInformationsSchema } from "../../features/validators/userSchema"
-import { useToaster } from "../../features/hooks/useToaster"
+import { TUser } from "../../features/contexts/types"
+
 
 export type SettingsPageParameters = {
-    user : any,
-    isEdit : any,
-    handleModifications : any,
-    username : any,
-    email : any,
-    handleInputChange : any,
-    setIsEdit : any
+    user : TUser,
+    isEdit : boolean,
+    handleModifications :(e: React.FormEvent | undefined) => Promise<void>,
+    username : string,
+    email : string,
+    handleInputChange : (fieldName: string) => (event: { target: { value: string; }; }) => void,
+    setIsEdit :Dispatch<SetStateAction<boolean>>
 }
 
 const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, username, email, handleInputChange, setIsEdit}) => {
-   /*  const { user, updateUser } = useUserContext()
-    const { notifyErrorUpdate } = useToaster()
-    const [isEdit, setIsEdit] = useState(false)
 
-    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email})
-
-    const handleInputChange = (fieldName: string) => (event: { target: { value: string }; }) => {
-        const { value } = event.target;
-        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email'>) => ({
-            ...prevUserInformations,
-            [fieldName]: value
-        }));
-    };
-
-    const { email, username } = userInformations;
-
-    const handleModifications = async (e :React.FormEvent | undefined) => {
-        try {await userInformationsSchema.validate(userInformations, { abortEarly: false });
-        const userInformationsUpdate = userInformations
-        updateUser(e!, userInformationsUpdate)        
-        setIsEdit(prev => !prev)
-    } catch {
-        notifyErrorUpdate()
-        setUserInformations({username: user?.username, email: user?.email})
-    }
-    } */
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
         if (string.length < size) {

@@ -11,6 +11,7 @@ import { FriendResolver } from "./resolvers/FriendResolver"
 import { User } from "./models/User"
 import { JwtPayload, verify } from "jsonwebtoken"
 import dotenv from "dotenv"
+import { UserResolver } from "./resolvers/UserResolver"
 
 dotenv.config()
 
@@ -24,6 +25,7 @@ const start = async (): Promise<void> => {
 			EcoActionResolver,
 			NotificationResolver,
 			FriendResolver,
+			UserResolver
 		],
 		authChecker: ({ context }) => {
 			return context.user
