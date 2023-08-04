@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { equals } from "remeda";
 import axios from 'axios';
-import { UserContextType, TUser, LoginInformations, RegisterInformations } from "./types";
-import { useToaster } from "../../components/Toaster/useToaster";
+import { UserContextType, TUser, LoginInformations, RegisterInformations, UpdatedUser } from "./types";
+import { useToaster } from "../hooks/useToaster";
 
 
 
@@ -23,7 +23,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useLocalStorage("user", {} as TUser);
     const [token, setToken] = useLocalStorage("token", "");
-    const { notifyRegister, notifyErrorRegister, notifyErrorConnexion } = useToaster()
+    const { notifyRegister, notifyErrorRegister, notifyErrorConnexion, notifyErrorUpdate , notifyUpdate} = useToaster()
 
     // Login
     const login = useCallback(async (e: React.FormEvent, loginInformations: LoginInformations) => {
@@ -126,6 +126,61 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             notifyErrorRegister()
         }
     };
+
+    // Update User 
+    const updateUser = async (e: React.FormEvent, userInformationsUpdate: UpdatedUser ) => {
+        e.preventDefault();
+        console.log(userInformationsUpdate)
+        try {
+          const updateUserQuery = {
+            query: `
+            mutation UpdateUser($username: String, $email: String) {
+                updateUser(username: $username, email: $email) {
+                  username
+                  email
+                }
+              }
+            `,
+            variables: {
+              username: userInformationsUpdate.username,
+              email: userInformationsUpdate.email,
+            },
+          };
+
+          const config = {
+            headers: { Authorization: `Bearer ${token}` }
+        };
+      
+          const updateUserResponse = await axios.post(BACKEND_URL, updateUserQuery, config);
+          const responseData = updateUserResponse.data;
+      
+          if (responseData.errors) {
+            notifyErrorUpdate();
+          } else {
+
+            const getProfileQuery = {
+                query: `query  {
+                    getProfile {
+                      email
+                      firstname
+                      lastname
+                      admin
+                      id
+                      username
+                    }
+                  }`
+            };
+            const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
+            setUser(getProfileResponse.data.data.getProfile)
+            notifyUpdate();
+          }
+        } catch (error: any) {
+          console.error(error);
+         notifyErrorUpdate();
+        }
+      };
+
+
     // TO-DO : isValidToken is needed to check if the token is valid, if not => back to login screen
 
 
@@ -134,7 +189,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect, register }}
+            value={{ token, user, login, disconnect, register, updateUser }}
         >
             {children}
         </UserContext.Provider>
@@ -150,3 +205,4 @@ const useUserContext = () => {
 };
 
 export default useUserContext;
+

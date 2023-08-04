@@ -22,6 +22,11 @@ export type LoginInformations = {
   password: string;
 };
 
+export type UpdatedUser = {
+  email : string;
+  username : string;
+};
+
 export type RegisterInformations = {
   firstname: string;
   lastname: string;
@@ -29,6 +34,7 @@ export type RegisterInformations = {
   email: string;
   password: string;
 };
+
 
 export type RegisterCompanyInformations = RegisterInformations & {
   siret: number;
@@ -40,6 +46,7 @@ export type UserContextType = {
   login: (e: React.FormEvent, value: LoginInformations) => void;
   disconnect: () => void;
   register: (e: React.FormEvent, value: RegisterInformations) => void;
+  updateUser : (e : React.FormEvent, value : UpdatedUser) => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

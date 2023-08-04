@@ -56,6 +56,14 @@
   .screen {
     @apply flex flex-grow lg:px-6 lg:py-8;
   }
+
+  .toggle {
+    @apply w-11 h-6 bg-primary-good border peer-focus:outline-none rounded-full flex justify-start items-center;
+  }
+  .toggleSpan {
+    @apply w-3 h-3 py-3 px-3 ml-0 bg-primary-attention customBorder drop-shadow-none rounded-rounder;
+  }
+  
 }
 
 body {

@@ -7,23 +7,26 @@ import InputCustom from "../../components/InputCustom"
 import { UserInformations } from "../homepage/Inscription/InscriptionForm"
 
 const Profile = () => {
-    const { user } = useUserContext()
+    const { user, updateUser } = useUserContext()
     const [isEdit, setIsEdit] = useState(false)
 
-    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email, password: user?.password })
+    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email/* , password: user?.password  */})
 
     const handleInputChange = (fieldName: string) => (event: { target: { value: string }; }) => {
         const { value } = event.target;
-        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email' | 'password'>) => ({
+        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email' /* | 'password' */>) => ({
             ...prevUserInformations,
             [fieldName]: value
         }));
     };
 
-    const { email, username, password } = userInformations;
+    const { email, username/* , password */ } = userInformations;
 
-    const handleModifications = () => {
-        console.log('enregistrer')
+    const handleModifications = (e :React.FormEvent | undefined) => {
+        const userInformationsUpdate = userInformations
+        updateUser(e!, userInformationsUpdate)        
+        setIsEdit(prev => !prev)
+
     }
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
@@ -76,7 +79,7 @@ const Profile = () => {
 
                 <img className="w-1/12 h-8 pb-2 cursor-pointer self-end " src={edit} alt='edit profile' onClick={() => setIsEdit(prev => !prev)} />
             </div>
-            <div className="flex justify-center w-full">
+            <div className="flex justify-center w-full lg:hidden">
                 <div className="border-b-1 w-11/12 my-9 " />
             </div>
             {/* Desktop Header */}
@@ -90,31 +93,32 @@ const Profile = () => {
                 </div>
                 <div className="flex flex-col  w-9/12 justify-center mt-12">
                     <h2 className="w-full "> {user?.firstname}  {formattedString(user.lastname, 14)}
-                    </h2>
+                    </h2> 
                 </div>
             </div>
 
             {/* Informations */}
             <div className="px-3 lg:p-0">
                 <form className="flex flex-col gap-4 text-button mb-5 lg:mb-12">
-                    <div className="flex items-center gap-3">
-                        <p>pseudo: </p>
+                <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
+                        <p  className={`${isEdit ? 'hidden' : 'block'}`}>pseudo: </p>
                         {isEdit ? <InputCustom label="" name="username" type='text' value={username} onChange={handleInputChange('username')} /> : user.username}
                     </div>
-                    <div className="flex items-center gap-3">
-                        <p>email: </p>
+                    <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
+                        <p className={`${isEdit ? 'hidden' : 'block'}`}>email: </p>
                         {isEdit ? <InputCustom label="" name="email" type='email' value={email} onChange={handleInputChange('email')} /> : user.email}
                     </div>
-                    <div className="flex items-center gap-3">
-                        <p>mot de passe: </p>
+                  {/* TO-DO : Vérifier sécurité si PWD à modifier
+                    <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
+                        <p  className={`${isEdit ? 'hidden' : 'block'}`}>mot de passe: </p>
                         {isEdit ? <InputCustom label="" name="password" type='password' value={password} onChange={handleInputChange('password')} /> : <span className="font-bold">*********</span>}
                     </div>
-
+                */}
                 </form>
 
                 <div className="hidden lg:block ">
                     {isEdit ? <BtnCustom styled="btnGood" text='ENREGISTRER' onClick={handleModifications} /> : <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => console.log('TO-DO : delete account')} />}
-                    <div onClick={() => console.log('TO - DO : Supprimer le cache')} className=" hidden lg:block underline italic font-normal mt-6">Supprimer mon cache</div>
+                    <div onClick={() => console.log('TO - DO : Supprimer le cache')} className=" hidden lg:block underline  font-normal text-small-p mt-6 ml-1">Paramètres avancés</div>
                 </div>
             </div>
         </section >

@@ -1,11 +1,13 @@
 import Profile from "./Profile";
 import NotificationsParameters from "./NotificationsParameters";
-import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 const SettingsPage = () => {
 
-  return <div className="flex flex-col lg:flex-row w-full lg:gap-28  justify-start lg:px-10 border-4 sm:border-secondary-dark md:border-tertiary-dark lg:border-primary-danger xl:border-primary-attention xxl:border-primary-good 
+  return <div className="flex flex-col lg:flex-row w-full lg:gap-28  justify-start lg:px-10 p-3
   ">
+    <Toaster reverseOrder={false} position="top-center" />
+
     <Profile />
     <NotificationsParameters />
   </div>;

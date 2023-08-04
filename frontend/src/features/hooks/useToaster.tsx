@@ -47,6 +47,11 @@ export const useToaster = () => {
   const notifyErrorConnexion = () =>
     showToast("Connexion refusée", { error: true });
 
+  const notifyUpdate = () => showToast("Modifications prises en compte");
+
+  const notifyErrorUpdate = () =>
+    showToast("Une erreur est survenue", { error: true });
+
   return {
     notifyErrorConnexion,
     notifyErrorRegister,
@@ -55,5 +60,7 @@ export const useToaster = () => {
     notifyProfileChange,
     notifyImage,
     notifyPost,
+    notifyErrorUpdate,
+    notifyUpdate
   };
 };
