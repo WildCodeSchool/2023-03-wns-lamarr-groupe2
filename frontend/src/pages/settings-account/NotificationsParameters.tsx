@@ -1,9 +1,12 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import BtnCustom from "../../components/BtnCustom"
 import Toggle from "../../components/Toggle"
 import { SettingsPageParameters } from "./Profile"
+import ProfileModale from "./ProfileModale"
 
 const NotificationsParameters : FC<SettingsPageParameters> = ({user,isEdit, handleModifications, username, email, handleInputChange, setIsEdit}) => {
+    const [isOpenModale, setIsOpenModale] = useState(false)
+
     return (
         <div className="flex-1">
             
@@ -26,9 +29,10 @@ const NotificationsParameters : FC<SettingsPageParameters> = ({user,isEdit, hand
                 </li>
                 </ul>
                 <div className="flex justify-center mt-5 lg:hidden ">
-                 <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => console.log('TO-DO : delete account')} />
+                 <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => setIsOpenModale(true)} />
                     <div onClick={() => console.log('TO - DO : Supprimer le cache')} className=" hidden lg:block underline  font-normal text-small-p mt-6 ml-1">Paramètres avancés</div>
                 </div>
+                {isOpenModale ? <ProfileModale setIsOpenModale={setIsOpenModale} /> : null}
         </div>
    
     )

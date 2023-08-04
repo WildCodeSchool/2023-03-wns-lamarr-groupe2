@@ -1,9 +1,10 @@
-import { Dispatch, FC, SetStateAction } from "react"
+import { Dispatch, FC, SetStateAction, useState } from "react"
 import edit from "../../assets/icons/edit.svg"
 import ProfilePicture from "../../components/ProfilePicture"
 import BtnCustom from "../../components/BtnCustom"
 import InputCustom from "../../components/InputCustom"
 import { TUser } from "../../features/contexts/types"
+import ProfileModale from "./ProfileModale"
 
 
 export type SettingsPageParameters = {
@@ -17,6 +18,7 @@ export type SettingsPageParameters = {
 }
 
 const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, username, email, handleInputChange, setIsEdit}) => {
+    const [isOpenModale, setIsOpenModale] = useState(false)
 
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
@@ -110,10 +112,11 @@ const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, 
                 </form>
 
                 <div className="hidden lg:block ">
-                    {isEdit ? <BtnCustom styled="btnGood" text='ENREGISTRER' onClick={handleModifications} /> : <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => console.log('TO-DO : delete account')} />}
+                    {isEdit ? <BtnCustom styled="btnGood" text='ENREGISTRER' onClick={handleModifications} /> : <BtnCustom styled="btnDanger" text="SUPPRIMER COMPTE" onClick={() => setIsOpenModale(true)} />}
                     <div onClick={() => console.log('TO - DO : Supprimer le cache')} className=" hidden lg:block underline  font-normal text-small-p mt-6 ml-1">Paramètres avancés</div>
                 </div>
             </div>
+            {isOpenModale ? <ProfileModale setIsOpenModale={setIsOpenModale} /> : null}
         </section >
     )
 }

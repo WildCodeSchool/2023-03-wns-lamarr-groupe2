@@ -47,6 +47,7 @@ export type UserContextType = {
   disconnect: () => void;
   register: (e: React.FormEvent, value: RegisterInformations) => void;
   updateUser : (e : React.FormEvent, value : UpdatedUser) => void;
+  deleteUserAccount : () => void;
 };
 
 export interface ApiReponse<ResponseType, Key extends string> {

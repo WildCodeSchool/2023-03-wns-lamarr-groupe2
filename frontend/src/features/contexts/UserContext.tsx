@@ -70,7 +70,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
             notifyErrorConnexion()
             console.error(error);
         }
-    }, [setToken, notifyErrorConnexion, navigate]);
+    }, [setToken, notifyErrorConnexion, navigate, setUser]);
 
     // Disconnect
     const disconnect = useCallback(() => {
@@ -129,7 +129,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     // Update User 
     const updateUser = async (e: React.FormEvent, userInformationsUpdate: UpdatedUser ) => {
         e.preventDefault();
-        console.log(userInformationsUpdate)
         try {
           const updateUserQuery = {
             query: `
@@ -179,7 +178,32 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       };
 
+    // Delete UserAccount
+    const deleteUserAccount = useCallback(() => {
+      console.log('pressed')
+  try {
+      const deleteUserQuery = {
+        query: `mutation Mutation {
+          deleteUser
+        }`
+    };
+  
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+  
+    const postDeleteUser =  axios.post(BACKEND_URL, deleteUserQuery, config);
+    console.warn(postDeleteUser)
+    setUser({});
+    navigate("/");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  } catch (error) {
+    console.error(error);
+}
+    },[setUser, token, navigate]) 
 
+   
     // TO-DO : isValidToken is needed to check if the token is valid, if not => back to login screen
 
 
@@ -188,7 +212,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-            value={{ token, user, login, disconnect, register, updateUser }}
+            value={{ token, user, login, disconnect, register, updateUser, deleteUserAccount }}
         >
             {children}
         </UserContext.Provider>
