@@ -1,33 +1,50 @@
-import { useState } from "react"
+import { FC, useState } from "react"
 import edit from "../../assets/icons/edit.svg"
 import ProfilePicture from "../../components/ProfilePicture"
 import useUserContext from "../../features/contexts/UserContext"
 import BtnCustom from "../../components/BtnCustom"
 import InputCustom from "../../components/InputCustom"
 import { UserInformations } from "../homepage/Inscription/InscriptionForm"
+import { userInformationsSchema } from "../../features/validators/userSchema"
+import { useToaster } from "../../features/hooks/useToaster"
 
-const Profile = () => {
-    const { user, updateUser } = useUserContext()
+export type SettingsPageParameters = {
+    user : any,
+    isEdit : any,
+    handleModifications : any,
+    username : any,
+    email : any,
+    handleInputChange : any,
+    setIsEdit : any
+}
+
+const Profile : FC<SettingsPageParameters>= ({user,isEdit, handleModifications, username, email, handleInputChange, setIsEdit}) => {
+   /*  const { user, updateUser } = useUserContext()
+    const { notifyErrorUpdate } = useToaster()
     const [isEdit, setIsEdit] = useState(false)
 
-    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email/* , password: user?.password  */})
+    const [userInformations, setUserInformations] = useState({ username: user?.username, email: user?.email})
 
     const handleInputChange = (fieldName: string) => (event: { target: { value: string }; }) => {
         const { value } = event.target;
-        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email' /* | 'password' */>) => ({
+        setUserInformations((prevUserInformations: Pick<UserInformations, 'username' | 'email'>) => ({
             ...prevUserInformations,
             [fieldName]: value
         }));
     };
 
-    const { email, username/* , password */ } = userInformations;
+    const { email, username } = userInformations;
 
-    const handleModifications = (e :React.FormEvent | undefined) => {
+    const handleModifications = async (e :React.FormEvent | undefined) => {
+        try {await userInformationsSchema.validate(userInformations, { abortEarly: false });
         const userInformationsUpdate = userInformations
         updateUser(e!, userInformationsUpdate)        
         setIsEdit(prev => !prev)
-
+    } catch {
+        notifyErrorUpdate()
+        setUserInformations({username: user?.username, email: user?.email})
     }
+    } */
     const formattedString = (string: string, size: number) => {
         // size : 14 and for md screen only
         if (string.length < size) {
@@ -77,7 +94,7 @@ const Profile = () => {
                     </h2>
                 </div>
 
-                <img className="w-1/12 h-8 pb-2 cursor-pointer self-end " src={edit} alt='edit profile' onClick={() => setIsEdit(prev => !prev)} />
+               {!isEdit && <img className="w-1/12 h-8 pb-2 cursor-pointer self-end " src={edit} alt='edit profile' onClick={() => setIsEdit(true)} />}
             </div>
             <div className="flex justify-center w-full lg:hidden">
                 <div className="border-b-1 w-11/12 my-9 " />
@@ -86,7 +103,7 @@ const Profile = () => {
             <div className="hidden lg:flex flex-col w-full justify-between">
                 <div className="w-fit gap-9 flex pr-1 mb-14">
                     <h3 className="font-bold text-primary-good">PROFIL</h3>
-                    <img className="w-6 self-end pb-2  cursor-pointer" src={edit} alt='edit profile' onClick={() => setIsEdit(prev => !prev)} />
+                   {!isEdit ?  <img className="w-6 self-end pb-2  cursor-pointer" src={edit} alt='edit profile' onClick={() => setIsEdit(true)} /> : null}
                 </div>
                 <div>
                     <ProfilePicture size="xlargePic" />
@@ -100,7 +117,7 @@ const Profile = () => {
             {/* Informations */}
             <div className="px-3 lg:p-0">
                 <form className="flex flex-col gap-4 text-button mb-5 lg:mb-12">
-                <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
+                <div className={`${isEdit ? '' : 'flex'} items-center gap-3 lg:mt-5`}>
                         <p  className={`${isEdit ? 'hidden' : 'block'}`}>pseudo: </p>
                         {isEdit ? <InputCustom label="" name="username" type='text' value={username} onChange={handleInputChange('username')} /> : user.username}
                     </div>
@@ -108,6 +125,9 @@ const Profile = () => {
                         <p className={`${isEdit ? 'hidden' : 'block'}`}>email: </p>
                         {isEdit ? <InputCustom label="" name="email" type='email' value={email} onChange={handleInputChange('email')} /> : user.email}
                     </div>
+                    <div className="flex justify-center lg:hidden">     
+                      {isEdit ? <BtnCustom styled="btnGood" text='ENREGISTRER' onClick={handleModifications} /> : null}
+</div>
                   {/* TO-DO : Vérifier sécurité si PWD à modifier
                     <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
                         <p  className={`${isEdit ? 'hidden' : 'block'}`}>mot de passe: </p>
