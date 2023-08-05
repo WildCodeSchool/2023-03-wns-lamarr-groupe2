@@ -1,13 +1,37 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import InputCustom from '../../components/InputCustom';
-import BoardRow from './BoardRow';
+import BoardRow, { EmptyRow } from './BoardRow';
 import { friendListData } from './data';
+import { TLeaderboardElement } from '../dashboard/Leaderboard/LeaderboardElement';
+import { filter, isEmpty, pipe, prop, sortBy } from 'remeda';
 
 
 
 const FriendsBoard = () => {
+    const [friendSearch, setFriendSearch] = useState<string>('')
+
+    const handleFriendSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFriendSearch(e.target.value);
+    };
+    const tokens: string[] = useMemo(() => friendSearch.split(" "), [friendSearch]);
+
+    const inclusiveText = (text: string): string =>
+        text
+            ?.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f+.]/g, "");
+
+    const filteredFriendList = useMemo(() => {
+        return pipe(
+            friendListData,
+            sortBy([prop('score'), 'desc']),
+            filter((friend) => tokens.every((token) =>
+                inclusiveText(friend.username).includes(inclusiveText(token))))
+        )
+    }, [tokens, friendListData])
+
+
     const [currentPage, setCurrentPage] = useState(1);
-    /* Pagination */
     const friendsPerPage = 5;
 
     const indexOfLastFriend = currentPage * friendsPerPage;
@@ -23,17 +47,17 @@ const FriendsBoard = () => {
 
     return (
         <div className=' w-full overflow-y-scroll'>
-            <table className="table-auto w-full  h-[529px]">
+            <table className="table-fixed w-full  h-[529px]">
                 <thead>
                     <tr className=' h-32'>
-                        < th className='' > <InputCustom mode='search' type="text" name='' value='' onChange={() => console.warn('text')} /> </th >
-                        <th className='font-thin text-[24px] hidden  md:table-cell'>CHALLENGES RÉALISÉS</th>
-                        <th className='font-thin text-[24px] md:text-left'>POINTS</th>
-                        <th></th>
+                        <th className='w-7/12' > <InputCustom mode='search' type="text" name='' value={friendSearch} onChange={handleFriendSearch} /> </th >
+                        <th className='w-2/12 xl:w-3/12 font-thin text-[24px] hidden  md:table-cell'>CHALLENGES RÉALISÉS</th>
+                        <th className='w-2/12 xl:w-2/12 font-thin text-[24px] md:text-left'>POINTS</th>
+                        <th className='w-1/12'></th>
                     </tr >
                 </thead >
                 <tbody className=''>
-                    {friendListData?.slice(indexOfFirsFriend, indexOfLastFriend).map((friend, index) => (
+                    {isEmpty(filteredFriendList) ? <EmptyRow /> : filteredFriendList.slice(indexOfFirsFriend, indexOfLastFriend).map((friend, index) => (
                         <BoardRow key={index} index={index + indexOfFirsFriend} friend={friend} />
                     ))}
                 </tbody>
