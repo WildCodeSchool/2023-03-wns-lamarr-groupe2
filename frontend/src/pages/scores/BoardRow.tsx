@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import { FC, SetStateAction, useState } from 'react'
 import ProfilePicture from '../../components/ProfilePicture'
 import trash from "../../assets/icons/trash.svg"
-import { TLeaderboardElement } from '../dashboard/Leaderboard/LeaderboardElement'
 import { Friend } from '../../features/contexts/utils/types'
+import RemoveFriendModale from './RemoveFriendModale'
 
 export type BoardRowProps = {
     index: number
@@ -23,6 +23,7 @@ export const EmptyRow = () => {
 
 
 const BoardRow: FC<BoardRowProps> = ({ index, friend }) => {
+    const [IsOpenModale, setIsOpenModale] = useState(false)
     return (
         <tr className='border-b-2 border-b-secondary-dark '>
             <td className='h-20 w-7/12'>
@@ -41,11 +42,13 @@ const BoardRow: FC<BoardRowProps> = ({ index, friend }) => {
 
             </td>
             <td className=''>
-                <div className="flex items-center lg:w-3/5 xl:w-3/5  xxl:w-2/5 justify-center bg-primary-danger py-2 px-1 rounded-md">
+                <div onClick={() => setIsOpenModale(prev => !prev)} className="flex items-center lg:w-3/5 xl:w-3/5  xxl:w-2/5 justify-center bg-primary-danger py-2 px-1 rounded-md">
                     <img src={trash} alt='delete' />
                 </div>
             </td>
+            {IsOpenModale && <RemoveFriendModale setIsOpenModale={setIsOpenModale} friendId={friend?.id} friendUsername={friend.username} />}
         </tr>
+
     )
 }
 

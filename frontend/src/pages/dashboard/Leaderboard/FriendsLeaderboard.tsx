@@ -19,7 +19,6 @@ const FriendsLeaderboard = () => {
       </div>
       <div className="w-full justify-center">
         <div className="border-b-1 mb-5">
-          {/* TO-DO : calculate position */}
           <LeaderboardElement
             id={user.id}
             username={user.username}

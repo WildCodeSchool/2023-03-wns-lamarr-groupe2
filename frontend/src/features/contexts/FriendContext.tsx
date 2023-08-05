@@ -2,7 +2,7 @@ import { FC, PropsWithChildren, createContext, useCallback, useContext, useEffec
 import { FriendContextType, Friend, AddFriendData } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
-import { queryFriends } from "./utils/queries";
+import { deleteFriend, queryFriends } from "./utils/queries";
 import { isEmpty } from "remeda";
 
 
@@ -42,9 +42,24 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }, []);
 
     // Remove a friend
-    const removeFriend = useCallback((friendId: number) => {
-
-        setFriends((prevFriends) => prevFriends.filter((friend) => friend.id !== friendId));
+    const removeFriend = useCallback(async (friendId: number) => {
+        try {
+            const removeQuery = {
+                query: deleteFriend,
+                variables: {
+                    "input": {
+                        "friendid": friendId
+                    }
+                },
+            };
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
+            const response = await axios.post(BACKEND_URL, removeQuery, config);
+            setFriends((prevFriends) => prevFriends.filter((friend) => friend.id !== friendId));
+        } catch (error) {
+            console.error("Error fetching friends:", error);
+        }
     }, []);
 
     return (

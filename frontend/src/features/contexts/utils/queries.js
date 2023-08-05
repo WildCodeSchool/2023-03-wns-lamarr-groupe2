@@ -47,6 +47,12 @@ const queryFriends = `query{
   }
 }`;
 
+const deleteFriend = `mutation Mutation($input: NewFriendInput!) {
+  deleteFriend(input: $input) {
+    id
+  }
+}`;
+
 module.exports = {
   queryProfile,
   querySignIn,
@@ -54,4 +60,5 @@ module.exports = {
   deleteQuery,
   updatePictureQuery,
   queryFriends,
+  deleteFriend,
 };

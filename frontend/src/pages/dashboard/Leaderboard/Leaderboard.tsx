@@ -1,14 +1,14 @@
 import { FC } from "react";
-import LeaderboardElement, { TLeaderboardElement } from "./LeaderboardElement";
+import LeaderboardElement from "./LeaderboardElement";
 import { Friend } from "../../../features/contexts/utils/types";
+import { isEmpty } from "remeda";
 
 
 const Leaderboard: FC<{ sortedLeaderboard: Friend[] }> = ({ sortedLeaderboard }) => {
-  /*   const sortedLeaderboard = leaderBoardData?.sort((a, b) => b.score - a.score);
-   */
+
   return (
     <div className="w-full flex flex-col h-full gap-3 overflow-scroll">
-      {sortedLeaderboard?.map((member, index) => (
+      {isEmpty(sortedLeaderboard) ? <p>Ajoutez des amis pour vous challengez !</p> : sortedLeaderboard?.map((member, index) => (
         <LeaderboardElement
           id={member.id}
           username={member.username}
