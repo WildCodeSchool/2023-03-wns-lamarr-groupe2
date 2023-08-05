@@ -2,12 +2,12 @@ import { FC } from "react";
 import ProfilePicture from "../../../components/ProfilePicture";
 import cross from "../../../assets/icons/x.svg";
 
-export type Member = {
+export type TMember = {
   id: number;
   username: string;
   picture: string;
 };
-const Member: FC<{ member: Member; teamsLength: number; index: number }> = ({
+const Member: FC<{ member: TMember; teamsLength: number; index: number }> = ({
   member,
   index,
   teamsLength,
@@ -19,9 +19,8 @@ const Member: FC<{ member: Member; teamsLength: number; index: number }> = ({
 
   return (
     <div
-      className={`flex items-center justify-between w-full pb-5 pt-9 ${
-        !isLastMember && "border-b-1"
-      } `}
+      className={`flex items-center justify-between w-full pb-5 pt-9 ${!isLastMember && "border-b-1"
+        } `}
     >
       <div className="flex ">
         <ProfilePicture size="smallPic" url={member?.picture} />

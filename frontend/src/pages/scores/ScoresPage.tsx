@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, PropsWithChildren } from "react";
 import FriendsBoard from "./FriendsBoard";
 import BtnCustom from "../../components/BtnCustom";
 import ProfilePicture from "../../components/ProfilePicture";

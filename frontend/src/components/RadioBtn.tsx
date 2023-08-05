@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import radioSelect from "../assets/icons/radioSelect.svg";
 import radioUnSelect from "../assets/icons/radioUnselect.svg";
 

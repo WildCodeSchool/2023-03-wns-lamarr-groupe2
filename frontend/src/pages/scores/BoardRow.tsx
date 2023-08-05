@@ -1,4 +1,4 @@
-import { FC, SetStateAction, useState } from 'react'
+import { FC, useState } from 'react'
 import ProfilePicture from '../../components/ProfilePicture'
 import trash from "../../assets/icons/trash.svg"
 import { Friend } from '../../features/contexts/utils/types'

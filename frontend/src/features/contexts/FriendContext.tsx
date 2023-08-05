@@ -26,7 +26,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
         } catch (error) {
             console.error("Error fetching friends:", error);
         }
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         if (isEmpty(user)) {
@@ -34,9 +34,9 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
         }
         getFriends();
 
-    }, []);
+    }, [getFriends, user, token]);
 
-
+    console.log(friends)
     const addFriend = useCallback((friendData: AddFriendData) => {
 
     }, []);
@@ -56,11 +56,12 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
                 headers: { Authorization: `Bearer ${token}` },
             };
             const response = await axios.post(BACKEND_URL, removeQuery, config);
+            console.warn(response)
             setFriends((prevFriends) => prevFriends.filter((friend) => friend.id !== friendId));
         } catch (error) {
             console.error("Error fetching friends:", error);
         }
-    }, []);
+    }, [token]);
 
     return (
         <FriendContext.Provider value={{ friends, addFriend, removeFriend }}>

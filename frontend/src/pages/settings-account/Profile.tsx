@@ -68,7 +68,7 @@ const Profile: FC<SettingsPageParameters> = ({
           <ProfilePicture url={user.picture} size="largePic" />
           <img
             src={modifyPic}
-            alt="Modify Profile Picture"
+            alt="Modify Profile"
             className="absolute right-4 bottom-0 h-6 w-6 cursor-pointer"
             onClick={() => setOpenPictureChoice(true)}
           />
@@ -113,7 +113,7 @@ const Profile: FC<SettingsPageParameters> = ({
           <ProfilePicture url={user.picture} size="xlargePic" />
           <img
             src={modifyPic}
-            alt="Modify Profile Picture"
+            alt="Modify Profile "
             className="absolute right-6 bottom-2 h-8 w-8 cursor-pointer"
             onClick={() => setOpenPictureChoice(true)}
           />

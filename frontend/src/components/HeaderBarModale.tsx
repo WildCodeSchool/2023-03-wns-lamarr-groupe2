@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import modale from "../assets/modaleProfile.svg";
-import { Dispatch, FC, SetStateAction, useEffect } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import useUserContext from "../features/contexts/UserContext";
 
 type HeaderBarModaleProps = {
