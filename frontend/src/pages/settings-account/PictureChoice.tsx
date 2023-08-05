@@ -3,12 +3,14 @@ import hermesG from "../../assets/hermes/green-hermes.svg";
 import hermesR from "../../assets/hermes/red-hermes.svg";
 import hermesY from "../../assets/hermes/yellow-hermes.svg";
 import RadioBtn from "../../components/RadioBtn";
+import { PictureMap } from "../../components/ProfilePicture";
 
-const pictureMap = {
+const pictureMap: PictureMap = {
   hermesG: hermesG,
   hermesR: hermesR,
   hermesY: hermesY,
 };
+
 
 type PictureChoiceProps = {
   hermesChoice: string;
@@ -31,9 +33,6 @@ const PictureChoice: FC<PictureChoiceProps> = ({
         className="flex flex-col items-cente m-3 items-center"
         onClick={() => handleSelect(hermesChoice)}
       >
-        {/*         <RadioBtn isChoose={isOptionChoose} />
-         */}{" "}
-        {/* @ts-ignore */}
         <img
           src={pictureMap[hermesChoice]}
           alt={hermesChoice}

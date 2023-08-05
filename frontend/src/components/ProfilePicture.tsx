@@ -3,13 +3,17 @@ import hermesG from "../assets/hermes/green-hermes.svg";
 import hermesR from "../assets/hermes/red-hermes.svg";
 import hermesY from "../assets/hermes/yellow-hermes.svg";
 
-type ProfilePictureProps = {
+export type ProfilePictureProps = {
   size: "smallPic" | "mediumPic" | "largePic" | "xlargePic";
   url?: string;
   onClick?: () => void;
 };
 
-const pictureMap = {
+export type PictureMap = {
+  [key: string]: string;
+};
+
+const pictureMap: PictureMap = {
   hermesG: hermesG,
   hermesR: hermesR,
   hermesY: hermesY,
@@ -17,10 +21,7 @@ const pictureMap = {
 
 const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick }) => {
   const customPic: React.CSSProperties = {
-    //@ts-ignore
-    backgroundImage: `url(${
-      /* @ts-ignore */
-      url ? pictureMap[`${url}`] : pictureMap["hermesG"]
+    backgroundImage: `url(${url ? pictureMap[`${url}`] : pictureMap["hermesG"]
       })`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
