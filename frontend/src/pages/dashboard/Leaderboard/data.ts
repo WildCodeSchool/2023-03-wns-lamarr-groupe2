@@ -7,15 +7,15 @@ export const me = {
 
 export const leaderBoardData = [
   {
-    id: 1,
+    id: 5,
     username: "Kobgones",
-    score: 100,
+    score: 10,
     picture: "hermesR",
   },
   {
     id: 2,
     username: "MadzMaddie",
-    score: 200,
+    score: 400,
     picture: "hermesG",
   },
   {
@@ -27,11 +27,11 @@ export const leaderBoardData = [
   {
     id: 4,
     username: "Jonathack",
-    score: 400,
+    score: 500,
     picture: "hermesR",
   },
   {
-    id: 5,
+    id: 1,
     username: "Hysilie",
     score: 100,
     picture: "hermesY",
@@ -39,7 +39,7 @@ export const leaderBoardData = [
   {
     id: 6,
     username: "Sergueï",
-    score: 999,
+    score: 299,
     picture: "hermesY",
   },
   {

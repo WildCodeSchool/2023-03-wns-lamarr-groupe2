@@ -2,9 +2,13 @@ import leaderboardIcon from "../../../assets/icons/leaderboard.svg";
 import useUserContext from "../../../features/contexts/UserContext";
 import Leaderboard from "./Leaderboard";
 import LeaderboardElement from "./LeaderboardElement";
+import { leaderBoardData } from "./data";
+
 
 const FriendsLeaderboard = () => {
   const { user } = useUserContext();
+  const sortedLeaderboard = leaderBoardData?.sort((a, b) => b.score - a.score);
+  const userPosition = sortedLeaderboard.findIndex((member) => member.id === user.id) + 1
 
   return (
     <div className="h-full flex flex-col w-full">
@@ -19,13 +23,13 @@ const FriendsLeaderboard = () => {
             id={user.id}
             username={user.username}
             score={user.points ?? 0}
-            position={1}
+            position={userPosition}
             picture={user?.picture}
             mode="header"
           />
         </div>
       </div>
-      <Leaderboard />
+      <Leaderboard sortedLeaderboard={sortedLeaderboard} />
     </div>
   );
 };

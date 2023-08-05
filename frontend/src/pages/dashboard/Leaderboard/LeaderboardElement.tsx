@@ -2,16 +2,16 @@ import { FC } from "react";
 import ProfilePicture from "../../../components/ProfilePicture";
 import useUserContext from "../../../features/contexts/UserContext";
 
-export type LeaderboardElement = {
+export type TLeaderboardElement = {
   id: number;
   username: string;
   picture?: string;
-  position: number;
+  position?: number;
   score: number;
   mode?: "header";
 };
 
-const LeaderboardElement: FC<LeaderboardElement> = ({
+const LeaderboardElement: FC<TLeaderboardElement> = ({
   id,
   username,
   picture,
@@ -25,9 +25,8 @@ const LeaderboardElement: FC<LeaderboardElement> = ({
 
   return (
     <div
-      className={`mx-3 flex justify-between  items-center  ${
-        isUser && !mode && "border-y-1 bg-primary-attention"
-      } ${mode && "mb-5"}`}
+      className={`mx-3 flex justify-between  items-center  ${isUser && !mode && "border-y-1 bg-primary-attention"
+        } ${mode && "mb-5"}`}
     >
       <div className="w-1/12 text-secondary-title font-bold">{position}</div>
 

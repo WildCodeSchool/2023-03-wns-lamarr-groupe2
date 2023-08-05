@@ -1,7 +1,7 @@
 import { challenges } from "./data";
 import { Challenge, TChallenge } from "./Challenge";
 import { useMemo } from "react";
-import { filter, pipe, sort, sortBy } from "remeda";
+import { filter, pipe, sortBy } from "remeda";
 import { timeLeft } from "./time";
 
 const ChallengeList = () => {
@@ -15,16 +15,16 @@ const ChallengeList = () => {
       sortBy((challenge) => timeLeft(challenge?.startAt, challenge?.endAt)),
       sortBy((challenge) => challenge?.creator !== userId)
     );
-  }, [challenges, timeLeft, userId]);
+  }, [userId]);
 
   return (
     <div className="h-full flex flex-col justify-around gap-4">
       {challenges
         ? sortedChallenges
-            ?.slice(0, 3)
-            ?.map((challenge, index) => (
-              <Challenge key={index} challenge={challenge} />
-            ))
+          ?.slice(0, 3)
+          ?.map((challenge, index) => (
+            <Challenge key={index} challenge={challenge} />
+          ))
         : "Aucun challenge"}
     </div>
   );
