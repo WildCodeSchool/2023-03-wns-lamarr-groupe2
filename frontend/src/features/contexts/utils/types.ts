@@ -1,4 +1,4 @@
-// User Context Types
+// User
 
 export type TUser = {
   score: number;
@@ -9,7 +9,7 @@ export type TUser = {
   email: string;
   password: string;
   admin: boolean;
-  points?: number;
+  points: number;
   siret?: number;
   company_id?: number;
   company_group_id?: number;
@@ -50,6 +50,23 @@ export type UserContextType = {
   updatePicture: (pictureChoice: string) => void;
 };
 
+// Friends
+export type Friend = Pick<
+  TUser,
+  "id" | "username" | "firstname" | "lastname" | "picture" | "points" | "email"
+>;
+
+export type AddFriendData = {
+  id: number;
+};
+
+export type FriendContextType = {
+  friends: Friend[];
+  addFriend: (friendData: AddFriendData) => void;
+  removeFriend: (friendId: number) => void;
+};
+
+//Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
   data: { viewer: Record<Key, { hits: ResponseType[] }> };
 }

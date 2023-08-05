@@ -1,8 +1,9 @@
 import { FC } from "react";
 import LeaderboardElement, { TLeaderboardElement } from "./LeaderboardElement";
+import { Friend } from "../../../features/contexts/utils/types";
 
 
-const Leaderboard: FC<{ sortedLeaderboard: TLeaderboardElement[] }> = ({ sortedLeaderboard }) => {
+const Leaderboard: FC<{ sortedLeaderboard: Friend[] }> = ({ sortedLeaderboard }) => {
   /*   const sortedLeaderboard = leaderBoardData?.sort((a, b) => b.score - a.score);
    */
   return (
@@ -11,7 +12,7 @@ const Leaderboard: FC<{ sortedLeaderboard: TLeaderboardElement[] }> = ({ sortedL
         <LeaderboardElement
           id={member.id}
           username={member.username}
-          score={member.score}
+          score={member.points}
           picture={member.picture}
           key={index}
           position={index + 1}

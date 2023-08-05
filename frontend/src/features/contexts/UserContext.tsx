@@ -15,7 +15,7 @@ import {
   LoginInformations,
   RegisterInformations,
   UpdatedUser,
-} from "./types";
+} from "./utils/types";
 import { useToaster } from "../hooks/useToaster";
 import {
   querySignIn,
@@ -23,7 +23,7 @@ import {
   updateQuery,
   deleteQuery,
   updatePictureQuery,
-} from "./queries";
+} from "./utils/queries";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
 
@@ -185,7 +185,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
   // UpdatePicture
 
   const updatePicture = async (pictureChoice: string) => {
-    console.log("pictureChoice : ", pictureChoice);
     try {
       const updateUserQuery = {
         query: updatePictureQuery,

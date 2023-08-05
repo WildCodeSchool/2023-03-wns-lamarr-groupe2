@@ -25,7 +25,6 @@ export const HeaderBarModale: FC<HeaderBarModaleProps> = ({
       navigate(isCompany ? "/company/settings" : "settings");
     }
     if (value === "disconnect") {
-      console.log("test");
       disconnect();
     }
     setShowModale((prev) => !prev);

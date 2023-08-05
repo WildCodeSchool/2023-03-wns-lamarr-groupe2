@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import InputCustom from '../../components/InputCustom';
 import BoardRow, { EmptyRow } from './BoardRow';
-import { friendListData } from './data';
-import { TLeaderboardElement } from '../dashboard/Leaderboard/LeaderboardElement';
 import { filter, isEmpty, pipe, prop, sortBy } from 'remeda';
+import useFriendContext from '../../features/contexts/FriendContext';
 
 
 
 const FriendsBoard = () => {
+    const { friends } = useFriendContext()
     const [friendSearch, setFriendSearch] = useState<string>('')
 
     const handleFriendSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,12 +23,15 @@ const FriendsBoard = () => {
 
     const filteredFriendList = useMemo(() => {
         return pipe(
-            friendListData,
-            sortBy([prop('score'), 'desc']),
+            friends,
+            sortBy([prop('points'), 'desc']),
             filter((friend) => tokens.every((token) =>
-                inclusiveText(friend.username).includes(inclusiveText(token))))
+                inclusiveText(friend.username).includes(inclusiveText(token))
+                || inclusiveText(friend.lastname).includes(inclusiveText(token)) ||
+                inclusiveText(friend.firstname).includes(inclusiveText(token))
+            ))
         )
-    }, [tokens, friendListData])
+    }, [tokens, friends])
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +43,7 @@ const FriendsBoard = () => {
     const handlePageChange = (pageNumber: number) => setCurrentPage(pageNumber);
 
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(friendListData.length / friendsPerPage); i += 1) {
+    for (let i = 1; i <= Math.ceil(friends.length / friendsPerPage); i += 1) {
         pageNumbers.push(i);
     }
 

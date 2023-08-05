@@ -3,7 +3,7 @@ import edit from "../../assets/icons/edit.svg";
 import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import InputCustom from "../../components/InputCustom";
-import { TUser } from "../../features/contexts/types";
+import { TUser } from "../../features/contexts/utils/types";
 import ProfileModale from "./ProfileModale";
 import modifyPic from "../../assets/icons/modifyPic.svg";
 import { ModalePictureChoice } from "./ModalePictureChoice";

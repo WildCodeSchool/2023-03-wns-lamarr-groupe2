@@ -1,13 +1,14 @@
 import leaderboardIcon from "../../../assets/icons/leaderboard.svg";
+import useFriendContext from "../../../features/contexts/FriendContext";
 import useUserContext from "../../../features/contexts/UserContext";
 import Leaderboard from "./Leaderboard";
 import LeaderboardElement from "./LeaderboardElement";
-import { leaderBoardData } from "./data";
 
 
 const FriendsLeaderboard = () => {
+  const { friends } = useFriendContext()
   const { user } = useUserContext();
-  const sortedLeaderboard = leaderBoardData?.sort((a, b) => b.score - a.score);
+  const sortedLeaderboard = [user, ...friends]?.sort((a, b) => b.points - a.points);
   const userPosition = sortedLeaderboard.findIndex((member) => member.id === user.id) + 1
 
   return (

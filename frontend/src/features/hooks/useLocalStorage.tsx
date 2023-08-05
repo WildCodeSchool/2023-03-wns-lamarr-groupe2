@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TUser } from "../contexts/types";
+import { TUser } from "../contexts/utils/types";
 
 function getStorageValue(
   key: "user" | "token",

@@ -35,10 +35,23 @@ const deleteQuery = `mutation Mutation {
   deleteUser
 }`;
 
+const queryFriends = `query{
+  getFriends {
+    id
+    username
+    firstname
+    lastname
+    email
+    picture
+    points
+  }
+}`;
+
 module.exports = {
   queryProfile,
   querySignIn,
   updateQuery,
   deleteQuery,
   updatePictureQuery,
+  queryFriends,
 };

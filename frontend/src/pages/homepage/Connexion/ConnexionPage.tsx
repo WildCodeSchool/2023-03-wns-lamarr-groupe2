@@ -3,7 +3,7 @@ import InputCustom from "../../../components/InputCustom";
 import BtnCustom from "../../../components/BtnCustom";
 import { Link } from "react-router-dom";
 import useUserContext from "../../../features/contexts/UserContext";
-import { LoginInformations } from "../../../features/contexts/types";
+import { LoginInformations } from "../../../features/contexts/utils/types";
 
 const ConnexionPage: FC<PropsWithChildren> = () => {
   const { login } = useUserContext();
