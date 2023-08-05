@@ -36,7 +36,7 @@ const App = () => {
   ) : (
     <div className="flex flex-col-reverse lg:flex-row w-screen min-h-screen">
       {user.username && <NavigationBar />}
-      <main className="flex flex-col flex-grow lg:flex-col w-full lg:pl-24">
+      <main className="flex flex-col flex-grow lg:flex-col w-full ">
         {user.username && (
           <>
             <HeaderBar />

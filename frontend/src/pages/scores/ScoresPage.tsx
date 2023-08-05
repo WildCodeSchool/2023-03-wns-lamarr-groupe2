@@ -17,6 +17,8 @@ const ScoresPage: FC<PropsWithChildren> = () => {
     return `inscrit depuis ${daysDifference} j.`;
   };
 
+
+
   return <div className="w-full flex flex-col gap-24 px-1 md:px-6 lg:px-6 py-6">
     <section className="flex  items-center">
       {/* Profile */}
