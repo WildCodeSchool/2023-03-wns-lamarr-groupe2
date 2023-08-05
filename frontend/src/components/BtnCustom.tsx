@@ -22,7 +22,7 @@ const BtnCustom: FC<BtnCustomProps> = ({ onClick, styled, text, size, addMode })
       onMouseEnter={addMode && handleMouseEvent}
       onMouseLeave={addMode && handleMouseEvent}
       className={`$
-      ${size && "small"} customBorder ${styled} ${addMode && 'flex items-center'}`}
+      ${size && "small"} uppercase customBorder ${styled} ${addMode && 'flex items-center gap-2 rounded-full'}`}
       onClick={onClick}
     >
       {addMode && <img src={isHovered ? plusCrossLight : plusCrossDark} alt="Add" />}

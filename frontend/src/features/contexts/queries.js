@@ -8,6 +8,7 @@ const queryProfile = `query  {
       username
       picture
       points
+      creationDate
     }
   }`;
 
