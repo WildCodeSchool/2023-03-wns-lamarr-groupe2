@@ -1,5 +1,7 @@
 // User
 
+import { UserGlobal } from "../../../pages/scores/UsersList";
+
 export type TUser = {
   score: number;
   id: number;
@@ -48,6 +50,7 @@ export type UserContextType = {
   updateUser: (e: React.FormEvent, value: UpdatedUser) => void;
   deleteUserAccount: () => void;
   updatePicture: (pictureChoice: string) => void;
+  users: UserGlobal[];
 };
 
 // Friends
@@ -56,13 +59,9 @@ export type Friend = Pick<
   "id" | "username" | "firstname" | "lastname" | "picture" | "points" | "email"
 >;
 
-export type AddFriendData = {
-  id: number;
-};
-
 export type FriendContextType = {
   friends: Friend[];
-  addFriend: (friendData: AddFriendData) => void;
+  addFriend: (friendData: number) => void;
   removeFriend: (friendId: number) => void;
 };
 

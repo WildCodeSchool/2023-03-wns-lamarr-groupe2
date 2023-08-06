@@ -13,7 +13,7 @@ export const EmptyRow = () => {
     return (
         <tr className='border-b-2 border-b-secondary-dark '>
             <td className=''>
-                Aucun utilisateur à ce nom
+                Aucun utilisateur trouvé
             </td>
             <td></td>
             <td></td>

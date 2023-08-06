@@ -1,8 +1,8 @@
 import { FC, PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from "react";
-import { FriendContextType, Friend, AddFriendData } from "./utils/types";
+import { FriendContextType, Friend } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
-import { deleteFriend, queryFriends } from "./utils/queries";
+import { addfriendQuery, deleteFriend, queryFriends } from "./utils/queries";
 import { isEmpty } from "remeda";
 
 
@@ -13,7 +13,6 @@ const FriendContext = createContext<FriendContextType>({} as FriendContextType);
 export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const { user, token } = useUserContext()
     const [friends, setFriends] = useState<Friend[]>([]);
-
     const getFriends = useCallback(async () => {
         try {
             const config = {
@@ -28,18 +27,35 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
         }
     }, [token]);
 
+    const addFriend = useCallback(async (friendId: number) => {
+        try {
+            const addQuery = {
+                query: addfriendQuery,
+                variables: {
+                    "input": {
+                        "friendid": friendId
+                    }
+                },
+            };
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
+            const response = await axios.post(BACKEND_URL, addQuery, config);
+            console.warn(response)
+            getFriends()
+        } catch (error) {
+            console.error("Error fetching friends:", error);
+        }
+    }, [token]);
+
+
     useEffect(() => {
         if (isEmpty(user)) {
             return;
         }
         getFriends();
+    }, [getFriends, user, token, addFriend]);
 
-    }, [getFriends, user, token]);
-
-    console.log(friends)
-    const addFriend = useCallback((friendData: AddFriendData) => {
-
-    }, []);
 
     // Remove a friend
     const removeFriend = useCallback(async (friendId: number) => {

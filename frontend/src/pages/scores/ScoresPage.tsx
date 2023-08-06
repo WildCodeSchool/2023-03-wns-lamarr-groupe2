@@ -1,13 +1,15 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useState } from "react";
 import FriendsBoard from "./FriendsBoard";
 import BtnCustom from "../../components/BtnCustom";
 import ProfilePicture from "../../components/ProfilePicture";
 import useUserContext from "../../features/contexts/UserContext";
 import challenges from "../../assets/icons/challenges.svg"
+import AddFriendModale from "./AddFriendModale";
 
 const ScoresPage: FC<PropsWithChildren> = () => {
   // TO-DO : Find number of finished challenges 
   const { user } = useUserContext()
+  const [isOpenModale, setIsOpenModale] = useState(false)
   const calculateInscriptionTime = (inscriptionDate: string) => {
     const currentDate = new Date();
     const inscDate = new Date(inscriptionDate);
@@ -41,12 +43,13 @@ const ScoresPage: FC<PropsWithChildren> = () => {
       </div>
       {/* Add Friend */}
       <div className="flex-1  flex justify-center">
-        <BtnCustom addMode text='Ajouter des amis' styled="btnAttention" onClick={() => console.warn('Add')} />
+        <BtnCustom addMode text='Ajouter des amis' styled="btnAttention" onClick={() => setIsOpenModale(prev => !prev)} />
       </div>
     </section>
     <section className="overflow-y-scroll">
       <FriendsBoard />
     </section>
+    {isOpenModale && <AddFriendModale setIsOpenModale={setIsOpenModale} />}
   </div>;
 
 }

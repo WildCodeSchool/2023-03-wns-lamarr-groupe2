@@ -11,7 +11,10 @@ type ModaleProps = {
 
 const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, friendId, friendUsername }) => {
     const { removeFriend } = useFriendContext()
-
+    const handleRemoveFriend = () => {
+        removeFriend(friendId)
+        setIsOpenModale(prev => !prev)
+    }
     return (
         <>
             <div
@@ -56,7 +59,7 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, friendId, friend
                             </div>
                             <div className="bg-main-bg  flex justify-center  items-center w-full py-10 gap-3">
                                 <BtnCustom
-                                    onClick={() => removeFriend(friendId)}
+                                    onClick={handleRemoveFriend}
                                     text="SUPPRIMER"
                                     styled="btnDanger"
                                 />
