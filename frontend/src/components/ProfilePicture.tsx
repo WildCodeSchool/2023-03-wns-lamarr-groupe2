@@ -21,8 +21,9 @@ const pictureMap: PictureMap = {
 
 const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick }) => {
   const customPic: React.CSSProperties = {
-    backgroundImage: `url(${url ? pictureMap[`${url}`] : pictureMap["hermesG"]
-      })`,
+    backgroundImage: `url(${
+      url ? pictureMap[`${url}`] : pictureMap["hermesG"]
+    })`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     backgroundSize: "cover",

@@ -36,7 +36,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useLocalStorage("user", {} as TUser);
   const [token, setToken] = useLocalStorage("token", "");
-  const [users, setUsers] = useState<TUser[]>([])
+  const [users, setUsers] = useState<TUser[]>([]);
   const {
     notifyRegister,
     notifyErrorRegister,
@@ -255,7 +255,11 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      const response = await axios.post(BACKEND_URL, { query: queryUsers }, config);
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryUsers },
+        config
+      );
       const usersData = response.data.data.getUsers;
       setUsers(usersData);
     } catch (error) {
@@ -283,7 +287,8 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         register,
         updateUser,
         deleteUserAccount,
-        updatePicture, users
+        updatePicture,
+        users,
       }}
     >
       {children}
