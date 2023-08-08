@@ -27,10 +27,9 @@ const BtnCustom: FC<BtnCustomProps> = ({
     <button
       onMouseEnter={addMode && handleMouseEvent}
       onMouseLeave={addMode && handleMouseEvent}
-      className={`$
-      ${size && "small"} uppercase customBorder ${styled} ${
-        addMode && "flex items-center gap-2 rounded-full"
-      }`}
+      className={` uppercase customBorder ${styled} ${addMode && "flex items-center gap-2 rounded-full"
+        } $
+      ${size && "small"}`}
       onClick={onClick}
     >
       {addMode && (
