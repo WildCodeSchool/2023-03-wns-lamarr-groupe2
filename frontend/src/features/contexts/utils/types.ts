@@ -59,12 +59,38 @@ export type Friend = Pick<
   "id" | "username" | "firstname" | "lastname" | "picture" | "points" | "email"
 >;
 
+export type AddFriendProp = {
+  friendId: number;
+  isFromNotification?: boolean;
+};
 export type FriendContextType = {
   friends: Friend[];
-  addFriend: (friendData: number) => void;
+  addFriend: (value: AddFriendProp) => void;
   removeFriend: (friendId: number) => void;
 };
 
+export type TNotification = {
+  id: number;
+  send_date: Date;
+  receivers: Pick<TUser, "id" | "lastname">;
+  sender: Pick<TUser, "id" | "firstname">;
+  type: 1 | 2 | 3;
+  isUnread: boolean;
+  status?: boolean;
+};
+
+export type UpdateFriendProps = {
+  notificationId: number;
+  type: number;
+  isAccepted: boolean;
+  senderId: number;
+};
+export type NotificationContextType = {
+  notifications: TNotification[];
+  updateNotificationIsRead: (notificationId: number) => void;
+  updateFriendInvitation: (updateFriendProps: UpdateFriendProps) => void;
+  sendFriendInvitation: (friendsIds: number[]) => void;
+};
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
   data: { viewer: Record<Key, { hits: ResponseType[] }> };

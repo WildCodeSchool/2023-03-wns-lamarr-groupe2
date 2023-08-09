@@ -1,113 +1,123 @@
-import { Ctx, Arg, Mutation, Query, InputType, Field, Int } from "type-graphql"
-import { In } from "typeorm"
-import { Notification, Type, Status } from "../models/Notification"
-import { User } from "../models/User"
-import { IsEnum, IsNumber, IsString } from "class-validator"
+import {
+  Ctx,
+  Arg,
+  Mutation,
+  Query,
+  Resolver,
+  InputType,
+  Field,
+  Int,
+} from "type-graphql";
+import { In } from "typeorm";
+import { Notification } from "../models/Notification";
+import { User } from "../models/User";
+import { IsBoolean, IsNumber } from "class-validator";
 
 @InputType()
 export class NotificationInput {
-	@Field()
-	@IsString()
-	message: string
+  @Field(() => [Int])
+  @IsNumber({}, { each: true })
+  recipientUserIds: number[];
 
-	@Field(() => [Int])
-	@IsNumber({}, { each: true })
-	recipientIds: number[]
+  @Field()
+  type: 1 | 2 | 3;
 
-	@Field()
-	@IsEnum(Type)
-	type: Type
-
-	@Field()
-	@IsEnum(Status)
-	status: Status
+  @Field({ nullable: true })
+  status?: boolean;
 }
 
 @InputType()
-export class NotificationStatus {
-	@Field()
-	id: number
+export class UpdateNotificationStatus {
+  @Field()
+  id: number;
 
-	@Field()
-	@IsEnum(Status)
-	status: Status
+  @Field({ nullable: true })
+  @IsBoolean()
+  status?: boolean;
+
+  @Field()
+  @IsBoolean()
+  isUnread: boolean;
 }
 
+@Resolver()
 export class NotificationResolver {
-	// Mutation to insert a notification in database
+  // Mutation to insert a notification in the database
+  @Mutation(() => [Notification])
+  async newNotification(
+    @Ctx() context: { user: User },
+    @Arg("input") input: NotificationInput
+  ): Promise<Notification[]> {
+    const sender = context.user;
 
-	@Mutation(() => [Notification])
-	async newNotification(
-		@Ctx() context: { user: User },
-		@Arg("input") input: NotificationInput
-	): Promise<Notification[]> {
-		const sender = context.user
+    if (!sender) throw new Error("The user is not connected!");
 
-		if (sender === null) throw new Error(`The user is not connected!`)
+    const receivers = await User.findBy({ id: In(input.recipientUserIds) });
 
-		const receivers = await User.findBy({ id: In(input.recipientIds) })
+    if (!receivers || receivers.length === 0)
+      throw new Error("The users do not exist!");
 
-		if (receivers === null) throw new Error(`The users does not exist!`)
+    const notifications: Notification[] = [];
 
-		const message = input.message
-		const status = input.status
-		const notifications: Notification[] = []
+    for (const receiver of receivers) {
+      const newNotif = new Notification();
+      newNotif.sender = sender;
+      newNotif.receivers = [receiver];
+      newNotif.type = input.type;
 
-		for (const receiver of receivers) {
-			const newNotif = new Notification()
-			newNotif.sender = sender
-			newNotif.receivers = receiver
-			newNotif.message = message
-			newNotif.type = input.type // Assurez-vous d'utiliser la bonne propriété pour le type
-			newNotif.status = status
+      if (input.status !== undefined) {
+        newNotif.status = input.status;
+      }
 
-			await newNotif.save()
+      await newNotif.save();
+      notifications.push(newNotif);
+    }
 
-			notifications.push(newNotif)
-		}
+    return notifications;
+  }
 
-		return notifications
-	}
+  @Mutation(() => Notification)
+  async updateNotificationStatus(
+    @Ctx() context: { user: User },
+    @Arg("input") input: UpdateNotificationStatus
+  ): Promise<Notification> {
+    const notification = await Notification.findOne({
+      where: {
+        id: input.id,
+        receivers: {
+          id: context.user.id,
+        },
+      },
+    });
 
-	@Mutation(() => Notification)
-	async updateNotificationStatus(
-		@Ctx() context: { user: User },
-		@Arg("input") input: NotificationStatus
-	): Promise<Notification> {
-		const notification = await Notification.findOne({
-			where: {
-				id: input.id,
-				receivers: {
-					id: context.user.id,
-				},
-			},
-		})
+    if (!notification) throw new Error("Invalid notification id");
 
-		if (notification === null) throw new Error(`Notification id invalid`)
+    if (input.status !== undefined) {
+      notification.status = input.status;
+      notification.isUnread = input.isUnread;
+      await notification.save();
+    }
 
-		notification.status = input.status
+    return notification;
+  }
 
-		return notification.save()
-	}
+  @Query(() => [Notification])
+  async userNotifications(
+    @Ctx() context: { user: User }
+  ): Promise<Notification[]> {
+    if (!context.user) throw new Error("The user is not connected!");
+    const notifications = await Notification.find({
+      relations: ["sender", "receivers"],
+      where: {
+        receivers: {
+          id: context.user.id,
+        },
+      },
+    });
+    if (!notifications || notifications.length === 0) {
+      throw new Error("User doesn't have any notifications");
+    }
 
-	@Query(() => [Notification])
-	async userNotifications(@Ctx() context: { user: User }): Promise<Notification[]> {
-		if (context.user === null) throw new Error(`The user is not connected!`)
-
-		const notification = await Notification.find({
-			relations: {
-				sender: true,
-				receivers: true,
-			},
-			where: {
-				receivers: {
-					id: context.user.id,
-				},
-			},
-		})
-
-		if (notification === null) throw new Error(`User doesn't have any notifications`)
-
-		return notification
-	}
+    return notifications;
+  }
 }

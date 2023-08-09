@@ -6,6 +6,7 @@ import ProfilePicture from "../../components/ProfilePicture";
 import RadioBtn from "../../components/RadioBtn";
 import BtnCustom from "../../components/BtnCustom";
 import useFriendContext from "../../features/contexts/FriendContext";
+import useNotificationContext from "../../features/contexts/NotificationContext";
 
 export type UserGlobal = {
   username: string;
@@ -16,33 +17,27 @@ export type UserGlobal = {
 
 const UsersList = () => {
   const { users } = useUserContext();
-  const { addFriend, friends } = useFriendContext();
-  const [selectedUserIds, setSelectedUserIds] = useState<
-    number | undefined /* [] */
-  >(/* [] */);
+  const { friends } = useFriendContext();
+  const { sendFriendInvitation } = useNotificationContext()
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [searchUser, setSearchUser] = useState<string>("");
-  const handleToggleSelection = (user: UserGlobal) => {
-    setSelectedUserIds((prevId) => (prevId === user.id ? undefined : user?.id));
-  };
 
-  const handleAddFriend = (friendId: number) => {
-    if (selectedUserIds === undefined) {
-      return;
-    }
-    addFriend(selectedUserIds);
+
+  const handleAddFriend = (friendsId: number[]) => {
+    sendFriendInvitation(friendsId)
   };
-  /* To add multiple users :  
-     const handleToggleSelection = (user: UserGlobal) => {
-         setSelectedUserIds((prevSelectedUserIds) => {
-             const isSelected = prevSelectedUserIds.includes(user.id);
- 
-             if (isSelected) {
-                 return prevSelectedUserIds.filter((id) => id !== user.id);
-             } else {
-                 return [...prevSelectedUserIds, user.id];
-             }
-         });
-     }; */
+  /* To add multiple users :   */
+  const handleToggleSelection = (user: UserGlobal) => {
+    setSelectedUserIds((prevSelectedUserIds) => {
+      const isSelected = prevSelectedUserIds?.includes(user.id);
+
+      if (isSelected) {
+        return prevSelectedUserIds?.filter((id) => id !== user.id);
+      } else {
+        return [...prevSelectedUserIds, user.id];
+      }
+    });
+  };
 
   const handleSearchUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchUser(e.target.value);
@@ -98,7 +93,7 @@ const UsersList = () => {
                 <ProfilePicture url={user.picture} size="smallPic" />
                 <p>{user.username}</p>
               </div>
-              <RadioBtn isChoose={selectedUserIds === user?.id} />
+              <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />
             </div>
           ))
         )}

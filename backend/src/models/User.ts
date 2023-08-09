@@ -98,7 +98,7 @@ export class User extends BaseEntity {
   createdChallenges: Challenge;
 
   @Field(() => [Notification])
-  @OneToMany(() => Notification, (notification) => notification.receivers, {
+  @ManyToMany(() => Notification, (notification) => notification.receivers, {
     cascade: true,
   })
   @JoinTable()

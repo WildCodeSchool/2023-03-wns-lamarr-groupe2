@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { FriendContextType, Friend } from "./utils/types";
+import { FriendContextType, Friend, AddFriendProp } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
 import { addfriendQuery, deleteFriend, queryFriends } from "./utils/queries";
@@ -41,29 +41,30 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [token]);
 
   const addFriend = useCallback(
-    async (friendId: number) => {
+    async (addFriendsProps: AddFriendProp) => {
       try {
         const addQuery = {
           query: addfriendQuery,
           variables: {
             input: {
-              friendid: friendId,
+              friendid: addFriendsProps.friendId,
             },
           },
         };
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
+
         const response = await axios.post(BACKEND_URL, addQuery, config);
         console.warn(response);
-        notifyFriendAdd();
+        !addFriendsProps.isFromNotification && notifyFriendAdd();
         getFriends();
       } catch (error) {
         console.error("Error fetching friends:", error);
         notifyErrorGlobal();
       }
     },
-    [token, getFriends, notifyErrorGlobal, notifyFriendAdd]
+    [token, notifyErrorGlobal, notifyFriendAdd]
   );
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
       return;
     }
     getFriends();
-  }, [getFriends, user, token, addFriend]);
+  }, [user, token]);
 
   // Remove a friend
   const removeFriend = useCallback(

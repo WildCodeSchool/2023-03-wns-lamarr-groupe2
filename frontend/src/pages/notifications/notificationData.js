@@ -8,7 +8,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Hercules" },
     type: 1,
-    isNew: true,
+    isUnread: true,
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Julien" },
     type: 3,
-    isNew: false,
+    isUnread: false,
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Pimprenelle" },
     type: 1,
-    isNew: false,
+    isUnread: false,
   },
   {
     id: 4,
@@ -32,7 +32,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Ethanol" },
     type: 2,
-    isNew: true,
+    isUnread: true,
   },
   {
     id: 6,
@@ -40,7 +40,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Luke" },
     type: 2,
-    isNew: false,
+    isUnread: false,
     status: false,
   },
   {
@@ -49,7 +49,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Cassandre" },
     type: 2,
-    isNew: false,
+    isUnread: false,
     status: true,
   },
   {
@@ -58,7 +58,7 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Bernard" },
     type: 2,
-    isNew: false,
+    isUnread: false,
     status: false,
   },
   {
@@ -67,6 +67,6 @@ export const notificationData = [
     receivers: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Switzy" },
     type: 2,
-    isNew: false,
+    isUnread: false,
   },
 ];

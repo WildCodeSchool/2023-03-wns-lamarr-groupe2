@@ -2,20 +2,26 @@ import { FC } from "react";
 import { TUser } from "../../features/contexts/utils/types";
 import BtnCustom from "../../components/BtnCustom";
 import NavBtn from "../../components/NavBtn";
+import useNotificationContext from "../../features/contexts/NotificationContext";
 
+type NotificationChallenge = {
+    title: string,
+    id: number
+}
 export type TNotification = {
     id: number;
     sender: Pick<TUser, 'firstname' | 'id'>;
     receivers?: Pick<TUser, 'firstname' | 'id'>;
     send_date?: Date;
     type: number;
-    isNew: boolean;
+    isUnread: boolean;
     status?: boolean;
+    challenge?: NotificationChallenge
 };
 
+const Notification: FC<TNotification> = ({ id, sender, type, isUnread, status }) => {
+    const { updateNotificationIsRead, updateFriendInvitation } = useNotificationContext()
 
-const Notification: FC<TNotification> = ({ id, sender, type, isNew, status }) => {
-    console.log(id, status)
     const typeLabel = type === 1 ? "Commentaire" : type === 2 ? "Invitation Ami" : "Challenge"
 
     const isActionnable = (type === 2 || type === 3)
@@ -27,22 +33,28 @@ const Notification: FC<TNotification> = ({ id, sender, type, isNew, status }) =>
     }
 
     const handleNewNotification = () => {
-        // onClick, update "isNew" property to false by a query
+        updateNotificationIsRead(id)
     }
 
-    const handleNotificationStatus = () => {
-        // onClick, update the status of the notification
+    const handleNotificationStatus = (isAccepted: boolean) => {
+        const updateFriendProps = {
+            isAccepted,
+            type,
+            senderId: sender?.id,
+            notificationId: id
+        }
+        updateFriendInvitation(updateFriendProps)
     }
 
     return (
-        <div onClick={handleNewNotification} className={`${isNew && 'bg-primary-attention'} px-3 flex gap-3 justify-between h-20 border-b-1 items-center`}>
+        <div onClick={handleNewNotification} className={`${isUnread && 'bg-primary-attention'} px-3 flex gap-3 justify-between h-20 border-b-1 items-center`}>
             <div className="w-2/12 font-bold">{typeLabel}</div>
             <div className="w-6/12">{messageFromType()}</div>
             <div className="w-4/12 flex justify-end">
-                {(isActionnable && status) === undefined ?
+                {(isActionnable && status) === null ?
                     <div className="flex gap-3">
-                        <BtnCustom onClick={handleNotificationStatus} styled="btnGood" text="accepter" />
-                        <BtnCustom onClick={handleNotificationStatus} styled="btnDanger" text="refuser" />
+                        <BtnCustom onClick={() => handleNotificationStatus(true)} styled="btnGood" text="accepter" />
+                        <BtnCustom onClick={() => handleNotificationStatus(false)} styled="btnDanger" text="refuser" />
                     </div> : type === 1 ? null : <div className={`uppercase ${status ? 'btnGood' : 'btnDanger'} text-white flex items-end border justify-center w-36 gap-2  rounded-customBtn border-black drop-shadow-none`}>{status ? "ACCEPTÉ" : "REFUSÉE"}</div>}
             </div>
             <div className=" ml-3 flex justify-end">  <NavBtn type="specific" link={`/challenges`} /> </div>
