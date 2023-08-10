@@ -47,15 +47,15 @@ const Notification: FC<TNotification> = ({ id, sender, type, isUnread, status })
     }
 
     return (
-        <div onClick={handleNewNotification} className={`${isUnread && 'bg-primary-attention'} px-3 flex gap-3 justify-between h-20 border-b-1 items-center`}>
-            <div className="w-2/12 font-bold">{typeLabel}</div>
-            <div className="w-6/12">{messageFromType()}</div>
-            <div className="w-4/12 flex justify-end">
+        <div onClick={handleNewNotification} className={`${isUnread && 'bg-primary-attention'} px-3 flex flex-col md:flex-row gap-3 py-2 md:py-0 justify-between md:h-20 border-b-1 items-center`}>
+            <div className="hidden lg:block md:w-2/12 font-bold">{typeLabel}</div>
+            <div className="md:w-6/12 text-left lg:text-left w-full">{messageFromType()}</div>
+            <div className="md:w-4/12 flex justify-end w-full">
                 {(isActionnable && status) === null ?
                     <div className="flex gap-3">
                         <BtnCustom onClick={() => handleNotificationStatus(true)} styled="btnGood" text="accepter" />
                         <BtnCustom onClick={() => handleNotificationStatus(false)} styled="btnDanger" text="refuser" />
-                    </div> : type === 1 ? null : <div className={`uppercase ${status ? 'btnGood' : 'btnDanger'} text-white flex items-end border justify-center w-36 gap-2  rounded-customBtn border-black drop-shadow-none`}>{status ? "ACCEPTÉ" : "REFUSÉE"}</div>}
+                    </div> : type === 1 ? null : <div className={`uppercase ${status ? 'md:btnGood text-primary-good font-bold' : 'md:btnDanger text-primary-danger font-bold'} md:text-white flex items-end md:border justify-center w-36 gap-2  md:rounded-customBtn border-black drop-shadow-none`}>{status ? "ACCEPTÉ" : "REFUSÉE"}</div>}
             </div>
             <div className=" ml-3 flex justify-end"> {type !== 2 && <NavBtn type="specific" link={`/challenges`} />} </div>
         </div>
