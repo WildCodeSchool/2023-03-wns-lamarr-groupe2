@@ -28,7 +28,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
     const [notifications, setNotifications] = useState<TNotification[]>([]);
 
     // Get Notifications
-    const getNotifications = useCallback(async () => {
+    const getNotifications = async () => {
         try {
             const config = {
                 headers: { Authorization: `Bearer ${token}` },
@@ -45,19 +45,17 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             setNotifications([])
             console.error("Error fetching notifications:", error);
         }
-    }, [token, user]);
+    };
 
     // Update is Read
-    const updateNotificationIsRead = useCallback(async (notificationId: number) => {
+    const updateNotificationIsRead = async (notificationId: number) => {
         try {
             const updateNotificationRead = {
                 query: mutationIsRead,
                 variables: {
-                    input: {
-                        id: notificationId,
-                        status: null,
-                        isUnread: false
-                    }
+                    updateNotificationStatusId: notificationId,
+                    status: null,
+                    isUnread: false
                 }
             };
             const config = {
@@ -69,17 +67,17 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
         } catch (error) {
             console.error("Error Updating Notification:", error);
         }
-    }, [token, getNotifications])
+    }
 
     useEffect(() => {
         if (isEmpty(user)) {
             return;
         }
         getNotifications();
-    }, [getNotifications, user, token]);
+    }, [user, token]);
 
     // Accept or Decline Friend Invitation
-    const updateFriendInvitation = useCallback(async (updateFriendProps: UpdateFriendProps) => {
+    const updateFriendInvitation = async (updateFriendProps: UpdateFriendProps) => {
         try {
             if (updateFriendProps.type !== 2) {
                 throw Error
@@ -87,11 +85,9 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             const upateFriendInvitation = {
                 query: mutationIsRead,
                 variables: {
-                    input: {
-                        id: updateFriendProps.notificationId,
-                        isUnread: false,
-                        status: updateFriendProps.isAccepted
-                    }
+                    updateNotificationStatusId: updateFriendProps.notificationId,
+                    isUnread: false,
+                    status: updateFriendProps.isAccepted
                 }
             };
             const config = {
@@ -111,18 +107,17 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
         } catch (error) {
             console.error("Error Updating Notification:", error);
         }
-    }, [token, getNotifications, user])
+    }
 
     // Send Friend Invitation
-    const sendFriendInvitation = useCallback(async (friendsIds: number[]) => {
+    const sendFriendInvitation = async (friendsIds: number[]) => {
         try {
             const sendInvitations = {
                 query: sendNotifications,
                 variables: {
                     input: {
-                        recipientUserIds: friendsIds,
                         type: 2,
-                        status: null
+                        recipientUserIds: friendsIds
                     }
                 }
             }
@@ -134,7 +129,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
         } catch (error) {
             console.error("Error sending invitations")
         }
-    }, [])
+    }
 
     return (
         <NotificationContext.Provider value={{ notifications, updateNotificationIsRead, updateFriendInvitation, sendFriendInvitation }}>

@@ -38,9 +38,9 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     } catch (error) {
       console.error("Error fetching friends:", error);
     }
-  }, [token]);
+  }, []);
 
-  const addFriend = useCallback(
+  const addFriend =
     async (addFriendsProps: AddFriendProp) => {
       try {
         const addQuery = {
@@ -63,9 +63,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
         console.error("Error fetching friends:", error);
         notifyErrorGlobal();
       }
-    },
-    [token, notifyErrorGlobal, notifyFriendAdd]
-  );
+    }
 
   useEffect(() => {
     if (isEmpty(user)) {
@@ -75,7 +73,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [user, token]);
 
   // Remove a friend
-  const removeFriend = useCallback(
+  const removeFriend =
     async (friendId: number) => {
       try {
         const removeQuery = {
@@ -97,9 +95,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
-    },
-    [token]
-  );
+    }
 
   return (
     <FriendContext.Provider value={{ friends, addFriend, removeFriend }}>

@@ -82,8 +82,8 @@ const queryNotifications = `query UserNotifications {
   }
 }`;
 
-const mutationIsRead = `mutation UpdateNotificationStatus($input: UpdateNotificationStatus!) {
-  updateNotificationStatus(input: $input) {
+const mutationIsRead = `mutation UpdateNotificationStatus($updateNotificationStatusId: Int!, $isUnread: Boolean!, $status: Boolean) {
+  updateNotificationStatus(id: $updateNotificationStatusId, isUnread: $isUnread, status: $status) {
     id
     isUnread
     status
@@ -92,10 +92,10 @@ const mutationIsRead = `mutation UpdateNotificationStatus($input: UpdateNotifica
 
 const sendNotifications = `mutation NewNotification($input: NotificationInput!) {
   newNotification(input: $input) {
+    type
     receivers {
       id
     }
-    type
   }
 }`;
 

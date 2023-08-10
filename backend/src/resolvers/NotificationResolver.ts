@@ -21,9 +21,6 @@ export class NotificationInput {
 
   @Field()
   type: 1 | 2 | 3;
-
-  @Field({ nullable: true })
-  status?: boolean;
 }
 
 @InputType()
@@ -40,6 +37,14 @@ export class UpdateNotificationStatus {
   isUnread: boolean;
 }
 
+@InputType()
+export class DeleteNotificationInput {
+  @Field(() => [Int])
+  @IsNumber({}, { each: true })
+  ids: number[];
+}
+
+// Add
 @Resolver()
 export class NotificationResolver {
   // Mutation to insert a notification in the database
@@ -49,13 +54,18 @@ export class NotificationResolver {
     @Arg("input") input: NotificationInput
   ): Promise<Notification[]> {
     const sender = context.user;
+    if (!sender) {
+      throw new Error("The user is not connected!");
+    }
+    const { recipientUserIds, type } = input;
 
-    if (!sender) throw new Error("The user is not connected!");
+    const receivers = await User.findBy({
+      id: In(recipientUserIds),
+    });
 
-    const receivers = await User.findBy({ id: In(input.recipientUserIds) });
-
-    if (!receivers || receivers.length === 0)
-      throw new Error("The users do not exist!");
+    if (!receivers || receivers.length !== recipientUserIds.length) {
+      throw new Error("Not all users exist!");
+    }
 
     const notifications: Notification[] = [];
 
@@ -63,11 +73,8 @@ export class NotificationResolver {
       const newNotif = new Notification();
       newNotif.sender = sender;
       newNotif.receivers = [receiver];
-      newNotif.type = input.type;
-
-      if (input.status !== undefined) {
-        newNotif.status = input.status;
-      }
+      newNotif.type = type;
+      newNotif.isUnread = true;
 
       await newNotif.save();
       notifications.push(newNotif);
@@ -76,31 +83,36 @@ export class NotificationResolver {
     return notifications;
   }
 
+  // Update Notification Status
   @Mutation(() => Notification)
   async updateNotificationStatus(
     @Ctx() context: { user: User },
-    @Arg("input") input: UpdateNotificationStatus
+    @Arg("id", () => Int) id: number,
+    @Arg("status", () => Boolean, { nullable: true }) status: boolean | null,
+    @Arg("isUnread", () => Boolean) isUnread: boolean
   ): Promise<Notification> {
     const notification = await Notification.findOne({
       where: {
-        id: input.id,
+        id: id,
         receivers: {
           id: context.user.id,
         },
       },
     });
-
-    if (!notification) throw new Error("Invalid notification id");
-
-    if (input.status !== undefined) {
-      notification.status = input.status;
-      notification.isUnread = input.isUnread;
-      await notification.save();
+    if (!notification) {
+      throw new Error("Invalid notification id");
     }
 
+    if (status !== null) {
+      notification.status = status;
+    }
+
+    notification.isUnread = isUnread;
+    await notification.save();
     return notification;
   }
 
+  // Query All
   @Query(() => [Notification])
   async userNotifications(
     @Ctx() context: { user: User }
@@ -119,5 +131,20 @@ export class NotificationResolver {
     }
 
     return notifications;
+  }
+
+  //Delete
+  @Mutation(() => Boolean)
+  async deleteNotification(
+    @Arg("input") input: DeleteNotificationInput
+  ): Promise<boolean> {
+    const notifications = await Notification.findBy({ id: In(input.ids) });
+
+    if (!notifications || notifications.length === 0) {
+      throw new Error("Notifications not found");
+    }
+
+    await Notification.remove(notifications);
+    return true;
   }
 }

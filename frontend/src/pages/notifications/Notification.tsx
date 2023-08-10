@@ -57,7 +57,7 @@ const Notification: FC<TNotification> = ({ id, sender, type, isUnread, status })
                         <BtnCustom onClick={() => handleNotificationStatus(false)} styled="btnDanger" text="refuser" />
                     </div> : type === 1 ? null : <div className={`uppercase ${status ? 'btnGood' : 'btnDanger'} text-white flex items-end border justify-center w-36 gap-2  rounded-customBtn border-black drop-shadow-none`}>{status ? "ACCEPTÉ" : "REFUSÉE"}</div>}
             </div>
-            <div className=" ml-3 flex justify-end">  <NavBtn type="specific" link={`/challenges`} /> </div>
+            <div className=" ml-3 flex justify-end"> {type !== 2 && <NavBtn type="specific" link={`/challenges`} />} </div>
         </div>
     );
 };
