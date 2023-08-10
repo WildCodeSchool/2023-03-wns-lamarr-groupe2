@@ -2,7 +2,6 @@ import {
   FC,
   PropsWithChildren,
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useState,
@@ -22,7 +21,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { notifyFriendAdd, notifyErrorGlobal } = useToaster();
   const { user, token } = useUserContext();
   const [friends, setFriends] = useState<Friend[]>([]);
-  const getFriends = useCallback(async () => {
+  const getFriends = async () => {
     try {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -38,7 +37,8 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     } catch (error) {
       console.error("Error fetching friends:", error);
     }
-  }, []);
+  };
+
 
   const addFriend =
     async (addFriendsProps: AddFriendProp) => {
@@ -70,7 +70,8 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
       return;
     }
     getFriends();
-  }, [user, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Remove a friend
   const removeFriend =
