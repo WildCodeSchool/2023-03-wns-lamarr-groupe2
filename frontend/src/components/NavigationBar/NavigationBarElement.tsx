@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useNotificationContext from "../../features/contexts/NotificationContext";
-import { isEmpty } from "remeda";
 
 export type NavigationBarElementProps = {
   link: string;

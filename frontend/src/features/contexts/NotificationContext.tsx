@@ -1,8 +1,7 @@
-import React, {
+import {
     FC,
     PropsWithChildren,
     createContext,
-    useCallback,
     useContext,
     useEffect,
     useState,
@@ -73,6 +72,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             return;
         }
         getNotifications();
+        //eslint-disable-next-line
     }, [user, token]);
 
     // Accept or Decline Friend Invitation
