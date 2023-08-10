@@ -50,6 +50,10 @@ module.exports = {
       dropShadow: {
         custom: "5px 6px 0px rgba(0, 0, 0, 1)",
         progressbar: "3px 4px 0px rgba(0, 0, 0, 1)",
+        notification: "0px 4px 0px rgba(0, 0, 0, 1)",
+      },
+      transitionProperty: {
+        height: "height",
       },
     },
   },

@@ -26,7 +26,6 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
     const { token, user } = useUserContext()
     const { addFriend } = useFriendContext()
     const [notifications, setNotifications] = useState<TNotification[]>([]);
-
     // Get Notifications
     const getNotifications = async () => {
         try {

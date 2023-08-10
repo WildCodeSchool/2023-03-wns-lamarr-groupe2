@@ -3,6 +3,7 @@ import ProfilePicture from "./ProfilePicture";
 import { HeaderBarModale } from "./HeaderBarModale";
 import { useState } from "react";
 import useUserContext from "../features/contexts/UserContext";
+import HeaderBarNotification from "./HeaderBarNotification";
 
 export const HeaderBar = () => {
   const [showModale, setShowModale] = useState(false);
@@ -22,9 +23,8 @@ export const HeaderBar = () => {
     value: string | number;
   }) => (
     <div
-      className={`${
-        label === "Challenges : " && "hidden"
-      } lg:flex items-center`}
+      className={`${label === "Challenges : " && "hidden"
+        } lg:flex items-center`}
     >
       <p className="inline-block">{label}</p>
       <span className="font-bold text-[1.1em] pl-1">{value}</span>
@@ -33,11 +33,11 @@ export const HeaderBar = () => {
 
   return (
     <header
-      className={`relative  border-b-1 border-tertiary-dark  h-20 ${
-        mobileHeader ? "flex  px-8  " : "hidden"
-      }  lg:flex font-titles justify-between items-center lg:px-2`}
+      className={`relative  border-b-1 border-tertiary-dark  h-20 ${mobileHeader ? "flex  px-8  " : "hidden"
+        }  lg:flex font-titles justify-between items-center lg:px-2`}
     >
       <h1 className="hidden lg:block font-bold text-[3em]">ECHOES OF FUTURE</h1>
+
       <HeaderElement label="Challenges : " value={3} />
       <HeaderElement
         label={isCompany ? "Mes Employés : " : "Points : "}
@@ -51,6 +51,7 @@ export const HeaderBar = () => {
         />
         {showModale && <HeaderBarModale setShowModale={setShowModale} />}
       </div>
+      <HeaderBarNotification />
     </header>
   );
 };
