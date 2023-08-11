@@ -151,3 +151,93 @@ button {
   border-radius: 6px;
   @apply border-primary-dark drop-shadow-[18px_20px_0px_black];
 }
+/*  Data Picker
+ */
+
+.custom-calendar {
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 8px !important;
+  box-shadow: 3px 4px 0px 0px #000000;
+}
+.react-datepicker__day {
+  color: #786e6e !important;
+  font-size: 16px;
+}
+
+.react-datepicker__day:last-child {
+  border-right: none;
+}
+
+.react-datepicker__day--in-range {
+  background-color: #f7e2b7 !important;
+  color: black !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #ffcb66 !important;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__day--keyboard-selected:hover,
+.react-datepicker__day--keyboard-selected:focus {
+  background-color: #ffcb66 !important;
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+  color: white !important;
+}
+
+.react-datepicker__month {
+  position: relative;
+}
+
+.react-datepicker__week {
+  position: relative;
+}
+
+.react-datepicker__week::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::before,
+.react-datepicker-popper[data-placement^="bottom"] {
+  border-bottom-color: black !important;
+}
+
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::after {
+  border-bottom-color: white !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-calendar-btn {
+  background-color: transparent !important;
+  height: 100% !important;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: white !important;
+  color: black !important;
+  font-size: 22px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disabled-date {
+  color: rgb(
+    216,
+    216,
+    229
+  ) !important; /* Set text color to blue for disabled dates */
+}
