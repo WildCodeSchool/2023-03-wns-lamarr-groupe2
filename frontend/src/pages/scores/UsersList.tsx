@@ -23,8 +23,12 @@ const UsersList = () => {
   const [searchUser, setSearchUser] = useState<string>("");
   const { waitingFriendList } = useNotificationContext()
 
+  const waitingFriendIds = waitingFriendList.map((waitingFriend) => waitingFriend.id);
+
+  console.log(waitingFriendList)
   const handleAddFriend = (friendsId: number[]) => {
     sendFriendInvitation(friendsId)
+    setSelectedUserIds([])
   };
   /* To add multiple users :   */
   const handleToggleSelection = (user: UserGlobal) => {
@@ -54,9 +58,8 @@ const UsersList = () => {
     return pipe(
       users,
       filter((user) => !friends.some((friend) => friend.id === user.id)),
-      filter((user) => !waitingFriendList.some((waitingFriend) => waitingFriend.id === user.id))
     );
-  }, [users, friends, waitingFriendList]);
+  }, [users, friends]);
 
   const filteredUsers = useMemo(() => {
     return pipe(
@@ -87,20 +90,20 @@ const UsersList = () => {
           filteredUsers?.map((user, index) => (
             <div
               key={index}
-              className="border-b flex justify-between"
+              className="border-b flex items-center justify-between"
               onClick={() => handleToggleSelection(user)}
             >
               <div className="flex gap-2">
                 <ProfilePicture url={user.picture} size="smallPic" />
                 <p>{user.username}</p>
               </div>
-              <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />
+              {waitingFriendIds.includes(user.id) ? <p className=" text-small-p font-bold text-right  italic text-primary-good pr-3 py-4">En attente</p> : <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />}
             </div>
           ))
         )}
       </div>
       <div className="flex justify-center h-20 items-center mb-6">
-        {selectedUserIds && (
+        {selectedUserIds.length !== 0 && (
           <BtnCustom
             text="AJOUTER"
             styled="btnGood"

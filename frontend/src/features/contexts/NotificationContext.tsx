@@ -157,6 +157,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             const response = await axios.post(BACKEND_URL, sendInvitations, config);
             console.warn(response)
             notifyFriendAdd()
+            getFriendInvitationWaitingList()
         } catch (error) {
             console.error("Error sending invitations")
         }
