@@ -1,7 +1,7 @@
-import React from "react";
+const ChallengePage = () => {
+  return <div>
 
-function ChallengePage() {
-  return <div>ChallengePage</div>;
+  </div>;
 }
 
 export default ChallengePage;
