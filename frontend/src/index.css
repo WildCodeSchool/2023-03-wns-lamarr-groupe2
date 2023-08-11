@@ -65,6 +65,24 @@
   }
 }
 
+/* Quill  */
+.quill .ql-toolbar.ql-snow {
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  padding: 8px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.quill .ql-container.ql-snow {
+  border: 2px solid #000000;
+  background-color: white;
+  height: 20vh;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+/* General */
 body {
   @apply bg-main-bg;
   @apply font-content;

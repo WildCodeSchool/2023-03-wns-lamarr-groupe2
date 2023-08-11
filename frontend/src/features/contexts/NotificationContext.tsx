@@ -45,7 +45,6 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             setNotifications(notificationsData);
         } catch (error) {
             setNotifications([])
-            console.error("Error fetching notifications:", error);
         }
     };
 
