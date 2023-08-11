@@ -25,7 +25,6 @@ const UsersList = () => {
 
   const waitingFriendIds = waitingFriendList.map((waitingFriend) => waitingFriend.id);
 
-  console.log(waitingFriendList)
   const handleAddFriend = (friendsId: number[]) => {
     sendFriendInvitation(friendsId)
     setSelectedUserIds([])
@@ -90,7 +89,7 @@ const UsersList = () => {
           filteredUsers?.map((user, index) => (
             <div
               key={index}
-              className="border-b flex items-center justify-between"
+              className={`border-b flex items-center justify-between ${waitingFriendIds.includes(user.id) && 'pointer-events-none'}`}
               onClick={() => handleToggleSelection(user)}
             >
               <div className="flex gap-2">
