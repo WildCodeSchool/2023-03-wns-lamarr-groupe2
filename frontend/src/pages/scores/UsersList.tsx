@@ -21,7 +21,7 @@ const UsersList = () => {
   const { sendFriendInvitation } = useNotificationContext()
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [searchUser, setSearchUser] = useState<string>("");
-
+  const { waitingFriendList } = useNotificationContext()
 
   const handleAddFriend = (friendsId: number[]) => {
     sendFriendInvitation(friendsId)
@@ -53,9 +53,10 @@ const UsersList = () => {
   const usersWithoutFriends = useMemo(() => {
     return pipe(
       users,
-      filter((user) => !friends.some((friend) => friend.id === user.id))
+      filter((user) => !friends.some((friend) => friend.id === user.id)),
+      filter((user) => !waitingFriendList.some((waitingFriend) => waitingFriend.id === user.id))
     );
-  }, [users, friends]);
+  }, [users, friends, waitingFriendList]);
 
   const filteredUsers = useMemo(() => {
     return pipe(

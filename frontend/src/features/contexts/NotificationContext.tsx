@@ -9,9 +9,10 @@ import {
 import { NotificationContextType, TNotification, UpdateFriendProps } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
-import { mutationIsRead, queryNotifications, sendNotifications } from "./utils/queries";
+import { mutationIsRead, queryFriendList, queryNotifications, sendNotifications } from "./utils/queries";
 import { isEmpty } from "remeda";
 import useFriendContext from "./FriendContext";
+import { useToaster } from "../hooks/useToaster";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
 
@@ -22,9 +23,12 @@ const NotificationContext = createContext<NotificationContextType>(
 
 // Provider Component
 export const NotificationContextProvider: FC<PropsWithChildren> = ({ children }) => {
+    const { notifyFriendAdd } = useToaster()
     const { token, user } = useUserContext()
     const { addFriend } = useFriendContext()
     const [notifications, setNotifications] = useState<TNotification[]>([]);
+    const [waitingFriendList, setWaitingFriendList] = useState<Record<"id", number>[]>([])
+
     // Get Notifications
     const getNotifications = async () => {
         try {
@@ -67,12 +71,38 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
         }
     }
 
+    // Users with friend invitation waiting
+    const getFriendInvitationWaitingList = async () => {
+        try {
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
+
+            const response = await axios.post(
+                BACKEND_URL,
+                { query: queryFriendList },
+                config
+            );
+            const friendWaitingList = response.data.data.usersWithUnreadNotifications;
+            setWaitingFriendList(friendWaitingList);
+        } catch (error) {
+            setWaitingFriendList([])
+            console.error("Error fetching notifications:", error);
+        }
+    };
+
+
+    useEffect(() => {
+        setNotifications([]);
+        setWaitingFriendList([]);
+    }, [user]);
+
     useEffect(() => {
         if (isEmpty(user)) {
             return;
         }
         getNotifications();
-        //eslint-disable-next-line
+        getFriendInvitationWaitingList();
     }, [user, token]);
 
     // Accept or Decline Friend Invitation
@@ -102,6 +132,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
                     friendId: updateFriendProps.senderId
                 }
                 addFriend(addFriendsProps)
+
             }
         } catch (error) {
             console.error("Error Updating Notification:", error);
@@ -125,13 +156,16 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({ children })
             };
             const response = await axios.post(BACKEND_URL, sendInvitations, config);
             console.warn(response)
+            notifyFriendAdd()
         } catch (error) {
             console.error("Error sending invitations")
         }
     }
 
+
+
     return (
-        <NotificationContext.Provider value={{ notifications, updateNotificationIsRead, updateFriendInvitation, sendFriendInvitation }}>
+        <NotificationContext.Provider value={{ notifications, updateNotificationIsRead, updateFriendInvitation, sendFriendInvitation, waitingFriendList }}>
             {children}
         </NotificationContext.Provider>
     );

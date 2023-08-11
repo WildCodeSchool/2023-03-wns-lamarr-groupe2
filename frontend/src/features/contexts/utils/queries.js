@@ -99,6 +99,12 @@ const sendNotifications = `mutation NewNotification($input: NotificationInput!) 
   }
 }`;
 
+const queryFriendList = `query UsersWithUnreadNotifications {
+  usersWithUnreadNotifications {
+    id
+  }
+}`;
+
 module.exports = {
   queryProfile,
   querySignIn,
@@ -112,4 +118,5 @@ module.exports = {
   queryNotifications,
   mutationIsRead,
   sendNotifications,
+  queryFriendList,
 };

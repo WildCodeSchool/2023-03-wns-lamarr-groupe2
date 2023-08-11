@@ -21,6 +21,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { notifyFriendAdd, notifyErrorGlobal } = useToaster();
   const { user, token } = useUserContext();
   const [friends, setFriends] = useState<Friend[]>([]);
+
   const getFriends = async () => {
     try {
       const config = {
@@ -66,12 +67,16 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
 
   useEffect(() => {
+    setFriends([]);
+  }, [user]);
+
+  useEffect(() => {
     if (isEmpty(user)) {
       return;
     }
-    getFriends();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    getFriends()
+  }, [user, token]);
+
 
   // Remove a friend
   const removeFriend =

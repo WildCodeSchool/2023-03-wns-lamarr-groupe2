@@ -90,6 +90,7 @@ export type NotificationContextType = {
   updateNotificationIsRead: (notificationId: number) => void;
   updateFriendInvitation: (updateFriendProps: UpdateFriendProps) => void;
   sendFriendInvitation: (friendsIds: number[]) => void;
+  waitingFriendList: Record<"id", number>[];
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {

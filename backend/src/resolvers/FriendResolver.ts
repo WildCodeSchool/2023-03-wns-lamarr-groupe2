@@ -22,7 +22,7 @@ export class FriendResolver {
     if (user.id === input.friendid)
       throw new Error(`User and friend are the same`);
 
-    if (user === null) throw new Error(`The user is not connected`);
+    if (!user) throw new Error(`The user is not connected`);
 
     const userFriends = await User.findOne({
       relations: {
@@ -33,21 +33,33 @@ export class FriendResolver {
       },
     });
 
-    if (userFriends === null) throw new Error(`The user is not connected`);
+    if (!userFriends) throw new Error(`The user is not connected`);
 
-    userFriends.friend.forEach((check) => {
-      if (check.id === input.friendid)
-        throw new Error(`The user is already friend`);
-    });
+    const friend = await User.findOne({ where: { id: input.friendid } });
 
-    const friend = await User.findOneBy({ id: input.friendid });
-
-    if (friend === null)
+    if (!friend)
       throw new Error(`The user with id: ${input.friendid} does not exist!`);
 
-    userFriends.friend.push(friend);
+    if (!userFriends.friend) {
+      userFriends.friend = []; // Initialisez la liste d'amis si elle est undefined
+    }
 
-    return await userFriends.save();
+    if (!friend.friend) {
+      friend.friend = []; // Initialisez la liste d'amis de l'ami si elle est undefined
+    }
+
+    const alreadyFriends = userFriends.friend.some((f) => f.id === friend.id);
+    if (alreadyFriends) {
+      throw new Error(`The user is already a friend`);
+    }
+
+    userFriends.friend.push(friend);
+    friend.friend.push(user);
+
+    await userFriends.save();
+    await friend.save();
+
+    return userFriends;
   }
 
   @Mutation(() => User)
@@ -60,12 +72,8 @@ export class FriendResolver {
     if (user === null) throw new Error(`The user is not connected!`);
 
     const userFriends = await User.findOne({
-      relations: {
-        friend: true,
-      },
-      where: {
-        id: user.id,
-      },
+      where: { id: user.id },
+      relations: ["friend"],
     });
 
     if (userFriends === null) throw new Error(`The user doesn't exist!`);
@@ -75,7 +83,20 @@ export class FriendResolver {
     friends = friends.filter((item) => item.id !== input.friendid);
     userFriends.friend = friends;
 
-    return await userFriends.save();
+    await userFriends.save();
+
+    const targetUser = await User.findOne({
+      where: { id: input.friendid },
+      relations: ["friend"],
+    });
+    if (targetUser) {
+      targetUser.friend = targetUser.friend.filter(
+        (item) => item.id !== user.id
+      );
+      await targetUser.save();
+    }
+
+    return userFriends;
   }
 
   @Query(() => [User])

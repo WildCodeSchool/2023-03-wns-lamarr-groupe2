@@ -147,4 +147,27 @@ export class NotificationResolver {
     await Notification.remove(notifications);
     return true;
   }
+
+  // Get List of users which recieve user's friend invitation
+  @Query(() => [User])
+  async usersWithUnreadNotifications(
+    @Ctx() context: { user: User }
+  ): Promise<User[]> {
+    if (!context.user) {
+      throw new Error("The user is not connected!");
+    }
+
+    const usersWithUnreadNotifications = await User.createQueryBuilder("user")
+      .leftJoinAndSelect(
+        "user.receivedNotifications",
+        "notification",
+        "notification.type = :type AND notification.status IS NULL",
+        { type: 2 }
+      )
+      .where("notification.senderId = :senderId", { senderId: context.user.id })
+      .addGroupBy("user.id")
+      .addGroupBy("notification.id")
+      .getMany();
+    return usersWithUnreadNotifications;
+  }
 }
