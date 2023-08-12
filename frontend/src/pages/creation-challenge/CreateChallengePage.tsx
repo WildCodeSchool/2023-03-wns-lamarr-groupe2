@@ -8,6 +8,7 @@ import DropDownSelectors, { OptionType } from "./DropDownSelectors";
 import { isEmpty } from "remeda";
 import DifficultyLevel from "../../components/DifficultyLevel";
 import useUserContext from "../../features/contexts/UserContext";
+import TaskToDo from "./TaskToDo";
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
@@ -16,22 +17,22 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+  /* const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
 
   const handleDifficulty = (value: number) => {
     /* @ts-ignore */
-    setSelectedOption(prevOption => ({
-      ...prevOption,
-      difficulty: value,
-      points: value * 20
-    }));
-  }
-
-  const isDifficultyClickFree = user?.company_id && selectedOption?.value !== undefined
-
-
+  /*  setSelectedOption(prevOption => ({
+     ...prevOption,
+     difficulty: value,
+     points: value * 20
+   }));
+ }
+  */
+  /* const isDifficultyClickFree = user?.company_id && selectedOption?.value !== undefined
+  
+    
   console.log()
-  console.log(title, description, startDate, endDate, selectedOption)
+  console.log(title, description, startDate, endDate, selectedOption) */
   const handleDescriptionChange = (value: SetStateAction<string>) => {
     setDescription(value);
   };
@@ -82,31 +83,9 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           Tâches à accomplir
         </label>
 
+        <TaskToDo isDisabled={isDisabled} />
 
-        <div className=" flex justify-between gap-6 flex-col lg:flex-row items-center -mt-3 ">
-          {/* Drop down */}
 
-          <div className="flex-1 w-full  max-w-[490px]">
-            <DropDownSelectors
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-              isDisabled={isDisabled}
-            />
-          </div>
-
-          {/*  */}
-          <div className="flex gap-6 items-center">
-            <div className="flex-1"><DifficultyLevel handleDifficulty={isDifficultyClickFree && handleDifficulty} selectedOption={selectedOption} /></div>
-            <div className=" w-24">
-              <InputCustom
-                type="text"
-                name="points"
-                value={selectedOption?.points !== undefined ? selectedOption?.points?.toString() + ' pts' ?? "" : ''}
-                placeholder="Points"
-              />
-            </div>
-          </div>
-        </div>
       </section>
       {/* second part desktop */}
       <section className=" flex-1 border-1 border-primary-danger w-full"></section>
