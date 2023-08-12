@@ -241,3 +241,7 @@ button {
     229
   ) !important; /* Set text color to blue for disabled dates */
 }
+
+* :focus {
+  outline-color: #ffcb66 !important;
+}

@@ -14,11 +14,11 @@ export default function DashboardPage() {
       <div className="lg:flex lg:w-5/12 xl:w-3/12  ">
         <MyChallenges />
       </div>
-      {isUserGotTeams && (
+      {/*   {isUserGotTeams && (
         <div className="  hidden w-5/12 lg:flex max-w-[328px] xl:max-w-full">
           <MyTeams />
         </div>
-      )}
+      )} */}
       <DashboardPageModale />
     </section>
   );
