@@ -21,7 +21,6 @@ root.render(
           <App />
         </NotificationContextProvider>
       </FriendContextProvider>
-
     </UserContextProvider>
   </BrowserRouter>
   /*   </React.StrictMode> */

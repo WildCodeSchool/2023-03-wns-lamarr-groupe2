@@ -1,7 +1,5 @@
 const ChallengePage = () => {
-  return <div>
-
-  </div>;
-}
+  return <div></div>;
+};
 
 export default ChallengePage;

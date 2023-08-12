@@ -245,3 +245,8 @@ button {
 * :focus {
   outline-color: #ffcb66 !important;
 }
+
+#startToday,
+#endToday {
+  accent-color: #ffcb66;
+}

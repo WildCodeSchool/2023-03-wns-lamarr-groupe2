@@ -23,8 +23,9 @@ export const HeaderBar = () => {
     value: string | number;
   }) => (
     <div
-      className={`${label === "Challenges : " && "hidden"
-        } lg:flex items-center`}
+      className={`${
+        label === "Challenges : " && "hidden"
+      } lg:flex items-center`}
     >
       <p className="inline-block">{label}</p>
       <span className="font-bold text-[1.1em] pl-1">{value}</span>
@@ -33,8 +34,9 @@ export const HeaderBar = () => {
 
   return (
     <header
-      className={`relative  border-b-1 border-tertiary-dark  h-20 ${mobileHeader ? "flex  px-8  " : "hidden"
-        }  lg:flex font-titles justify-between items-center lg:px-2`}
+      className={`relative  border-b-1 border-tertiary-dark  h-20 ${
+        mobileHeader ? "flex  px-8  " : "hidden"
+      }  lg:flex font-titles justify-between items-center lg:px-2`}
     >
       <h1 className="hidden lg:block font-bold text-[3em]">ECHOES OF FUTURE</h1>
 

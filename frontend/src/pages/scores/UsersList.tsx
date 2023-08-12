@@ -18,16 +18,18 @@ export type UserGlobal = {
 const UsersList = () => {
   const { users } = useUserContext();
   const { friends } = useFriendContext();
-  const { sendFriendInvitation } = useNotificationContext()
+  const { sendFriendInvitation } = useNotificationContext();
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [searchUser, setSearchUser] = useState<string>("");
-  const { waitingFriendList } = useNotificationContext()
+  const { waitingFriendList } = useNotificationContext();
 
-  const waitingFriendIds = waitingFriendList.map((waitingFriend) => waitingFriend.id);
+  const waitingFriendIds = waitingFriendList.map(
+    (waitingFriend) => waitingFriend.id
+  );
 
   const handleAddFriend = (friendsId: number[]) => {
-    sendFriendInvitation(friendsId)
-    setSelectedUserIds([])
+    sendFriendInvitation(friendsId);
+    setSelectedUserIds([]);
   };
   /* To add multiple users :   */
   const handleToggleSelection = (user: UserGlobal) => {
@@ -56,7 +58,7 @@ const UsersList = () => {
   const usersWithoutFriends = useMemo(() => {
     return pipe(
       users,
-      filter((user) => !friends.some((friend) => friend.id === user.id)),
+      filter((user) => !friends.some((friend) => friend.id === user.id))
     );
   }, [users, friends]);
 
@@ -89,14 +91,22 @@ const UsersList = () => {
           filteredUsers?.map((user, index) => (
             <div
               key={index}
-              className={`border-b flex items-center justify-between ${waitingFriendIds.includes(user.id) && 'pointer-events-none'}`}
+              className={`border-b flex items-center justify-between ${
+                waitingFriendIds.includes(user.id) && "pointer-events-none"
+              }`}
               onClick={() => handleToggleSelection(user)}
             >
               <div className="flex gap-2">
                 <ProfilePicture url={user.picture} size="smallPic" />
                 <p>{user.username}</p>
               </div>
-              {waitingFriendIds.includes(user.id) ? <p className=" text-small-p font-bold text-right  italic text-primary-good pr-3 py-4">En attente</p> : <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />}
+              {waitingFriendIds.includes(user.id) ? (
+                <p className=" text-small-p font-bold text-right  italic text-primary-good pr-3 py-4">
+                  En attente
+                </p>
+              ) : (
+                <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />
+              )}
             </div>
           ))
         )}
