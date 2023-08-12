@@ -1,14 +1,13 @@
-import { FC, PropsWithChildren, SetStateAction, useEffect, useState } from "react";
+import { FC, Key, PropsWithChildren, SetStateAction, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import the styles for the rich text editor
+import "react-quill/dist/quill.snow.css";
 import InputCustom from "../../components/InputCustom";
 import DatePickers from "./DatePickers";
-import { tasks } from "./data";
-import DropDownSelectors, { OptionType } from "./DropDownSelectors";
 import { isEmpty } from "remeda";
-import DifficultyLevel from "../../components/DifficultyLevel";
 import useUserContext from "../../features/contexts/UserContext";
 import TaskToDo from "./TaskToDo";
+import { OptionType } from "./DropDownSelectors";
+import plus from '../../assets/icons/plus-task.svg'
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
@@ -17,26 +16,10 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
-  /* const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
-
-  const handleDifficulty = (value: number) => {
-    /* @ts-ignore */
-  /*  setSelectedOption(prevOption => ({
-     ...prevOption,
-     difficulty: value,
-     points: value * 20
-   }));
- }
-  */
-  /* const isDifficultyClickFree = user?.company_id && selectedOption?.value !== undefined
-  
-    
-  console.log()
-  console.log(title, description, startDate, endDate, selectedOption) */
+  const [tasksToDo, setTasksToDo] = useState<any>([{}])
   const handleDescriptionChange = (value: SetStateAction<string>) => {
     setDescription(value);
   };
-
   useEffect(() => {
     if (isEmpty(description) || isEmpty(title) || startDate === null || endDate === null) {
       setIsDisabled(true);
@@ -46,6 +29,24 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   }, [description, startDate, endDate]);
 
 
+  const handleTaskList = (newTaskData?: OptionType) => {
+    if (tasksToDo.length > 2 && !user.company_id) {
+      return;
+    }
+    if (tasksToDo.length > 4) {
+      return;
+    }
+    const newTask = newTaskData ? { ...newTaskData } : {};
+    setTasksToDo([...tasksToDo, newTask]);
+  }
+
+  const updateTask = (index: number, updatedTask: OptionType) => {
+    const updatedTasks = [...tasksToDo];
+    updatedTasks[index] = updatedTask;
+    setTasksToDo(updatedTasks);
+  };
+
+  console.log('TasksToDo', tasksToDo)
   return (
     <div className="px-2 flex flex-col md:flex-row gap-3 w-full">
       {/* first part desktop */}
@@ -83,9 +84,13 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           Tâches à accomplir
         </label>
 
-        <TaskToDo isDisabled={isDisabled} />
+        {tasksToDo.map((task: any, index: number) => (
+          <TaskToDo updateTask={(updatedTask: OptionType) => updateTask(index, updatedTask)} key={index} isDisabled={isDisabled} />
+        ))}
 
-
+        {(tasksToDo.length > 2 && !user.company_id) ? null : tasksToDo.length === 5 ? null : <button onClick={() => handleTaskList(undefined)} className="flex gap-2 font-content">
+          <img src={plus} alt='Create a task' className="h-6 w-6" />
+          ajouter une tâche </button>}
       </section>
       {/* second part desktop */}
       <section className=" flex-1 border-1 border-primary-danger w-full"></section>

@@ -30,7 +30,6 @@ const Level: FC<{ filled?: boolean; onClick?: () => void; difficulty?: number }>
 };
 
 const DifficultyLevel: FC<DifficultyLevelProps> = ({ selectedOption, handleDifficulty }) => {
-    console.log(selectedOption);
     return (
         <div className='flex gap-2'>
             {[1, 2, 3, 4, 5].map((level) => (

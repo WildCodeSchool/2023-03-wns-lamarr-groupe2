@@ -29,16 +29,17 @@ const DropDownSelectors: FC<DropDownProps> = ({
     isDisabled,
     selectedOption,
     setSelectedOption,
+
 }) => {
     const { user } = useUserContext();
     const [isClearable, setIsClearable] = useState(true);
-
     const handleSelectChange = (
         option: OptionType | null,
         action: ActionMeta<OptionType>
     ) => {
-        setSelectedOption(option);
-    };
+        setSelectedOption(option !== null ? option : null);
+
+    }
 
     const customStyles = {
         option: (provided: any, state: any) => ({

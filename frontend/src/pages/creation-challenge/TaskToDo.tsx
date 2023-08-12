@@ -1,12 +1,20 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import DropDownSelectors, { OptionType } from './DropDownSelectors'
 import DifficultyLevel from '../../components/DifficultyLevel'
 import InputCustom from '../../components/InputCustom'
 import useUserContext from '../../features/contexts/UserContext'
 
-const TaskToDo: FC<{ isDisabled: boolean }> = ({ isDisabled }) => {
+const TaskToDo: FC<{ isDisabled: boolean, updateTask: any }> = ({ isDisabled, updateTask }) => {
     const { user } = useUserContext()
     const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
+    console.log(selectedOption)
+
+    useEffect(() => {
+        if (selectedOption && selectedOption.label && selectedOption.difficulty !== undefined) {
+            updateTask(selectedOption)
+        }
+    }, [selectedOption]);
+
 
     const handleDifficulty = (value: number) => {
         /* @ts-ignore */
@@ -35,6 +43,7 @@ const TaskToDo: FC<{ isDisabled: boolean }> = ({ isDisabled }) => {
                 <div className="flex-1"><DifficultyLevel handleDifficulty={isDifficultyClickFree && handleDifficulty} selectedOption={selectedOption} /></div>
                 <div className=" w-24">
                     <InputCustom
+                        readOnly
                         type="text"
                         name="points"
                         value={selectedOption?.points !== undefined ? selectedOption?.points?.toString() + ' pts' ?? "" : ''}
