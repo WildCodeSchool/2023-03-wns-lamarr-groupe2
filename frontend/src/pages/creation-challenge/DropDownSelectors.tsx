@@ -10,12 +10,13 @@ import { tasks } from "./data";
 import useUserContext from "../../features/contexts/UserContext";
 
 export type OptionType = {
-    id: number;
-    description: string;
+    id?: number;
+    description?: string;
     label: string;
-    need_proof: boolean;
-    points: number;
-    difficulty: number;
+    need_proof?: boolean;
+    points?: number;
+    difficulty: number | undefined;
+    value?: string
 };
 
 type DropDownProps = {
@@ -61,7 +62,7 @@ const DropDownSelectors: FC<DropDownProps> = ({
 
     return (
         <>
-            {!user.company_id ? (
+            {user.company_id ? (
                 <CreatableSelect
                     theme={(theme) => ({
                         ...theme,
