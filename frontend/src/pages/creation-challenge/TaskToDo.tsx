@@ -7,8 +7,8 @@ import useUserContext from '../../features/contexts/UserContext'
 const TaskToDo: FC<{ isDisabled: boolean, updateTask: any }> = ({ isDisabled, updateTask }) => {
     const { user } = useUserContext()
     const [selectedOption, setSelectedOption] = useState<OptionType | null>(null);
-    console.log(selectedOption)
 
+    /* Update the task automatically when the selectedOption has required values (difficulty add auto points and description is supposed to be useless for the moment) */
     useEffect(() => {
         if (selectedOption && selectedOption.label && selectedOption.difficulty !== undefined) {
             updateTask(selectedOption)
@@ -17,7 +17,8 @@ const TaskToDo: FC<{ isDisabled: boolean, updateTask: any }> = ({ isDisabled, up
 
 
     const handleDifficulty = (value: number) => {
-        /* @ts-ignore */
+        // @ts-ignore
+        // Don't know how to give the good type because the selected Option can be undefined or null when a task is created
         setSelectedOption(prevOption => ({
             ...prevOption,
             difficulty: value,

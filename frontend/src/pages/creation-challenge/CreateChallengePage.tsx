@@ -28,7 +28,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     }
   }, [description, startDate, endDate]);
 
-
+  /* To add a new task */
   const handleTaskList = (newTaskData?: OptionType) => {
     if (tasksToDo.length > 2 && !user.company_id) {
       return;
@@ -36,10 +36,11 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     if (tasksToDo.length > 4) {
       return;
     }
-    const newTask = newTaskData ? { ...newTaskData } : {};
-    setTasksToDo([...tasksToDo, newTask]);
+    /* Add a new task without value because it was more easy to update later */
+    setTasksToDo([...tasksToDo, {}]);
   }
 
+  /* Update a task with his index */
   const updateTask = (index: number, updatedTask: OptionType) => {
     const updatedTasks = [...tasksToDo];
     updatedTasks[index] = updatedTask;
