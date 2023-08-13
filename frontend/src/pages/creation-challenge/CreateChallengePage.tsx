@@ -9,6 +9,7 @@ import TaskToDo from "./TaskToDo";
 import { OptionType } from "./DropDownSelectors";
 import plus from '../../assets/icons/plus-task.svg'
 import Toggle from "../../components/Toggle";
+import Contenders from "./Contenders";
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
@@ -17,6 +18,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabledContenders, setIsDisabledContenders] = useState(false)
   const [tasksToDo, setTasksToDo] = useState<any>([{}])
   const handleDescriptionChange = (value: SetStateAction<string>) => {
     setDescription(value);
@@ -30,6 +32,14 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
       setIsDisabled(false);
     }
   }, [description, startDate, endDate]);
+
+  useEffect(() => {
+    if ((tasksToDo[0].id === undefined) || isDisabled) {
+      setIsDisabledContenders(true);
+    } else {
+      setIsDisabledContenders(false);
+    }
+  }, [tasksToDo, isDisabled, tasksToDo]);
 
   /* To add a new task */
   const handleTaskList = (newTaskData?: OptionType) => {
@@ -52,7 +62,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
   console.log('TasksToDo', tasksToDo)
   return (
-    <div className="px-2 flex flex-col md:flex-row gap-3 w-full">
+    <div className="px-2 py-3 flex flex-col md:gap-10  md:flex-row  xl:gap-24 w-full">
       {/* first part desktop */}
       <section className=" md:max-w-[50%] flex-1  flex flex-col gap-5  w-full">
         <InputCustom
@@ -101,10 +111,13 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         <label className="uppercase" title="visibility">
           VISIBILITÉ
         </label>
-        <div className="flex gap-6">
+        <div className="flex gap-6 mt-2">
           <Toggle value={isPublicMode} onClick={() => setIsPublicMode(prev => !prev)} styled='toggle' />
-          {isPublicMode && <p>public</p>}
+          <p> {isPublicMode ? 'publique' : 'privée'}</p>
         </div>
+
+        {/* Contenders */}
+        <Contenders isDisabledContenders={isDisabledContenders} />
       </section>
     </div>
   );

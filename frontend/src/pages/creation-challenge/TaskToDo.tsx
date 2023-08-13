@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import DropDownSelectors, { OptionType } from './DropDownSelectors'
 import DifficultyLevel from '../../components/DifficultyLevel'
 import InputCustom from '../../components/InputCustom'
@@ -12,6 +12,9 @@ const TaskToDo: FC<{ isDisabled: boolean, updateTask: any }> = ({ isDisabled, up
     useEffect(() => {
         if (selectedOption && selectedOption.label && selectedOption.difficulty !== undefined) {
             updateTask(selectedOption)
+        } else if (!selectedOption) {
+            // Update the task when selectedOption becomes null
+            updateTask({});
         }
     }, [selectedOption]);
 
