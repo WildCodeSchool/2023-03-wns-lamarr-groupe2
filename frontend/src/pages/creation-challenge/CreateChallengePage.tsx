@@ -8,6 +8,7 @@ import useUserContext from "../../features/contexts/UserContext";
 import TaskToDo from "./TaskToDo";
 import { OptionType } from "./DropDownSelectors";
 import plus from '../../assets/icons/plus-task.svg'
+import Toggle from "../../components/Toggle";
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
@@ -20,6 +21,8 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const handleDescriptionChange = (value: SetStateAction<string>) => {
     setDescription(value);
   };
+  const [isPublicMode, setIsPublicMode] = useState(false)
+
   useEffect(() => {
     if (isEmpty(description) || isEmpty(title) || startDate === null || endDate === null) {
       setIsDisabled(true);
@@ -94,7 +97,15 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           ajouter une tâche </button>}
       </section>
       {/* second part desktop */}
-      <section className=" flex-1 border-1 border-primary-danger w-full"></section>
+      <section className=" flex-1 border-1 border-primary-danger w-full">
+        <label className="uppercase" title="visibility">
+          VISIBILITÉ
+        </label>
+        <div className="flex gap-6">
+          <Toggle value={isPublicMode} onClick={() => setIsPublicMode(prev => !prev)} styled='toggle' />
+          {isPublicMode && <p>public</p>}
+        </div>
+      </section>
     </div>
   );
 };

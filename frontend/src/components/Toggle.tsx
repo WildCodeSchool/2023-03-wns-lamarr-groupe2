@@ -1,12 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react';
 
 type ToggleProps = {
   onClick: () => void;
-  styled: "toggle" | "toggleUntoggled";
+  styled: "toggle";
+  value: boolean;
 };
 
-const Toggle: FC<ToggleProps> = ({ onClick, styled }) => {
-  const [isToggled, setIsToggled] = useState(false);
+const Toggle: FC<ToggleProps> = ({ onClick, styled, value }) => {
+  const [isToggled, setIsToggled] = useState(value || false);
 
   const handleToggleClick = () => {
     setIsToggled((prevState) => !prevState);
@@ -14,17 +15,8 @@ const Toggle: FC<ToggleProps> = ({ onClick, styled }) => {
   };
 
   return (
-    <div>
-      <input type="checkbox" id="toggle" className="toggle-checkbox hidden" />
-
-      <button
-        className={` toggle-label cursor-pointer small customBorder ${
-          isToggled ? "toggle" : "justify-end bg-primary-danger"
-        } ${styled}`}
-        onClick={handleToggleClick}
-      >
-        <span className={`toggleSpan`}></span>
-      </button>
+    <div className={`relative w-12 h-6 rounded-full border-1 ${isToggled ? 'bg-primary-good' : 'bg-primary-danger'} transition-colors duration-300`} onClick={handleToggleClick}>
+      <div className={`absolute border left-[-1px] top-[-1px] w-6 h-6 rounded-full bg-primary-attention transform transition-transform ${isToggled ? 'translate-x-full' : ''}`}></div>
     </div>
   );
 };
