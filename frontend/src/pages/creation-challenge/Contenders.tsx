@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
-import { friendListData } from "../scores/data";
 import Select from 'react-select';
+import { friendListData } from "../scores/data";
+
 
 type TContender = {
     id: number,
@@ -12,8 +13,14 @@ export type ContendersProps = {
 }
 
 const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
-    const [selectedContenders, setSelectedContenders] = useState<TContender[]>([])
-    const [selectedOption, setSelectedOption] = useState<TContender>()
+    const [selectedOptions, setSelectedOption] = useState([])
+
+    const handleChange = (selectedOptions: any) => {
+        setSelectedOption(selectedOptions);
+    };
+
+    const getOptionLabel = (option: any) => option.username
+    const getOptionValue = (option: any) => option.username
 
     const customStyles = {
         option: (provided: any, state: any) => ({
@@ -35,10 +42,6 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
         }),
     };
 
-
-    const handleSelectChange = () => {
-
-    }
 
     return (
         <div>
@@ -66,9 +69,10 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                         ? "Renseignez les champs précédents"
                         : "Sélectionnez une tâche"
                 }
+                onChange={handleChange}
                 isMulti
-                value={selectedOption}
-                onChange={handleSelectChange}
+                getOptionLabel={getOptionLabel}
+                getOptionValue={getOptionValue}
                 styles={customStyles}
             />
 
@@ -77,83 +81,3 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
 }
 
 export default Contenders
-
-
-/* 
-    const customStyles = {
-        option: (provided: any, state: any) => ({
-            ...provided,
-            backgroundColor: state.isFocused ? "#FFCB66" : "white",
-            color: state.isFocused ? "white" : "black",
-        }),
-        singleValue: (provided: any) => ({
-            ...provided,
-            color: "black",
-        }),
-        control: (provided: any) => ({
-            ...provided,
-            border: "2px solid black",
-            borderRadius: 6,
-            "&:hover": {
-                border: "2px solid #FFCB66",
-            },
-        }),
-    };
-
-    return (
-        <>
-            {user.company_id ? (
-                <CreatableSelect
-                    theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 6,
-                        colors: {
-                            ...theme.colors,
-                            primary25: "#FFCB66",
-                            primary: "#FFCB66",
-                        },
-                    })}
-                    styles={customStyles}
-                    isDisabled={isDisabled}
-                    placeholder={
-                        isDisabled
-                            ? "Renseignez les champs précédents"
-                            : "Créez ou sélectionnez"
-                    }
-                    isClearable
-                    options={tasks}
-                    onChange={handleSelectChange}
-                />
-            ) : (
-                <Select
-                    theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 6,
-                        colors: {
-                            ...theme.colors,
-                            primary25: "#FFCB66",
-                            primary: "#FFCB66",
-                        },
-                    })}
-                    className="basic-single"
-                    classNamePrefix="select"
-                    isDisabled={isDisabled}
-                    isClearable={isClearable}
-                    name="todotask"
-                    options={tasks}
-                    placeholder={
-                        isDisabled
-                            ? "Renseignez les champs précédents"
-                            : "Sélectionnez une tâche"
-                    }
-                    value={selectedOption}
-                    onChange={handleSelectChange}
-                    styles={customStyles}
-                />
-            )}
-        </>
-    );
-};
-
-export default DropDownSelectors;
- */
