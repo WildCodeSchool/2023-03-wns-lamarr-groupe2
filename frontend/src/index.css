@@ -241,3 +241,7 @@ button {
 #endToday {
   accent-color: #ffcb66;
 }
+
+.css-1ufrq8r-multiValue {
+  background-color: transparent !important;
+}

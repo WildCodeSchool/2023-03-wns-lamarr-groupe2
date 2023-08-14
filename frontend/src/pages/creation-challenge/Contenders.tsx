@@ -49,6 +49,8 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
             borderLeft: "1px solid black",
             borderTopRightRadius: "0px",
             borderBottomRightRadius: "0px",
+            borderRadius: '6px',
+            color: "black"
 
         }),
         multiValueRemove: (provided: any) => ({
@@ -59,6 +61,7 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
             borderRight: "1px solid black",
             borderTopLeftRadius: "0px",
             borderBottomLeftRadius: "0px",
+            borderRadius: '6px'
 
         }),
         control: (provided: any) => ({
@@ -72,7 +75,7 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
     };
 
     return (
-        <div>
+        <div className="mt-12 w-full">
             <label className="uppercase" title="visibility">
                 PARTICIPANTS
             </label>
@@ -87,7 +90,7 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                         primary: primaryAttention,
                     },
                 })}
-                className="basic-single"
+                className="basic-single w-1/2 h-20 overflow-auto"
                 classNamePrefix="select"
                 isDisabled={isDisabledContenders}
                 name="todotask"
@@ -105,7 +108,7 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                 styles={customStyles}
             />
 
-            <div className="flex flex-wrap gap-3 mt-2">
+            <div className="flex flex-wrap gap-3 mt-10">
                 {selectedOptions.map((contender) => (
                     <div key={contender.id} className="relative bg-primary-attention w-20 h-20 rounded-b-full   flex justify-center items-center rounded-tl-full">
                         <ProfilePicture url={contender.picture} size="mediumPic" border />
