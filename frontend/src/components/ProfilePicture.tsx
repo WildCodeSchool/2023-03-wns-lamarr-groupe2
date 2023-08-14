@@ -7,6 +7,7 @@ export type ProfilePictureProps = {
   size: "smallPic" | "mediumPic" | "largePic" | "xlargePic";
   url?: string;
   onClick?: () => void;
+  border?: boolean
 };
 
 export type PictureMap = {
@@ -19,11 +20,10 @@ const pictureMap: PictureMap = {
   hermesY: hermesY,
 };
 
-const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick }) => {
+const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick, border }) => {
   const customPic: React.CSSProperties = {
-    backgroundImage: `url(${
-      url ? pictureMap[`${url}`] : pictureMap["hermesG"]
-    })`,
+    backgroundImage: `url(${url ? pictureMap[`${url}`] : pictureMap["hermesG"]
+      })`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     backgroundSize: "cover",
@@ -31,7 +31,7 @@ const ProfilePicture: FC<ProfilePictureProps> = ({ size, url, onClick }) => {
 
   return (
     <div
-      className={`${!url && "bg-primary-good"} rounded-full ${size} `}
+      className={`${!url && "bg-primary-good"} rounded-full ${size} ${border && ' border-primary-dark border'}`}
       style={customPic}
       onClick={onClick}
     />
