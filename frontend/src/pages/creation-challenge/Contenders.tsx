@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
-import Select from 'react-select';
+import Select, { StylesConfig } from 'react-select';
 import { friendListData } from "../scores/data";
 import ProfilePicture from "../../components/ProfilePicture";
+import { customStyles } from "./customStyles";
 
 
 type TContender = {
@@ -17,11 +18,11 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
     const [selectedOptions, setSelectedOption] = useState<TContender[]>([])
     const [isShowAll, setIsShowAll] = useState(false)
     const friendListDataWithAll = [
-        { id: -1, username: "Tous", picture: "" }, // Option "Tous"
+        { id: -1, username: "Tous", picture: "" },
         ...friendListData,
     ];
     const handleChange = (selectedOptions: any) => {
-        if (selectedOptions[0]?.id == -1) {
+        if (selectedOptions.some((option: any) => option.id === -1)) {
             setSelectedOption(friendListData)
         } else { setSelectedOption(selectedOptions) }
 
@@ -37,62 +38,6 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
     }
 
     const primaryAttention = `#FFCB66`
-
-    const customStyles = {
-        option: (provided: any, state: any) => ({
-            ...provided,
-            backgroundColor: state.isFocused ? primaryAttention : "white",
-            color: state.isFocused ? "white" : "black",
-        }),
-        singleValue: (provided: any) => ({
-            ...provided,
-            color: "black",
-        }),
-        multiValueLabel: (provided: any) => ({
-            ...provided,
-            backgroundColor: primaryAttention,
-            borderTop: "1px solid black",
-            borderBottom: "1px solid black",
-            borderLeft: "1px solid black",
-            borderTopRightRadius: "0px",
-            borderBottomRightRadius: "0px",
-            borderRadius: '6px',
-            color: "black"
-
-        }),
-        multiValueRemove: (provided: any) => ({
-            ...provided,
-            backgroundColor: 'white',
-            borderTop: "1px solid black",
-            borderBottom: "1px solid black",
-            borderRight: "1px solid black",
-            borderTopLeftRadius: "0px",
-            borderBottomLeftRadius: "0px",
-            borderRadius: '6px'
-
-        }),
-        control: (provided: any, state: any) => ({
-            ...provided,
-            border: "2px solid black",
-            borderRadius: 6,
-            "&:hover": {
-                border: "2px solid #FFCB66",
-            },
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-            overflowX: 'auto',
-
-        }),
-        valueContainer: (provided: any, state: any) => ({
-            ...provided,
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'nowrap',
-            overflow: 'visible'
-        }),
-
-    };
 
     return (
         <div className="mt-12 w-full">
@@ -129,7 +74,7 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                 styles={customStyles}
                 required
             />
-            <button className=' font-content  underline text-small-p' onClick={() => setIsShowAll(prev => !prev)}>{isShowAll ? 'réduire' : `voir tous (${selectedOptions.length})`}</button>
+            <button className=' font-content  underline text-small-p justify-end w-full pr-16' onClick={() => setIsShowAll(prev => !prev)}>{isShowAll ? 'réduire' : `voir tous (${selectedOptions.length})`}</button>
 
             <div className="flex flex-wrap gap-3 mt-10">
                 {selectedOptions.slice(0, isShowAll ? selectedOptions.length : 5).map((contender) => (
