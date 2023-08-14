@@ -107,7 +107,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           ajouter une tâche </button>}
       </section>
       {/* second part desktop */}
-      <section className=" flex-1 border-1 border-primary-danger w-full">
+      <section className=" flex-1  w-full">
         <label className="uppercase" title="visibility">
           VISIBILITÉ
         </label>

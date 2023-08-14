@@ -15,9 +15,16 @@ export type ContendersProps = {
 
 const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
     const [selectedOptions, setSelectedOption] = useState<TContender[]>([])
-    console.log(selectedOptions)
+    const [isShowAll, setIsShowAll] = useState(false)
+    const friendListDataWithAll = [
+        { id: -1, username: "Tous", picture: "" }, // Option "Tous"
+        ...friendListData,
+    ];
     const handleChange = (selectedOptions: any) => {
-        setSelectedOption(selectedOptions);
+        if (selectedOptions[0]?.id == -1) {
+            setSelectedOption(friendListData)
+        } else { setSelectedOption(selectedOptions) }
+
     };
 
     const getOptionLabel = (option: any) => option.username
@@ -64,14 +71,27 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
             borderRadius: '6px'
 
         }),
-        control: (provided: any) => ({
+        control: (provided: any, state: any) => ({
             ...provided,
             border: "2px solid black",
             borderRadius: 6,
             "&:hover": {
                 border: "2px solid #FFCB66",
             },
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            overflowX: 'auto',
+
         }),
+        valueContainer: (provided: any, state: any) => ({
+            ...provided,
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            overflow: 'visible'
+        }),
+
     };
 
     return (
@@ -90,11 +110,12 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                         primary: primaryAttention,
                     },
                 })}
-                className="basic-single w-1/2 h-20 overflow-auto"
+                isSearchable
+                className="basic-single  w-1/2 max-w-1/2"
                 classNamePrefix="select"
                 isDisabled={isDisabledContenders}
                 name="todotask"
-                options={friendListData}
+                options={friendListDataWithAll}
                 placeholder={
                     isDisabledContenders
                         ? "Renseignez les champs précédents"
@@ -106,10 +127,12 @@ const Contenders: FC<ContendersProps> = ({ isDisabledContenders }) => {
                 getOptionLabel={getOptionLabel}
                 getOptionValue={getOptionValue}
                 styles={customStyles}
+                required
             />
+            <button className=' font-content  underline text-small-p' onClick={() => setIsShowAll(prev => !prev)}>{isShowAll ? 'réduire' : `voir tous (${selectedOptions.length})`}</button>
 
             <div className="flex flex-wrap gap-3 mt-10">
-                {selectedOptions.map((contender) => (
+                {selectedOptions.slice(0, isShowAll ? selectedOptions.length : 5).map((contender) => (
                     <div key={contender.id} className="relative bg-primary-attention w-20 h-20 rounded-b-full   flex justify-center items-center rounded-tl-full">
                         <ProfilePicture url={contender.picture} size="mediumPic" border />
                         <button onClick={() => handleSelectedContenders(contender.id)} className="absolute top-[-3px] right-1 font-content">X</button>
