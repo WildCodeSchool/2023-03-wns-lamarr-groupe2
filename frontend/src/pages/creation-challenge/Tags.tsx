@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "./customStyles";
+import { isEmpty } from "remeda";
 
 const tags = [
   {
@@ -96,13 +97,13 @@ const Tags: FC<TagsProps> = ({
         required
         menuPlacement="top"
       />
-      <button
+      {!isEmpty(selectedTags) && <button
         className=" hidden md:block font-content  underline text-small-p  pr-16"
         onClick={() => setIsShowAll((prev) => !prev)}
       >
         {isShowAll ? "réduire" : `voir tous (${selectedTags.length})`}
       </button>
-
+      }
       <div className="hidden : md:flex flex-wrap gap-3 mt-10">
         {selectedTags
           .slice(0, isShowAll ? selectedTags.length : 0)

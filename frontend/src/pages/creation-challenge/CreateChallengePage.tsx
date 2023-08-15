@@ -113,6 +113,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     });
   };
 
+
   return (
     <div className="px-2 py-3 flex flex-col md:gap-10  lg:flex-row  xl:gap-24 w-full">
       <Toaster reverseOrder={false} position="top-center" />
@@ -172,7 +173,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           />
         ))}
 
-        {state.tasksToDo.length > 2 && !user.company_id ? null : state.tasksToDo
+        {state?.tasksToDo?.length > 2 && !user?.company_id ? null : state?.tasksToDo
           .length === 5 ? null : (
           <button
             onClick={() => handleTaskList(undefined)}
@@ -191,22 +192,22 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           </label>
           <div className="flex gap-6 mt-2">
             <Toggle
-              value={state.isPublicMode}
+              value={state?.isPublicMode}
               onClick={() =>
                 dispatch({
                   type: "SET_PUBLIC_MODE",
-                  payload: !state.isPublicMode,
+                  payload: !state?.isPublicMode,
                 })
               }
               styled="toggle"
             />
-            <p> {state.isPublicMode ? "publique" : "privée"}</p>
+            <p> {state?.isPublicMode ? "publique" : "privée"}</p>
           </div>
 
           {/* Contenders */}
           <Contenders
             isDisabledContenders={isDisabledContenders}
-            selectedContenders={state.selectedContenders}
+            selectedContenders={state?.selectedContenders}
             setSelectedContenders={(contenders) =>
               dispatch({
                 type: "SET_SELECTED_CONTENDERS",
@@ -220,7 +221,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             setSelectedTags={(tags) =>
               dispatch({ type: "SET_SELECTED_TAGS", payload: tags as TTags[] })
             }
-            selectedTags={state.selectedTags}
+            selectedTags={state?.selectedTags}
           />
 
           <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">

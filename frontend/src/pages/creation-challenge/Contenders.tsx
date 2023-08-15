@@ -3,6 +3,7 @@ import Select from "react-select";
 import { friendListData } from "../scores/data";
 import ProfilePicture from "../../components/ProfilePicture";
 import { customStyles } from "./customStyles";
+import { isEmpty } from "remeda";
 
 export type TContender = {
   id: number;
@@ -38,14 +39,11 @@ const Contenders: FC<ContendersProps> = ({
   const getOptionLabel = (option: any) => option.username;
   const getOptionValue = (option: any) => option.username;
 
-  const handleSelectedContenders = (contenderId: number) => {
-    setSelectedContenders((prevContender) =>
-      prevContender.filter((contender) => contender.id !== contenderId)
-    );
-  };
+  const handleSelectedContenders = (contenderId: number) =>
+    setSelectedContenders(selectedContenders.filter((contender) => contender.id !== contenderId))
+
 
   const primaryAttention = `#FFCB66`;
-
   return (
     <div className="mt-12 w-full ">
       <label className="uppercase" title="visibility">
@@ -81,12 +79,12 @@ const Contenders: FC<ContendersProps> = ({
         styles={customStyles}
         required
       />
-      <button
+      {!isEmpty(selectedContenders) && <button
         className="hidden md:block font-content underline text-small-p "
         onClick={() => setIsShowAll((prev) => !prev)}
       >
         {isShowAll ? "réduire" : `voir tous (${selectedContenders.length})`}
-      </button>
+      </button>}
 
       <div className="hidden : md:flex flex-wrap  w-full gap-5 mt-2">
         {selectedContenders
