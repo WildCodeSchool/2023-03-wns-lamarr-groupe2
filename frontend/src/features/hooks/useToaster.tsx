@@ -60,6 +60,12 @@ export const useToaster = () => {
   const notifyErrorUpdate = () =>
     showToast("Une erreur est survenue", { error: true });
 
+  const notifyCreateError = (errorMessage: string) => {
+    showToast(errorMessage, { error: true });
+  }
+  const notifyCreate = () => {
+    showToast('Votre challenge est créé ');
+  }
   return {
     notifyErrorConnexion,
     notifyErrorRegister,
@@ -72,5 +78,7 @@ export const useToaster = () => {
     notifyUpdate,
     notifyFriendAdd,
     notifyErrorGlobal,
+    notifyCreateError,
+    notifyCreate
   };
 };

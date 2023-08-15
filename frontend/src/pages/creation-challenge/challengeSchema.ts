@@ -2,11 +2,20 @@ import { OptionType } from "./DropDownSelectors";
 
 const yup = require("yup");
 
+// Documentation about multiple value validation : https://stackoverflow.com/questions/57863852/yup-validation-on-multiple-values
 export const challengeSchema = yup.object().shape({
-  title: yup.string().required().min(5).max(150),
-  description: yup.string().required().min(100).max(1000),
-  startDate: yup.date().nullable().required(),
-  endDate: yup.date().nullable().required(),
+  title: yup
+    .string()
+    .required("Le titre est obligatoire")
+    .min(5, "Le titre doit être supérieur à 5 caractère")
+    .max(150, "Un maximum de 150 caractères est autorisé"),
+  description: yup
+    .string()
+    .required("La description doit faire entre 100 et 1000 caractères.")
+    .min(100, "La description doit être supérieure à 100 caractères.")
+    .max(1000, "La description être inférieure à 1000 caractères."),
+  startDate: yup.date().nullable().required("Une date est manquante"),
+  endDate: yup.date().nullable().required("Une date est manquante"),
   tasksToDo: yup
     .array()
     .of(
@@ -16,11 +25,13 @@ export const challengeSchema = yup.object().shape({
       })
     )
     .required()
+    .min(1, "Ajoutez des tâches à accomplir")
     .test(
-      "unique labels",
-      "Les tâches doivent être unique",
+      "Doublon",
+      "Il existe des doublons dans vos tâches",
       (tasks: OptionType[]) => {
         const labels = new Set();
+        // check if task got a label and if labels already got this task => if not it throws an error
         return tasks.every((task) => {
           if (!task.label || labels.has(task.label)) {
             return false;
@@ -30,6 +41,12 @@ export const challengeSchema = yup.object().shape({
         });
       }
     ),
-  selectedContenders: yup.array().min(1).required(),
-  selectedTags: yup.array().min(1).required(),
+  selectedContenders: yup
+    .array()
+    .min(1, "Veuillez ajouter un participant")
+    .required(),
+  selectedTags: yup
+    .array()
+    .required("Au moins un tag requis")
+    .min(1, "Au moins un tag requis"),
 });

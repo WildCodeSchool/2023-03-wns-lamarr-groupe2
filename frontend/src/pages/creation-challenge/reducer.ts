@@ -9,8 +9,6 @@ export type State = {
   description: string;
   startDate: Date | null;
   endDate: Date | null;
-  isDisabled: boolean;
-  isDisabledContenders: boolean;
   tasksToDo: any[]; // Update the type as needed
   isPublicMode: boolean;
   selectedContenders: TContender[];
@@ -22,8 +20,6 @@ export type Action =
   | { type: "SET_DESCRIPTION"; payload: string }
   | { type: "SET_START_DATE"; payload: Date | null }
   | { type: "SET_END_DATE"; payload: Date | null }
-  | { type: "SET_IS_DISABLED"; payload: boolean }
-  | { type: "SET_IS_DISABLED_CONTENDERS"; payload: boolean }
   | { type: "ADD_TASK"; payload?: OptionType }
   | { type: "UPDATE_TASK"; payload: { index: number; task: OptionType } }
   | { type: "SET_PUBLIC_MODE"; payload: boolean }
@@ -40,10 +36,6 @@ export const reducer = (state: State, action: Action): State => {
       return { ...state, startDate: action.payload };
     case "SET_END_DATE":
       return { ...state, endDate: action.payload };
-    case "SET_IS_DISABLED":
-      return { ...state, isDisabled: action.payload };
-    case "SET_IS_DISABLED_CONTENDERS":
-      return { ...state, isDisabledContenders: action.payload };
     case "ADD_TASK":
       return { ...state, tasksToDo: [...state.tasksToDo, {}] };
     case "UPDATE_TASK":
@@ -66,8 +58,6 @@ export const initialState: State = {
   description: "",
   startDate: null,
   endDate: null,
-  isDisabled: false,
-  isDisabledContenders: false,
   tasksToDo: [{}],
   isPublicMode: false,
   selectedContenders: [],

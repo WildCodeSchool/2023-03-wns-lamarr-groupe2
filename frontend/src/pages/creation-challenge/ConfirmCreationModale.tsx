@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, FC } from "react";
 import useFriendContext from "../../features/contexts/FriendContext";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
+import { useToaster } from "../../features/hooks/useToaster";
 
 type ModaleProps = {
     setIsOpenModale: Dispatch<SetStateAction<boolean>>;
@@ -12,7 +13,9 @@ const RemoveFriendModale: FC<ModaleProps> = ({
     setIsOpenModale,
 
 }) => {
+    const { notifyCreate } = useToaster()
     const handlePublishChallenge = () => {
+        notifyCreate()
         setIsOpenModale((prev) => !prev);
     };
 

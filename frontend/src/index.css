@@ -72,7 +72,10 @@
   height: 20vh;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
+  width: 100%;
+  max-width: 100%;
 }
+
 /* General */
 body {
   @apply bg-main-bg;
