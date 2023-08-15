@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useReducer } from "react";
+import { FC, PropsWithChildren, useEffect, useReducer, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import InputCustom from "../../components/InputCustom";
@@ -13,13 +13,31 @@ import Tags, { TTags } from "./Tags";
 import BtnCustom from "../../components/BtnCustom";
 import { initialState, reducer } from "./reducer";
 import { OptionType } from "./DropDownSelectors";
+import ConfirmCreationModale from "./ConfirmCreationModale";
+import { challengeSchema } from "./challengeSchema";
 
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
+  /* Reducer for challenge states */
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isOpenModale, setIsOpenModale] = useState(false)
 
   const publishChallenge = () => {
+    challengeSchema.validate(state)
+      .then((validData: any) => {
+        console.log('Validation successful:', validData);
+        setIsOpenModale(prev => !prev)
+
+      })
+      .catch((validationError: { errors: any; }) => {
+        console.error('Validation failed:', validationError.errors);
+
+      });
+
+
+    /*     setIsOpenModale(prev => !prev)
+     */
     console.log('Title :', state.title,
       '\nDescription :', state.description,
       '\nStartDate :', state.startDate,
@@ -130,6 +148,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
         </div>
       </section>
+      {isOpenModale && <ConfirmCreationModale setIsOpenModale={setIsOpenModale} />}
     </div>
   );
 };
