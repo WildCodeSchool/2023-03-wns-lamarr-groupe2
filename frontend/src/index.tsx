@@ -8,7 +8,6 @@ import { UserContextProvider } from "./features/contexts/UserContext";
 import { FriendContextProvider } from "./features/contexts/FriendContext";
 import { NotificationContextProvider } from "./features/contexts/NotificationContext";
 
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

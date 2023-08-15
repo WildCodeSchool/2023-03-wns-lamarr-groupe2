@@ -8,7 +8,7 @@ type BtnCustomProps = {
   size?: "small";
   text: string;
   addMode?: true;
-  isDisabled?: boolean
+  isDisabled?: boolean;
 };
 
 const BtnCustom: FC<BtnCustomProps> = ({
@@ -17,7 +17,7 @@ const BtnCustom: FC<BtnCustomProps> = ({
   text,
   size,
   addMode,
-  isDisabled
+  isDisabled,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -29,9 +29,10 @@ const BtnCustom: FC<BtnCustomProps> = ({
     <button
       onMouseEnter={addMode && handleMouseEvent}
       onMouseLeave={addMode && handleMouseEvent}
-      className={` uppercase customBorder ${styled} ${addMode && "flex items-center gap-2 rounded-full"
-        } $
-      ${size && "small"} ${isDisabled && ' pointer-events-none grayscale'}`}
+      className={` uppercase customBorder ${styled} ${
+        addMode && "flex items-center gap-2 rounded-full"
+      } $
+      ${size && "small"} ${isDisabled && " pointer-events-none grayscale"}`}
       onClick={onClick}
     >
       {addMode && (

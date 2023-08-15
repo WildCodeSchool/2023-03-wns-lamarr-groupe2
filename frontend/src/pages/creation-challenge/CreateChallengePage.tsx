@@ -6,7 +6,7 @@ import DatePickers from "./DatePickers";
 import { isEmpty } from "remeda";
 import useUserContext from "../../features/contexts/UserContext";
 import TaskToDo from "./TaskToDo";
-import plus from '../../assets/icons/plus-task.svg'
+import plus from "../../assets/icons/plus-task.svg";
 import Toggle from "../../components/Toggle";
 import Contenders, { TContender } from "./Contenders";
 import Tags, { TTags } from "./Tags";
@@ -19,68 +19,82 @@ import { useToaster } from "../../features/hooks/useToaster";
 import { error } from "console";
 import { Toaster } from "react-hot-toast";
 
-
 const CreateChallengePage: FC<PropsWithChildren> = () => {
-  const { notifyCreateError } = useToaster()
-  const { user } = useUserContext()
+  const { notifyCreateError } = useToaster();
+  const { user } = useUserContext();
   /* Reducer for challenge states */
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isOpenModale, setIsOpenModale] = useState(false)
+  const [isOpenModale, setIsOpenModale] = useState(false);
   const [isDisabled, setIsDisable] = useState(false);
   const [isDisabledContenders, setIsDisableContenders] = useState(false);
-  const [isDisabledButton, setIsDisabledButton] = useState(false)
-
+  const [isDisabledButton, setIsDisabledButton] = useState(false);
 
   const publishChallenge = () => {
-    const cleanedTasksToDo = state.tasksToDo.filter(task => task.label);
+    const cleanedTasksToDo = state.tasksToDo.filter((task) => task.label);
 
-    challengeSchema.validate({ ...state, tasksToDo: cleanedTasksToDo })
+    challengeSchema
+      .validate({ ...state, tasksToDo: cleanedTasksToDo })
       .then((validData: any) => {
-        console.log('Validation successful:', validData);
-        setIsOpenModale(prev => !prev);
+        console.log("Validation successful:", validData);
+        setIsOpenModale((prev) => !prev);
       })
-      .catch((validationError: { errors: any; }) => {
-        console.error('Validation failed:', validationError.errors);
+      .catch((validationError: { errors: any }) => {
+        console.error("Validation failed:", validationError.errors);
         notifyCreateError(validationError.errors);
       });
-    console.log('Title :', state.title,
-      '\nDescription :', state.description,
-      '\nStartDate :', state.startDate,
-      '\nEndDate :', state.endDate,
-      '\nTasks to do :', state.tasksToDo,
-      '\nIs public :', state.isPublicMode,
-      '\nContenders :', state.selectedContenders,
-      '\nTags :', state.selectedTags)
-  }
-
-
+    console.log(
+      "Title :",
+      state.title,
+      "\nDescription :",
+      state.description,
+      "\nStartDate :",
+      state.startDate,
+      "\nEndDate :",
+      state.endDate,
+      "\nTasks to do :",
+      state.tasksToDo,
+      "\nIs public :",
+      state.isPublicMode,
+      "\nContenders :",
+      state.selectedContenders,
+      "\nTags :",
+      state.selectedTags
+    );
+  };
 
   useEffect(() => {
     const { description, title, startDate, endDate } = state;
-    if (isEmpty(description) || isEmpty(title) || startDate === null || endDate === null) {
-      setIsDisable(true)
+    if (
+      isEmpty(description) ||
+      isEmpty(title) ||
+      startDate === null ||
+      endDate === null
+    ) {
+      setIsDisable(true);
     } else {
-      setIsDisable(false)
+      setIsDisable(false);
     }
   }, [state.description, state.title, state.startDate, state.endDate]);
 
   useEffect(() => {
-    if ((state.tasksToDo[0].id === undefined) || isDisabled) {
-      setIsDisableContenders(true)
+    if (state.tasksToDo[0].id === undefined || isDisabled) {
+      setIsDisableContenders(true);
     } else {
-      setIsDisableContenders(false)
+      setIsDisableContenders(false);
     }
   }, [state.tasksToDo, isDisabled]);
 
   useEffect(() => {
-    if (isEmpty(state.selectedContenders) || isEmpty(state.selectedTags) || isDisabled) {
-      setIsDisabledButton(true)
+    if (
+      isEmpty(state.selectedContenders) ||
+      isEmpty(state.selectedTags) ||
+      isDisabled
+    ) {
+      setIsDisabledButton(true);
     } else {
-      setIsDisabledButton(false)
+      setIsDisabledButton(false);
     }
   }, [state, state.selectedContenders, state.selectedTags, isDisabled]);
-
-
 
   const handleTaskList = (newTaskData?: OptionType) => {
     if (state.tasksToDo.length > 2 && !user.company_id) {
@@ -94,7 +108,10 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
   const updateTask = (index: number, updatedTask: OptionType | undefined) => {
     // @ts-ignore - I don't know how to fix the payload ts error
-    dispatch({ type: "UPDATE_TASK", payload: { index: index, task: updatedTask as OptionType } });
+    dispatch({
+      type: "UPDATE_TASK",
+      payload: { index: index, task: updatedTask as OptionType },
+    });
   };
 
   return (
@@ -109,9 +126,12 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             name=""
             value={state.title}
             placeholder="Be creative ! "
-            onChange={(e) => dispatch({ type: "SET_TITLE", payload: e.target.value })}
+            onChange={(e) =>
+              dispatch({ type: "SET_TITLE", payload: e.target.value })
+            }
             label="TITRE"
-          /></div>
+          />
+        </div>
         {/* Using the rich text editor for the description */}
         <label className="uppercase" title="description">
           DESCRIPTION
@@ -119,17 +139,22 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         <ReactQuill
           className="mt-[-18px] w-full max-w-5xl"
           value={state.description}
-          onChange={(value) => dispatch({ type: "SET_DESCRIPTION", payload: value })}
+          onChange={(value) =>
+            dispatch({ type: "SET_DESCRIPTION", payload: value })
+          }
           placeholder="Be creative ! "
           preserveWhitespace
         />
 
-
         {/*  DATE PICKER */}
         <DatePickers
-          setStartDate={(date) => dispatch({ type: "SET_START_DATE", payload: date as Date | null })}
+          setStartDate={(date) =>
+            dispatch({ type: "SET_START_DATE", payload: date as Date | null })
+          }
           startDate={state.startDate}
-          setEndDate={(date) => dispatch({ type: "SET_END_DATE", payload: date as Date | null })}
+          setEndDate={(date) =>
+            dispatch({ type: "SET_END_DATE", payload: date as Date | null })
+          }
           endDate={state.endDate}
         />
 
@@ -139,12 +164,25 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         </label>
 
         {state.tasksToDo.map((task: any, index: number) => (
-          <TaskToDo updateTask={(updatedTask: OptionType) => updateTask(index, updatedTask)} key={index} isDisabled={isDisabled} />
+          <TaskToDo
+            updateTask={(updatedTask: OptionType) =>
+              updateTask(index, updatedTask)
+            }
+            key={index}
+            isDisabled={isDisabled}
+          />
         ))}
 
-        {(state.tasksToDo.length > 2 && !user.company_id) ? null : state.tasksToDo.length === 5 ? null : <button onClick={() => handleTaskList(undefined)} className="flex gap-2 font-content">
-          <img src={plus} alt='Create a task' className="h-6 w-6" />
-          ajouter une tâche </button>}
+        {state.tasksToDo.length > 2 && !user.company_id ? null : state.tasksToDo
+            .length === 5 ? null : (
+          <button
+            onClick={() => handleTaskList(undefined)}
+            className="flex gap-2 font-content"
+          >
+            <img src={plus} alt="Create a task" className="h-6 w-6" />
+            ajouter une tâche{" "}
+          </button>
+        )}
       </section>
       {/* second part desktop */}
       <section className=" flex-1  lg:max-w-[47%] xl:max-w-lg xxl:max-w-full">
@@ -153,22 +191,58 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             VISIBILITÉ
           </label>
           <div className="flex gap-6 mt-2">
-            <Toggle value={state.isPublicMode} onClick={() => dispatch({ type: "SET_PUBLIC_MODE", payload: !state.isPublicMode })} styled='toggle' />
-            <p> {state.isPublicMode ? 'publique' : 'privée'}</p>
+            <Toggle
+              value={state.isPublicMode}
+              onClick={() =>
+                dispatch({
+                  type: "SET_PUBLIC_MODE",
+                  payload: !state.isPublicMode,
+                })
+              }
+              styled="toggle"
+            />
+            <p> {state.isPublicMode ? "publique" : "privée"}</p>
           </div>
 
           {/* Contenders */}
-          <Contenders isDisabledContenders={isDisabledContenders} selectedContenders={state.selectedContenders} setSelectedContenders={(contenders) => dispatch({ type: "SET_SELECTED_CONTENDERS", payload: contenders as TContender[] })} />
+          <Contenders
+            isDisabledContenders={isDisabledContenders}
+            selectedContenders={state.selectedContenders}
+            setSelectedContenders={(contenders) =>
+              dispatch({
+                type: "SET_SELECTED_CONTENDERS",
+                payload: contenders as TContender[],
+              })
+            }
+          />
           {/* Tags */}
-          <Tags isDisabledContenders={isDisabledContenders} setSelectedTags={(tags) => dispatch({ type: "SET_SELECTED_TAGS", payload: tags as TTags[] })} selectedTags={state.selectedTags} />
+          <Tags
+            isDisabledContenders={isDisabledContenders}
+            setSelectedTags={(tags) =>
+              dispatch({ type: "SET_SELECTED_TAGS", payload: tags as TTags[] })
+            }
+            selectedTags={state.selectedTags}
+          />
 
           <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">
-            <button onClick={() => console.log('preview')} className=" text-tertiary-dark uppercase hover:text-primary-attention">aperçu</button>
-            <BtnCustom onClick={publishChallenge} text="Publier" styled="btnGood" isDisabled={isDisabledButton} />
-
-          </div></div>
+            <button
+              onClick={() => console.log("preview")}
+              className=" text-tertiary-dark uppercase hover:text-primary-attention"
+            >
+              aperçu
+            </button>
+            <BtnCustom
+              onClick={publishChallenge}
+              text="Publier"
+              styled="btnGood"
+              isDisabled={isDisabledButton}
+            />
+          </div>
+        </div>
       </section>
-      {isOpenModale && <ConfirmCreationModale setIsOpenModale={setIsOpenModale} />}
+      {isOpenModale && (
+        <ConfirmCreationModale setIsOpenModale={setIsOpenModale} />
+      )}
     </div>
   );
 };

@@ -50,7 +50,7 @@ const DatePickers: FC<DatePickersProps> = ({
     setUseTodayAsEndDate(!useTodayAsEndDate);
     if (!useTodayAsEndDate) {
       setEndDate(new Date());
-      setStartDate(new Date())
+      setStartDate(new Date());
     } else {
       setEndDate(null);
     }

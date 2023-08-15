@@ -27,15 +27,27 @@ const NotificationsParameters: FC<SettingsPageParameters> = ({
       </p>
       <ul className="flex flex-col gap-6 mt-7">
         <li className="flex gap-5">
-          <Toggle value={false} styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={false}
+            styled="toggle"
+            onClick={() => console.log("toggle")}
+          />
           <p>invitations aux challenges</p>
         </li>
         <li className="flex  gap-5">
-          <Toggle value={false} styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={false}
+            styled="toggle"
+            onClick={() => console.log("toggle")}
+          />
           <p>nouveau commentaire</p>
         </li>
         <li className="flex  gap-5">
-          <Toggle value={true} styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={true}
+            styled="toggle"
+            onClick={() => console.log("toggle")}
+          />
           <p>invitation d'un(e) ami(e) accepté(e)</p>
         </li>
       </ul>

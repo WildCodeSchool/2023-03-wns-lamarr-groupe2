@@ -62,10 +62,10 @@ export const useToaster = () => {
 
   const notifyCreateError = (errorMessage: string) => {
     showToast(errorMessage, { error: true });
-  }
+  };
   const notifyCreate = () => {
-    showToast('Votre challenge est créé ');
-  }
+    showToast("Votre challenge est créé ");
+  };
   return {
     notifyErrorConnexion,
     notifyErrorRegister,
@@ -79,6 +79,6 @@ export const useToaster = () => {
     notifyFriendAdd,
     notifyErrorGlobal,
     notifyCreateError,
-    notifyCreate
+    notifyCreate,
   };
 };
