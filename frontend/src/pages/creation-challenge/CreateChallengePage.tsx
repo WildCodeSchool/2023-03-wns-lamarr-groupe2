@@ -164,7 +164,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
           <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">
             <button onClick={() => console.log('preview')} className=" text-tertiary-dark uppercase hover:text-primary-attention">aperçu</button>
-            {!isDisabledButton && <BtnCustom onClick={publishChallenge} text="Publier" styled="btnGood" />}
+            <BtnCustom onClick={publishChallenge} text="Publier" styled="btnGood" isDisabled={isDisabledButton} />
 
           </div></div>
       </section>
