@@ -26,7 +26,7 @@ const DropDownSelectors: FC<DropDownProps> = ({
   setSelectedOption,
 }) => {
   const { user } = useUserContext();
-  const [isClearable, setIsClearable] = useState(true);
+  const [isClearable] = useState(true);
   const handleSelectChange = (
     option: OptionType | null,
     action: ActionMeta<OptionType>

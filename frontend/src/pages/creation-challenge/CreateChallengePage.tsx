@@ -16,7 +16,6 @@ import { OptionType } from "./DropDownSelectors";
 import ConfirmCreationModale from "./ConfirmCreationModale";
 import { challengeSchema } from "./challengeSchema";
 import { useToaster } from "../../features/hooks/useToaster";
-import { error } from "console";
 import { Toaster } from "react-hot-toast";
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
@@ -107,9 +106,9 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   };
 
   const updateTask = (index: number, updatedTask: OptionType | undefined) => {
-    // @ts-ignore - I don't know how to fix the payload ts error
     dispatch({
       type: "UPDATE_TASK",
+      // @ts-ignore - I don't know how to fix the payload ts error
       payload: { index: index, task: updatedTask as OptionType },
     });
   };
@@ -174,7 +173,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         ))}
 
         {state.tasksToDo.length > 2 && !user.company_id ? null : state.tasksToDo
-            .length === 5 ? null : (
+          .length === 5 ? null : (
           <button
             onClick={() => handleTaskList(undefined)}
             className="flex gap-2 font-content"

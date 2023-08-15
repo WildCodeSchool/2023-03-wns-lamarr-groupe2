@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, FC } from "react";
-import useFriendContext from "../../features/contexts/FriendContext";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
 import { useToaster } from "../../features/hooks/useToaster";

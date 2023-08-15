@@ -23,6 +23,8 @@ const TaskToDo: FC<{ isDisabled: boolean; updateTask: any }> = ({
       // Update the task when selectedOption becomes null
       updateTask({});
     }
+    // eslint bug with dependencies
+    // eslint-disable-next-line  
   }, [selectedOption]);
 
   const handleDifficulty = (value: number) => {
