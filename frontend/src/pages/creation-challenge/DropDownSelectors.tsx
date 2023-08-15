@@ -103,6 +103,7 @@ const DropDownSelectors: FC<DropDownProps> = ({
           value={selectedOption}
           onChange={handleSelectChange}
           styles={customStyles}
+          menuPlacement="top"
         />
       )}
     </>
