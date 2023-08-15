@@ -1,6 +1,6 @@
 const primaryAttention = `#FFCB66`;
-const primaryGood = `#96B9A0`;
-const primaryDanger = `#CE7677`;
+/* const primaryGood = `#96B9A0`;
+const primaryDanger = `#CE7677`; */
 
 export const customStyles = {
   option: (provided: any, state: any) => ({
@@ -13,15 +13,16 @@ export const customStyles = {
     color: "black",
   }),
   multiValueLabel: (provided: any, color: any) => {
-    const hermesColor = {
+    // We can add colors if we want, but not sure, maybe too much information
+    /* const hermesColor = {
       hermesG: primaryGood,
       hermesY: primaryAttention,
       hermesR: primaryDanger,
-    };
+    }; */
     return {
       ...provided,
       //@ts-ignore
-      backgroundColor: hermesColor[color.data?.picture],
+      backgroundColor: "transparent" /* hermesColor[color.data?.picture] */,
       borderTop: "1px solid black",
       borderBottom: "1px solid black",
       borderLeft: "1px solid black",

@@ -1,4 +1,4 @@
-import { FC, Key, PropsWithChildren, SetStateAction, useEffect, useState } from "react";
+import { FC, PropsWithChildren, SetStateAction, useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import InputCustom from "../../components/InputCustom";
@@ -9,7 +9,9 @@ import TaskToDo from "./TaskToDo";
 import { OptionType } from "./DropDownSelectors";
 import plus from '../../assets/icons/plus-task.svg'
 import Toggle from "../../components/Toggle";
-import Contenders from "./Contenders";
+import Contenders, { TContender } from "./Contenders";
+import Tags, { TTags } from "./Tags";
+import BtnCustom from "../../components/BtnCustom";
 
 const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
@@ -20,18 +22,29 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [isDisabledContenders, setIsDisabledContenders] = useState(false)
   const [tasksToDo, setTasksToDo] = useState<any>([{}])
+  const [isPublicMode, setIsPublicMode] = useState(false)
+  const [selectedContenders, setSelectedContenders] = useState<TContender[]>([])
+  const [selectedTags, setSelectedTags] = useState<TTags[]>([])
+
+  /*   console.log('Title :', title,
+      '\nDescription :', description,
+      '\nStartDate :', startDate,
+      '\nEndDate :', endDate,
+      '\nTasks to do :', tasksToDo,
+      '\nIs public :', isPublicMode,
+      '\nContenders :', selectedContenders,
+      '\nTags :', selectedTags) */
+
   const handleDescriptionChange = (value: SetStateAction<string>) => {
     setDescription(value);
   };
-  const [isPublicMode, setIsPublicMode] = useState(false)
-
   useEffect(() => {
     if (isEmpty(description) || isEmpty(title) || startDate === null || endDate === null) {
       setIsDisabled(true);
     } else {
       setIsDisabled(false);
     }
-  }, [description, startDate, endDate]);
+  }, [title, description, startDate, endDate]);
 
   useEffect(() => {
     if ((tasksToDo[0].id === undefined) || isDisabled) {
@@ -39,7 +52,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     } else {
       setIsDisabledContenders(false);
     }
-  }, [tasksToDo, isDisabled, tasksToDo]);
+  }, [tasksToDo, isDisabled]);
 
   /* To add a new task */
   const handleTaskList = (newTaskData?: OptionType) => {
@@ -60,11 +73,10 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     setTasksToDo(updatedTasks);
   };
 
-  console.log('TasksToDo', tasksToDo)
   return (
-    <div className="px-2 py-3 flex flex-col md:gap-10  md:flex-row  xl:gap-24 w-full">
+    <div className="border-2 lg:border-primary-good md:border-primary-danger px-2 py-3 flex flex-col md:gap-10  lg:flex-row  xl:gap-24 w-full">
       {/* first part desktop */}
-      <section className=" md:max-w-[50%] flex-1  flex flex-col gap-5  w-full">
+      <section className=" lg:max-w-[50%] flex-1  flex flex-col gap-5  w-full">
         <InputCustom
           type="text"
           name=""
@@ -107,7 +119,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           ajouter une tâche </button>}
       </section>
       {/* second part desktop */}
-      <section className=" flex-1  w-full">
+      <section className=" flex-1  lg:max-w-md xl:max-w-lg xxl:max-w-full">
         <label className="uppercase" title="visibility">
           VISIBILITÉ
         </label>
@@ -117,7 +129,15 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         </div>
 
         {/* Contenders */}
-        <Contenders isDisabledContenders={isDisabledContenders} />
+        <Contenders isDisabledContenders={isDisabledContenders} selectedContenders={selectedContenders} setSelectedContenders={setSelectedContenders} />
+        {/* Tags */}
+        <Tags isDisabledContenders={isDisabledContenders} setSelectedTags={setSelectedTags} selectedTags={selectedTags} />
+
+        <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">
+          <button onClick={() => console.log('preview')} className="text-primary-attention uppercase">aperçu</button>
+          <BtnCustom onClick={() => console.log('challenge info')} text="Publier" styled="btnGood" />
+
+        </div>
       </section>
     </div>
   );

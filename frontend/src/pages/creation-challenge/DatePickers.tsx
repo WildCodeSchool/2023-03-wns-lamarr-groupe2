@@ -19,7 +19,6 @@ const DatePickers: FC<DatePickersProps> = ({
   const [useTodayAsEndDate, setUseTodayAsEndDate] = useState(false);
 
   const handleStartDateChange = (date: Date | null) => {
-    // Assurez-vous de spécifier le type Date | null
     setStartDate(date);
     if (useTodayAsStartDate) {
       setUseTodayAsStartDate(false);
@@ -27,7 +26,6 @@ const DatePickers: FC<DatePickersProps> = ({
   };
 
   const handleEndDateChange = (date: Date | null) => {
-    // Assurez-vous de spécifier le type Date | null
     setEndDate(date);
     if (useTodayAsEndDate) {
       setUseTodayAsEndDate(false);
@@ -61,7 +59,7 @@ const DatePickers: FC<DatePickersProps> = ({
     <div className="flex items-center justify-evenly xl:justify-start xl:gap-8">
       <img src={calendarIcon} alt="Calendar" className="h-12 w-12" />
 
-      <div className=" flex gap-1 items-center pt-3 xl:gap-6">
+      <div className=" flex gap-1 items-center pt-3">
         <p className="hidden lg:block">DU :</p>
         <div className=" flex flex-col  items-center pt-3">
           <DatePicker
