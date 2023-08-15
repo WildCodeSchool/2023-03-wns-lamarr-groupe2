@@ -20,6 +20,7 @@ export type ContendersProps = {
 const Contenders: FC<ContendersProps> = ({ isDisabledContenders, selectedContenders, setSelectedContenders }) => {
     const [isShowAll, setIsShowAll] = useState(false)
     //TO-DO : Add company group
+    //TO-DO : Add friends
     const friendListDataWithAll = [
         { id: -1, username: "Tous", picture: "" },
         ...friendListData,

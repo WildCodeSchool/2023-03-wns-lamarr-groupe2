@@ -19,14 +19,17 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const { user } = useUserContext()
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  console.log('Title :', state.title,
-    '\nDescription :', state.description,
-    '\nStartDate :', state.startDate,
-    '\nEndDate :', state.endDate,
-    '\nTasks to do :', state.tasksToDo,
-    '\nIs public :', state.isPublicMode,
-    '\nContenders :', state.selectedContenders,
-    '\nTags :', state.selectedTags)
+  const publishChallenge = () => {
+    console.log('Title :', state.title,
+      '\nDescription :', state.description,
+      '\nStartDate :', state.startDate,
+      '\nEndDate :', state.endDate,
+      '\nTasks to do :', state.tasksToDo,
+      '\nIs public :', state.isPublicMode,
+      '\nContenders :', state.selectedContenders,
+      '\nTags :', state.selectedTags)
+  }
+
 
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   };
 
   return (
-    <div className="border-2 lg:border-primary-good md:border-primary-danger px-2 py-3 flex flex-col md:gap-10  lg:flex-row  xl:gap-24 w-full">
+    <div className="px-2 py-3 flex flex-col md:gap-10  lg:flex-row  xl:gap-24 w-full">
       {/* first part desktop */}
       <section className=" lg:max-w-[50%] flex-1  flex flex-col gap-5  w-full">
         <InputCustom
@@ -122,8 +125,8 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         <Tags isDisabledContenders={state.isDisabledContenders} setSelectedTags={(tags) => dispatch({ type: "SET_SELECTED_TAGS", payload: tags as TTags[] })} selectedTags={state.selectedTags} />
 
         <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">
-          <button onClick={() => console.log('preview')} className="text-primary-attention uppercase">aperçu</button>
-          <BtnCustom onClick={() => console.log('challenge info')} text="Publier" styled="btnGood" />
+          <button onClick={() => console.log('preview')} className=" text-tertiary-dark uppercase hover:text-primary-attention">aperçu</button>
+          <BtnCustom onClick={publishChallenge} text="Publier" styled="btnGood" />
 
         </div>
       </section>
