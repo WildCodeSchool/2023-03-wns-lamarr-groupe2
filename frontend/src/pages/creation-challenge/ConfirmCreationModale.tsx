@@ -28,10 +28,7 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
   };
 
   const handlePublishChallenge = () => {
-    console.log(formattedState);
-
     createAChallenge(formattedState);
-    notifyCreate();
     setIsOpenModale((prev) => !prev);
   };
 

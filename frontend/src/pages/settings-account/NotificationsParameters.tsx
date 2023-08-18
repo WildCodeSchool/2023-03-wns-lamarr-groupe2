@@ -4,15 +4,7 @@ import Toggle from "../../components/Toggle";
 import { SettingsPageParameters } from "./Profile";
 import ProfileModale from "./ProfileModale";
 
-const NotificationsParameters: FC<SettingsPageParameters> = ({
-  user,
-  isEdit,
-  handleModifications,
-  username,
-  email,
-  handleInputChange,
-  setIsEdit,
-}) => {
+const NotificationsParameters: FC<SettingsPageParameters> = ({}) => {
   const [isOpenModale, setIsOpenModale] = useState(false);
 
   return (
@@ -30,7 +22,7 @@ const NotificationsParameters: FC<SettingsPageParameters> = ({
           <Toggle
             value={false}
             styled="toggle"
-            onClick={() => console.log("toggle")}
+            onClick={() => console.log("TO DO - toggle")}
           />
           <p>invitations aux challenges</p>
         </li>
@@ -38,7 +30,7 @@ const NotificationsParameters: FC<SettingsPageParameters> = ({
           <Toggle
             value={false}
             styled="toggle"
-            onClick={() => console.log("toggle")}
+            onClick={() => console.log("TO DO - toggle toggle")}
           />
           <p>nouveau commentaire</p>
         </li>
@@ -46,7 +38,7 @@ const NotificationsParameters: FC<SettingsPageParameters> = ({
           <Toggle
             value={true}
             styled="toggle"
-            onClick={() => console.log("toggle")}
+            onClick={() => console.log("TO DO - toggle toggle")}
           />
           <p>invitation d'un(e) ami(e) accepté(e)</p>
         </li>

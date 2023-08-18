@@ -204,7 +204,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
           <div className="mt-12 mb-6 md:mt-24 pr-10 flex gap-6 w-full justify-end">
             <button
-              onClick={() => console.log("preview")}
+              onClick={() => console.log("TO DO -preview")}
               className=" text-tertiary-dark uppercase hover:text-primary-attention"
             >
               aperçu
