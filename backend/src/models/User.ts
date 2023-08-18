@@ -89,7 +89,7 @@ export class User extends BaseEntity {
 
   // challenge_member
   @Field(() => [Challenge])
-  @ManyToMany(() => Challenge, (challenge) => challenge.member)
+  @ManyToMany(() => Challenge, (challenge) => challenge.contenders)
   challenge: Challenge[];
 
   // creator
