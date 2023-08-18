@@ -5,7 +5,6 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
-  ManyToOne,
   BaseEntity,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
@@ -14,6 +13,7 @@ import { Challenge } from "./Challenge";
 import { CompanyGroup } from "./CompanyGroup";
 import { Notification } from "./Notification";
 import { InvitationChallenge } from "./InvitationChallenge";
+import { isNotEmpty } from "class-validator";
 
 @ObjectType()
 @Entity()
@@ -35,7 +35,7 @@ export class User extends BaseEntity {
   username: string;
 
   @Field()
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
   @Field()
