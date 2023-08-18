@@ -35,6 +35,10 @@ export class Challenge extends BaseEntity {
   @Column({ type: "text", nullable: false })
   description: string;
 
+  @Field()
+  @Column({ nullable: false })
+  isPublic: boolean;
+
   // create a field for the start and end date
   @Field()
   @Column({

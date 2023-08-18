@@ -97,13 +97,14 @@ const Tags: FC<TagsProps> = ({
         required
         menuPlacement="top"
       />
-      {!isEmpty(selectedTags) && <button
-        className=" hidden md:block font-content  underline text-small-p  pr-16"
-        onClick={() => setIsShowAll((prev) => !prev)}
-      >
-        {isShowAll ? "réduire" : `voir tous (${selectedTags.length})`}
-      </button>
-      }
+      {!isEmpty(selectedTags) && (
+        <button
+          className=" hidden md:block font-content  underline text-small-p  pr-16"
+          onClick={() => setIsShowAll((prev) => !prev)}
+        >
+          {isShowAll ? "réduire" : `voir tous (${selectedTags.length})`}
+        </button>
+      )}
       <div className="hidden  md:flex flex-wrap gap-3 mt-2">
         {selectedTags
           .slice(0, isShowAll ? selectedTags.length : 0)

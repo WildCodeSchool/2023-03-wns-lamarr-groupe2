@@ -1,4 +1,4 @@
-import { OptionType } from "./DropDownSelectors";
+import { OptionType } from "../../pages/creation-challenge/DropDownSelectors";
 
 const yup = require("yup");
 
@@ -41,10 +41,7 @@ export const challengeSchema = yup.object().shape({
         });
       }
     ),
-  selectedContenders: yup
-    .array()
-    .min(1, "Veuillez ajouter un participant")
-    .required(),
+  selectedContenders: yup.array().required(),
   selectedTags: yup
     .array()
     .required("Au moins un tag requis")

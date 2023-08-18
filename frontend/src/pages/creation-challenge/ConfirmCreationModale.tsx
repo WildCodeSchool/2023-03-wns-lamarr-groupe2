@@ -2,14 +2,35 @@ import { Dispatch, SetStateAction, FC } from "react";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
 import { useToaster } from "../../features/hooks/useToaster";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
+import { ChallengeInformations } from "../../features/contexts/utils/types";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
+  state: any;
 };
 
-const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
+const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
   const { notifyCreate } = useToaster();
+  const { createAChallenge } = useChallengeContext();
+
+  const formattedState: ChallengeInformations = {
+    title: state?.title,
+    description: state?.description,
+    contenders: state?.selectedContenders?.map(
+      (contender: { id: any }) => contender.id
+    ),
+    tags: state?.selectedTags.map((tag: { id: any }) => tag.id),
+    startAt: state?.startDate?.toLocaleDateString(),
+    endAt: state?.endDate?.toLocaleDateString(),
+    ecoActions: state?.tasksToDo?.map((task: { id: any }) => task.id),
+    isPublic: state?.isPublicMode,
+  };
+
   const handlePublishChallenge = () => {
+    console.log(formattedState);
+
+    createAChallenge(formattedState);
     notifyCreate();
     setIsOpenModale((prev) => !prev);
   };

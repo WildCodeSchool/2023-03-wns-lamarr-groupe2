@@ -104,7 +104,8 @@ const DropDownSelectors: FC<DropDownProps> = ({
           onChange={handleSelectChange}
           styles={customStyles}
           menuPlacement="top"
-          noOptionsMessage={() => "Pas d'action disponible"} />
+          noOptionsMessage={() => "Pas d'action disponible"}
+        />
       )}
     </>
   );

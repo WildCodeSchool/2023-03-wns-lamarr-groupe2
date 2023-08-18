@@ -24,7 +24,7 @@ const TaskToDo: FC<{ isDisabled: boolean; updateTask: any }> = ({
       updateTask({});
     }
     // eslint bug with dependencies
-    // eslint-disable-next-line  
+    // eslint-disable-next-line
   }, [selectedOption]);
 
   const handleDifficulty = (value: number) => {

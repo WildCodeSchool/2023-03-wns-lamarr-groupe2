@@ -22,7 +22,7 @@ const Contenders: FC<ContendersProps> = ({
   setSelectedContenders,
 }) => {
   const [isShowAll, setIsShowAll] = useState(false);
-  const { friends } = useFriendContext()
+  const { friends } = useFriendContext();
   //TO-DO : Add company group
   //TO-DO : Add friends
   const friendListDataWithAll = [
@@ -41,8 +41,9 @@ const Contenders: FC<ContendersProps> = ({
   const getOptionValue = (option: any) => option.username;
 
   const handleSelectedContenders = (contenderId: number) =>
-    setSelectedContenders(selectedContenders.filter((contender) => contender.id !== contenderId))
-
+    setSelectedContenders(
+      selectedContenders.filter((contender) => contender.id !== contenderId)
+    );
 
   const primaryAttention = `#FFCB66`;
   return (
@@ -79,13 +80,16 @@ const Contenders: FC<ContendersProps> = ({
         getOptionValue={getOptionValue}
         styles={customStyles}
         required
-        noOptionsMessage={() => 'Pas de participant disponible'} />
-      {!isEmpty(selectedContenders) && <button
-        className="hidden md:block font-content underline text-small-p "
-        onClick={() => setIsShowAll((prev) => !prev)}
-      >
-        {isShowAll ? "réduire" : `voir tous (${selectedContenders.length})`}
-      </button>}
+        noOptionsMessage={() => "Pas de participant disponible"}
+      />
+      {!isEmpty(selectedContenders) && (
+        <button
+          className="hidden md:block font-content underline text-small-p "
+          onClick={() => setIsShowAll((prev) => !prev)}
+        >
+          {isShowAll ? "réduire" : `voir tous (${selectedContenders.length})`}
+        </button>
+      )}
 
       <div className="hidden : md:flex flex-wrap  w-full gap-5 mt-2">
         {selectedContenders

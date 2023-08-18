@@ -29,8 +29,8 @@ export class ChallengeResolver {
     @Arg("description") description: string,
     @Arg("startAt") startAt: string,
     @Arg("endAt") endAt: string,
+    @Arg("isPublic") isPublic: boolean,
     @Arg("ecoActions", () => [Int], { validate: false }) ecoActions: number[],
-    @Arg("challengeStatus") challengeStatus: ChallengeStatus,
     @Arg("tags", () => [Int], { validate: false }) tags: number[],
     @Arg("contenders", () => [Int], { validate: false }) contenders: number[]
   ): Promise<Challenge> {
@@ -54,10 +54,10 @@ export class ChallengeResolver {
     challenge.startAt = new Date(startAt);
     challenge.endAt = new Date(endAt);
     challenge.creator = user;
-    challenge.challenge_status = challengeStatus;
     challenge.tags = tagList;
     challenge.ecoActions = ecoActionList;
     challenge.contenders = contenderList;
+    challenge.isPublic = isPublic;
 
     await challenge.save();
 
@@ -75,7 +75,8 @@ export class ChallengeResolver {
     @Arg("startAt", { nullable: true }) startAt?: string,
     @Arg("endAt", { nullable: true }) endAt?: string,
     @Arg("challengeStatus", { nullable: true })
-    challengeStatus?: ChallengeStatus
+    challengeStatus?: ChallengeStatus,
+    @Arg("isPublic", { nullable: true }) isPublic?: boolean
   ): Promise<Challenge> {
     // we use the context to get the user who is logged in
     const user = context.user;
@@ -105,6 +106,9 @@ export class ChallengeResolver {
     }
     if (challengeStatus !== null && challengeStatus !== undefined) {
       challenge.challenge_status = challengeStatus;
+    }
+    if (isPublic !== null && isPublic !== undefined) {
+      challenge.isPublic = isPublic;
     }
 
     await challenge.save();

@@ -105,6 +105,50 @@ const queryFriendList = `query UsersWithUnreadNotifications {
   }
 }`;
 
+const queryChallenges = `query GetAllChallenges {
+  getAllChallenges {
+    id
+    title
+    description
+    isPublic
+    startAt
+    endAt
+    ecoActions {
+      id
+      label
+      points
+      need_proof
+    }
+    tags {
+      id
+      label
+    }
+    contenders {
+      id
+      username
+    }
+  }
+}`;
+
+const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
+  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
+    title
+    description
+    isPublic
+    endAt
+    startAt
+    ecoActions {
+      id
+    }
+    contenders {
+      id
+    }
+    tags {
+      id
+    }
+  }
+}`;
+
 module.exports = {
   queryProfile,
   querySignIn,
@@ -119,4 +163,6 @@ module.exports = {
   mutationIsRead,
   sendNotifications,
   queryFriendList,
+  queryChallenges,
+  mutationCreateChallenge,
 };

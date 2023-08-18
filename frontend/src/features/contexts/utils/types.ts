@@ -1,5 +1,7 @@
 // User
 
+import { OptionType } from "../../../pages/creation-challenge/DropDownSelectors";
+import { TTags } from "../../../pages/creation-challenge/Tags";
 import { UserGlobal } from "../../../pages/scores/UsersList";
 
 export type TUser = {
@@ -91,6 +93,31 @@ export type NotificationContextType = {
   updateFriendInvitation: (updateFriendProps: UpdateFriendProps) => void;
   sendFriendInvitation: (friendsIds: number[]) => void;
   waitingFriendList: Record<"id", number>[];
+};
+
+export type TChallenge = {
+  id: number;
+  title: string;
+  description: string;
+  startAt: string;
+  endAt: string;
+  ecoActions: OptionType[];
+  tags: TTags[];
+  contenders: TUser[];
+  isPublic: boolean;
+};
+
+export type ChallengeInformations = Pick<
+  TChallenge,
+  "title" | "description" | "endAt" | "startAt" | "isPublic"
+> & {
+  contenders: number[];
+  tags: number[];
+  ecoActions: number[];
+};
+export type ChallengeContextType = {
+  challenges: TChallenge[];
+  createAChallenge: (value: ChallengeInformations) => void;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {

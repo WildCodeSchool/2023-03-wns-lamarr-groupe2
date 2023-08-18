@@ -77,9 +77,7 @@ const DatePickers: FC<DatePickersProps> = ({
             minTime={new Date()}
             className="border-2 rounded-md w-32  lg:w-34 xl:w-48 py-2  px-2 flex justify-center"
           />
-          <div className="flex w-full justify-end items-center gap-2 h-6 pt-1">
-
-          </div>
+          <div className="flex w-full justify-end items-center gap-2 h-6 pt-1"></div>
         </div>
       </div>
 
@@ -103,7 +101,10 @@ const DatePickers: FC<DatePickersProps> = ({
             filterDate={(date) => !disabledDate(date)}
             dayClassName={(date) => (disabledDate(date) ? "disabled-date" : "")}
           />
-          <div onClick={handleUseTodayAsEndDate} className="flex w-full justify-end items-center gap-2 pt-1">
+          <div
+            onClick={handleUseTodayAsEndDate}
+            className="flex w-full justify-end items-center gap-2 pt-1"
+          >
             <label htmlFor="endToday" className="text-small-p">
               aujourd'hui
             </label>

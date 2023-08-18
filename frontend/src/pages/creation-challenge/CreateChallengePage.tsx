@@ -14,7 +14,7 @@ import BtnCustom from "../../components/BtnCustom";
 import { initialState, reducer } from "./reducer";
 import { OptionType } from "./DropDownSelectors";
 import ConfirmCreationModale from "./ConfirmCreationModale";
-import { challengeSchema } from "./challengeSchema";
+import { challengeSchema } from "../../features/validators/challengeSchema";
 import { useToaster } from "../../features/hooks/useToaster";
 import { Toaster } from "react-hot-toast";
 
@@ -41,24 +41,6 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         console.error("Validation failed:", validationError.errors);
         notifyCreateError(validationError.errors);
       });
-    console.log(
-      "Title :",
-      state.title,
-      "\nDescription :",
-      state.description,
-      "\nStartDate :",
-      state.startDate,
-      "\nEndDate :",
-      state.endDate,
-      "\nTasks to do :",
-      state.tasksToDo,
-      "\nIs public :",
-      state.isPublicMode,
-      "\nContenders :",
-      state.selectedContenders,
-      "\nTags :",
-      state.selectedTags
-    );
   };
 
   useEffect(() => {
@@ -85,16 +67,12 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   }, [state.tasksToDo, isDisabled]);
 
   useEffect(() => {
-    if (
-      isEmpty(state.selectedContenders) ||
-      isEmpty(state.selectedTags) ||
-      isDisabled
-    ) {
+    if (isEmpty(state.selectedTags) || isDisabled) {
       setIsDisabledButton(true);
     } else {
       setIsDisabledButton(false);
     }
-  }, [state, state.selectedContenders, state.selectedTags, isDisabled]);
+  }, [state, state.selectedTags, isDisabled]);
 
   const handleTaskList = (newTaskData?: OptionType) => {
     if (state.tasksToDo.length > 2 && !user.company_id) {
@@ -113,7 +91,6 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
       payload: { index: index, task: updatedTask as OptionType },
     });
   };
-
 
   return (
     <div className="px-2 py-3 flex flex-col md:gap-10  lg:flex-row  xl:gap-24 w-full">
@@ -174,8 +151,8 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           />
         ))}
 
-        {state?.tasksToDo?.length > 2 && !user?.company_id ? null : state?.tasksToDo
-          .length === 5 ? null : (
+        {state?.tasksToDo?.length > 2 && !user?.company_id ? null : state
+            ?.tasksToDo.length === 5 ? null : (
           <button
             onClick={() => handleTaskList(undefined)}
             className="flex gap-2 font-content"
@@ -242,7 +219,10 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         </div>
       </section>
       {isOpenModale && (
-        <ConfirmCreationModale setIsOpenModale={setIsOpenModale} />
+        <ConfirmCreationModale
+          setIsOpenModale={setIsOpenModale}
+          state={state}
+        />
       )}
     </div>
   );
