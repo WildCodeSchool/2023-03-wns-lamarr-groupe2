@@ -1,9 +1,9 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Select from "react-select";
-import { friendListData } from "../scores/data";
 import ProfilePicture from "../../components/ProfilePicture";
 import { customStyles } from "./customStyles";
 import { isEmpty } from "remeda";
+import useFriendContext from "../../features/contexts/FriendContext";
 
 export type TContender = {
   id: number;
@@ -22,15 +22,16 @@ const Contenders: FC<ContendersProps> = ({
   setSelectedContenders,
 }) => {
   const [isShowAll, setIsShowAll] = useState(false);
+  const { friends } = useFriendContext()
   //TO-DO : Add company group
   //TO-DO : Add friends
   const friendListDataWithAll = [
     { id: -1, username: "Tous", picture: "" },
-    ...friendListData,
+    ...friends,
   ];
   const handleChange = (selectedContenders: any) => {
     if (selectedContenders.some((option: any) => option.id === -1)) {
-      setSelectedContenders(friendListData);
+      setSelectedContenders(friends);
     } else {
       setSelectedContenders(selectedContenders);
     }
@@ -65,7 +66,7 @@ const Contenders: FC<ContendersProps> = ({
         classNamePrefix="select"
         isDisabled={isDisabledContenders}
         name="todotask"
-        options={friendListDataWithAll}
+        options={friends.length > 0 ? friendListDataWithAll : []}
         placeholder={
           isDisabledContenders
             ? "Renseignez les champs précédents"
@@ -78,7 +79,7 @@ const Contenders: FC<ContendersProps> = ({
         getOptionValue={getOptionValue}
         styles={customStyles}
         required
-      />
+        noOptionsMessage={() => 'Pas de participant disponible'} />
       {!isEmpty(selectedContenders) && <button
         className="hidden md:block font-content underline text-small-p "
         onClick={() => setIsShowAll((prev) => !prev)}

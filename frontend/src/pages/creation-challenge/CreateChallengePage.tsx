@@ -73,6 +73,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
     } else {
       setIsDisable(false);
     }
+    /* eslint-disable-next-line */
   }, [state.description, state.title, state.startDate, state.endDate]);
 
   useEffect(() => {
@@ -160,7 +161,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
 
         {/* Task To dDo */}
         <label className="uppercase" title="todotask">
-          Tâches à accomplir
+          Actions à accomplir
         </label>
 
         {state.tasksToDo.map((task: any, index: number) => (
@@ -180,7 +181,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             className="flex gap-2 font-content"
           >
             <img src={plus} alt="Create a task" className="h-6 w-6" />
-            ajouter une tâche
+            ajouter une action
           </button>
         )}
       </section>

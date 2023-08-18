@@ -94,17 +94,17 @@ const DropDownSelectors: FC<DropDownProps> = ({
           isDisabled={isDisabled}
           isClearable={isClearable}
           name="todotask"
-          options={tasks}
+          options={tasks.length > 0 ? tasks : []}
           placeholder={
             isDisabled
               ? "Renseignez les champs précédents"
-              : "Sélectionnez une tâche"
+              : "Sélectionnez une action"
           }
           value={selectedOption}
           onChange={handleSelectChange}
           styles={customStyles}
           menuPlacement="top"
-        />
+          noOptionsMessage={() => "Pas d'action disponible"} />
       )}
     </>
   );
