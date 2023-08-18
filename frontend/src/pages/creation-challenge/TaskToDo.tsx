@@ -41,7 +41,7 @@ const TaskToDo: FC<{ isDisabled: boolean; updateTask: any }> = ({
     user?.company_id && selectedOption?.value !== undefined;
 
   return (
-    <div className=" flex justify-between gap-6 flex-col lg:flex-row items-center -mt-3 ">
+    <div className=" flex justify-between gap-6 flex-col lg:flex-row items-end -mt-3 ">
       <div className="flex-1 w-full  max-w-[490px]">
         <DropDownSelectors
           selectedOption={selectedOption}

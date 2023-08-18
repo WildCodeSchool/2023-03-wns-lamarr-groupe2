@@ -180,12 +180,12 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             className="flex gap-2 font-content"
           >
             <img src={plus} alt="Create a task" className="h-6 w-6" />
-            ajouter une tâche{" "}
+            ajouter une tâche
           </button>
         )}
       </section>
       {/* second part desktop */}
-      <section className=" flex-1  lg:max-w-[47%] xl:max-w-lg xxl:max-w-full">
+      <section className=" flex-1 mt-10 lg:mt-0 lg:max-w-[47%] xl:max-w-lg xxl:max-w-full">
         <div className="lg:max-w-md">
           <label className="uppercase" title="visibility">
             VISIBILITÉ
@@ -224,7 +224,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
             selectedTags={state?.selectedTags}
           />
 
-          <div className="my-6 md:mt-24 lg:pr-24  flex gap-6 w-full justify-center lg:justify-end">
+          <div className="mt-12 mb-6 md:mt-24 pr-10 flex gap-6 w-full justify-end">
             <button
               onClick={() => console.log("preview")}
               className=" text-tertiary-dark uppercase hover:text-primary-attention"

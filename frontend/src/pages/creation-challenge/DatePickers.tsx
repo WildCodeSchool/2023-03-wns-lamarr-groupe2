@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import calendarIcon from "../../assets/icons/calendar.svg";
+import RadioBtn from "../../components/RadioBtn";
 
 export type DatePickersProps = {
   setStartDate: Dispatch<SetStateAction<Date | null>>;
@@ -76,16 +77,8 @@ const DatePickers: FC<DatePickersProps> = ({
             minTime={new Date()}
             className="border-2 rounded-md w-32  lg:w-34 xl:w-48 py-2  px-2 flex justify-center"
           />
-          <div className="flex w-full justify-end items-center gap-2 pt-1">
-            <label htmlFor="startToday" className="text-small-p">
-              aujourd'hui
-            </label>
-            <input
-              type="checkbox"
-              id="startToday"
-              checked={useTodayAsStartDate}
-              onChange={handleUseTodayAsStartDate}
-            />
+          <div className="flex w-full justify-end items-center gap-2 h-6 pt-1">
+
           </div>
         </div>
       </div>
@@ -110,16 +103,11 @@ const DatePickers: FC<DatePickersProps> = ({
             filterDate={(date) => !disabledDate(date)}
             dayClassName={(date) => (disabledDate(date) ? "disabled-date" : "")}
           />
-          <div className="flex w-full justify-end items-center gap-2 pt-1">
+          <div onClick={handleUseTodayAsEndDate} className="flex w-full justify-end items-center gap-2 pt-1">
             <label htmlFor="endToday" className="text-small-p">
               aujourd'hui
             </label>
-            <input
-              type="checkbox"
-              id="endToday"
-              checked={useTodayAsEndDate}
-              onChange={handleUseTodayAsEndDate}
-            />
+            <RadioBtn isChoose={useTodayAsEndDate} small />
           </div>
         </div>
       </div>

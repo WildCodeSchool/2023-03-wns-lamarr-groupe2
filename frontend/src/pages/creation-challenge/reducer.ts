@@ -56,7 +56,7 @@ export const reducer = (state: State, action: Action): State => {
 export const initialState: State = {
   title: "",
   description: "",
-  startDate: null,
+  startDate: new Date(),
   endDate: null,
   tasksToDo: [{}],
   isPublicMode: false,
