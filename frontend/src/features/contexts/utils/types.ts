@@ -117,6 +117,8 @@ export type ChallengeInformations = Pick<
 };
 export type ChallengeContextType = {
   challenges: TChallenge[];
+  tasks: OptionType[];
+  tags: TTags[];
   createAChallenge: (value: ChallengeInformations) => void;
 };
 //Api Response

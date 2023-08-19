@@ -140,6 +140,23 @@ const queryChallenges = `query GetAllChallenges {
   }
 }`;
 
+const queryTasks = `query Query {
+  getAllEcoActions {
+    id
+    label
+    points
+    need_proof
+    difficulty
+  }
+}`;
+
+const queryTags = `query Query {
+  getAllTags {
+    id
+    label
+  }
+}`;
+
 const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
   createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
     title
@@ -175,5 +192,7 @@ module.exports = {
   sendNotifications,
   queryFriendList,
   queryChallenges,
+  queryTasks,
+  queryTags,
   mutationCreateChallenge,
 };

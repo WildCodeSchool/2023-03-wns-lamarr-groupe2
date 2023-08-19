@@ -2,34 +2,7 @@ import { Dispatch, FC, SetStateAction, useState } from "react";
 import Select from "react-select";
 import { customStyles } from "./customStyles";
 import { isEmpty } from "remeda";
-
-const tags = [
-  {
-    id: 1,
-    label: "recyclage",
-    color: "primary-good",
-  },
-  {
-    id: 2,
-    label: "conso",
-    color: "primary-attention",
-  },
-  {
-    id: 3,
-    label: "alimentation",
-    color: "primary-good",
-  },
-  {
-    id: 4,
-    label: "transport",
-    color: "primary-danger",
-  },
-  {
-    id: 5,
-    label: "lifestyle",
-    color: "primary-attention",
-  },
-];
+import useChallengeContext from "../../features/contexts/ChallengeContext";
 
 export type TTags = {
   id: number;
@@ -48,6 +21,7 @@ const Tags: FC<TagsProps> = ({
   setSelectedTags,
   selectedTags,
 }) => {
+  const { tags } = useChallengeContext()
   const [isShowAll, setIsShowAll] = useState(false);
 
   const handleChange = (selectedOptions: any) => {

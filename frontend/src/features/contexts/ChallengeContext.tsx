@@ -13,9 +13,11 @@ import {
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
-import { mutationCreateChallenge, queryChallenges } from "./utils/queries";
+import { mutationCreateChallenge, queryChallenges, queryTags, queryTasks } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
+import { OptionType } from "../../pages/creation-challenge/DropDownSelectors";
+import { TTags } from "../../pages/creation-challenge/Tags";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
 
@@ -28,7 +30,11 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
+  const [tasks, setTasks] = useState<OptionType[]>([])
+  const [tags, setTags] = useState<TTags[]>([])
   const { notifyCreate } = useToaster();
+
+  console.log(challenges)
   const getChallenges = async () => {
     try {
       const config = {
@@ -47,6 +53,42 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
+  const getTasks = async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryTasks },
+        config
+      );
+      const tasksData = response.data.data.getAllEcoActions;
+      setTasks(tasksData);
+    } catch (error) {
+      setTasks([]);
+    }
+  };
+
+  const getTags = async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryTags },
+        config
+      );
+      const tagsData = response.data.data.getAllTags;
+      setTags(tagsData);
+    } catch (error) {
+      setTags([]);
+    }
+  };
+
   const createAChallenge = async (
     challengeInformations: ChallengeInformations
   ) => {
@@ -62,12 +104,15 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       console.warn(response);
       notifyCreate();
       getChallenges();
+      console.log('challenge after the get', challenges)
     } catch (error) {
       console.error("Error creating challenge", error);
     }
   };
 
   useEffect(() => {
+    setTasks([])
+    setTags([])
     setChallenges([]);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
@@ -78,6 +123,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       return;
     }
     getChallenges();
+    getTasks()
+    getTags()
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -87,6 +134,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       value={{
         challenges,
         createAChallenge,
+        tags,
+        tasks
       }}
     >
       {children}

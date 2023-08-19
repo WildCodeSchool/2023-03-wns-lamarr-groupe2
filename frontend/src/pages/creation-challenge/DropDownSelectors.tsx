@@ -1,8 +1,8 @@
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Select, { ActionMeta } from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { tasks } from "./data";
 import useUserContext from "../../features/contexts/UserContext";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
 
 export type OptionType = {
   id?: number;
@@ -26,6 +26,7 @@ const DropDownSelectors: FC<DropDownProps> = ({
   setSelectedOption,
 }) => {
   const { user } = useUserContext();
+  const { tasks } = useChallengeContext()
   const [isClearable] = useState(true);
   const handleSelectChange = (
     option: OptionType | null,

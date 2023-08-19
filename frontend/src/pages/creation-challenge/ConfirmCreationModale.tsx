@@ -19,8 +19,8 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
       (contender: { id: any }) => contender.id
     ),
     tags: state?.selectedTags.map((tag: { id: any }) => tag.id),
-    startAt: state?.startDate?.toLocaleDateString(),
-    endAt: state?.endDate?.toLocaleDateString(),
+    startAt: state?.startDate?.toISOString(),
+    endAt: state?.endDate?.toISOString(),
     ecoActions: state?.tasksToDo?.map((task: { id: any }) => task.id),
     isPublic: state?.isPublicMode,
   };
