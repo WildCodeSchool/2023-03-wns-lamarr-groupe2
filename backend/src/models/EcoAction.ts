@@ -27,6 +27,10 @@ export class EcoAction extends BaseEntity {
   @Column()
   need_proof: boolean;
 
+  @Field()
+  @Column()
+  difficulty: number;
+
   // challenge_eco_action_list
   @Field(() => [Challenge])
   @ManyToMany(() => Challenge, (challengeId) => challengeId.id)

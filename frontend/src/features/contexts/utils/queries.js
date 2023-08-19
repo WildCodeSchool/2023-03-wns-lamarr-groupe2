@@ -16,6 +16,16 @@ const querySignIn = `query ($password: String!, $email: String!) {
     signIn(password: $password, email: $email)
   }`;
 
+const signUpQuery = `mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
+    signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
+      firstname
+      email
+      lastname
+      password
+      username
+    }
+  }`;
+
 const updateQuery = `
 mutation UpdateUser($username: String, $email: String) {
     updateUser(username: $username, email: $email) {
@@ -151,6 +161,7 @@ const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: 
 
 module.exports = {
   queryProfile,
+  signUpQuery,
   querySignIn,
   updateQuery,
   deleteQuery,

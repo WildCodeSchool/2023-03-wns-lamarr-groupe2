@@ -24,11 +24,13 @@ export class EcoActionResolver {
   async createEcoAction(
     @Arg("label") label: string,
     @Arg("points") points: number,
+    @Arg("difficulty") difficulty: number,
     @Arg("need_proof") needProof: boolean
   ): Promise<EcoAction> {
     const ecoAction = await EcoAction.create({
       label,
       points,
+      difficulty,
       need_proof: needProof,
     }).save();
 
@@ -40,6 +42,7 @@ export class EcoActionResolver {
     @Arg("id") id: number,
     @Arg("label", { nullable: true }) label?: string,
     @Arg("points", { nullable: true }) points?: number,
+    @Arg("difficulty", { nullable: true }) difficulty?: number,
     @Arg("need_proof", { nullable: true }) needProof?: boolean
   ): Promise<EcoAction> {
     const options = { where: { id } };
@@ -49,6 +52,7 @@ export class EcoActionResolver {
 
     if (label != null) ecoAction.label = label;
     if (points != null) ecoAction.points = points;
+    if (difficulty != null) ecoAction.difficulty = difficulty;
     if (needProof != null) ecoAction.need_proof = needProof;
 
     await ecoAction.save();

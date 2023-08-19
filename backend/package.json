@@ -8,7 +8,8 @@
     "start": "ts-node-dev src/index.ts",
     "dev": "ts-node-dev --respawn src/index.ts",
     "lint": "echo '----- Checking Backend...' && npx prettier --debug-check . && eslint --ext .js . && echo '----- Done!'",
-    "fix": "prettier --write . && eslint --fix --ext .js ."
+    "fix": "prettier --write . && eslint --fix --ext .js .",
+    "generate": "ts-node-dev src/generateFakeData.ts"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "class-validator": "^0.14.0",
     "dotenv": "^16.1.4",
     "echoes-of-future": "file:..",
+    "graphql": "^16.8.0",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "type-graphql": "^1.1.1",
