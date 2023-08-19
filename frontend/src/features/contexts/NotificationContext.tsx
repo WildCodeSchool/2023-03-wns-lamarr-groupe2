@@ -122,7 +122,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
     getFriendInvitationWaitingList();
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
-}, [user, token]);
+  }, [user, token]);
 
   // Accept or Decline Friend Invitation
   const updateFriendInvitation = async (

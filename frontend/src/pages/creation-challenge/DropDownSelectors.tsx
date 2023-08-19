@@ -26,7 +26,7 @@ const DropDownSelectors: FC<DropDownProps> = ({
   setSelectedOption,
 }) => {
   const { user } = useUserContext();
-  const { tasks } = useChallengeContext()
+  const { tasks } = useChallengeContext();
   const [isClearable] = useState(true);
   const handleSelectChange = (
     option: OptionType | null,

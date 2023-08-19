@@ -21,7 +21,7 @@ const Tags: FC<TagsProps> = ({
   setSelectedTags,
   selectedTags,
 }) => {
-  const { tags } = useChallengeContext()
+  const { tags } = useChallengeContext();
   const [isShowAll, setIsShowAll] = useState(false);
 
   const handleChange = (selectedOptions: any) => {

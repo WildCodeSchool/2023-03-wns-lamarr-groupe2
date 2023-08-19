@@ -13,7 +13,12 @@ import {
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
-import { mutationCreateChallenge, queryChallenges, queryTags, queryTasks } from "./utils/queries";
+import {
+  mutationCreateChallenge,
+  queryChallenges,
+  queryTags,
+  queryTasks,
+} from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
 import { OptionType } from "../../pages/creation-challenge/DropDownSelectors";
@@ -30,11 +35,10 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
-  const [tasks, setTasks] = useState<OptionType[]>([])
-  const [tags, setTags] = useState<TTags[]>([])
+  const [tasks, setTasks] = useState<OptionType[]>([]);
+  const [tags, setTags] = useState<TTags[]>([]);
   const { notifyCreate } = useToaster();
 
-  console.log(challenges)
   const getChallenges = async () => {
     try {
       const config = {
@@ -104,15 +108,15 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       console.warn(response);
       notifyCreate();
       getChallenges();
-      console.log('challenge after the get', challenges)
+      console.log("challenge after the get", challenges);
     } catch (error) {
       console.error("Error creating challenge", error);
     }
   };
 
   useEffect(() => {
-    setTasks([])
-    setTags([])
+    setTasks([]);
+    setTags([]);
     setChallenges([]);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
@@ -123,8 +127,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       return;
     }
     getChallenges();
-    getTasks()
-    getTags()
+    getTasks();
+    getTags();
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -135,7 +139,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         challenges,
         createAChallenge,
         tags,
-        tasks
+        tasks,
       }}
     >
       {children}
