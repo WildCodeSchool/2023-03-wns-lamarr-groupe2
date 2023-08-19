@@ -1,10 +1,10 @@
 import DashboardPageModale from "./DashboardPageModale";
 import FriendsLeaderboard from "./Leaderboard/FriendsLeaderboard";
 import MyChallenges from "./MyChallenges";
-import MyTeams from "./MyTeams";
+//import MyTeams from "./MyTeams"; -> Waiting for company add
 
 export default function DashboardPage() {
-  const isUserGotTeams = true; // userContext check need comany be not null back
+  //  const isUserGotTeams = true; // userContext check need comany be not null back
 
   return (
     <section className="gap-10  xl:gap-20 flex justify-center lg:justify-start w-full  h-full">

@@ -69,6 +69,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   useEffect(() => {
     setChallenges([]);
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user]);
 
   useEffect(() => {
@@ -76,6 +78,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       return;
     }
     getChallenges();
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user, token]);
 
   return (

@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { UserContextProvider } from "./features/contexts/UserContext";
 import { FriendContextProvider } from "./features/contexts/FriendContext";
 import { NotificationContextProvider } from "./features/contexts/NotificationContext";
-import ChallengeContext, {
+import {
   ChallengeContextProvider,
 } from "./features/contexts/ChallengeContext";
 

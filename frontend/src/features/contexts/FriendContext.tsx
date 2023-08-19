@@ -66,6 +66,8 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     setFriends([]);
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user]);
 
   useEffect(() => {
@@ -73,6 +75,8 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
       return;
     }
     getFriends();
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user, token]);
 
   // Remove a friend

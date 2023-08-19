@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, FC } from "react";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
-import { useToaster } from "../../features/hooks/useToaster";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import { ChallengeInformations } from "../../features/contexts/utils/types";
 
@@ -11,7 +10,6 @@ type ModaleProps = {
 };
 
 const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
-  const { notifyCreate } = useToaster();
   const { createAChallenge } = useChallengeContext();
 
   const formattedState: ChallengeInformations = {

@@ -38,14 +38,6 @@ const DatePickers: FC<DatePickersProps> = ({
     return date < today;
   };
 
-  const handleUseTodayAsStartDate = () => {
-    setUseTodayAsStartDate(!useTodayAsStartDate);
-    if (!useTodayAsStartDate) {
-      setStartDate(new Date());
-    } else {
-      setStartDate(null);
-    }
-  };
 
   const handleUseTodayAsEndDate = () => {
     setUseTodayAsEndDate(!useTodayAsEndDate);

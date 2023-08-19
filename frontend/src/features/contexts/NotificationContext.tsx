@@ -110,6 +110,8 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
   useEffect(() => {
     setNotifications([]);
     setWaitingFriendList([]);
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user]);
 
   useEffect(() => {
@@ -118,7 +120,9 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
     }
     getNotifications();
     getFriendInvitationWaitingList();
-  }, [user, token]);
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
+}, [user, token]);
 
   // Accept or Decline Friend Invitation
   const updateFriendInvitation = async (

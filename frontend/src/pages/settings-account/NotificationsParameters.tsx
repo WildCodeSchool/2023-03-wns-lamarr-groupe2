@@ -4,7 +4,7 @@ import Toggle from "../../components/Toggle";
 import { SettingsPageParameters } from "./Profile";
 import ProfileModale from "./ProfileModale";
 
-const NotificationsParameters: FC<SettingsPageParameters> = ({}) => {
+const NotificationsParameters: FC<SettingsPageParameters> = () => {
   const [isOpenModale, setIsOpenModale] = useState(false);
 
   return (
