@@ -7,7 +7,7 @@ export const challengeSchema = yup.object().shape({
   title: yup
     .string()
     .required("Le titre est obligatoire")
-    .min(5, "Le titre doit être supérieur à 5 caractère")
+    .min(5, "Le titre doit être supérieur à 5 caractères")
     .max(150, "Un maximum de 150 caractères est autorisé"),
   description: yup
     .string()

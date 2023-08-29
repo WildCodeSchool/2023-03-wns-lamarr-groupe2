@@ -132,7 +132,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
       if (updateFriendProps.type !== 2) {
         throw Error;
       }
-      const upateFriendInvitation = {
+      const updateFriendInvitation = {
         query: mutationIsRead,
         variables: {
           updateNotificationStatusId: updateFriendProps.notificationId,
@@ -145,7 +145,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
       };
       const response = await axios.post(
         BACKEND_URL,
-        upateFriendInvitation,
+        updateFriendInvitation,
         config
       );
       console.warn(response);

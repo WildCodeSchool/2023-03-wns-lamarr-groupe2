@@ -35,7 +35,12 @@ export class FriendResolver {
 
     if (!userFriends) throw new Error(`The user is not connected`);
 
-    const friend = await User.findOne({ where: { id: input.friendid } });
+    const friend = await User.findOne({
+      relations: {
+        friend: true,
+      },
+      where: { id: input.friendid },
+    });
 
     if (!friend)
       throw new Error(`The user with id: ${input.friendid} does not exist!`);
