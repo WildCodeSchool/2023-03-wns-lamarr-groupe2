@@ -108,7 +108,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       console.warn(response);
       notifyCreate();
       getChallenges();
-      console.log("challenge after the get", challenges);
     } catch (error) {
       console.error("Error creating challenge", error);
     }

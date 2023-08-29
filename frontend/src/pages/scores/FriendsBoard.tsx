@@ -6,7 +6,6 @@ import useFriendContext from "../../features/contexts/FriendContext";
 
 const FriendsBoard = () => {
   const { friends } = useFriendContext();
-  console.log(friends)
   const [friendSearch, setFriendSearch] = useState<string>("");
 
   const handleFriendSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,8 +109,8 @@ const FriendsBoard = () => {
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === pageNumbers.length}
               className={` ${currentPage === pageNumbers.length
-                  ? " text-tertiary-dark"
-                  : "text-primary-good"
+                ? " text-tertiary-dark"
+                : "text-primary-good"
                 }`}
             >
               SUIVANT{" "}
