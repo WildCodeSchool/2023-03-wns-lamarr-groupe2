@@ -85,7 +85,7 @@ const Tags: FC<TagsProps> = ({
           .map((tag) => (
             <div
               key={tag.id}
-              className={`bg-${tag.color}  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}
+              className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}
             >
               <p>{tag.label}</p>
               <button

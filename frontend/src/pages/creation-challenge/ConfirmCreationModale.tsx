@@ -3,6 +3,7 @@ import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import { ChallengeInformations } from "../../features/contexts/utils/types";
+import { isEmpty } from "remeda";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
@@ -21,9 +22,11 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
     tags: state?.selectedTags.map((tag: { id: any }) => tag.id),
     startAt: state?.startDate?.toISOString(),
     endAt: state?.endDate?.toISOString(),
-    ecoActions: state?.tasksToDo?.map((task: { id: any }) => task.id),
+    ecoActions: state?.tasksToDo?.filter((task: any) => !isEmpty(task)).map((task: { id: any }) => task.id),
     isPublic: state?.isPublicMode,
   };
+
+  console.log(formattedState)
 
   const handlePublishChallenge = () => {
     createAChallenge(formattedState);
