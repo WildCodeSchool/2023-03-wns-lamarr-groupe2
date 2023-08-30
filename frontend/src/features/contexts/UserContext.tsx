@@ -277,6 +277,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // TO-DO : It will be needed to check the AdminStatus or Company  to prevent a localhost
 
+
   return (
     <UserContext.Provider
       value={{

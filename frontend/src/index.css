@@ -14,7 +14,7 @@
     @apply bg-primary-attention font-button font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[270px] text-button;
   }
   .small {
-    @apply rounded-rounder py-3 px-6  text-button w-36;
+    @apply rounded-rounder py-3 px-6  w-36;
   }
   .customBorder {
     @apply border rounded-customBtn border-primary-dark drop-shadow-custom hover:text-white hover:border-black hover:drop-shadow-none;

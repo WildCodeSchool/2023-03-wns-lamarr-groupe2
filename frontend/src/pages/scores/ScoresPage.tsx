@@ -26,7 +26,7 @@ const ScoresPage: FC<PropsWithChildren> = () => {
       <section className="flex  items-center">
         {/* Profile */}
         <div className="hidden md:flex gap-5 md:flex-1">
-          <ProfilePicture size="xlargePic" />
+          <ProfilePicture size="xlargePic" url={user?.picture} />
           <div className="">
             <h2>
               {user.firstname} {user.lastname}

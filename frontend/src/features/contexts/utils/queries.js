@@ -68,6 +68,43 @@ const addfriendQuery = `mutation Mutation($input: NewFriendInput!) {
   }
 }`;
 
+const queryNotifications = `query UserNotifications {
+  userNotifications {
+    id
+    status
+    type
+    sender {
+      id
+      firstname
+    }
+    isUnread
+    send_date
+  }
+}`;
+
+const mutationIsRead = `mutation UpdateNotificationStatus($updateNotificationStatusId: Int!, $isUnread: Boolean!, $status: Boolean) {
+  updateNotificationStatus(id: $updateNotificationStatusId, isUnread: $isUnread, status: $status) {
+    id
+    isUnread
+    status
+  }
+}`;
+
+const sendNotifications = `mutation NewNotification($input: NotificationInput!) {
+  newNotification(input: $input) {
+    type
+    receivers {
+      id
+    }
+  }
+}`;
+
+const queryFriendList = `query UsersWithUnreadNotifications {
+  usersWithUnreadNotifications {
+    id
+  }
+}`;
+
 module.exports = {
   queryProfile,
   querySignIn,
@@ -78,4 +115,8 @@ module.exports = {
   deleteFriend,
   queryUsers,
   addfriendQuery,
+  queryNotifications,
+  mutationIsRead,
+  sendNotifications,
+  queryFriendList,
 };

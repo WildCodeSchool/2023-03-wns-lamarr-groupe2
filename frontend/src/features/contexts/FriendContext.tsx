@@ -2,12 +2,11 @@ import {
   FC,
   PropsWithChildren,
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useState,
 } from "react";
-import { FriendContextType, Friend } from "./utils/types";
+import { FriendContextType, Friend, AddFriendProp } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
 import { addfriendQuery, deleteFriend, queryFriends } from "./utils/queries";
@@ -22,7 +21,8 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { notifyFriendAdd, notifyErrorGlobal } = useToaster();
   const { user, token } = useUserContext();
   const [friends, setFriends] = useState<Friend[]>([]);
-  const getFriends = useCallback(async () => {
+
+  const getFriends = async () => {
     try {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -38,43 +38,48 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     } catch (error) {
       console.error("Error fetching friends:", error);
     }
-  }, [token]);
+  };
 
-  const addFriend = useCallback(
-    async (friendId: number) => {
+
+  const addFriend =
+    async (addFriendsProps: AddFriendProp) => {
       try {
         const addQuery = {
           query: addfriendQuery,
           variables: {
             input: {
-              friendid: friendId,
+              friendid: addFriendsProps.friendId,
             },
           },
         };
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
+
         const response = await axios.post(BACKEND_URL, addQuery, config);
         console.warn(response);
-        notifyFriendAdd();
+        !addFriendsProps.isFromNotification && notifyFriendAdd();
         getFriends();
       } catch (error) {
         console.error("Error fetching friends:", error);
         notifyErrorGlobal();
       }
-    },
-    [token, getFriends, notifyErrorGlobal, notifyFriendAdd]
-  );
+    }
+
+  useEffect(() => {
+    setFriends([]);
+  }, [user]);
 
   useEffect(() => {
     if (isEmpty(user)) {
       return;
     }
-    getFriends();
-  }, [getFriends, user, token, addFriend]);
+    getFriends()
+  }, [user, token]);
+
 
   // Remove a friend
-  const removeFriend = useCallback(
+  const removeFriend =
     async (friendId: number) => {
       try {
         const removeQuery = {
@@ -96,9 +101,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
-    },
-    [token]
-  );
+    }
 
   return (
     <FriendContext.Provider value={{ friends, addFriend, removeFriend }}>

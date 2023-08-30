@@ -6,6 +6,7 @@ import ProfilePicture from "../../components/ProfilePicture";
 import RadioBtn from "../../components/RadioBtn";
 import BtnCustom from "../../components/BtnCustom";
 import useFriendContext from "../../features/contexts/FriendContext";
+import useNotificationContext from "../../features/contexts/NotificationContext";
 
 export type UserGlobal = {
   username: string;
@@ -16,33 +17,30 @@ export type UserGlobal = {
 
 const UsersList = () => {
   const { users } = useUserContext();
-  const { addFriend, friends } = useFriendContext();
-  const [selectedUserIds, setSelectedUserIds] = useState<
-    number | undefined /* [] */
-  >(/* [] */);
+  const { friends } = useFriendContext();
+  const { sendFriendInvitation } = useNotificationContext()
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
   const [searchUser, setSearchUser] = useState<string>("");
-  const handleToggleSelection = (user: UserGlobal) => {
-    setSelectedUserIds((prevId) => (prevId === user.id ? undefined : user?.id));
-  };
+  const { waitingFriendList } = useNotificationContext()
 
-  const handleAddFriend = (friendId: number) => {
-    if (selectedUserIds === undefined) {
-      return;
-    }
-    addFriend(selectedUserIds);
+  const waitingFriendIds = waitingFriendList.map((waitingFriend) => waitingFriend.id);
+
+  const handleAddFriend = (friendsId: number[]) => {
+    sendFriendInvitation(friendsId)
+    setSelectedUserIds([])
   };
-  /* To add multiple users :  
-     const handleToggleSelection = (user: UserGlobal) => {
-         setSelectedUserIds((prevSelectedUserIds) => {
-             const isSelected = prevSelectedUserIds.includes(user.id);
- 
-             if (isSelected) {
-                 return prevSelectedUserIds.filter((id) => id !== user.id);
-             } else {
-                 return [...prevSelectedUserIds, user.id];
-             }
-         });
-     }; */
+  /* To add multiple users :   */
+  const handleToggleSelection = (user: UserGlobal) => {
+    setSelectedUserIds((prevSelectedUserIds) => {
+      const isSelected = prevSelectedUserIds?.includes(user.id);
+
+      if (isSelected) {
+        return prevSelectedUserIds?.filter((id) => id !== user.id);
+      } else {
+        return [...prevSelectedUserIds, user.id];
+      }
+    });
+  };
 
   const handleSearchUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchUser(e.target.value);
@@ -58,7 +56,7 @@ const UsersList = () => {
   const usersWithoutFriends = useMemo(() => {
     return pipe(
       users,
-      filter((user) => !friends.some((friend) => friend.id === user.id))
+      filter((user) => !friends.some((friend) => friend.id === user.id)),
     );
   }, [users, friends]);
 
@@ -91,20 +89,20 @@ const UsersList = () => {
           filteredUsers?.map((user, index) => (
             <div
               key={index}
-              className="border-b flex justify-between"
+              className={`border-b flex items-center justify-between ${waitingFriendIds.includes(user.id) && 'pointer-events-none'}`}
               onClick={() => handleToggleSelection(user)}
             >
               <div className="flex gap-2">
                 <ProfilePicture url={user.picture} size="smallPic" />
                 <p>{user.username}</p>
               </div>
-              <RadioBtn isChoose={selectedUserIds === user?.id} />
+              {waitingFriendIds.includes(user.id) ? <p className=" text-small-p font-bold text-right  italic text-primary-good pr-3 py-4">En attente</p> : <RadioBtn isChoose={selectedUserIds.includes(user?.id)} />}
             </div>
           ))
         )}
       </div>
       <div className="flex justify-center h-20 items-center mb-6">
-        {selectedUserIds && (
+        {selectedUserIds.length !== 0 && (
           <BtnCustom
             text="AJOUTER"
             styled="btnGood"
