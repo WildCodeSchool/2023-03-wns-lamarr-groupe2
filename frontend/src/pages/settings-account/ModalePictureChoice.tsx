@@ -12,7 +12,6 @@ export const ModalePictureChoice: FC<{
   );
 
   const handleSelect = (option: string) => {
-    console.log("Selected Option : ", selectedOption);
     setSelectedOption((prevOption) =>
       prevOption === option ? "hermesG" : option
     );

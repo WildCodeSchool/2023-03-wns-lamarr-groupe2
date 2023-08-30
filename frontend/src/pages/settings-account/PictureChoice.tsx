@@ -11,7 +11,6 @@ const pictureMap: PictureMap = {
   hermesY: hermesY,
 };
 
-
 type PictureChoiceProps = {
   hermesChoice: string;
   last: number;

@@ -1,4 +1,6 @@
-// User Context Types
+// User
+
+import { UserGlobal } from "../../../pages/scores/UsersList";
 
 export type TUser = {
   score: number;
@@ -9,7 +11,7 @@ export type TUser = {
   email: string;
   password: string;
   admin: boolean;
-  points?: number;
+  points: number;
   siret?: number;
   company_id?: number;
   company_group_id?: number;
@@ -48,8 +50,22 @@ export type UserContextType = {
   updateUser: (e: React.FormEvent, value: UpdatedUser) => void;
   deleteUserAccount: () => void;
   updatePicture: (pictureChoice: string) => void;
+  users: UserGlobal[];
 };
 
+// Friends
+export type Friend = Pick<
+  TUser,
+  "id" | "username" | "firstname" | "lastname" | "picture" | "points" | "email"
+>;
+
+export type FriendContextType = {
+  friends: Friend[];
+  addFriend: (friendData: number) => void;
+  removeFriend: (friendId: number) => void;
+};
+
+//Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
   data: { viewer: Record<Key, { hits: ResponseType[] }> };
 }

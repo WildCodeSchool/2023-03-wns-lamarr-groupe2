@@ -4,10 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
+  useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { equals } from "remeda";
+import { equals, isEmpty } from "remeda";
 import axios from "axios";
 import {
   UserContextType,
@@ -15,7 +17,7 @@ import {
   LoginInformations,
   RegisterInformations,
   UpdatedUser,
-} from "./types";
+} from "./utils/types";
 import { useToaster } from "../hooks/useToaster";
 import {
   querySignIn,
@@ -23,7 +25,8 @@ import {
   updateQuery,
   deleteQuery,
   updatePictureQuery,
-} from "./queries";
+  queryUsers,
+} from "./utils/queries";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
 
@@ -33,6 +36,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useLocalStorage("user", {} as TUser);
   const [token, setToken] = useLocalStorage("token", "");
+  const [users, setUsers] = useState<TUser[]>([]);
   const {
     notifyRegister,
     notifyErrorRegister,
@@ -183,9 +187,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   // UpdatePicture
-
   const updatePicture = async (pictureChoice: string) => {
-    console.log("pictureChoice : ", pictureChoice);
     try {
       const updateUserQuery = {
         query: updatePictureQuery,
@@ -246,6 +248,31 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [setUser, token, navigate]);
 
+  // Get all Users
+  const getUsers = useCallback(async () => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryUsers },
+        config
+      );
+      const usersData = response.data.data.getUsers;
+      setUsers(usersData);
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (isEmpty(user)) {
+      return;
+    }
+    getUsers();
+  }, [getUsers, user, token]);
   // TO-DO : isValidToken is needed to check if the token is valid, if not => back to login screen
 
   // TO-DO : It will be needed to check the AdminStatus or Company  to prevent a localhost
@@ -261,6 +288,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         updateUser,
         deleteUserAccount,
         updatePicture,
+        users,
       }}
     >
       {children}

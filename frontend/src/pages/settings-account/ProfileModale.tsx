@@ -51,7 +51,7 @@ const ProfileModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
                   <b>Cette action est irréversible</b> , vous n'aurez plus accès
                   à votre compte.
                 </p>
-              </div>{" "}
+              </div>
             </div>
             <div className="bg-main-bg  flex justify-center  items-center w-full py-10 gap-3">
               <BtnCustom
