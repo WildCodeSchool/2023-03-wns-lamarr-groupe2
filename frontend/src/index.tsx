@@ -5,6 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { UserContextProvider } from "./features/contexts/UserContext";
+import { FriendContextProvider } from "./features/contexts/FriendContext";
+import { NotificationContextProvider } from "./features/contexts/NotificationContext";
+import { ChallengeContextProvider } from "./features/contexts/ChallengeContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +17,13 @@ root.render(
   /*  <React.StrictMode> */
   <BrowserRouter>
     <UserContextProvider>
-      <App />
+      <FriendContextProvider>
+        <NotificationContextProvider>
+          <ChallengeContextProvider>
+            <App />
+          </ChallengeContextProvider>
+        </NotificationContextProvider>
+      </FriendContextProvider>
     </UserContextProvider>
   </BrowserRouter>
   /*   </React.StrictMode> */

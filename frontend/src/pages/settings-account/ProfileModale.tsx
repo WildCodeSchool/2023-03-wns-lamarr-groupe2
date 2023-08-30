@@ -30,7 +30,7 @@ const ProfileModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
                   <img
                     src={attention}
                     alt="attention modale"
-                    className="cursor-pointer"
+                    className="border rounded-full bg-main-bg drop-shadow-progressbar w-12 h-12 p-1 "
                   />
                 </div>
                 <div className=" w-full mt-3  mr-12 text-center sm:mt-0 sm:ml-4 sm:text-left">
@@ -51,7 +51,7 @@ const ProfileModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
                   <b>Cette action est irréversible</b> , vous n'aurez plus accès
                   à votre compte.
                 </p>
-              </div>{" "}
+              </div>
             </div>
             <div className="bg-main-bg  flex justify-center  items-center w-full py-10 gap-3">
               <BtnCustom

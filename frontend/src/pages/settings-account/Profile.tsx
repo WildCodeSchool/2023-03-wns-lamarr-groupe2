@@ -3,7 +3,7 @@ import edit from "../../assets/icons/edit.svg";
 import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import InputCustom from "../../components/InputCustom";
-import { TUser } from "../../features/contexts/types";
+import { TUser } from "../../features/contexts/utils/types";
 import ProfileModale from "./ProfileModale";
 import modifyPic from "../../assets/icons/modifyPic.svg";
 import { ModalePictureChoice } from "./ModalePictureChoice";
@@ -68,7 +68,7 @@ const Profile: FC<SettingsPageParameters> = ({
           <ProfilePicture url={user.picture} size="largePic" />
           <img
             src={modifyPic}
-            alt="Modify Profile Picture"
+            alt="Modify Profile"
             className="absolute right-4 bottom-0 h-6 w-6 cursor-pointer"
             onClick={() => setOpenPictureChoice(true)}
           />
@@ -113,7 +113,7 @@ const Profile: FC<SettingsPageParameters> = ({
           <ProfilePicture url={user.picture} size="xlargePic" />
           <img
             src={modifyPic}
-            alt="Modify Profile Picture"
+            alt="Modify Profile "
             className="absolute right-6 bottom-2 h-8 w-8 cursor-pointer"
             onClick={() => setOpenPictureChoice(true)}
           />

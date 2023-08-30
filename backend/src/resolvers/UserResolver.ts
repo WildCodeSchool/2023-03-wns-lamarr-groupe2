@@ -1,9 +1,24 @@
-import { Ctx, Arg, Mutation, Resolver } from "type-graphql";
+import { Ctx, Arg, Mutation, Resolver, Query } from "type-graphql";
 import { FindOneOptions } from "typeorm";
 import { User } from "../models/User";
 
 @Resolver()
 export class UserResolver {
+  // Query to get all Users list
+  @Query(() => [User])
+  async getUsers(@Ctx() context: { user: User }): Promise<User[]> {
+    const user = context.user;
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+    const users = await User.find();
+    const usersExceptCurrentUser = users.filter(
+      (user) => user.id !== context.user.id
+    );
+
+    return usersExceptCurrentUser;
+  }
+
   // Mutation to update user's username and email
   @Mutation(() => User)
   async updateUser(
@@ -12,7 +27,7 @@ export class UserResolver {
     @Arg("email", { nullable: true }) email?: string
   ): Promise<User> {
     const user = context.user;
-    
+
     // We check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
@@ -35,10 +50,10 @@ export class UserResolver {
   @Mutation(() => User)
   async updatePicture(
     @Ctx() context: { user: User },
-    @Arg("picture", { nullable: true }) picture?: string,
+    @Arg("picture", { nullable: true }) picture?: string
   ): Promise<User> {
     const user = context.user;
-    
+
     // We check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
@@ -55,7 +70,6 @@ export class UserResolver {
     return existingUser;
   }
 
-  
   // Mutation to delete a user
   @Mutation(() => Boolean)
   async deleteUser(@Ctx() context: { user: User }): Promise<boolean> {

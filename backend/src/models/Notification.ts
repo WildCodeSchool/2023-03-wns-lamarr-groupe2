@@ -1,52 +1,45 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
-import { ObjectType, Field } from "type-graphql"
-import { User } from "./User"
-
-export enum Status {
-	LU = "LU",
-	NONLU = "NONLU",
-	ATTENTE = "ATTENTE",
-	REFUSE = "REFUSE",
-	ACCEPTE = "ACCEPTE",
-}
-
-export enum Type {
-	INFORMATION = "INFORMATION",
-	CHALLENGE = "CHALLENGE",
-	AMI = "AMI",
-}
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { ObjectType, Field } from "type-graphql";
+import { User } from "./User";
 
 @ObjectType()
 @Entity()
 export class Notification extends BaseEntity {
-	@Field()
-	@PrimaryGeneratedColumn()
-	id: number
+  @Field()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Field(() => User)
-	@ManyToOne(() => User, (user) => user.receivedNotifications)
-	receivers: User
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.receivedNotifications)
+  receivers: User[];
 
-	@Field()
-	@Column({ nullable: false })
-	message: string
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.sentNotifications)
+  sender: User;
 
-	@Field(() => User)
-	@ManyToOne(() => User, (user) => user.sentNotifications)
-	sender: User
+  @Field(() => Number)
+  @Column({ type: "int" })
+  type: number;
 
-	@Field()
-	@Column({ type: "enum", enum: Type })
-	type: Type
+  @Field(() => Boolean, { nullable: true })
+  @Column({ type: "boolean", nullable: true })
+  status?: boolean;
 
-	@Field()
-	@Column({ type: "enum", enum: Status })
-	status: Status
+  @Field()
+  @Column({ default: false })
+  isUnread: boolean;
 
-	@Field()
-	@Column({
-		type: "timestamptz",
-		default: new Date(new Date().getTime() + 2 * 3600 * 1000),
-	})
-	send_date: Date
+  @Field()
+  @Column({
+    type: "timestamptz",
+    default: new Date(new Date().getTime() + 2 * 3600 * 1000),
+  })
+  send_date: Date;
 }

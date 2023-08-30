@@ -7,19 +7,22 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/date-fns": "^2.6.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.27",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
-    "graphql": "^16.6.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
+    "react-datepicker": "^4.16.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "react-select": "^5.7.4",
     "react-slick": "^0.29.0",
     "remeda": "^1.23.0",
     "slick-carousel": "^1.8.1",
@@ -33,7 +36,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "echo '----- Checking Frontend...' && prettier --debug-check  . && eslint --ext . && echo '----- Done!'",
-    "fix": "prettier --write . && eslint --fix --ext .jsx ."
+    "fix": "prettier --write . && eslint --fix --ext .jsx .",
+    "generate": "node src/features/contexts/utils/generateFakeData.js"
   },
   "eslintConfig": {
     "extends": [
@@ -54,8 +58,11 @@
     ]
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/react-datepicker": "^4.15.0",
     "autoprefixer": "10.4.14",
     "postcss": "8.4.24",
+    "prettier": "^3.0.1",
     "tailwindcss": "^3.3.2"
   }
 }

@@ -14,14 +14,12 @@
     @apply bg-primary-attention font-button font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[270px] text-button;
   }
   .small {
-    @apply rounded-rounder py-3 px-6  text-button w-36;
+    @apply rounded-rounder py-3 px-6  w-36;
   }
   .customBorder {
     @apply border rounded-customBtn border-primary-dark drop-shadow-custom hover:text-white hover:border-black hover:drop-shadow-none;
   }
-  .toggleGood {
-    @apply w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600;
-  }
+
   .smallPic {
     @apply h-8 w-8;
   }
@@ -56,15 +54,29 @@
   .screen {
     @apply flex flex-grow lg:px-6 lg:py-8;
   }
-
-  .toggle {
-    @apply w-11 h-6 bg-primary-good border peer-focus:outline-none rounded-full flex justify-start items-center;
-  }
-  .toggleSpan {
-    @apply w-3 h-3 py-3 px-3 ml-0 bg-primary-attention customBorder drop-shadow-none rounded-rounder;
-  }
 }
 
+/* Quill  */
+.quill .ql-toolbar.ql-snow {
+  border: 2px solid #000000;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  padding: 8px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.quill .ql-container.ql-snow {
+  border: 2px solid #000000;
+  background-color: white;
+  height: 20vh;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  width: 100vw;
+  max-width: 100%;
+}
+
+/* General */
 body {
   @apply bg-main-bg;
   @apply font-content;
@@ -132,4 +144,107 @@ button {
 .slick-list {
   border-radius: 6px;
   @apply border-primary-dark drop-shadow-[18px_20px_0px_black];
+}
+/*  Data Picker
+ */
+
+.custom-calendar {
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 8px !important;
+  box-shadow: 3px 4px 0px 0px #000000;
+}
+.react-datepicker__day {
+  color: #786e6e !important;
+  font-size: 16px;
+}
+
+.react-datepicker__day:last-child {
+  border-right: none;
+}
+
+.react-datepicker__day--in-range {
+  background-color: #f7e2b7 !important;
+  color: black !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: #ffcb66 !important;
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__day--keyboard-selected:hover,
+.react-datepicker__day--keyboard-selected:focus {
+  background-color: #ffcb66 !important;
+}
+
+.react-datepicker__header {
+  background-color: white !important;
+  color: white !important;
+}
+
+.react-datepicker__month {
+  position: relative;
+}
+
+.react-datepicker__week {
+  position: relative;
+}
+
+.react-datepicker__week::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::before,
+.react-datepicker-popper[data-placement^="bottom"] {
+  border-bottom-color: black !important;
+}
+
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::after {
+  border-bottom-color: white !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-calendar-btn {
+  background-color: transparent !important;
+  height: 100% !important;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: white !important;
+  color: black !important;
+  font-size: 22px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disabled-date {
+  color: rgb(
+    216,
+    216,
+    229
+  ) !important; /* Set text color to blue for disabled dates */
+}
+
+* :focus {
+  outline-color: #ffcb66 !important;
+}
+
+#startToday,
+#endToday {
+  accent-color: #ffcb66;
+}
+
+.css-1ufrq8r-multiValue {
+  background-color: transparent !important;
 }

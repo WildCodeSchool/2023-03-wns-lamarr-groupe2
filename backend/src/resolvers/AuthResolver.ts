@@ -15,6 +15,9 @@ export class AuthResolver {
     @Arg("email") email: string,
     @Arg("password") password: string
   ): Promise<User> {
+    if (!firstname || !lastname || !username || !email || !password) {
+      throw new Error("All fields are required");
+    }
     // We hash the password send by the user with argon2 and store it in the database
     const hashedPassword = await argon2.hash(password);
 

@@ -1,74 +1,133 @@
-import { Ctx, Arg, Mutation, InputType, Field } from "type-graphql"
-import { User } from "../models/User"
-import { IsInt, IsNumber } from "class-validator"
+import { Ctx, Arg, Mutation, InputType, Query, Field } from "type-graphql";
+import { User } from "../models/User";
+import { IsInt, IsNumber } from "class-validator";
 
 @InputType()
 export class NewFriendInput {
-	@Field()
-	@IsNumber()
-	@IsInt()
-	friendid: number
+  @Field()
+  @IsNumber()
+  @IsInt()
+  friendid: number;
 }
 
 export class FriendResolver {
-	// Mutation to insert a user in database
-	@Mutation(() => User)
-	async newFriend(@Ctx() context: { user: User }, @Arg("input") input: NewFriendInput): Promise<User> {
-		const user = context.user
+  // Mutation to insert a user in database
+  @Mutation(() => User)
+  async newFriend(
+    @Ctx() context: { user: User },
+    @Arg("input") input: NewFriendInput
+  ): Promise<User> {
+    const user = context.user;
 
-		if (user.id === input.friendid) throw new Error(`User and friend are the same`)
+    if (user.id === input.friendid)
+      throw new Error(`User and friend are the same`);
 
-		if (user === null) throw new Error(`The user is not connected`)
+    if (!user) throw new Error(`The user is not connected`);
 
-		const userFriends = await User.findOne({
-			relations: {
-				friend: true,
-			},
-			where: {
-				id: user.id,
-			},
-		})
+    const userFriends = await User.findOne({
+      relations: {
+        friend: true,
+      },
+      where: {
+        id: user.id,
+      },
+    });
 
-		if (userFriends === null) throw new Error(`The user is not connected`)
+    if (!userFriends) throw new Error(`The user is not connected`);
 
-		userFriends.friend.forEach((check) => {
-			if (check.id === input.friendid) throw new Error(`The user is already friend`)
-		})
+    const friend = await User.findOne({
+      relations: {
+        friend: true,
+      },
+      where: { id: input.friendid },
+    });
 
-		const friend = await User.findOneBy({ id: input.friendid })
+    if (!friend)
+      throw new Error(`The user with id: ${input.friendid} does not exist!`);
 
-		if (friend === null) throw new Error(`The user with id: ${input.friendid} does not exist!`)
+    if (!userFriends.friend) {
+      userFriends.friend = []; // Initialisez la liste d'amis si elle est undefined
+    }
 
-		userFriends.friend.push(friend)
+    if (!friend.friend) {
+      friend.friend = []; // Initialisez la liste d'amis de l'ami si elle est undefined
+    }
 
-		return await userFriends.save()
-	}
+    const alreadyFriends = userFriends.friend.some((f) => f.id === friend.id);
+    if (alreadyFriends) {
+      throw new Error(`The user is already a friend`);
+    }
 
-	@Mutation(() => User)
-	async deleteFriend(
-		@Ctx() context: { user: User },
-		@Arg("input") input: NewFriendInput
-	): Promise<User> {
-		const user = context.user
+    userFriends.friend.push(friend);
+    friend.friend.push(user);
 
-		if (user === null) throw new Error(`The user is not connected!`)
+    await userFriends.save();
+    await friend.save();
 
-		const userFriends = await User.findOne({
-			relations: {
-				friend: true,
-			},
-			where: {
-				id: user.id,
-			},
-		})
+    return userFriends;
+  }
 
-		if (userFriends === null) throw new Error(`The user doesn't exist!`)
+  @Mutation(() => User)
+  async deleteFriend(
+    @Ctx() context: { user: User },
+    @Arg("input") input: NewFriendInput
+  ): Promise<User> {
+    const user = context.user;
 
-		let friends = userFriends.friend
+    if (user === null) throw new Error(`The user is not connected!`);
 
-		friends = friends.filter((item) => item.id !== input.friendid)
-		userFriends.friend = friends
+    const userFriends = await User.findOne({
+      where: { id: user.id },
+      relations: ["friend"],
+    });
 
-		return await userFriends.save()
-	}
+    if (userFriends === null) throw new Error(`The user doesn't exist!`);
+
+    let friends = userFriends.friend;
+
+    friends = friends.filter((item) => item.id !== input.friendid);
+    userFriends.friend = friends;
+
+    await userFriends.save();
+
+    const targetUser = await User.findOne({
+      where: { id: input.friendid },
+      relations: ["friend"],
+    });
+    if (targetUser) {
+      targetUser.friend = targetUser.friend.filter(
+        (item) => item.id !== user.id
+      );
+      await targetUser.save();
+    }
+
+    return userFriends;
+  }
+
+  @Query(() => [User])
+  async getFriends(@Ctx() context: { user: User }): Promise<User[]> {
+    const user = context.user;
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+
+    const profile = await User.findOne({
+      relations: ["friend"],
+      where: {
+        id: user.id,
+      },
+    });
+
+    if (!profile) {
+      throw new Error("User profile not found");
+    }
+
+    const friends = profile.friend;
+
+    if (!friends) {
+      return [];
+    }
+
+    return friends;
+  }
 }

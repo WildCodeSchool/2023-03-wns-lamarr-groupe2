@@ -44,8 +44,13 @@ export const useToaster = () => {
 
   const notifyRegister = () => showToast("Votre compte est créé 🎉");
 
+  const notifyFriendAdd = () => showToast("Invitation(s) envoyée(s)");
+
   const notifyErrorRegister = () =>
     showToast("Un problème est survenu", { error: true });
+
+  const notifyErrorGlobal = () =>
+    showToast("Un problème est apparu", { error: true });
 
   const notifyErrorConnexion = () =>
     showToast("Connexion refusée", { error: true });
@@ -55,6 +60,12 @@ export const useToaster = () => {
   const notifyErrorUpdate = () =>
     showToast("Une erreur est survenue", { error: true });
 
+  const notifyCreateError = (errorMessage: string) => {
+    showToast(errorMessage, { error: true });
+  };
+  const notifyCreate = () => {
+    showToast("Votre challenge est créé ");
+  };
   return {
     notifyErrorConnexion,
     notifyErrorRegister,
@@ -65,5 +76,9 @@ export const useToaster = () => {
     notifyPost,
     notifyErrorUpdate,
     notifyUpdate,
+    notifyFriendAdd,
+    notifyErrorGlobal,
+    notifyCreateError,
+    notifyCreate,
   };
 };

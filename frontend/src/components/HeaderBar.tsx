@@ -3,6 +3,7 @@ import ProfilePicture from "./ProfilePicture";
 import { HeaderBarModale } from "./HeaderBarModale";
 import { useState } from "react";
 import useUserContext from "../features/contexts/UserContext";
+import HeaderBarNotification from "./HeaderBarNotification";
 
 export const HeaderBar = () => {
   const [showModale, setShowModale] = useState(false);
@@ -38,6 +39,7 @@ export const HeaderBar = () => {
       }  lg:flex font-titles justify-between items-center lg:px-2`}
     >
       <h1 className="hidden lg:block font-bold text-[3em]">ECHOES OF FUTURE</h1>
+
       <HeaderElement label="Challenges : " value={3} />
       <HeaderElement
         label={isCompany ? "Mes Employés : " : "Points : "}
@@ -51,6 +53,7 @@ export const HeaderBar = () => {
         />
         {showModale && <HeaderBarModale setShowModale={setShowModale} />}
       </div>
+      <HeaderBarNotification />
     </header>
   );
 };

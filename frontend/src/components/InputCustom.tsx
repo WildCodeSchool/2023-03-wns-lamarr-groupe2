@@ -8,7 +8,8 @@ type InputCustomProps = {
   value: string;
   label?: string;
   placeholder?: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 };
 
 const searchStyle: React.CSSProperties = {
@@ -25,11 +26,13 @@ const InputCustom: FC<InputCustomProps> = ({
   onChange,
   placeholder,
   mode,
+  readOnly,
 }) => {
   return (
     <div className="flex flex-col">
       <label title={label}>{label}</label>
       <input
+        readOnly={readOnly}
         type={type}
         name={name}
         value={value}
