@@ -5,8 +5,6 @@ import { carouselItems } from "./Carousel/CarouselData";
 import { CarouselHome } from "./Carousel/Carousel";
 import { Toaster } from "react-hot-toast";
 
-
-
 const Homepage = () => {
   const location = useLocation();
   const pathName = location.pathname;

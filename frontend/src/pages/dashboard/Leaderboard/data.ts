@@ -1,55 +1,51 @@
-import hermesGood from "../../../assets/hermes/green-hermes.svg";
-import hermesAttention from "../../../assets/hermes/yellow-hermes.svg";
-import hermesDanger from "../../../assets/hermes/red-hermes.svg";
-
 export const me = {
   id: 6,
   username: "Sergueï",
   score: 999,
-  picture: hermesGood,
+  picture: "hermesG",
 };
 
 export const leaderBoardData = [
   {
-    id: 1,
+    id: 5,
     username: "Kobgones",
-    score: 100,
-    picture: hermesGood,
+    score: 10,
+    picture: "hermesR",
   },
   {
     id: 2,
     username: "MadzMaddie",
-    score: 200,
-    picture: hermesAttention,
+    score: 400,
+    picture: "hermesG",
   },
   {
     id: 3,
     username: "Test",
     score: 0,
-    picture: hermesGood,
+    picture: "hermesY",
   },
   {
     id: 4,
     username: "Jonathack",
-    score: 400,
-    picture: hermesDanger,
+    score: 500,
+    picture: "hermesR",
   },
   {
-    id: 5,
+    id: 1,
     username: "Hysilie",
     score: 100,
-    picture: hermesAttention,
+    picture: "hermesY",
   },
   {
     id: 6,
     username: "Sergueï",
-    score: 999,
-    picture: hermesGood,
+    score: 299,
+    picture: "hermesY",
   },
   {
     id: 7,
     username: "Yuri",
     score: 999,
-    picture: hermesDanger,
+    picture: "hermesG",
   },
 ];

@@ -24,13 +24,16 @@
     "remeda": "^1.23.0",
     "slick-carousel": "^1.8.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "echo '----- Checking Frontend...' && prettier --debug-check  . && eslint --ext . && echo '----- Done!'",
+    "fix": "prettier --write . && eslint --fix --ext .jsx ."
   },
   "eslintConfig": {
     "extends": [
