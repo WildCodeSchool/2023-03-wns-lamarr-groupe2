@@ -21,7 +21,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { notifyFriendAdd, notifyErrorGlobal } = useToaster();
   const { user, token } = useUserContext();
   const [friends, setFriends] = useState<Friend[]>([]);
-
+  console.log(friends)
   const getFriends = async () => {
     try {
       const config = {
@@ -40,68 +40,68 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-
-  const addFriend =
-    async (addFriendsProps: AddFriendProp) => {
-      try {
-        const addQuery = {
-          query: addfriendQuery,
-          variables: {
-            input: {
-              friendid: addFriendsProps.friendId,
-            },
+  const addFriend = async (addFriendsProps: AddFriendProp) => {
+    try {
+      const addQuery = {
+        query: addfriendQuery,
+        variables: {
+          input: {
+            friendid: addFriendsProps.friendId,
           },
-        };
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
+        },
+      };
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
 
-        const response = await axios.post(BACKEND_URL, addQuery, config);
-        console.warn(response);
-        !addFriendsProps.isFromNotification && notifyFriendAdd();
-        getFriends();
-      } catch (error) {
-        console.error("Error fetching friends:", error);
-        notifyErrorGlobal();
-      }
+      const response = await axios.post(BACKEND_URL, addQuery, config);
+      console.warn(response);
+      !addFriendsProps.isFromNotification && notifyFriendAdd();
+      getFriends();
+    } catch (error) {
+      console.error("Error fetching friends:", error);
+      notifyErrorGlobal();
     }
+  };
 
   useEffect(() => {
     setFriends([]);
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user]);
 
   useEffect(() => {
     if (isEmpty(user)) {
       return;
     }
-    getFriends()
+    getFriends();
+    /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
+    /* eslint-disable-next-line */
   }, [user, token]);
 
-
   // Remove a friend
-  const removeFriend =
-    async (friendId: number) => {
-      try {
-        const removeQuery = {
-          query: deleteFriend,
-          variables: {
-            input: {
-              friendid: friendId,
-            },
+  const removeFriend = async (friendId: number) => {
+    try {
+      const removeQuery = {
+        query: deleteFriend,
+        variables: {
+          input: {
+            friendid: friendId,
           },
-        };
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
-        const response = await axios.post(BACKEND_URL, removeQuery, config);
-        console.warn(response);
-        setFriends((prevFriends) =>
-          prevFriends.filter((friend) => friend.id !== friendId)
-        );
-      } catch (error) {
-        console.error("Error fetching friends:", error);
-      }
+        },
+      };
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const response = await axios.post(BACKEND_URL, removeQuery, config);
+      console.warn(response);
+      setFriends((prevFriends) =>
+        prevFriends.filter((friend) => friend.id !== friendId)
+      );
+    } catch (error) {
+      console.error("Error fetching friends:", error);
     }
+  };
 
   return (
     <FriendContext.Provider value={{ friends, addFriend, removeFriend }}>

@@ -1,16 +1,16 @@
 import {
   BaseEntity,
   Column,
-  ManyToMany,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
 
 @ObjectType()
-@Entity({ name: "eco_action" })
-export class EcoAction extends BaseEntity {
+@Entity({ name: "tag" })
+export class Tag extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,19 +19,6 @@ export class EcoAction extends BaseEntity {
   @Column()
   label: string;
 
-  @Field()
-  @Column()
-  points: number;
-
-  @Field()
-  @Column()
-  need_proof: boolean;
-
-  @Field()
-  @Column()
-  difficulty: number;
-
-  // challenge_eco_action_list
   @Field(() => [Challenge])
   @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   authors: Promise<Challenge[]>;

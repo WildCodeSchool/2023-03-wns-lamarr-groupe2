@@ -16,6 +16,16 @@ const querySignIn = `query ($password: String!, $email: String!) {
     signIn(password: $password, email: $email)
   }`;
 
+const signUpQuery = `mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
+    signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
+      firstname
+      email
+      lastname
+      password
+      username
+    }
+  }`;
+
 const updateQuery = `
 mutation UpdateUser($username: String, $email: String) {
     updateUser(username: $username, email: $email) {
@@ -105,8 +115,70 @@ const queryFriendList = `query UsersWithUnreadNotifications {
   }
 }`;
 
+const queryChallenges = `query GetAllChallenges {
+  getAllChallenges {
+    id
+    title
+    description
+    isPublic
+    startAt
+    endAt
+    ecoActions {
+      id
+      label
+      points
+      need_proof
+    }
+    tags {
+      id
+      label
+    }
+    contenders {
+      id
+      username
+    }
+  }
+}`;
+
+const queryTasks = `query Query {
+  getAllEcoActions {
+    id
+    label
+    points
+    need_proof
+    difficulty
+  }
+}`;
+
+const queryTags = `query Query {
+  getAllTags {
+    id
+    label
+  }
+}`;
+
+const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
+  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
+    title
+    description
+    isPublic
+    endAt
+    startAt
+    ecoActions {
+      id
+    }
+    contenders {
+      id
+    }
+    tags {
+      id
+    }
+  }
+}`;
+
 module.exports = {
   queryProfile,
+  signUpQuery,
   querySignIn,
   updateQuery,
   deleteQuery,
@@ -119,4 +191,8 @@ module.exports = {
   mutationIsRead,
   sendNotifications,
   queryFriendList,
+  queryChallenges,
+  queryTasks,
+  queryTags,
+  mutationCreateChallenge,
 };

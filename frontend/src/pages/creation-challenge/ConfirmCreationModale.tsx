@@ -1,24 +1,37 @@
 import { Dispatch, SetStateAction, FC } from "react";
-import useFriendContext from "../../features/contexts/FriendContext";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
+import { ChallengeInformations } from "../../features/contexts/utils/types";
+import { isEmpty } from "remeda";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
-  friendId: number;
-  friendUsername: string;
+  state: any;
 };
 
-const RemoveFriendModale: FC<ModaleProps> = ({
-  setIsOpenModale,
-  friendId,
-  friendUsername,
-}) => {
-  const { removeFriend } = useFriendContext();
-  const handleRemoveFriend = () => {
-    removeFriend(friendId);
+const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
+  const { createAChallenge } = useChallengeContext();
+
+  const formattedState: ChallengeInformations = {
+    title: state?.title,
+    description: state?.description,
+    contenders: state?.selectedContenders?.map(
+      (contender: { id: any }) => contender.id
+    ),
+    tags: state?.selectedTags.map((tag: { id: any }) => tag.id),
+    startAt: state?.startDate?.toISOString(),
+    endAt: state?.endDate?.toISOString(),
+    ecoActions: state?.tasksToDo?.filter((task: any) => !isEmpty(task)).map((task: { id: any }) => task.id),
+    isPublic: state?.isPublicMode,
+  };
+
+
+  const handlePublishChallenge = () => {
+    createAChallenge(formattedState);
     setIsOpenModale((prev) => !prev);
   };
+
   return (
     <>
       <div
@@ -49,24 +62,25 @@ const RemoveFriendModale: FC<ModaleProps> = ({
                       className=" text-secondary-title font-bold  text-center"
                       id="modal-title"
                     >
-                      SUPPRESSION
+                      PUBLICATION
                     </h3>
                   </div>
                 </div>
                 <div className="mt-2 text-center">
                   <p className="text-sm text-main-white">
-                    Êtes vous sûr de retirer <b>{friendUsername}</b> de votre
-                    liste d'ami ?
+                    Votre challenge est prêt à être publié.
                     <br />
+                    Une invitation sera envoyée aux participants
                     <br />
+                    Pour publier votre challenge, cliquez sur <b>publier</b>
                   </p>
-                </div>{" "}
+                </div>
               </div>
-              <div className="bg-main-bg  flex justify-center  items-center w-full py-10 gap-3">
+              <div className="bg-main-bg  flex justify-center  items-center w-full pt-3 pb-10 gap-3">
                 <BtnCustom
-                  onClick={handleRemoveFriend}
-                  text="SUPPRIMER"
-                  styled="btnDanger"
+                  onClick={handlePublishChallenge}
+                  text="PUBLIER"
+                  styled="btnGood"
                 />
                 <BtnCustom
                   onClick={() => setIsOpenModale((prev) => !prev)}

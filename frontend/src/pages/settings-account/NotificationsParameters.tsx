@@ -4,15 +4,7 @@ import Toggle from "../../components/Toggle";
 import { SettingsPageParameters } from "./Profile";
 import ProfileModale from "./ProfileModale";
 
-const NotificationsParameters: FC<SettingsPageParameters> = ({
-  user,
-  isEdit,
-  handleModifications,
-  username,
-  email,
-  handleInputChange,
-  setIsEdit,
-}) => {
+const NotificationsParameters: FC<SettingsPageParameters> = () => {
   const [isOpenModale, setIsOpenModale] = useState(false);
 
   return (
@@ -27,15 +19,27 @@ const NotificationsParameters: FC<SettingsPageParameters> = ({
       </p>
       <ul className="flex flex-col gap-6 mt-7">
         <li className="flex gap-5">
-          <Toggle styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={false}
+            styled="toggle"
+            onClick={() => console.log("TO DO - toggle")}
+          />
           <p>invitations aux challenges</p>
         </li>
         <li className="flex  gap-5">
-          <Toggle styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={false}
+            styled="toggle"
+            onClick={() => console.log("TO DO - toggle toggle")}
+          />
           <p>nouveau commentaire</p>
         </li>
         <li className="flex  gap-5">
-          <Toggle styled="toggle" onClick={() => console.log("toggle")} />
+          <Toggle
+            value={true}
+            styled="toggle"
+            onClick={() => console.log("TO DO - toggle toggle")}
+          />
           <p>invitation d'un(e) ami(e) accepté(e)</p>
         </li>
       </ul>
