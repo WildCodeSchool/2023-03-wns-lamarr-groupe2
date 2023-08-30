@@ -18,7 +18,7 @@ async function generateAndAddFakeUser() {
     try {
       const { firstname, lastname, email, password, username } = user;
 
-      const response = await axios.post("http://localhost:5000", {
+      const response = await axios.post("http://localhost:5001", {
         query: `
         mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
           signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
@@ -90,7 +90,7 @@ async function generateAndAddCreator() {
     await Promise.all(
       creators.map(async (creator) => {
         const { firstname, lastname, email, password, username } = creator;
-        const response = await axios.post("http://localhost:5000", {
+        const response = await axios.post("http://localhost:5001", {
           query: `
           mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
             signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
@@ -138,7 +138,7 @@ async function generateAndAddFakeTag() {
   try {
     await Promise.all(
       tags.map(async (tag) => {
-        const response = await axios.post("http://localhost:5000", {
+        const response = await axios.post("http://localhost:5001", {
           query: `
           mutation CreateTag($label: String!) {
             createTag(label: $label) {
@@ -237,7 +237,7 @@ async function generateAndAddFakeEcoAction() {
     await Promise.all(
       tasks.map(async (task) => {
         const { need_proof, points, label, difficulty } = task;
-        const response = await axios.post("http://localhost:5000", {
+        const response = await axios.post("http://localhost:5001", {
           query: `
           mutation CreateEcoAction($needProof: Boolean!, $difficulty: Float!, $points: Float!, $label: String!) {
             createEcoAction(need_proof: $needProof, difficulty: $difficulty, points: $points, label: $label) {
@@ -304,7 +304,7 @@ async function generateAndAddFakeChallenge() {
     const challenge = generateChallenge();
 
     try {
-      const response = await axios.post("http://localhost:5000", {
+      const response = await axios.post("http://localhost:5001", {
         query: `
         mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
           createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
@@ -342,7 +342,7 @@ async function generation() {
   await generateAndAddFakeEcoAction();
   await generateAndAddFakeChallenge();
   await console.log(
-    `\n\nGeneration is done ! \n\n you can check it here : http://localhost:5000 😊\n\n`
+    `\n\nGeneration is done ! \n\n you can check it here : http://localhost:5001 😊\n\n`
   );
 }
 
