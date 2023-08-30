@@ -11,11 +11,13 @@ const NavigationBar: FC<PropsWithChildren> = () => {
   ] as const;
 
   return (
-    <nav className=" lg:sticky lg:top-0 lg:flex-col lg:h-screen lg:w-24  min-w-[96px] bg-primary-attention flex h-20 items-center justify-evenly lg:justify-start lg:gap-20 gap-11 lg:pt-5">
-      {navigations?.map((nav, index) => (
-        <NavigationBarElement key={index} link={nav} index={index} />
-      ))}
-    </nav>
+    <div className="bg-primary-attention flex-auto lg:max-w-[96px] max-h-[80px] lg:max-h-full">
+      <nav className="  lg:sticky lg:top-0 lg:flex-col lg:w-24  min-w-[96px]  flex h-20 items-center justify-evenly lg:justify-start lg:gap-20 gap-11 lg:pt-5">
+        {navigations?.map((nav, index) => (
+          <NavigationBarElement key={index} link={nav} index={index} />
+        ))}
+      </nav>
+    </div>
   );
 };
 
