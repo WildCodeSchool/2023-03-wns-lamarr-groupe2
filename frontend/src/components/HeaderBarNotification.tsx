@@ -34,7 +34,7 @@ const HeaderBarNotification = () => {
       onMouseLeave={handleMouseLeave}
       className={`${
         isHovered ? "h-44" : "h-5"
-      } ease-in duration-300 w-16 bg-primary-attention border-b border-x drop-shadow-notification rounded-b-[50px] absolute right-40 top-20 hidden lg:block`}
+      } ease-in duration-300 w-16 bg-primary-attention border-b border-x drop-shadow-notification rounded-b-[50px] absolute right-40 top-[4.5rem] hidden lg:block`}
     >
       <div
         className={`${
