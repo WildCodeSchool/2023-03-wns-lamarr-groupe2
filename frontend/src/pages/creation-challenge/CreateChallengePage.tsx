@@ -97,7 +97,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
       <Toaster reverseOrder={false} position="top-center" />
 
       {/* first part desktop */}
-      <section className=" max-w-5xl  flex-1  flex flex-col gap-5  w-full lg:max-w-xl">
+      <section className=" max-w-5xl  flex-1  flex flex-col gap-5  w-full lg:max-w-xl xl:max-w-xxl">
         <div className=" max-w-5xl ">
           <InputCustom
             type="text"
