@@ -21,7 +21,7 @@ export const FriendContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const { notifyFriendAdd, notifyErrorGlobal } = useToaster();
   const { user, token } = useUserContext();
   const [friends, setFriends] = useState<Friend[]>([]);
-  console.log(friends)
+  console.log(friends);
   const getFriends = async () => {
     try {
       const config = {

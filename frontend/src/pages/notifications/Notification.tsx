@@ -11,7 +11,7 @@ type NotificationChallenge = {
 export type TNotification = {
   id: number;
   sender: Pick<TUser, "firstname" | "id">;
-  receivers?: Pick<TUser, "firstname" | "id">;
+  receiver?: Pick<TUser, "firstname" | "id">;
   send_date?: Date;
   type: number;
   isUnread: boolean;
@@ -26,13 +26,14 @@ const Notification: FC<TNotification> = ({
   isUnread,
   status,
 }) => {
-  const { updateNotificationIsRead, updateFriendInvitation } =
-    useNotificationContext();
+  const {
+    updateNotificationIsRead,
+    updateFriendInvitation,
+    updateChallengeInvitation,
+  } = useNotificationContext();
 
   const typeLabel =
     type === 1 ? "Commentaire" : type === 2 ? "Invitation Ami" : "Challenge";
-
-  const isActionnable = type === 2 || type === 3;
 
   const messageFromType = () => {
     if (type === 1)
@@ -55,6 +56,16 @@ const Notification: FC<TNotification> = ({
     updateFriendInvitation(updateFriendProps);
   };
 
+  const handleInvitationStatus = (isAccepted: boolean) => {
+    const updateChallengeInvitationProps = {
+      isAccepted,
+      type,
+      senderId: sender?.id,
+      notificationId: id,
+    };
+    updateChallengeInvitation(updateChallengeInvitationProps);
+  };
+
   return (
     <div
       onClick={handleNewNotification}
@@ -67,7 +78,7 @@ const Notification: FC<TNotification> = ({
         {messageFromType()}
       </div>
       <div className="md:w-4/12 flex justify-end w-full">
-        {(isActionnable && status) === null ? (
+        {type === 2 && status === null ? (
           <div className="flex gap-3">
             <BtnCustom
               onClick={() => handleNotificationStatus(true)}
@@ -76,6 +87,19 @@ const Notification: FC<TNotification> = ({
             />
             <BtnCustom
               onClick={() => handleNotificationStatus(false)}
+              styled="btnDanger"
+              text="refuser"
+            />
+          </div>
+        ) : type === 3 && status === null ? (
+          <div className="flex gap-3">
+            <BtnCustom
+              onClick={() => handleInvitationStatus(true)}
+              styled="btnGood"
+              text="accepter"
+            />
+            <BtnCustom
+              onClick={() => handleInvitationStatus(false)}
               styled="btnDanger"
               text="refuser"
             />

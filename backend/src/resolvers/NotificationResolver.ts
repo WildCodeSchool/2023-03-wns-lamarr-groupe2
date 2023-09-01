@@ -19,6 +19,7 @@ export class NotificationInput {
   @IsNumber({}, { each: true })
   recipientUserIds: number[];
 
+  // 1 : Commentaire, 2 : Invitation d'ami, 3 : Challenge
   @Field()
   type: 1 | 2 | 3;
 }
@@ -72,9 +73,8 @@ export class NotificationResolver {
     for (const receiver of receivers) {
       const newNotif = new Notification();
       newNotif.sender = sender;
-      newNotif.receivers = [receiver];
+      newNotif.receiver = receiver;
       newNotif.type = type;
-      newNotif.isUnread = true;
 
       await newNotif.save();
       notifications.push(newNotif);
@@ -94,7 +94,7 @@ export class NotificationResolver {
     const notification = await Notification.findOne({
       where: {
         id: id,
-        receivers: {
+        receiver: {
           id: context.user.id,
         },
       },
@@ -119,9 +119,9 @@ export class NotificationResolver {
   ): Promise<Notification[]> {
     if (!context.user) throw new Error("The user is not connected!");
     const notifications = await Notification.find({
-      relations: ["sender", "receivers"],
+      relations: ["sender", "receiver"],
       where: {
-        receivers: {
+        receiver: {
           id: context.user.id,
         },
       },

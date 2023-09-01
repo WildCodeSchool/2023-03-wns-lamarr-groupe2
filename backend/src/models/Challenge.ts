@@ -126,6 +126,8 @@ export class Challenge extends BaseEntity {
   contenders: User[];
 
   @Field(() => [InvitationChallenge])
-  @OneToMany(() => InvitationChallenge, (invitation) => invitation.id)
+  @OneToMany(() => InvitationChallenge, (invitation) => invitation.id, {
+    cascade: true,
+  })
   invitation: InvitationChallenge[];
 }

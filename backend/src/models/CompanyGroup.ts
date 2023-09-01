@@ -19,7 +19,7 @@ export class CompanyGroup extends BaseEntity {
 
   @Field()
   @Column()
-  name: string;
+  group_name: string;
 
   @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challenge) => challenge.id)

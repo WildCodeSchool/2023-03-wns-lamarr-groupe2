@@ -13,6 +13,7 @@ import { JwtPayload, verify } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserResolver } from "./resolvers/UserResolver";
 import { TagResolver } from "./resolvers/TagResolver";
+import { InvitationChallengeResolver } from "./resolvers/InvitationChallengeResolver";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ const start = async (): Promise<void> => {
       FriendResolver,
       UserResolver,
       TagResolver,
+      InvitationChallengeResolver,
     ],
     authChecker: ({ context }) => {
       return context.user;

@@ -2,28 +2,30 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  TableInheritance,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { User } from "./User";
 
 @ObjectType()
 @Entity()
+@TableInheritance({ column: { type: "varchar", name: "notification_type" } })
 export class Notification extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => [User])
-  @ManyToMany(() => User, (user) => user.receivedNotifications)
-  receivers: User[];
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.receivedNotifications)
+  receiver: User;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.sentNotifications)
   sender: User;
 
+  // 1 : Commentaire, 2 : Invitation d'ami, 3 : Challenge
   @Field(() => Number)
   @Column({ type: "int" })
   type: number;
@@ -33,7 +35,7 @@ export class Notification extends BaseEntity {
   status?: boolean;
 
   @Field()
-  @Column({ default: false })
+  @Column({ default: true })
   isUnread: boolean;
 
   @Field()

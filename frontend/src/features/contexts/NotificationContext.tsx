@@ -18,6 +18,7 @@ import {
   queryFriendList,
   queryNotifications,
   sendNotifications,
+  updateChallengeInvitationNotification,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import useFriendContext from "./FriendContext";
@@ -163,6 +164,38 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
+  // Accept or Decline Challenge Invitation
+  const updateChallengeInvitation = async (
+    updateChallengeInvitationProps: UpdateFriendProps
+  ) => {
+    try {
+      if (updateChallengeInvitationProps.type !== 3) {
+        throw Error;
+      }
+      const updateChallengeInvitation = {
+        query: updateChallengeInvitationNotification,
+        variables: {
+          updateChallengeInvitationStatusId:
+            updateChallengeInvitationProps.notificationId,
+          isUnread: false,
+          status: updateChallengeInvitationProps.isAccepted,
+        },
+      };
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const response = await axios.post(
+        BACKEND_URL,
+        updateChallengeInvitation,
+        config
+      );
+      console.warn(response);
+      getNotifications();
+    } catch (error) {
+      console.error("Error Updating Challenge Invitation:", error);
+    }
+  };
+
   // Send Friend Invitation
   const sendFriendInvitation = async (friendsIds: number[]) => {
     try {
@@ -195,6 +228,7 @@ export const NotificationContextProvider: FC<PropsWithChildren> = ({
         updateFriendInvitation,
         sendFriendInvitation,
         waitingFriendList,
+        updateChallengeInvitation,
       }}
     >
       {children}

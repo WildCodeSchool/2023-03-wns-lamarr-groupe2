@@ -93,15 +93,14 @@ export class User extends BaseEntity {
   challenge: Challenge[];
 
   // creator
-  @Field(() => Challenge)
+  @Field(() => [Challenge])
   @OneToMany(() => Challenge, (challengeId) => challengeId.creator)
-  createdChallenges: Challenge;
+  createdChallenges: Challenge[];
 
   @Field(() => [Notification])
-  @ManyToMany(() => Notification, (notification) => notification.receivers, {
+  @OneToMany(() => Notification, (notification) => notification.receiver, {
     cascade: true,
   })
-  @JoinTable()
   receivedNotifications: Notification[];
 
   @Field(() => [Notification])
@@ -110,34 +109,4 @@ export class User extends BaseEntity {
   })
   @JoinTable()
   sentNotifications: Notification[];
-
-  @Field(() => InvitationChallenge)
-  @ManyToMany(() => InvitationChallenge, (invitation) => invitation.receivers, {
-    cascade: true,
-  })
-  @JoinTable({
-    name: "received_invitation", // table name for the junction table of this relation
-    joinColumn: {
-      name: "userId",
-      referencedColumnName: "id",
-    },
-    inverseJoinColumn: {
-      name: "challenge_invitation",
-      referencedColumnName: "id",
-    },
-  })
-  receivedChallengeInvitation: InvitationChallenge[];
-
-  async addFriend(friend: User): Promise<void> {
-    if (!this.friend) {
-      this.friend = [];
-    }
-
-    if (
-      !this.friend.some((existingFriend) => existingFriend.id === friend.id)
-    ) {
-      this.friend.push(friend);
-      await this.save();
-    }
-  }
 }
