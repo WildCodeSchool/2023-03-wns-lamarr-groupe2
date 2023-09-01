@@ -5,7 +5,7 @@ export const notificationData = [
   {
     id: 1,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Hercules" },
     type: 1,
     isUnread: true,
@@ -13,7 +13,7 @@ export const notificationData = [
   {
     id: 2,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Julien" },
     type: 3,
     isUnread: false,
@@ -21,7 +21,7 @@ export const notificationData = [
   {
     id: 3,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Pimprenelle" },
     type: 1,
     isUnread: false,
@@ -29,7 +29,7 @@ export const notificationData = [
   {
     id: 4,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Ethanol" },
     type: 2,
     isUnread: true,
@@ -37,7 +37,7 @@ export const notificationData = [
   {
     id: 6,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Luke" },
     type: 2,
     isUnread: false,
@@ -46,7 +46,7 @@ export const notificationData = [
   {
     id: 7,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Cassandre" },
     type: 2,
     isUnread: false,
@@ -55,7 +55,7 @@ export const notificationData = [
   {
     id: 8,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Bernard" },
     type: 2,
     isUnread: false,
@@ -64,7 +64,7 @@ export const notificationData = [
   {
     id: 9,
     send_date: "2018-09-22T15:00:00", // automatic
-    receivers: { id: 1, firstname: "Camille" },
+    receiver: { id: 1, firstname: "Camille" },
     sender: { id: 2, firstname: "Switzy" },
     type: 2,
     isUnread: false,

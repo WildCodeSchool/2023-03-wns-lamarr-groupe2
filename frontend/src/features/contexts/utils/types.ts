@@ -74,7 +74,7 @@ export type FriendContextType = {
 export type TNotification = {
   id: number;
   send_date: Date;
-  receivers: Pick<TUser, "id" | "lastname">;
+  receiver: Pick<TUser, "id" | "lastname">;
   sender: Pick<TUser, "id" | "firstname">;
   type: 1 | 2 | 3;
   isUnread: boolean;
@@ -91,6 +91,9 @@ export type NotificationContextType = {
   notifications: TNotification[];
   updateNotificationIsRead: (notificationId: number) => void;
   updateFriendInvitation: (updateFriendProps: UpdateFriendProps) => void;
+  updateChallengeInvitation: (
+    updateChallengeInvitationProps: UpdateFriendProps
+  ) => void;
   sendFriendInvitation: (friendsIds: number[]) => void;
   waitingFriendList: Record<"id", number>[];
 };

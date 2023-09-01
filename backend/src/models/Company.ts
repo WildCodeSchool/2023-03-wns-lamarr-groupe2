@@ -18,7 +18,7 @@ export class Company extends BaseEntity {
 
   @Field()
   @Column()
-  name: string;
+  company_name: string;
 
   @Field()
   @Column()

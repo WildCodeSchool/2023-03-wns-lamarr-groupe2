@@ -4,6 +4,7 @@ import { Challenge, ChallengeStatus } from "../models/Challenge";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Tag } from "../models/Tag";
+import { InvitationChallenge } from "../models/InvitationChallenge";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -56,10 +57,19 @@ export class ChallengeResolver {
     challenge.creator = user;
     challenge.tags = tagList;
     challenge.ecoActions = ecoActionList;
-    challenge.contenders = contenderList;
+    challenge.contenders = [];
     challenge.isPublic = isPublic;
-
     await challenge.save();
+
+    for (const receiver of contenderList) {
+      const newInvitation = new InvitationChallenge();
+      newInvitation.sender = user;
+      newInvitation.receiver = receiver;
+      newInvitation.type = 3;
+      newInvitation.challenge = challenge;
+
+      await newInvitation.save();
+    }
 
     return challenge;
   }

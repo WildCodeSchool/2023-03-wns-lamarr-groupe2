@@ -28,8 +28,6 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
   const [isDisabledContenders, setIsDisableContenders] = useState(false);
   const [isDisabledButton, setIsDisabledButton] = useState(false);
 
-
-
   const publishChallenge = () => {
     const cleanedTasksToDo = state.tasksToDo.filter((task) => task.label);
 
@@ -154,7 +152,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
         ))}
 
         {state?.tasksToDo?.length > 2 && !user?.company_id ? null : state
-          ?.tasksToDo.length === 5 ? null : (
+            ?.tasksToDo.length === 5 ? null : (
           <button
             onClick={() => handleTaskList(undefined)}
             className="flex gap-2 font-content"
