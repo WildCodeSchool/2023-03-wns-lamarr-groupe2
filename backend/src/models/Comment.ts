@@ -22,7 +22,7 @@ export class Comment extends BaseEntity {
 
 	@Field(() => Challenge)
 	@ManyToOne(() => Challenge, (challenge) => challenge.comments)
-	challenge_id: Challenge[]
+	challenge_id: Challenge
 
 	@Field()
 	@Column({
