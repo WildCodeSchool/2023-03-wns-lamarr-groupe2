@@ -1,5 +1,4 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql"
-// import { Challenge } from "../models/Challenge"
 import { Comment } from "../models/Comment"
 import { User } from "../models/User"
 
