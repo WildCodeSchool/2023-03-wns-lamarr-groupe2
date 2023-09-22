@@ -108,10 +108,11 @@ const FriendsBoard = () => {
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === pageNumbers.length}
-              className={` ${currentPage === pageNumbers.length
-                ? " text-tertiary-dark"
-                : "text-primary-good"
-                }`}
+              className={` ${
+                currentPage === pageNumbers.length
+                  ? " text-tertiary-dark"
+                  : "text-primary-good"
+              }`}
             >
               SUIVANT{" "}
             </button>
