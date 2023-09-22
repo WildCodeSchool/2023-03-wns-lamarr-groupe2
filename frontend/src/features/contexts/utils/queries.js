@@ -136,6 +136,7 @@ const queryChallenges = `query GetAllChallenges {
       label
       points
       need_proof
+      difficulty
     }
     tags {
       id
