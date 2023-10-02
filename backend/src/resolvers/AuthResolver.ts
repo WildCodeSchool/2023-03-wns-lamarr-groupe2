@@ -65,6 +65,10 @@ export class AuthResolver {
   @Authorized()
   @Query(() => User)
   async getProfile(@Ctx() context: any): Promise<Boolean> {
+    const user = context.user;
+
+    if (!user) throw new Error(`The user is not connected`);
+
     return context.user;
   }
 }
