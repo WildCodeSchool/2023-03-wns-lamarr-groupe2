@@ -28,6 +28,8 @@ export class UserResolver {
   ): Promise<User> {
     const user = context.user;
 
+    if (!user) throw new Error(`The user is not connected`);
+
     // We check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
@@ -54,6 +56,8 @@ export class UserResolver {
   ): Promise<User> {
     const user = context.user;
 
+    if (!user) throw new Error(`The user is not connected`);
+
     // We check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
@@ -74,6 +78,9 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async deleteUser(@Ctx() context: { user: User }): Promise<boolean> {
     const user = context.user;
+
+    if (!user) throw new Error(`The user is not connected`);
+
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
 

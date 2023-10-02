@@ -135,6 +135,9 @@ export class ChallengeResolver {
     @Arg("id") id: number
   ): Promise<boolean> {
     const user = context.user;
+
+    if (!user) throw new Error(`The user is not connected`);
+
     const options: FindOneOptions<Challenge> = {
       where: { id },
       relations: { creator: true },
