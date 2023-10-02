@@ -7,7 +7,10 @@ import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import ChallengeLeaveModale from "./ChallengeLeaveModal";
 import { isEmpty } from "remeda";
-import dayjs from "dayjs";
+import send from "../../assets/icons/sendmessage.svg"
+import trash from "../../assets/icons/trash.svg"
+import edit from "../../assets/icons/edit.svg"
+import InputCustom from "../../components/InputCustom";
 const challenge = {
   id: 7,
   title: "Ut aspernatur unde veniam amet.",
@@ -41,12 +44,14 @@ const challenge = {
   comments: [
     {
       "id": 1,
+      "userId": 3,
       "firstname": "Jean-Eudes",
       "publication": "2023-10-02 08:18:05.086",
       "content": "trop bien ce challenge, même si ça gratte de ne pas se laver. Ca gratte juste un peu sous les aisselles !"
     },
     {
       "id": 2,
+      "userId": 567,
       "firstname": "Quentin",
       "publication": "2023-14-02 00:00:00",
       "content": "Grâce aux bactéries, les laborantins seront ravis"
@@ -66,11 +71,14 @@ const ChallengePage = () => {
 
   /* Later */
   //TO-DO : Get comments
+  //TO-DO : Logic edit / delete commentary
 
   const { user } = useUserContext();
   const isUserChallengeCreator = user.id === challenge.creatorId;
   const [isShowingMore, setIsShowingMore] = useState(false);
   const nbrTask = challenge?.ecoActions?.length;
+  const [comment, setComment] = useState<string>('')
+  console.log(comment)
   const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
   const handleTask = (task: number) => {
     const isTaskSelected = selectedTasks?.includes(task);
@@ -87,6 +95,15 @@ const ChallengePage = () => {
     //TO-DO : format Date
     return;
   }
+
+  const handleComment = (e: any) => {
+    e.preventDefault()
+    if (comment.length < 2) {
+      console.log('TO-DO : Make an error')
+    }
+    //TO-DO : send comment(comment)
+  }
+
   return (
     <div className=" flex justify-center max-w-full w-full">
       <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
@@ -179,11 +196,27 @@ const ChallengePage = () => {
         {/* Commentary section */}
         <section className="">
           <h2 className="uppercase text-primary-good">Commentaires</h2>
-          <ul className="flex flex-col gap-6">
-            {!isEmpty(challenge?.comments) ? challenge.comments?.map((comment) => (
-              <div className="border-b p-2" key={comment?.id}>
+          <ul className=" md:hidden flex flex-col gap-6 pt-2">
+            {!isEmpty(challenge?.comments) ? challenge.comments?.map((comment, index) => (
+              <div className={`${index + 1 === challenge.comments.length ? '' : 'border-b'}`} key={comment?.id}>
+                <div className="w-full flex"><div><span className="font-bold">{comment.firstname} </span><span>, le (20/09/23)</span></div>
+                  {comment?.userId === user.id ? <div className="flex">
+                    <button type="button"><img src={edit} alt='modify comment' /></button>
+                    <button type="button"><img src={trash} alt='delete comment' /></button>
+                  </div> : null}</div>
+                <p className="italic py-1">{comment.content}</p>
+              </div>
+            )) : null}
+          </ul>
+          <form onSubmit={(e) => handleComment(e)} className="relative mt-6">
+            <InputCustom sendMessage type="text" name="comment" value={comment} onChange={(e) => setComment(e.target.value)} />
+            <button type='submit' className="absolute right-2 top-3"><img src={send} alt="Send comment" className="w-6 h-6" /></button>
+          </form>
+          <ul className=" hidden md:flex flex-col gap-6 pt-2">
+            {!isEmpty(challenge?.comments) ? challenge.comments?.map((comment, index) => (
+              <div className={`${index + 1 === challenge.comments.length ? '' : 'border-b'}`} key={comment?.id}>
                 <div className="w-full "><span className="font-bold">{comment.firstname} </span><span>, le (20/09/23)</span></div>
-                <p className="italic">{comment.content}</p>
+                <p className="italic py-1">{comment.content}</p>
               </div>
             )) : null}
           </ul>
