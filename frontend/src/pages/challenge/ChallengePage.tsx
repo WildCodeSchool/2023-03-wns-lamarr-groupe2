@@ -6,6 +6,8 @@ import DifficultyLevel from "../../components/DifficultyLevel";
 import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import ChallengeLeaveModale from "./ChallengeLeaveModal";
+import { isEmpty } from "remeda";
+import dayjs from "dayjs";
 const challenge = {
   id: 7,
   title: "Ut aspernatur unde veniam amet.",
@@ -36,15 +38,35 @@ const challenge = {
     { id: 2, label: "environnement" },
   ],
   contenders: [1, 3, 4, 5],
+  comments: [
+    {
+      "id": 1,
+      "firstname": "Jean-Eudes",
+      "publication": "2023-10-02 08:18:05.086",
+      "content": "trop bien ce challenge, même si ça gratte de ne pas se laver. Ca gratte juste un peu sous les aisselles !"
+    },
+    {
+      "id": 2,
+      "firstname": "Quentin",
+      "publication": "2023-14-02 00:00:00",
+      "content": "Grâce aux bactéries, les laborantins seront ravis"
+    },
+  ]
 };
 
 const ChallengePage = () => {
+
   //TO-DO : Query the challenge (maybe add some property to the queyr to get exactly parameters we need (example contenders : id + image))
   //TO-DO : Calculate user score and remaining points
   //TO-DO : Select a task will create or update the user score
   //TO-DO : Contenders : query contenders by their ID and replace pictures
   //TO-DO : Replace values
   //TO-DO : Remove fake Challenge const when done
+
+
+  /* Later */
+  //TO-DO : Get comments
+
   const { user } = useUserContext();
   const isUserChallengeCreator = user.id === challenge.creatorId;
   const [isShowingMore, setIsShowingMore] = useState(false);
@@ -61,7 +83,10 @@ const ChallengePage = () => {
     }
   };
   const [isOpenModale, setIsOpenModale] = useState(false)
-
+  const formatDate = (date: string) => {
+    //TO-DO : format Date
+    return;
+  }
   return (
     <div className=" flex justify-center max-w-full w-full">
       <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
@@ -78,7 +103,7 @@ const ChallengePage = () => {
                 <p className="text-small-p md:hidden">
                   Le challenge n'est pas modifiable sur petit écran
                 </p>
-                <img src={pencil} className="h-6 w-6 hidden md:block" />{" "}
+                <img src={pencil} className="h-6 w-6 hidden md:block" />
               </>
             ) : null}
             <div className="hidden md:flex justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
@@ -124,7 +149,7 @@ const ChallengePage = () => {
         {/* Challenge tasks */}
         <section className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <h2 className="uppercase text-primary-good">Étapes</h2>{" "}
+            <h2 className="uppercase text-primary-good">Étapes</h2>
             <span>{selectedTasks?.length + "/" + nbrTask}</span>
           </div>
           <ul className="flex flex-col gap-6 py-4">
@@ -152,6 +177,17 @@ const ChallengePage = () => {
             </div></div>
         </section>
         {/* Commentary section */}
+        <section className="">
+          <h2 className="uppercase text-primary-good">Commentaires</h2>
+          <ul className="flex flex-col gap-6">
+            {!isEmpty(challenge?.comments) ? challenge.comments?.map((comment) => (
+              <div className="border-b p-2" key={comment?.id}>
+                <div className="w-full "><span className="font-bold">{comment.firstname} </span><span>, le (20/09/23)</span></div>
+                <p className="italic">{comment.content}</p>
+              </div>
+            )) : null}
+          </ul>
+        </section>
         {/* Leave Challenge */}
         <div className="flex w-full justify-center">
           <BtnCustom styled="btnDanger" text="Abandonner" onClick={() => setIsOpenModale(prev => !prev)} />
