@@ -37,6 +37,8 @@ export class ChallengeResolver {
   ): Promise<Challenge> {
     const user = context.user;
 
+    if (!user) throw new Error(`The user is not connected`);
+
     // we find all the eco actions from the list of eco actions ids
     const ecoActionList = await EcoAction.find({
       where: { id: In(ecoActions) },
