@@ -4,15 +4,15 @@ import { OptionType } from "../pages/creation-challenge/DropDownSelectors";
 export type DifficultyLevelProps = {
   selectedOption?: OptionType | null;
   handleDifficulty?: any;
-  difficulty?: number
-  small?: boolean
+  difficulty?: number;
+  small?: boolean;
 };
 
 const Level: FC<{
   filled?: boolean;
   onClick?: () => void;
   difficulty?: number;
-  small?: boolean
+  small?: boolean;
 }> = ({ filled, onClick, difficulty, small }) => {
   return (
     <span
@@ -21,15 +21,20 @@ const Level: FC<{
     >
       {filled && difficulty ? (
         <div
-          className={`${small ? 'h-6 w-2' : 'h-11 w-3'} rounded-[4px] ${difficulty <= 2
-            ? "bg-primary-good"
-            : difficulty > 2 && difficulty <= 3
+          className={`${small ? "h-6 w-2" : "h-11 w-3"} rounded-[4px] ${
+            difficulty <= 2
+              ? "bg-primary-good"
+              : difficulty > 2 && difficulty <= 3
               ? "bg-primary-attention"
               : "bg-primary-danger"
-            } transition duration-300 ease-in-out hover:bg-hover-color`}
+          } transition duration-300 ease-in-out hover:bg-hover-color`}
         />
       ) : (
-        <div className={`${small ? 'h-6 w-2' : 'h-11 w-3'} rounded-[4px] bg-main-grey`} />
+        <div
+          className={`${
+            small ? "h-6 w-2" : "h-11 w-3"
+          } rounded-[4px] bg-main-grey`}
+        />
       )}
     </span>
   );
@@ -38,12 +43,13 @@ const Level: FC<{
 const DifficultyLevel: FC<DifficultyLevelProps> = ({
   selectedOption,
   handleDifficulty,
-  small
+  small,
 }) => {
   return (
-    <div className={`flex ${small ? 'gap-1' : 'gap-2'}`}>
+    <div className={`flex ${small ? "gap-1" : "gap-2"}`}>
       {[1, 2, 3, 4, 5].map((level) => (
-        <Level small={small}
+        <Level
+          small={small}
           onClick={handleDifficulty ? () => handleDifficulty(level) : undefined}
           difficulty={selectedOption?.difficulty}
           key={level}
