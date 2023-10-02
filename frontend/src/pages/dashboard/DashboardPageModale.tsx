@@ -14,7 +14,6 @@ const DashboardPageModale = () => {
     backgroundSize: "contain",
   };
 
-
   useEffect(() => {
     const storedIsPressed = localStorage.getItem("isPressed");
     if (storedIsPressed === "true") {
@@ -25,8 +24,6 @@ const DashboardPageModale = () => {
   useEffect(() => {
     localStorage.setItem("isPressed", isPressed.toString());
   }, [isPressed]);
-
-
 
   const handleMouseEvent = () => {
     setIsHovered((prev) => !prev);

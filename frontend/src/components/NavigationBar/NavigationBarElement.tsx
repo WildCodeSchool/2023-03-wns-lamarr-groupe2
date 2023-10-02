@@ -26,7 +26,8 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
     const importImage = async () => {
       try {
         const image = await import(
-          `../../assets/icons/navigation/${link}-${activeRoute ? "light" : "dark"
+          `../../assets/icons/navigation/${link}-${
+            activeRoute ? "light" : "dark"
           }.svg`
         );
         setUrl(image.default);
