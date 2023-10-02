@@ -1,9 +1,9 @@
 import useUserContext from "../../features/contexts/UserContext";
 import pencil from "../../assets/icons/penciel-square.svg";
 import { useState } from "react";
-import InputCustom from "../../components/InputCustom";
 import RadioBtn from "../../components/RadioBtn";
 import DifficultyLevel from "../../components/DifficultyLevel";
+import ProfilePicture from "../../components/ProfilePicture";
 const challenge = {
   id: 7,
   title: "Ut aspernatur unde veniam amet.",
@@ -87,21 +87,36 @@ const ChallengePage = () => {
               encore (46) pts à obtenir
             </p>
           </div>
-          <div className="hidden md:flex gap-6 mb-6">{challenge?.tags.slice(0, 4).map((tag) => <div className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}>
+          <div className="hidden md:flex gap-6 mb-6">{challenge?.tags.slice(0, 4).map((tag, index) => <div key={index} className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}>
             {tag?.label} </div>)}</div>
 
-          <h2 className="uppercase text-primary-good">description</h2>
-          <p>
-            {isShowingMore
-              ? challenge?.description
-              : challenge?.description?.slice(0, 150) + "…"}
-            <span
-              className="font-bold"
-              onClick={() => setIsShowingMore((prev) => !prev)}
-            >
-              {isShowingMore ? "voir moins" : "voir plus"}
-            </span>
-          </p>
+          <div className="border w-full md:flex  gap-16">
+            <div className="w-2/3 border">
+              <h2 className="uppercase text-primary-good">description</h2>
+              <p className="">
+                {isShowingMore
+                  ? challenge?.description
+                  : challenge?.description?.slice(0, 150) + "…"}
+                <span
+                  className="font-bold"
+                  onClick={() => setIsShowingMore((prev) => !prev)}
+                >
+                  {isShowingMore ? "voir moins" : "voir plus"}
+                </span>
+              </p>
+            </div>
+
+            <div className="border w-1/3">
+              <h2 className="uppercase text-primary-good">Participants</h2>
+              <div className="flex mt-2">
+                {challenge.contenders?.slice(0, 5)?.map((member, index) => (
+                  <div key={index} className="mr-[-15px]">
+                    <ProfilePicture /* url={member.picture} */ size="smallPic" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
         {/* Challenge tasks */}
         <section className="flex flex-col gap-2">
