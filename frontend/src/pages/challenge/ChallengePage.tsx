@@ -4,6 +4,8 @@ import { useState } from "react";
 import RadioBtn from "../../components/RadioBtn";
 import DifficultyLevel from "../../components/DifficultyLevel";
 import ProfilePicture from "../../components/ProfilePicture";
+import BtnCustom from "../../components/BtnCustom";
+import ChallengeLeaveModale from "./ChallengeLeaveModal";
 const challenge = {
   id: 7,
   title: "Ut aspernatur unde veniam amet.",
@@ -58,10 +60,11 @@ const ChallengePage = () => {
       return setSelectedTasks([...selectedTasks, task]);
     }
   };
+  const [isOpenModale, setIsOpenModale] = useState(false)
 
   return (
-    <div className="border-2 flex justify-center max-w-full w-full">
-      <div className="border-1 flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
+    <div className=" flex justify-center max-w-full w-full">
+      <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
         {/* Challenge informations */}
         <section className="flex flex-col gap-2">
           <div className="flex flex-col md:flex-row md:space-x-6 md:items-center">
@@ -90,8 +93,8 @@ const ChallengePage = () => {
           <div className="hidden md:flex gap-6 mb-6">{challenge?.tags.slice(0, 4).map((tag, index) => <div key={index} className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}>
             {tag?.label} </div>)}</div>
 
-          <div className="border w-full md:flex  gap-16">
-            <div className="w-2/3 border">
+          <div className=" w-full md:flex  gap-16">
+            <div className="w-2/3 ">
               <h2 className="uppercase text-primary-good">description</h2>
               <p className="">
                 {isShowingMore
@@ -106,7 +109,7 @@ const ChallengePage = () => {
               </p>
             </div>
 
-            <div className="border w-1/3">
+            <div className="hidden md:block w-1/3">
               <h2 className="uppercase text-primary-good">Participants</h2>
               <div className="flex mt-2">
                 {challenge.contenders?.slice(0, 5)?.map((member, index) => (
@@ -140,10 +143,27 @@ const ChallengePage = () => {
               </li>
             ))}
           </ul>
+
+          <div className="flex w-full justify-center">
+            <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
+              <p>
+                (64) <span className="font-thin text-small-p">pts</span>
+              </p>
+            </div></div>
         </section>
         {/* Commentary section */}
+        {/* Leave Challenge */}
+        <div className="flex w-full justify-center">
+          <BtnCustom styled="btnDanger" text="Abandonner" onClick={() => setIsOpenModale(prev => !prev)} />
+        </div>
       </div >
+      {isOpenModale ? (
+        <ChallengeLeaveModale
+          setIsOpenModale={setIsOpenModale}
+        />
+      ) : null}
     </div >
+
   );
 };
 
