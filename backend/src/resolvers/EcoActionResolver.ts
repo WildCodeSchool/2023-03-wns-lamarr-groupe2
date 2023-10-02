@@ -66,6 +66,9 @@ export class EcoActionResolver {
     @Arg("id") id: number
   ): Promise<boolean> {
     const user = context.user;
+
+    if (!user) throw new Error(`The user is not connected`);
+
     if (!user.admin) {
       throw new Error("Only admins can delete eco actions");
     }

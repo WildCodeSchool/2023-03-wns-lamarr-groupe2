@@ -340,7 +340,7 @@ async function generation() {
   await generateAndAddFakeUser();
   await generateAndAddFakeTag();
   await generateAndAddFakeEcoAction();
-  await generateAndAddFakeChallenge();
+  // await generateAndAddFakeChallenge(); todo fix sender user
   await console.log(
     `\n\nGeneration is done ! \n\n you can check it here : http://localhost:5000 😊\n\n`
   );
