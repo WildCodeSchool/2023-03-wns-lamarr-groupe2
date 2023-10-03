@@ -35,7 +35,7 @@ export const HeaderBar = () => {
   return (
     <header
       className={`relative  border-b-1 border-tertiary-dark  max-h-[4.5rem] ${
-        mobileHeader ? "flex  px-8  " : "hidden"
+        mobileHeader ? "flex  h-20 px-8  " : "hidden"
       }  lg:flex font-titles justify-between items-center lg:px-2`}
     >
       <h1 className="hidden lg:block font-bold text-[3rem]">
