@@ -101,7 +101,7 @@ const ChallengePage = () => {
    }; */
 
   return (
-    <div className=" flex justify-center max-w-full w-full">
+    <div className="flex max-w-full w-full">
       <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
         {/* Challenge informations */}
         <section className="flex flex-col gap-2">
@@ -216,31 +216,30 @@ const ChallengePage = () => {
           <ul className=" md:hidden flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                  <div
-                    className={`${
-                      index + 1 === challenge.comments.length ? "" : "border-b"
+                <div
+                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                    key={comment?.id}
-                  >
-                    <div className="w-full flex">
-                      <div>
-                        <span className="font-bold">{comment.firstname} </span>
-                        <span>, le (20/09/23)</span>
-                      </div>
-                      {comment?.userId === user.id ? (
-                        <div className="flex">
-                          <button type="button">
-                            <img src={edit} alt="modify comment" />
-                          </button>
-                          <button type="button">
-                            <img src={trash} alt="delete comment" />
-                          </button>
-                        </div>
-                      ) : null}
+                  key={comment?.id}
+                >
+                  <div className="w-full flex">
+                    <div>
+                      <span className="font-bold">{comment.firstname} </span>
+                      <span>, le (20/09/23)</span>
                     </div>
-                    <p className="italic py-1">{comment.content}</p>
+                    {comment?.userId === user.id ? (
+                      <div className="flex">
+                        <button type="button">
+                          <img src={edit} alt="modify comment" />
+                        </button>
+                        <button type="button">
+                          <img src={trash} alt="delete comment" />
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
-                ))
+                  <p className="italic py-1">{comment.content}</p>
+                </div>
+              ))
               : null}
           </ul>
           <form /* onSubmit={handleComment} */ className="relative mt-6">
@@ -258,19 +257,18 @@ const ChallengePage = () => {
           <ul className=" hidden md:flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                  <div
-                    className={`${
-                      index + 1 === challenge.comments.length ? "" : "border-b"
+                <div
+                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                    key={comment?.id}
-                  >
-                    <div className="w-full ">
-                      <span className="font-bold">{comment.firstname} </span>
-                      <span>, le (20/09/23)</span>
-                    </div>
-                    <p className="italic py-1">{comment.content}</p>
+                  key={comment?.id}
+                >
+                  <div className="w-full ">
+                    <span className="font-bold">{comment.firstname} </span>
+                    <span>, le (20/09/23)</span>
                   </div>
-                ))
+                  <p className="italic py-1">{comment.content}</p>
+                </div>
+              ))
               : null}
           </ul>
         </section>
