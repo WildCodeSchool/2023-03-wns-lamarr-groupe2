@@ -3,6 +3,7 @@
 import { OptionType } from "../../../pages/creation-challenge/DropDownSelectors";
 import { TTags } from "../../../pages/creation-challenge/Tags";
 import { UserGlobal } from "../../../pages/scores/UsersList";
+import React from "react";
 
 export type TUser = {
   score: number;
@@ -43,6 +44,12 @@ export type RegisterCompanyInformations = RegisterInformations & {
   siret: number;
 };
 
+export type PasswordUpdateInputs = {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export type UserContextType = {
   user: TUser;
   token: string;
@@ -53,6 +60,7 @@ export type UserContextType = {
   deleteUserAccount: () => void;
   updatePicture: (pictureChoice: string) => void;
   users: UserGlobal[];
+  updatePassword: (e: React.FormEvent, values: PasswordUpdateInputs) => void;
 };
 
 // Friends

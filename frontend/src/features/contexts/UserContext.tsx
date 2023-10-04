@@ -16,7 +16,7 @@ import {
   TUser,
   LoginInformations,
   RegisterInformations,
-  UpdatedUser,
+  UpdatedUser, PasswordUpdateInputs,
 } from "./utils/types";
 import { useToaster } from "../hooks/useToaster";
 import {
@@ -26,6 +26,7 @@ import {
   deleteQuery,
   updatePictureQuery,
   queryUsers,
+  updatePasswordQuery,
 } from "./utils/queries";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
@@ -186,6 +187,43 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const updatePassword = async (e: any, passwordUpdateInputs: PasswordUpdateInputs) => {
+    e.preventDefault();
+    try {
+      const updatePassword = {
+        query: updatePasswordQuery,
+
+        variables: {
+          oldPassword: passwordUpdateInputs.oldPassword,
+          newPassword: passwordUpdateInputs.newPassword,
+          confirmPassword: passwordUpdateInputs.confirmPassword,
+        },
+      };
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}`},
+      };
+
+      const response = await axios.post(BACKEND_URL, updatePassword, config);
+      const responseData = response.data;
+
+      if(responseData.errors) {
+        throw new Error('There was an Error updating the password');
+      }else{
+        const getProfileQuery = {
+          query: queryProfile,
+        };
+
+        const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
+        setUser(getProfileResponse.data.data.getProfile);
+      }
+    } catch (error: any) {
+      console.error(error);
+      notifyErrorUpdate();
+    }
+  }
+
+
   // UpdatePicture
   const updatePicture = async (pictureChoice: string) => {
     try {
@@ -289,6 +327,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         deleteUserAccount,
         updatePicture,
         users,
+        updatePassword,
       }}
     >
       {children}

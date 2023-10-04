@@ -35,6 +35,14 @@ mutation UpdateUser($username: String, $email: String) {
   }
 `;
 
+const updatePasswordQuery = `
+mutation UpdatePassword($oldPassword: String!, $newPassword: String!, $confirmPassword: String!) {
+updatePassword(oldPassword: $oldPassword, newPassword: $newPassword, confirmPassword: $confirmPassword) {
+username
+email
+}
+}`
+
 const updatePictureQuery = `mutation UpdatePicture($picture: String) {
   updatePicture(picture: $picture) {
     picture 
@@ -190,6 +198,7 @@ module.exports = {
   signUpQuery,
   querySignIn,
   updateQuery,
+  updatePasswordQuery,
   deleteQuery,
   updatePictureQuery,
   queryFriends,
