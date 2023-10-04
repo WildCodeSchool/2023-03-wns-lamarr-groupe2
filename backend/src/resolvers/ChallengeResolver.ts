@@ -22,6 +22,58 @@ export class ChallengeResolver {
     return challenges;
   }
 
+  @Query(() => [Challenge]) // Retourne tous les challenges de l'utilisateur connecter
+  async getAllChallengeOfUser(
+    @Ctx() context: { user: User }
+  ): Promise<Challenge[]> {
+    const user = context.user;
+
+    if (!user) throw new Error(`The user is not connected`);
+
+    const challenges = await Challenge.find({
+      relations: {
+        creator: true,
+        ecoActions: true,
+        contenders: true,
+        tags: true,
+      },
+      where: {
+        contenders: {
+          id: user.id,
+        },
+      },
+    });
+
+    return challenges;
+  }
+
+  @Query(() => [Challenge]) // Retourne tous les challenge via l'id d'un user
+  async getAllChallengeOfAFriend(
+    @Arg("FriendId") friendId: number
+  ): Promise<Challenge[]> {
+    const friend = await User.findOne({
+      where: { id: friendId },
+    });
+
+    if (!friend) throw new Error(`The user doesn't exist`);
+
+    const challenges = await Challenge.find({
+      relations: {
+        creator: true,
+        ecoActions: true,
+        contenders: true,
+        tags: true,
+      },
+      where: {
+        contenders: {
+          id: friendId,
+        },
+      },
+    });
+
+    return challenges;
+  }
+
   @Query(() => Challenge)
   async getChallengeById(
     @Arg("challengeId") challengeId: number
@@ -81,7 +133,7 @@ export class ChallengeResolver {
     challenge.creator = user;
     challenge.tags = tagList;
     challenge.ecoActions = ecoActionList;
-    challenge.contenders = [];
+    challenge.contenders = [user];
     challenge.isPublic = isPublic;
     await challenge.save();
 
