@@ -5,8 +5,6 @@ services:
                         - 5000:5000
                 volumes:
                         - ./backend/src:/app/src
-                env_file:
-                        - ./backend/.env
 
         frontend:
                 build: ./frontend
@@ -15,8 +13,6 @@ services:
                 volumes:
                         - ./frontend/src:/app/src
                         - ./frontend/node_modules:/app/node_modules
-                env_file:
-                        - ./frontend/.env
         postgres:
                 image: postgres
                 restart: always
