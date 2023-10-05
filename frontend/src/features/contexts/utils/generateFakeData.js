@@ -18,7 +18,7 @@ async function generateAndAddFakeUser() {
     try {
       const { firstname, lastname, email, password, username } = user;
 
-      const response = await axios.post("http://localhost:5001", {
+      const response = await axios.post("http://localhost:5000", {
         query: `
         mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
           signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
@@ -138,7 +138,7 @@ async function generateAndAddFakeTag() {
   try {
     await Promise.all(
       tags.map(async (tag) => {
-        const response = await axios.post("http://localhost:5001", {
+        const response = await axios.post("http://localhost:5000", {
           query: `
           mutation CreateTag($label: String!) {
             createTag(label: $label) {
@@ -237,7 +237,7 @@ async function generateAndAddFakeEcoAction() {
     await Promise.all(
       tasks.map(async (task) => {
         const { need_proof, points, label, difficulty } = task;
-        const response = await axios.post("http://localhost:5001", {
+        const response = await axios.post("http://localhost:5000", {
           query: `
           mutation CreateEcoAction($needProof: Boolean!, $difficulty: Float!, $points: Float!, $label: String!) {
             createEcoAction(need_proof: $needProof, difficulty: $difficulty, points: $points, label: $label) {
@@ -304,7 +304,7 @@ async function generateAndAddFakeChallenge() {
     const challenge = generateChallenge();
 
     try {
-      const response = await axios.post("http://localhost:5001", {
+      const response = await axios.post("http://localhost:5000", {
         query: `
         mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
           createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
