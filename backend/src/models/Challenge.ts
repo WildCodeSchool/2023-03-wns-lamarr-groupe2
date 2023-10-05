@@ -130,4 +130,12 @@ export class Challenge extends BaseEntity {
     cascade: true,
   })
   invitation: InvitationChallenge[];
+
+  @Field(() => String)
+  get status(): string {
+    const now = new Date();
+    if (now > this.endAt) return "expired";
+    if (now < this.startAt) return "incoming";
+    return "ongoing";
+  }
 }
