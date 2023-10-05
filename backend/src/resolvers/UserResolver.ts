@@ -27,6 +27,7 @@ export class UserResolver {
     @Arg("username", { nullable: true }) username?: string,
     @Arg("email", { nullable: true }) email?: string
   ): Promise<User> {
+    console.log(context);
     const user = context.user;
 
     if (!user) throw new Error(`The user is not connected`);
@@ -34,6 +35,7 @@ export class UserResolver {
     // We check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
+console.log(existingUser);
     if (!existingUser) throw new Error("User not found!");
 
     // Update username and email if provided
