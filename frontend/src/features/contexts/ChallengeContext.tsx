@@ -15,6 +15,7 @@ import useUserContext from "./UserContext";
 import axios from "axios";
 import {
   mutationCreateChallenge,
+  queryChallenge,
   queryChallenges,
   queryTags,
   queryTasks,
@@ -35,6 +36,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
+  const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
   const { notifyCreate } = useToaster();
@@ -57,7 +59,29 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
-  console.log(challenges);
+  const getChallenge = async (challengeId: number) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(
+        BACKEND_URL,
+        {
+          query: queryChallenge,
+          variables: { challengeId: challengeId },
+        },
+        config
+      );
+
+      const challengeData = response.data.data.getChallengeById;
+
+      setCurrentChallenge(challengeData);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   const getTasks = async () => {
     try {
       const config = {
@@ -137,6 +161,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     <ChallengeContext.Provider
       value={{
         challenges,
+        currentChallenge,
+        getChallenge,
         createAChallenge,
         tags,
         tasks,

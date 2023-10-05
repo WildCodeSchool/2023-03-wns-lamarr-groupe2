@@ -100,6 +100,7 @@ export type NotificationContextType = {
 
 export type TChallenge = {
   id: number;
+  creator: TUser;
   title: string;
   description: string;
   startAt: string;
@@ -119,6 +120,8 @@ export type ChallengeInformations = Pick<
   ecoActions: number[];
 };
 export type ChallengeContextType = {
+  getChallenge: (challengeId: number) => Promise<void>;
+  currentChallenge: TChallenge | undefined;
   challenges: TChallenge[];
   tasks: OptionType[];
   tags: TTags[];

@@ -126,6 +126,9 @@ const queryFriendList = `query UsersWithUnreadNotifications {
 const queryChallenges = `query GetAllChallenges {
   getAllChallenges {
     id
+    creator {
+      id
+    }
     title
     description
     isPublic
@@ -148,6 +151,8 @@ const queryChallenges = `query GetAllChallenges {
     }
   }
 }`;
+
+const queryChallenge = `query GetChallengeById ($challengeId: Float!) { getChallengeById(challengeId: $challengeId) {id creator {id} title description isPublic startAt endAt ecoActions {id label points need_proof difficulty} tags {id label} contenders {id username}}}`;
 
 const queryTasks = `query Query {
   getAllEcoActions {
@@ -201,6 +206,7 @@ module.exports = {
   sendNotifications,
   queryFriendList,
   queryChallenges,
+  queryChallenge,
   queryTasks,
   queryTags,
   mutationCreateChallenge,

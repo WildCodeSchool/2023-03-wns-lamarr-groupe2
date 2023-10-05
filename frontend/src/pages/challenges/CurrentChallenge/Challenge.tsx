@@ -4,29 +4,16 @@ import NavBtn from "../../../components/NavBtn";
 import { formattedTimeLeft } from "./time";
 import edit from "../../../assets/icons/edit.svg";
 import ProfilePicture from "../../../components/ProfilePicture";
-export type EcoAction = {
-  id: number;
-  name: string;
-  description: string;
-  points: number;
-  need_proof: boolean;
-};
-
-export type TChallenge = {
-  id: number;
-  name: string;
-  actions: EcoAction[];
-  startAt: string;
-  endAt: string;
-  challenge_status_id: number;
-  creator: number;
-};
+import { TChallenge } from "../../../features/contexts/utils/types";
 
 export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
   const userId = 1; // UserContext user.id
-  const isOwner = challenge.creator === userId;
+  const isOwner = challenge?.creator?.id === userId;
   const progress = 70; //TO-DO : Calculate progression (actions done / nbr of actions)
+
+  console.log("isowner", isOwner);
+  console.log("creator", challenge?.creator?.id);
 
   const TimeLeft = () => {
     const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
@@ -62,7 +49,6 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
 
     return (
       <span className={`${colorIndicator(timeLeft)} flex gap-3`}>
-        {" "}
         <img src={url} alt="clock" /> {Object.values(timeLeft)}{" "}
         {Object.keys(timeLeft)}{" "}
       </span>
@@ -75,12 +61,11 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">
             <h4 className="uppercase text-main-p font-bold truncate">
-              {challenge?.name}
+              {challenge?.title}
             </h4>
             <ProgressionBar value={progress} />
             <p className="text-main-p my-2 text-primary-dark">
-              {" "}
-              Nb d'éco-gestes : {challenge?.actions.length}
+              Nb d'éco-gestes : {challenge?.ecoActions.length}
             </p>
           </div>
           <TimeLeft />
