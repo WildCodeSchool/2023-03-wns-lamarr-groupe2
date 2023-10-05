@@ -12,6 +12,10 @@ services:
                         - 3000:3000
                 volumes:
                         - ./frontend/src:/app/src
+                environment:
+                        - WDS_SOCKET_HOST=127.0.0.1
+                        - CHOKIDAR_USEPOLLING=true
+                        - WATCHPACK_POLLING=true
         postgres:
                 image: postgres
                 restart: always
