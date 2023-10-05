@@ -41,7 +41,6 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
 
   return url ? (
     <div className="relative">
-      <h1>COUCOU</h1>
       <img
         src={url}
         alt={link}
