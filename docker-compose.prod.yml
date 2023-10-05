@@ -1,7 +1,7 @@
 services:
         backend:
                 image: echoesofthefuture/echoes-of-the-future-server
-                command: sh -c "npm run build && npm run prod"
+                command: sh -c "npm run dev"
                 expose:
                         - 5000
                 environment:
