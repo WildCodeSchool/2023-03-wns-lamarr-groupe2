@@ -42,7 +42,7 @@ jobs:
                                   file: ./frontend/Dockerfile
                                   push: true
                                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_CLIENT_IMAGE_NAME }}:latest
-        
+
         build-server:
                 # The type of runner that the job will run on
                 runs-on: ubuntu-latest
@@ -77,19 +77,18 @@ jobs:
                 needs:
                         - build-client
                         - build-server
-
                 runs-on: ubuntu-latest
 
                 steps:
-                - name: Checkout code
-                        uses: actions/checkout@v2
+                        - name: Checkout code
+                          uses: actions/checkout@v2
 
-                - name: Send Webhook
-                        env:
-                        WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }} # Define the webhook URL as a secret in your repository
-                        run: |
-                        curl -X POST -H "Content-Type: application/json" -d '{
-                        "repository": "${{ github.repository }}",
-                        "ref": "${{ github.ref }}",
-                        "commits": ${{ toJson(github.event.commits) }}
-                        }' $WEBHOOK_URL
+                        - name: Send Webhook
+                          env:
+                                  WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }} # Define the webhook URL as a secret in your repository
+                          run: |
+                                  curl -X POST -H "Content-Type: application/json" -d '{
+                                    "repository": "${{ github.repository }}",
+                                    "ref": "${{ github.ref }}",
+                                    "commits": ${{ toJson(github.event.commits) }}
+                                  }' $WEBHOOK_URL
