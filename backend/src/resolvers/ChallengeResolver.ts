@@ -22,6 +22,28 @@ export class ChallengeResolver {
     return challenges;
   }
 
+  @Query(() => Challenge)
+  async getChallengeById(
+    @Arg("challengeId") challengeId: number
+  ): Promise<Challenge> {
+    // Added return type Promise<Challenge>
+    const challenge = await Challenge.findOne({
+      relations: {
+        creator: true,
+        ecoActions: true,
+        contenders: true,
+        tags: true,
+      },
+      where: {
+        id: challengeId,
+      },
+    });
+
+    if (!challenge) throw new Error(`The challenge doesn't exist`);
+
+    return challenge;
+  }
+
   // create a mutation to create a challenge (the creator is the user who is logged in) and we can insert the name, description, startAt, endAt, a list of eco actions ,challengeStatus and tags
   @Mutation(() => Challenge)
   async createChallenge(

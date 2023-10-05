@@ -56,11 +56,12 @@ async updatePicture(
   @Ctx() context: { user: User },
   @Arg("picture", { nullable: true }) picture?: string
 ): Promise<User> {
-  const user = context.user;
+ const user = context.user;
+ if (!user) throw new Error(`The user is not connected`);
 
-  // We check if the user exists
-  const options: FindOneOptions<User> = { where: { id: user.id } };
-  const existingUser = await User.findOne(options);
+ // We check if the user exists
+ const options: FindOneOptions<User> = { where: { id: user.id } };
+ const existingUser = await User.findOne(options);
 
   if (!existingUser) throw new Error("User not found!");
 
