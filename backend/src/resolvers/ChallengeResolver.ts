@@ -178,7 +178,7 @@ export class ChallengeResolver {
       throw new Error("You are not the creator of this challenge!");
 
     if (challenge.status === "finished")
-      throw new Error("Youy can't update expired Challenge!");
+      throw new Error("You can't update expired Challenge!");
 
     if (title !== null && title !== undefined) {
       challenge.title = title;
