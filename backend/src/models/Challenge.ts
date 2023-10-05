@@ -14,12 +14,6 @@ import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
 
-export enum ChallengeStatus {
-  COMING = "COMING",
-  PROGRESS = "PROGRESS",
-  FINISHED = "FINISHED",
-}
-
 @ObjectType()
 @Entity()
 export class Challenge extends BaseEntity {
@@ -85,10 +79,6 @@ export class Challenge extends BaseEntity {
   })
   ecoActions: EcoAction[];
 
-  @Field()
-  @Column({ nullable: false, default: ChallengeStatus.COMING })
-  challenge_status: ChallengeStatus;
-
   @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, (tag) => tag.id)
   @JoinTable({
@@ -134,7 +124,7 @@ export class Challenge extends BaseEntity {
   @Field(() => String)
   get status(): string {
     const now = new Date();
-    if (now > this.endAt) return "expired";
+    if (now > this.endAt) return "finished";
     if (now < this.startAt) return "incoming";
     return "ongoing";
   }

@@ -22,7 +22,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-07-22T15:00:0",
     endAt: "2018-07-22T19:00:0",
-    challenge_status_id: 0,
     creator: 4,
   },
   {
@@ -53,7 +52,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-09-22T15:00:0",
     endAt: "2018-09-23T15:00:0",
-    challenge_status_id: 0,
     creator: 1,
   },
   {
@@ -91,7 +89,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-09-22T15:00:0",
     endAt: "2018-09-22T15:30:0",
-    challenge_status_id: 1,
     creator: 2,
   },
   {
@@ -115,7 +112,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-07-22T15:00:0",
     endAt: "2018-07-22T15:01:0",
-    challenge_status_id: 0,
     creator: 1,
   },
   {
@@ -139,7 +135,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-07-22T15:00:0",
     endAt: "2018-07-22T15:01:0",
-    challenge_status_id: 0,
     creator: 2,
   },
   {
@@ -163,7 +158,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-07-22T15:00:0",
     endAt: "2018-07-22T00:01:0",
-    challenge_status_id: 0,
     creator: 2,
   },
   {
@@ -187,7 +181,6 @@ export const challenges: TChallenge[] = [
     ],
     startAt: "2018-07-22T15:00:0",
     endAt: "2018-07-22T00:01:0",
-    challenge_status_id: 0,
     creator: 1,
   },
 ];

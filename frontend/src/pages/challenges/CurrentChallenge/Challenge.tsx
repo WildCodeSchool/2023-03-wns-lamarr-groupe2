@@ -18,7 +18,6 @@ export type TChallenge = {
   actions: EcoAction[];
   startAt: string;
   endAt: string;
-  challenge_status_id: number;
   creator: number;
 };
 

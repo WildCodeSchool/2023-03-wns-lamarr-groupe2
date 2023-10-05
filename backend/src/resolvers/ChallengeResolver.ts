@@ -1,6 +1,6 @@
 import { Ctx, Arg, Mutation, Query, Int, Authorized } from "type-graphql";
 import { FindOneOptions, In } from "typeorm";
-import { Challenge, ChallengeStatus } from "../models/Challenge";
+import { Challenge } from "../models/Challenge";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Tag } from "../models/Tag";
@@ -160,8 +160,6 @@ export class ChallengeResolver {
     @Arg("description", { nullable: true }) description?: string,
     @Arg("startAt", { nullable: true }) startAt?: string,
     @Arg("endAt", { nullable: true }) endAt?: string,
-    @Arg("challengeStatus", { nullable: true })
-    challengeStatus?: ChallengeStatus,
     @Arg("isPublic", { nullable: true }) isPublic?: boolean
   ): Promise<Challenge> {
     // we use the context to get the user who is logged in
@@ -178,6 +176,10 @@ export class ChallengeResolver {
     // we check if the user who is logged in is the creator of the challenge
     if (challenge.creator.id !== user.id)
       throw new Error("You are not the creator of this challenge!");
+
+    if (challenge.status === "finished")
+      throw new Error("Youy can't update expired Challenge!");
+
     if (title !== null && title !== undefined) {
       challenge.title = title;
     }
@@ -189,9 +191,6 @@ export class ChallengeResolver {
     }
     if (endAt !== null && endAt !== undefined) {
       challenge.endAt = new Date(endAt);
-    }
-    if (challengeStatus !== null && challengeStatus !== undefined) {
-      challenge.challenge_status = challengeStatus;
     }
     if (isPublic !== null && isPublic !== undefined) {
       challenge.isPublic = isPublic;
