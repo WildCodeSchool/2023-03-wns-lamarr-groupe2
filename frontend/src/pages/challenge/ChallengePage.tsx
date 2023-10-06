@@ -96,7 +96,19 @@ const ChallengePage = () => {
   const params = useParams();
   getChallenge(parseInt(params.id!));
 
-  //TO-DO : Calculate user score and remaining points
+  //Calculate user score and points
+  const totalPoints = currentChallenge?.ecoActions
+    .map((ecoAction) => (ecoAction?.id ? ecoAction.points : 0))
+    .reduce((a, b) => a! + b!, 0);
+
+  const successPoints = (selectedTasks?.map(
+    (task) =>
+      currentChallenge?.ecoActions.map((ecoAction) =>
+        ecoAction?.id === task ? ecoAction.points : 0
+      )
+  ))
+    .flatMap((task) => task)
+    .reduce((a, b) => a! + b!, 0);
 
   /* const formatDate = (date: string) => {
     //TO-DO : format Date
@@ -134,11 +146,12 @@ const ChallengePage = () => {
             ) : null}
             <div className="hidden md:flex justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
               <p>
-                (64) <span className="font-thin text-small-p">pts</span>
+                {successPoints}
+                <span className="font-thin text-small-p">pts</span>
               </p>
             </div>
             <p className="italic font-thin text-small-p hidden md:block">
-              encore (46) pts à obtenir
+              encore {totalPoints! - successPoints!} pts à obtenir
             </p>
           </div>
           <div className="hidden md:flex gap-6 mb-6">
@@ -147,7 +160,7 @@ const ChallengePage = () => {
                 key={index}
                 className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}
               >
-                {tag?.label}{" "}
+                {tag?.label}
               </div>
             ))}
           </div>
