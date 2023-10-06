@@ -13,36 +13,8 @@ import edit from "../../assets/icons/edit.svg";
 import InputCustom from "../../components/InputCustom";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import ReactQuill from "react-quill";
+import moment from "moment";
 const challenge = {
-  // id: 7,
-  // title: "Ut aspernatur unde veniam amet.",
-  // description:
-  //   "Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.",
-  // ecoActions: [
-  //   {
-  //     id: 8,
-  //     label: "Réduire le plastique",
-  //     points: 40,
-  //     need_proof: false,
-  //     difficulty: 2,
-  //   },
-  //   {
-  //     id: 9,
-  //     label: "Soutenir les fermes bio",
-  //     points: 80,
-  //     need_proof: false,
-  //     difficulty: 4,
-  //   },
-  // ],
-  // creatorId: 3,
-  // tags: [
-  //   {
-  //     id: 1,
-  //     label: "consommation",
-  //   },
-  //   { id: 2, label: "environnement" },
-  // ],
-  // contenders: [1, 3, 4, 5],
   comments: [
     {
       id: 1,
@@ -63,11 +35,6 @@ const challenge = {
 };
 
 const ChallengePage = () => {
-  //TO-DO : Query the challenge (maybe add some property to the queyr to get exactly parameters we need (example contenders : id + image))
-
-  //TO-DO : Select a task will create or update the user score
-  //TO-DO : Contenders : query contenders by their ID and replace pictures
-  //TO-DO : Replace values
   //TO-DO : Remove fake Challenge const when done
 
   /* Later */
@@ -110,10 +77,9 @@ const ChallengePage = () => {
     .flatMap((task) => task)
     .reduce((a, b) => a! + b!, 0);
 
-  /* const formatDate = (date: string) => {
-    //TO-DO : format Date
-    return;
-  }; */
+  const formatDate = (date: string) => {
+    return moment(date).format("LL");
+  };
 
   /*  const handleComment = (e: any) => {
      e.preventDefault();
@@ -126,12 +92,19 @@ const ChallengePage = () => {
       <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
         {/* Challenge informations */}
         <section className="flex flex-col gap-2">
+          <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
+            <p>
+              {successPoints}
+              <span className="font-thin text-small-p">pts</span>
+            </p>
+          </div>
           <div className="flex flex-col md:flex-row md:space-x-6 md:items-center">
             <h2
               className={`uppercase ${isUserChallengeCreator ? "-mr-4" : ""} `}
             >
               {currentChallenge?.title}
             </h2>
+
             {isUserChallengeCreator ? (
               <>
                 <p className="text-small-p md:hidden">
@@ -144,6 +117,7 @@ const ChallengePage = () => {
                 />
               </>
             ) : null}
+
             <div className="hidden md:flex justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
               <p>
                 {successPoints}
@@ -154,6 +128,11 @@ const ChallengePage = () => {
               encore {totalPoints! - successPoints!} pts à obtenir
             </p>
           </div>
+          <p className="font-thin text-small-p">
+            Début: {formatDate(currentChallenge?.startAt!)} Fin :
+            {formatDate(currentChallenge?.endAt!)}
+          </p>
+
           <div className="hidden md:flex gap-6 mb-6">
             {currentChallenge?.tags.slice(0, 4).map((tag, index) => (
               <div
@@ -168,16 +147,18 @@ const ChallengePage = () => {
           <div className=" w-full md:flex  gap-16">
             <div className="w-2/3 ">
               <h2 className="uppercase text-primary-good">description</h2>
-              <p className="">
-                {isShowingMore ? (
+
+              <p>
+                {!isShowingMore &&
+                currentChallenge?.description.length! > 150 ? (
                   <ReactQuill
-                    value={currentChallenge?.description}
+                    value={currentChallenge?.description?.slice(0, 150) + "…"}
                     readOnly={true}
                     theme={"bubble"}
                   />
                 ) : (
                   <ReactQuill
-                    value={currentChallenge?.description?.slice(0, 150) + "…"}
+                    value={currentChallenge?.description}
                     readOnly={true}
                     theme={"bubble"}
                   />
@@ -200,11 +181,10 @@ const ChallengePage = () => {
                   ?.slice(0, 5)
                   ?.map((member, index) => (
                     <div key={index} className="mr-[-15px]">
-                      <ProfilePicture
-                        /* url={member.picture} */ size="smallPic"
-                      />
+                      <ProfilePicture url={member.picture} size="smallPic" />
                     </div>
                   ))}
+                {currentChallenge?.contenders.length! > 5 && "voir tous"}
               </div>
             </div>
           </div>
@@ -236,14 +216,6 @@ const ChallengePage = () => {
               </li>
             ))}
           </ul>
-
-          <div className="flex w-full justify-center">
-            <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
-              <p>
-                (64) <span className="font-thin text-small-p">pts</span>
-              </p>
-            </div>
-          </div>
         </section>
         {/* Commentary section */}
         <section className="">

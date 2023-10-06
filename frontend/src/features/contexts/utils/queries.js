@@ -152,7 +152,7 @@ const queryChallenges = `query GetAllChallenges {
   }
 }`;
 
-const queryChallenge = `query GetChallengeById ($challengeId: Float!) { getChallengeById(challengeId: $challengeId) {id creator {id} title description isPublic startAt endAt ecoActions {id label points need_proof difficulty} tags {id label} contenders {id username}}}`;
+const queryChallenge = `query GetChallengeById ($challengeId: Float!) { getChallengeById(challengeId: $challengeId) {id creator {id} title description isPublic startAt endAt ecoActions {id label points need_proof difficulty} tags {id label} contenders {id username picture}}}`;
 
 const queryTasks = `query Query {
   getAllEcoActions {
