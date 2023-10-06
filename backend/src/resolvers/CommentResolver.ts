@@ -38,6 +38,7 @@ export class CommentResolver {
 	}
 
 	// get all comments
+	// TODO Send a notification to all challenge's users
 	@Query(() => [Comment])
 	async getAllComments(): Promise<Comment[]> {
 		const comments = await Comment.find({
