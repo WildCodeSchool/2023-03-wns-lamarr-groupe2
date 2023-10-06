@@ -50,7 +50,6 @@ export class CommentResolver {
 	@Mutation(() => Comment)
 	async createComment(
 		@Ctx() userContext: { user: User },
-		// @Ctx() challengeContext: { challenge: Challenge },
 		@Arg("content") content: string
 	): Promise<Comment> {
 		if (!userContext.user)
@@ -58,11 +57,9 @@ export class CommentResolver {
 				"You have to be authenticated to post a comment!"
 			)
 
-		const comment = Comment.create({
-			content,
-			sender: userContext.user,
-			// challenge_id: [challengeContext.challenge],
-		})
+		const comment = new Comment()
+		comment.content = content
+		comment.sender = userContext.user
 
 		await comment.save()
 
