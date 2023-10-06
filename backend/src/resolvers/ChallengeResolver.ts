@@ -85,6 +85,7 @@ export class ChallengeResolver {
         ecoActions: true,
         contenders: true,
         tags: true,
+        invitation: true,
       },
       where: {
         id: challengeId,
