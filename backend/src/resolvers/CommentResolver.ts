@@ -1,6 +1,7 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql"
 import { Comment } from "../models/Comment"
 import { User } from "../models/User"
+import { Challenge } from "../models/Challenge"
 
 @Resolver()
 export class CommentResolver {
@@ -50,16 +51,26 @@ export class CommentResolver {
 	@Mutation(() => Comment)
 	async createComment(
 		@Ctx() userContext: { user: User },
-		@Arg("content") content: string
+		@Arg("content") content: string,
+		@Arg("challengeId") challengeId: number
 	): Promise<Comment> {
 		if (!userContext.user)
 			throw new Error(
 				"You have to be authenticated to post a comment!"
 			)
 
+		const challenge = await Challenge.findOne({
+			where: {
+				id: challengeId,
+			},
+		})
+
+		if (!challenge) throw new Error("The challenge doesn't exist")
+
 		const comment = new Comment()
 		comment.content = content
 		comment.sender = userContext.user
+		comment.challenge_id = challenge
 
 		await comment.save()
 
