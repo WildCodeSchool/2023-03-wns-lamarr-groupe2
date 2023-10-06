@@ -12,8 +12,12 @@ export type SettingsPageParameters = {
   user: TUser;
   isEdit: boolean;
   handleModifications: (e: React.FormEvent | undefined) => Promise<void>;
+  handlePasswordModification: (e: React.FormEvent | undefined) => Promise<void>;
   username: string;
   email: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
   handleInputChange: (
     fieldName: string
   ) => (event: { target: { value: string } }) => void;
@@ -24,13 +28,18 @@ const Profile: FC<SettingsPageParameters> = ({
   user,
   isEdit,
   handleModifications,
+    handlePasswordModification,
   username,
   email,
+    oldPassword,
+    newPassword,
+    confirmPassword,
   handleInputChange,
   setIsEdit,
 }) => {
   const [isOpenModale, setIsOpenModale] = useState(false);
   const [isOpenPictureChoice, setOpenPictureChoice] = useState(false);
+
   const formattedString = (string: string, size: number) => {
     // size : 14 and for md screen only
     if (string.length < size) {
@@ -128,12 +137,19 @@ const Profile: FC<SettingsPageParameters> = ({
 
       {/* Informations */}
       <div className="px-3 lg:p-0">
-        <form className="flex flex-col gap-4 text-button mb-5 lg:mb-12">
+        <form className="flex flex-col gap-4 text-button mb-5 lg:mb-12" onSubmit={async (e) => {
+          try {
+            await handleModifications(e);
+            await handlePasswordModification(e);
+          }catch(err){
+            console.error(err);
+          }
+        }}>
           <div className={`${isEdit ? "" : "flex"} items-center gap-3 lg:mt-5`}>
             <p className={`${isEdit ? "hidden" : "block"}`}>pseudo: </p>
             {isEdit ? (
               <InputCustom
-                label=""
+                label="Pseudo"
                 name="username"
                 type="text"
                 value={username}
@@ -147,7 +163,7 @@ const Profile: FC<SettingsPageParameters> = ({
             <p className={`${isEdit ? "hidden" : "block"}`}>email: </p>
             {isEdit ? (
               <InputCustom
-                label=""
+                label="Email"
                 name="email"
                 type="email"
                 value={email}
@@ -157,6 +173,36 @@ const Profile: FC<SettingsPageParameters> = ({
               user.email
             )}
           </div>
+
+          {isEdit && (
+              <div className={`${isEdit ? "" : "flex"} items-center gap-3 mt-20 mb-10`}>
+                <p className={`font-bold mb-5`}>Modifier mot de passe</p>
+                <p className={`${isEdit ? "hidden" : "block"}`}>Mot de passe actuel: </p>
+                <InputCustom
+                    label="Mot de passe actuel"
+                    type="password"
+                    name="oldPassword"
+                    value={oldPassword}
+                    onChange={handleInputChange("oldPassword")}
+                />
+                <p className={`${isEdit ? "hidden" : "block"}`}>Nouveau mot de passe: </p>
+                <InputCustom
+                    label="Nouveau mot de passe"
+                    type="password"
+                    name="newPassword"
+                    value={newPassword}
+                    onChange={handleInputChange("newPassword")}
+                />
+                <p className={`${isEdit ? "hidden" : "block"}`}>Confirmez nouveau mot de passe: </p>
+                <InputCustom
+                    label="Confirmation nouveau mot de passe"
+                    type="password"
+                    name="confirmPassword"
+                    value={confirmPassword}
+                    onChange={handleInputChange("confirmPassword")}
+                />
+              </div>
+          )}
           <div className="flex justify-center lg:hidden">
             {isEdit ? (
               <BtnCustom

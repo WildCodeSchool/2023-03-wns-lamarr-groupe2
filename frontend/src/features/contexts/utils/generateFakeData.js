@@ -90,7 +90,7 @@ async function generateAndAddCreator() {
     await Promise.all(
       creators.map(async (creator) => {
         const { firstname, lastname, email, password, username } = creator;
-        const response = await axios.post("http://localhost:5001", {
+        const response = await axios.post("http://localhost:5000", {
           query: `
           mutation SignUp($password: String!, $email: String!, $username: String!, $lastname: String!, $firstname: String!) {
             signUp(password: $password, email: $email, username: $username, lastname: $lastname, firstname: $firstname) {
@@ -342,7 +342,7 @@ async function generation() {
   await generateAndAddFakeEcoAction();
   // await generateAndAddFakeChallenge(); todo fix sender user
   await console.log(
-    `\n\nGeneration is done ! \n\n you can check it here : http://localhost:5001 😊\n\n`
+    `\n\nGeneration is done ! \n\n you can check it here : http://localhost:5000 😊\n\n`
   );
 }
 
