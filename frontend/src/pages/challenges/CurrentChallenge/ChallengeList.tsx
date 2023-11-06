@@ -21,7 +21,7 @@ const ChallengeList = () => {
       sortBy((challenge) => timeLeft(challenge?.startAt, challenge?.endAt)),
       sortBy((challenge) => challenge?.creator?.id !== user?.id)
     );
-  }, [user?.id]);
+  }, [user?.id, challenges]);
 
   console.log(challenges[7]?.contenders?.includes(user));
 
