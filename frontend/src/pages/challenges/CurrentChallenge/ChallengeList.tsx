@@ -17,10 +17,14 @@ const ChallengeList = () => {
     return pipe(
       challenges,
       filter((challenge) => timeLeft(challenge?.startAt, challenge?.endAt) > 1),
+      // filter((challenge) => challenges[7].contenders.includes(user)),
       sortBy((challenge) => timeLeft(challenge?.startAt, challenge?.endAt)),
       sortBy((challenge) => challenge?.creator?.id !== user?.id)
     );
   }, [user?.id]);
+
+  console.log(challenges[7]?.contenders?.includes(user));
+
   return (
     <div className="h-full flex flex-col justify-around gap-4">
       {challenges

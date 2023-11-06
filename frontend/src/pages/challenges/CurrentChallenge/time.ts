@@ -11,7 +11,7 @@ export const formattedTimeLeft = (start: string, end: string) => {
   const startDate = dayjs(start);
   const endDate = dayjs(end);
 
-  const timeLeft = endDate.diff(startDate);
+  const timeLeft = endDate.diff(Date.now());
 
   const days = Math.floor(timeLeft / (24 * 60 * 60 * 1000));
 
