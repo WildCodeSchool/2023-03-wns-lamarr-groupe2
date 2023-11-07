@@ -14,6 +14,7 @@ import { CompanyGroup } from "./CompanyGroup";
 import { Notification } from "./Notification";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { isNotEmpty } from "class-validator";
+import { ChallengeEcoActionList } from "./ChallengeEcoActionList";
 
 @ObjectType()
 @Entity()
@@ -109,4 +110,12 @@ export class User extends BaseEntity {
   })
   @JoinTable()
   sentNotifications: Notification[];
+
+  @Field(() => [ChallengeEcoActionList])
+  @OneToMany(
+    () => ChallengeEcoActionList,
+    (challengeEcoActionList) => challengeEcoActionList.userId,
+    { eager: true }
+  )
+  challengeEcoActionList: ChallengeEcoActionList[];
 }
