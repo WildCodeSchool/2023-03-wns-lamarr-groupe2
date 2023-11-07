@@ -5,8 +5,6 @@ services:
                         - 5000:5000
                 volumes:
                         - ./backend/src:/app/src
-                env_file:
-                        - ./backend/.env
 
         frontend:
                 build: ./frontend
@@ -14,9 +12,10 @@ services:
                         - 3000:3000
                 volumes:
                         - ./frontend/src:/app/src
-                        - ./frontend/node_modules:/app/node_modules
-                env_file:
-                        - ./frontend/.env
+                environment:
+                        - WDS_SOCKET_HOST=127.0.0.1
+                        - CHOKIDAR_USEPOLLING=true
+                        - WATCHPACK_POLLING=true
         postgres:
                 image: postgres
                 restart: always
