@@ -34,13 +34,13 @@ const App = () => {
   return isEmpty(user) ? (
     <AuthRoutes />
   ) : (
-    <div className="flex flex-col-reverse lg:flex-row w-screen min-h-screen max-w-screen max-w-full">
+    <div /* className="flex flex-col-reverse lg:flex-row w-screen min-h-screen max-w-screen max-w-full" */>
       {user.username && <NavigationBar />}
 
       <main className="flex flex-col flex-grow lg:flex-col">
         {user.username && (
           <>
-            <HeaderBar />
+            {/*     <HeaderBar /> */}
             {location.pathname !== "/" &&
               location.pathname !== "/dashboard" &&
               location.pathname !== "/company/dashboard" && (
@@ -49,7 +49,7 @@ const App = () => {
           </>
         )}
 
-        <div className="screen flex-grow overflow-y-auto">
+        <div className="screen">
           <Routes>
             {isCompany ? (
               <>
@@ -92,7 +92,7 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
-        <Footer />
+        {/*   <Footer /> */}
       </main>
     </div>
   );

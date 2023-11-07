@@ -38,9 +38,8 @@ const NavBtn: FC<NavBtnProps> = ({ type, link }) => {
     <div
       onMouseEnter={handleMouseEvent}
       onMouseLeave={handleMouseEvent}
-      className={`btnAttention customBorder rounded-full cursor-pointer h-9 w-10 ${
-        type === "return" && "m-2"
-      }`}
+      className={`${arrowType === leftArrow && 'absolute'} btnAttention customBorder rounded-full cursor-pointer h-9 w-10 ${type === "return" && "m-2"
+        }`}
       onClick={road}
     >
       <img alt="navigation icon" src={isHovered ? arrowLight : arrowType} />

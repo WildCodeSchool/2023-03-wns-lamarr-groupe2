@@ -5,11 +5,13 @@ import useNotificationContext from "../../features/contexts/NotificationContext"
 export type NavigationBarElementProps = {
   link: string;
   index: number;
+  title: string
 };
 
 export const NavigationBarElement: FC<NavigationBarElementProps> = ({
   link,
   index,
+  title
 }) => {
   const isCompany = false; // import userContext
   const navigate = useNavigate();
@@ -26,8 +28,7 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
     const importImage = async () => {
       try {
         const image = await import(
-          `../../assets/icons/navigation/${link}-${
-            activeRoute ? "light" : "dark"
+          `../../assets/icons/navigation/${link}-${activeRoute ? "light" : "dark"
           }.svg`
         );
         setUrl(image.default);
@@ -39,19 +40,20 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
     importImage();
   }, [link, activeRoute]);
 
-  return url ? (
+  return (
     <div className="relative">
       <img
         src={url}
         alt={link}
         onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)}
-        className={`h-9 w-9 cursor-pointer  lg:block`}
+        className={`h-9 w-9 cursor-pointer  md:hidden`}
       />
+      <li onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className="hidden md:block font-bold  text-xl cursor-pointer hover:text-element-bg">{title}</li>
       {link === "notifications" && notificationsUnreadNumber !== 0 && (
         <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[14px] font-bold text-white  border-2 border-primary-dark rounded-full bottom-5 left-5  bg-primary-danger">
           {notificationsUnreadNumber}
         </div>
       )}
     </div>
-  ) : null;
+  );
 };

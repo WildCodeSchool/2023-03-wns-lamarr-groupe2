@@ -17,8 +17,6 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const progress = Math.round(numberOfSelectedEcoActions / numberOfEcoActions); //TO-DO : Calculate progression (actions done / nbr of actions)
   const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
 
-  console.log(progress);
-
   const TimeLeft = () => {
     const [url, setUrl] = useState<string | undefined>(undefined);
 
@@ -62,11 +60,11 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   };
 
   return (
-    <div className="border-1 h-full max-h-[228px] md:min-w-[572px] lg:min-w-fit max-w-[572px] p-3 rounded-medium">
-      <div className=" flex h-full justify-between ">
+    <div className="border-1 h-full w-full p-3 rounded-medium" >
+      <div className=" flex h-full justify-between " >
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">
-            <h4 className="uppercase text-main-p font-bold truncate">
+            <h4 className="uppercase text-main-p font-bold truncate lg:max-w-[500px] xl:max-w-[800px]">
               {challenge?.title}
             </h4>
             <ProgressionBar value={progress} />
@@ -77,7 +75,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
           <TimeLeft />
         </div>
 
-        <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-between  items-end lg:items-end lg:justify-between">
+        <div>
           <div className="lg:flex">
             {isOwner && (
               <img
@@ -95,7 +93,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
           {/* TO-DO : make simething like the maquet */}
           <div className="flex">
             {challMember?.slice(0, 3)?.map((member, index) => (
-              <div key={index} className="mr-[-10px]">
+              <div key={index} className="mr-[-10px] py-8">
                 <ProfilePicture /* url={member.picture} */ size="smallPic" />
               </div>
             ))}

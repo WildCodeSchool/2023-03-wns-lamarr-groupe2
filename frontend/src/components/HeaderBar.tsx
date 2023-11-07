@@ -23,9 +23,8 @@ export const HeaderBar = () => {
     value: string | number;
   }) => (
     <div
-      className={`${
-        label === "Challenges : " && "hidden"
-      } lg:flex items-center`}
+      className={`${label === "Challenges : " && "hidden"
+        } lg:flex items-center`}
     >
       <p className="inline-block">{label}</p>
       <span className="font-bold text-[1.1em] pl-1">{value}</span>
@@ -33,20 +32,7 @@ export const HeaderBar = () => {
   );
 
   return (
-    <header
-      className={`relative  border-b-1 border-tertiary-dark  max-h-[4.5rem] ${
-        mobileHeader ? "flex  h-20 px-8  " : "hidden"
-      }  lg:flex font-titles justify-between items-center lg:px-2`}
-    >
-      <h1 className="hidden lg:block font-bold text-[3rem]">
-        ECHOES OF FUTURE
-      </h1>
-
-      <HeaderElement label="Challenges : " value={3} />
-      <HeaderElement
-        label={isCompany ? "Mes Employés : " : "Points : "}
-        value={user?.points ?? 0}
-      />
+    <header>
       <div className="cursor-pointer">
         <ProfilePicture
           size="mediumPic"
@@ -55,7 +41,6 @@ export const HeaderBar = () => {
         />
         {showModale && <HeaderBarModale setShowModale={setShowModale} />}
       </div>
-      <HeaderBarNotification />
     </header>
   );
 };
