@@ -1,10 +1,11 @@
-import { Ctx, Arg, Mutation, Query, Int, Authorized } from "type-graphql";
+import { Ctx, Arg, Mutation, Query, Int } from "type-graphql";
 import { FindOneOptions, In } from "typeorm";
 import { Challenge, ChallengeStatus } from "../models/Challenge";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Tag } from "../models/Tag";
 import { InvitationChallenge } from "../models/InvitationChallenge";
+import { ChallengeEcoActionList } from "../models/ChallengeEcoActionList";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -14,6 +15,7 @@ export class ChallengeResolver {
       relations: {
         creator: true,
         ecoActions: true,
+        challengeEcoActionList: true,
         contenders: true,
         tags: true,
       }, // Ajoutez la relation "creator" pour récupérer le créateur du challenge
@@ -31,6 +33,7 @@ export class ChallengeResolver {
       relations: {
         creator: true,
         ecoActions: true,
+        challengeEcoActionList: true,
         contenders: true,
         tags: true,
       },
@@ -39,7 +42,7 @@ export class ChallengeResolver {
       },
     });
 
-    if (!challenge) throw new Error(`The challenge doesn't exist`);
+    if (challenge == null) throw new Error(`The challenge doesn't exist`);
 
     return challenge;
   }
@@ -59,11 +62,14 @@ export class ChallengeResolver {
   ): Promise<Challenge> {
     const user = context.user;
 
-    if (!user) throw new Error(`The user is not connected`);
+    if (user == null) throw new Error(`The user is not connected`);
 
     // we find all the eco actions from the list of eco actions ids
     const ecoActionList = await EcoAction.find({
       where: { id: In(ecoActions) },
+    });
+    const challengeEcoActionList = await ChallengeEcoActionList.find({
+      where: { challengeId: In(ecoActions) },
     });
     const tagList = await Tag.find({
       where: { id: In(tags) },
@@ -81,6 +87,7 @@ export class ChallengeResolver {
     challenge.creator = user;
     challenge.tags = tagList;
     challenge.ecoActions = ecoActionList;
+    challenge.challengeEcoActionList = challengeEcoActionList;
     challenge.contenders = [];
     challenge.isPublic = isPublic;
     await challenge.save();
@@ -158,7 +165,7 @@ export class ChallengeResolver {
   ): Promise<boolean> {
     const user = context.user;
 
-    if (!user) throw new Error(`The user is not connected`);
+    if (user == null) throw new Error(`The user is not connected`);
 
     const options: FindOneOptions<Challenge> = {
       where: { id },

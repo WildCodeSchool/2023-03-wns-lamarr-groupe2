@@ -13,6 +13,7 @@ import { User } from "./User";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
+import { ChallengeEcoActionList } from "./ChallengeEcoActionList";
 
 export enum ChallengeStatus {
   COMING = "COMING",
@@ -84,6 +85,13 @@ export class Challenge extends BaseEntity {
     },
   })
   ecoActions: EcoAction[];
+
+  @Field(() => [ChallengeEcoActionList])
+  @OneToMany(
+    () => ChallengeEcoActionList,
+    (challengeEcoActionList) => challengeEcoActionList.challengeId
+  )
+  challengeEcoActionList: ChallengeEcoActionList[];
 
   @Field()
   @Column({ nullable: false, default: ChallengeStatus.COMING })
