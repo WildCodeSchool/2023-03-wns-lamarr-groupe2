@@ -52,10 +52,10 @@
   }
 
   .screen {
-    @apply  flex xl:justify-center w-full
+    @apply  flex xxl:justify-center w-full
   }
   .mainScreen {
-    @apply p-12 flex gap-20 xl:justify-around xl:bg-primary-danger  w-full
+    @apply p-12 flex gap-20 xxl:justify-around xxl:bg-white xxl:drop-shadow-md  w-full xxl:max-w-screen-xxl h-full
   }
 
 }
