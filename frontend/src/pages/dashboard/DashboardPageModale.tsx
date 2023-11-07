@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import modale from "../../assets/modale-dashboard.svg";
 import check from "../../assets/icons/high5Thin.svg";
 import checkbold from "../../assets/icons/high5Bold.svg";
@@ -13,6 +13,18 @@ const DashboardPageModale = () => {
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
   };
+
+  useEffect(() => {
+    const storedIsPressed = localStorage.getItem("isPressed");
+    if (storedIsPressed === "true") {
+      setIsPressed(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("isPressed", isPressed.toString());
+  }, [isPressed]);
+
   const handleMouseEvent = () => {
     setIsHovered((prev) => !prev);
   };

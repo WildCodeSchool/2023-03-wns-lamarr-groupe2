@@ -100,10 +100,18 @@ const mutationIsRead = `mutation UpdateNotificationStatus($updateNotificationSta
   }
 }`;
 
+const updateChallengeInvitationNotification = `mutation UpdateChallengeInvitationStatus($updateChallengeInvitationStatusId: Int!, $isUnread: Boolean!, $status: Boolean) {
+  updateChallengeInvitationStatus(id: $updateChallengeInvitationStatusId, isUnread: $isUnread, status: $status) {
+    id
+    isUnread
+    status
+  }
+}`;
+
 const sendNotifications = `mutation NewNotification($input: NotificationInput!) {
   newNotification(input: $input) {
     type
-    receivers {
+    receiver {
       id
     }
   }
@@ -128,6 +136,7 @@ const queryChallenges = `query GetAllChallenges {
       label
       points
       need_proof
+      difficulty
     }
     tags {
       id
@@ -195,4 +204,5 @@ module.exports = {
   queryTasks,
   queryTags,
   mutationCreateChallenge,
+  updateChallengeInvitationNotification,
 };

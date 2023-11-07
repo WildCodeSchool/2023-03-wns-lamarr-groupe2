@@ -10,6 +10,7 @@ type InputCustomProps = {
   placeholder?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   readOnly?: boolean;
+  sendMessage?: boolean;
 };
 
 const searchStyle: React.CSSProperties = {
@@ -27,6 +28,7 @@ const InputCustom: FC<InputCustomProps> = ({
   placeholder,
   mode,
   readOnly,
+  sendMessage,
 }) => {
   return (
     <div className="flex flex-col">
@@ -38,7 +40,9 @@ const InputCustom: FC<InputCustomProps> = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className="p-2 border-primary-dark border-2  rounded-medium bg-element-bg"
+        className={`p-2 border-primary-dark border-2  rounded-medium bg-element-bg ${
+          sendMessage && "pr-10"
+        }`}
         style={mode && searchStyle}
       />
     </div>

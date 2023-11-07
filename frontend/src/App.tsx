@@ -34,9 +34,10 @@ const App = () => {
   return isEmpty(user) ? (
     <AuthRoutes />
   ) : (
-    <div className="flex flex-col-reverse lg:flex-row w-screen min-h-screen">
+    <div className="flex flex-col-reverse lg:flex-row w-screen min-h-screen max-w-screen max-w-full">
       {user.username && <NavigationBar />}
-      <main className="flex flex-col flex-grow lg:flex-col w-full ">
+
+      <main className="flex flex-col flex-grow lg:flex-col">
         {user.username && (
           <>
             <HeaderBar />
@@ -47,6 +48,7 @@ const App = () => {
               )}
           </>
         )}
+
         <div className="screen flex-grow overflow-y-auto">
           <Routes>
             {isCompany ? (

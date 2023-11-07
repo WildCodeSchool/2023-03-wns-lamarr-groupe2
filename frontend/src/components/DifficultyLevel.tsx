@@ -2,15 +2,18 @@ import { FC } from "react";
 import { OptionType } from "../pages/creation-challenge/DropDownSelectors";
 
 export type DifficultyLevelProps = {
-  selectedOption: OptionType | null;
+  selectedOption?: OptionType | null;
   handleDifficulty?: any;
+  difficulty?: number;
+  small?: boolean;
 };
 
 const Level: FC<{
   filled?: boolean;
   onClick?: () => void;
   difficulty?: number;
-}> = ({ filled, onClick, difficulty }) => {
+  small?: boolean;
+}> = ({ filled, onClick, difficulty, small }) => {
   return (
     <span
       className={onClick ? "cursor-pointer" : "pointer-events-none"}
@@ -18,7 +21,7 @@ const Level: FC<{
     >
       {filled && difficulty ? (
         <div
-          className={`h-11 w-3 rounded-[4px] ${
+          className={`${small ? "h-6 w-2" : "h-11 w-3"} rounded-[4px] ${
             difficulty <= 2
               ? "bg-primary-good"
               : difficulty > 2 && difficulty <= 3
@@ -27,7 +30,11 @@ const Level: FC<{
           } transition duration-300 ease-in-out hover:bg-hover-color`}
         />
       ) : (
-        <div className={`h-11 w-3 rounded-[4px] bg-main-grey`} />
+        <div
+          className={`${
+            small ? "h-6 w-2" : "h-11 w-3"
+          } rounded-[4px] bg-main-grey`}
+        />
       )}
     </span>
   );
@@ -36,11 +43,13 @@ const Level: FC<{
 const DifficultyLevel: FC<DifficultyLevelProps> = ({
   selectedOption,
   handleDifficulty,
+  small,
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className={`flex ${small ? "gap-1" : "gap-2"}`}>
       {[1, 2, 3, 4, 5].map((level) => (
         <Level
+          small={small}
           onClick={handleDifficulty ? () => handleDifficulty(level) : undefined}
           difficulty={selectedOption?.difficulty}
           key={level}

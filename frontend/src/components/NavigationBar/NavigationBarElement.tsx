@@ -45,14 +45,13 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
         src={url}
         alt={link}
         onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)}
-        className={`h-9 w-9 cursor-pointer ${index === 4 && "hidden"} lg:block`}
+        className={`h-9 w-9 cursor-pointer  lg:block`}
       />
       {link === "notifications" && notificationsUnreadNumber !== 0 && (
         <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[14px] font-bold text-white  border-2 border-primary-dark rounded-full bottom-5 left-5  bg-primary-danger">
-          {" "}
           {notificationsUnreadNumber}
         </div>
-      )}{" "}
+      )}
     </div>
   ) : null;
 };

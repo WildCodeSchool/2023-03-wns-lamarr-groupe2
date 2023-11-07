@@ -100,7 +100,7 @@ export class User extends BaseEntity {
 	@Field(() => [Notification])
 	@ManyToMany(
 		() => Notification,
-		(notification) => notification.receivers,
+		(notification) => notification.receiver,
 		{
 			cascade: true,
 		}
@@ -124,7 +124,7 @@ export class User extends BaseEntity {
 	@Field(() => InvitationChallenge)
 	@ManyToMany(
 		() => InvitationChallenge,
-		(invitation) => invitation.receivers,
+		(invitation) => invitation.receiver,
 		{
 			cascade: true,
 		}

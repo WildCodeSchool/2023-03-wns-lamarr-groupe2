@@ -1,35 +1,16 @@
 import { Dispatch, SetStateAction, FC } from "react";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
-import useChallengeContext from "../../features/contexts/ChallengeContext";
-import { ChallengeInformations } from "../../features/contexts/utils/types";
-import { isEmpty } from "remeda";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
-  state: any;
 };
 
-const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
-  const { createAChallenge } = useChallengeContext();
+const ChallengeLeaveModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
+  //TO-DO : Mutation to delete user from challenge
 
-  const formattedState: ChallengeInformations = {
-    title: state?.title,
-    description: state?.description,
-    contenders: state?.selectedContenders?.map(
-      (contender: { id: any }) => contender.id
-    ),
-    tags: state?.selectedTags.map((tag: { id: any }) => tag.id),
-    startAt: state?.startDate?.toISOString(),
-    endAt: state?.endDate?.toISOString(),
-    ecoActions: state?.tasksToDo
-      ?.filter((task: any) => !isEmpty(task))
-      .map((task: { id: any }) => task.id),
-    isPublic: state?.isPublicMode,
-  };
-
-  const handlePublishChallenge = () => {
-    createAChallenge(formattedState);
+  const handleLeaveChallenge = () => {
+    //TO-DO : leaveChallenge(id)
     setIsOpenModale((prev) => !prev);
   };
 
@@ -63,24 +44,24 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
                       className=" text-secondary-title font-bold  text-center"
                       id="modal-title"
                     >
-                      PUBLICATION
+                      ABANDONNER
                     </h3>
                   </div>
                 </div>
                 <div className="mt-2 text-center">
                   <p className="text-sm text-main-white">
-                    Votre challenge est prêt à être publié.
+                    Souhaitez-vous quitter le challenge ?
                     <br />
-                    Une invitation sera envoyée aux participants
+                    Cette action est irréversible, vos tâches accomplies seront
+                    supprimées.
                     <br />
-                    Pour publier votre challenge, cliquez sur <b>publier</b>
                   </p>
                 </div>
               </div>
               <div className="bg-main-bg  flex justify-center  items-center w-full pt-3 pb-10 gap-3">
                 <BtnCustom
-                  onClick={handlePublishChallenge}
-                  text="PUBLIER"
+                  onClick={handleLeaveChallenge}
+                  text="Abandonner "
                   styled="btnGood"
                 />
                 <BtnCustom
@@ -96,4 +77,4 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
     </>
   );
 };
-export default RemoveFriendModale;
+export default ChallengeLeaveModale;

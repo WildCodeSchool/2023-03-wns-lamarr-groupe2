@@ -57,6 +57,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
+  console.log(challenges);
   const getTasks = async () => {
     try {
       const config = {
