@@ -35,20 +35,20 @@ const challenge = {
 };
 
 const ChallengePage = () => {
-  //TO-DO : Remove fake Challenge const when done
-
   /* Later */
   //TO-DO : Get comments
+  //TO-DO : Remove fake Challenge const when done
   //TO-DO : Logic edit / delete commentary
 
   const { user } = useUserContext();
-  const { getChallenge, currentChallenge } = useChallengeContext();
+  const { getChallenge, currentChallenge, selectedTasks, setSelectedTasks } =
+    useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
   const nbrTask = currentChallenge?.ecoActions?.length;
   const [comment, setComment] = useState<string>("");
 
-  const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
+  // const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
   const handleTask = (task: number) => {
     const isTaskSelected = selectedTasks?.includes(task);
     if (isTaskSelected) {

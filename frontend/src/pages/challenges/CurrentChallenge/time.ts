@@ -4,7 +4,7 @@ export const timeLeft = (start: string, end: string) => {
   const startDate = dayjs(start);
   const endDate = dayjs(end);
 
-  return endDate.diff(startDate);
+  return endDate.diff(Date.now());
 };
 
 export const formattedTimeLeft = (start: string, end: string) => {

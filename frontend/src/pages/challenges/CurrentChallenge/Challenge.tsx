@@ -5,21 +5,27 @@ import { formattedTimeLeft } from "./time";
 import edit from "../../../assets/icons/edit.svg";
 import ProfilePicture from "../../../components/ProfilePicture";
 import { TChallenge } from "../../../features/contexts/utils/types";
+import useChallengeContext from "../../../features/contexts/ChallengeContext";
 
 export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
   const userId = 1; // UserContext user.id
   const isOwner = challenge?.creator?.id === userId;
-  const progress = 70; //TO-DO : Calculate progression (actions done / nbr of actions)
+  const { selectedTasks } = useChallengeContext();
+  const numberOfEcoActions = challenge.ecoActions?.length;
+  const numberOfSelectedEcoActions = selectedTasks.length;
+  const progress = Math.round(numberOfSelectedEcoActions / numberOfEcoActions); //TO-DO : Calculate progression (actions done / nbr of actions)
+  const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
 
-  console.log("isowner", isOwner);
-  console.log("creator", challenge?.creator?.id);
+  console.log(progress);
 
   const TimeLeft = () => {
-    const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
     const [url, setUrl] = useState<string | undefined>(undefined);
 
     const colorIndicator = (timeLeft: any, type?: "clock") => {
+      if (Object.keys(timeLeft)[0] === "done") {
+        return type ? "done" : "text-black";
+      }
       if (Object.keys(timeLeft)[0] === "H") {
         return type ? "danger" : "text-primary-danger";
       }

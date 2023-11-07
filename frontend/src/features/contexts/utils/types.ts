@@ -126,6 +126,8 @@ export type ChallengeContextType = {
   tasks: OptionType[];
   tags: TTags[];
   createAChallenge: (value: ChallengeInformations) => void;
+  selectedTasks: number[];
+  setSelectedTasks: React.Dispatch<React.SetStateAction<number[]>>;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
