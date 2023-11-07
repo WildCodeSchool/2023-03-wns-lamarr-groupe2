@@ -40,7 +40,6 @@ const App = () => {
       <main className="flex flex-col flex-grow lg:flex-col h-full">
         {user.username && (
           <>
-            {/*     <HeaderBar /> */}
             {location.pathname !== "/" &&
               location.pathname !== "/dashboard" &&
               location.pathname !== "/company/dashboard" && (
@@ -49,7 +48,7 @@ const App = () => {
           </>
         )}
 
-        <div className="screen relative z-[-99] h-full">
+        <div className="screen h-full">
           <Routes>
             {isCompany ? (
               <>
