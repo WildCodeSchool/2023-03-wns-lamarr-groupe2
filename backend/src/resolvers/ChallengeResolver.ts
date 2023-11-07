@@ -55,7 +55,7 @@ export class ChallengeResolver {
       where: { id: friendId },
     });
 
-    if (!friend) throw new Error(`The user doesn't exist`);
+    if (!friend) throw new Error(`The user doesn't exist or is not a friend`);
 
     const challenges = await Challenge.find({
       relations: {
@@ -70,6 +70,8 @@ export class ChallengeResolver {
         },
       },
     });
+
+    if (challenges == null) throw new Error("Challenge not found!");
 
     return challenges;
   }
@@ -94,7 +96,7 @@ export class ChallengeResolver {
       },
     });
 
-    if (!challenge) throw new Error(`The challenge doesn't exist`);
+    if (challenge == null) throw new Error("Challenge not found!");
 
     return challenge;
   }
@@ -113,9 +115,7 @@ export class ChallengeResolver {
     @Arg("contenders", () => [Int], { validate: false }) contenders: number[]
   ): Promise<Challenge> {
     const user = context.user;
-
     if (!user) throw new Error(`The user is not connected`);
-
     // we find all the eco actions from the list of eco actions ids
     const ecoActionList = await EcoAction.find({
       where: { id: In(ecoActions) },
@@ -126,7 +126,6 @@ export class ChallengeResolver {
     const contenderList = await User.find({
       where: { id: In(contenders) },
     });
-
     // TODO: change this const with a create method
     const challenge = new Challenge();
     challenge.title = title;
@@ -146,10 +145,8 @@ export class ChallengeResolver {
       newInvitation.receiver = receiver;
       newInvitation.type = 3;
       newInvitation.challenge = challenge;
-
       await newInvitation.save();
     }
-
     return challenge;
   }
 
@@ -211,9 +208,6 @@ export class ChallengeResolver {
     @Arg("id") id: number
   ): Promise<boolean> {
     const user = context.user;
-
-    if (!user) throw new Error(`The user is not connected`);
-
     const options: FindOneOptions<Challenge> = {
       where: { id },
       relations: { creator: true },
