@@ -4,9 +4,11 @@ import {
   ManyToMany,
   Entity,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
+import { ChallengeEcoActionsList } from "./ChallengeActionsList";
 
 @ObjectType()
 @Entity({ name: "eco_action" })
@@ -35,4 +37,12 @@ export class EcoAction extends BaseEntity {
   @Field(() => [Challenge])
   @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   authors: Promise<Challenge[]>;
+
+  @Field(() => [ChallengeEcoActionsList])
+  @OneToMany(
+    () => ChallengeEcoActionsList,
+    (challengeEcoActionsList) => challengeEcoActionsList.ecoActionId,
+    { eager: true }
+  )
+  challengeEcoActionsList: ChallengeEcoActionsList[];
 }
