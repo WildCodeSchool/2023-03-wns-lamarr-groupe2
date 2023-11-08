@@ -48,7 +48,7 @@ const DatePickers: FC<DatePickersProps> = ({
     }
   };
   return (
-    <div className="flex items-center justify-evenly xl:justify-start xl:gap-8">
+    <div className="w-full flex items-center justify-evenly xl:justify-start xl:gap-8">
       <img src={calendarIcon} alt="Calendar" className="h-12 w-12" />
 
       <div className=" flex gap-1 items-center pt-3">

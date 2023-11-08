@@ -50,7 +50,7 @@ export const NavigationBarElement: FC<NavigationBarElementProps> = ({
       />
       <li onClick={() => navigate(isCompany ? `/company/${link}` : `/${link}`)} className={`hidden md:block font-bold  text-xl cursor-pointer hover:text-element-bg ${activeRoute && 'text-element-bg'}`}>{title}</li>
       {link === "notifications" && notificationsUnreadNumber !== 0 && (
-        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[14px] font-bold text-white  border-2 border-primary-dark rounded-full bottom-5 left-5  bg-primary-danger">
+        <div className="absolute inline-flex items-center justify-center w-6 h-6 text-[14px] font-bold text-white  border-2 border-primary-dark rounded-full bottom-5 -right-5  bg-primary-danger">
           {notificationsUnreadNumber}
         </div>
       )}
