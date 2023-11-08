@@ -6,6 +6,7 @@ import { timeLeft } from "./time";
 import useUserContext from "../../../features/contexts/UserContext";
 import useChallengeContext from "../../../features/contexts/ChallengeContext";
 import { TChallenge } from "../../../features/contexts/utils/types";
+import { Link } from "react-router-dom";
 
 const ChallengeList = () => {
   // const userId = 1; // usercontext user.id
@@ -34,6 +35,9 @@ const ChallengeList = () => {
             <Challenge key={index} challenge={challenge} />
           ))
         : "Aucun challenge"}
+      {challenges?.length > 3 && <Link to="/challenges" className="text-tertiary-dark pt-2 text-main-p">
+        voir plus
+      </Link>}
     </div>
   );
 };

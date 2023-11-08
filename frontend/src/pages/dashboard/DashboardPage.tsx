@@ -18,7 +18,7 @@ export default function DashboardPage() {
         </div>
       )} */}
         <DashboardPageModale />
-        <div className="border rounded-medium hidden  lg:flex ">
+        <div className="border rounded-medium hidden h-3/4  lg:flex ">
           <FriendsLeaderboard />
         </div></div>
     </section>
