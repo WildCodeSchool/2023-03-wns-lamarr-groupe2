@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { NavigationBarElement } from "./NavigationBarElement";
 import { HeaderBar } from "../HeaderBar";
+import { useLocation, useNavigate, useNavigation, useParams } from "react-router-dom";
 
 const NavigationBar: FC<PropsWithChildren> = () => {
   const navigations = [
@@ -17,6 +18,7 @@ const NavigationBar: FC<PropsWithChildren> = () => {
     "challenges": "Mes challenges"
 
   }
+
 
   return (
     <div className="bg-primary-attention  drop-shadow-sm relative z-50">
