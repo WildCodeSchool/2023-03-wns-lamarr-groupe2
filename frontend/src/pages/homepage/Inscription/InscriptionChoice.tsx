@@ -1,6 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import BtnCustom from "../../../components/BtnCustom";
-import { Link } from "react-router-dom";
 
 type InscriptionChoiceProps = {
   setIsChoiceDone: Dispatch<SetStateAction<boolean>>;
@@ -31,11 +30,6 @@ const InscriptionChoice: FC<InscriptionChoiceProps> = ({
           styled="btnDanger"
           text="UNE ENTREPRISE"
         />
-        <div className="text-tertiary-dark  text-xl font-content text-center gap-3">
-          <Link to="/" className="underline">
-            Se connecter
-          </Link>
-        </div>
       </div>
     </>
   );
