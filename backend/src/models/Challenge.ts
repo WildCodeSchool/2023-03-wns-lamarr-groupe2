@@ -13,6 +13,7 @@ import { User } from "./User";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
+import { Comment } from "./Comment";
 
 @ObjectType()
 @Entity()
@@ -128,4 +129,10 @@ export class Challenge extends BaseEntity {
     if (now < this.startAt) return "incoming";
     return "ongoing";
   }
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.challenge_id, {
+    cascade: true,
+  })
+  comments: Comment[];
 }
