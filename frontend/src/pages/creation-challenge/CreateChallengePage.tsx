@@ -164,7 +164,7 @@ const CreateChallengePage: FC<PropsWithChildren> = () => {
           )}
         </section>
         {/* second part desktop */}
-        <section className=" flex-1 mt-10 lg:mt-0 lg:max-w-[47%] xl:max-w-lg xxl:max-w-full">
+        <section className="  mt-10 lg:mt-0 lg:max-w-[47%] xl:max-w-lg xxl:max-w-full">
           <div className="lg:max-w-md">
             <label className="uppercase" title="visibility">
               VISIBILITÉ

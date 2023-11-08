@@ -26,7 +26,7 @@ const ChallengeList = () => {
   console.log(challenges[7]?.contenders?.includes(user));
 
   return (
-    <div className="h-full flex flex-col justify-around gap-4 w-full">
+    <div className="h-full flex flex-col  gap-4 w-full">
       {challenges
         ? sortedChallenges
           ?.slice(0, 3)

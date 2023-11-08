@@ -32,7 +32,7 @@ export const HeaderBar = () => {
   );
 
   return (
-    <header className="xxl:absolute xxl:right-48">
+    <header className="xxl:absolute  xxl:z-10 xxl:right-48">
       <div className="cursor-pointer">
         <ProfilePicture
           size="mediumPic"

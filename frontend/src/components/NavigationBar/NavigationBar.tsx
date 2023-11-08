@@ -19,8 +19,8 @@ const NavigationBar: FC<PropsWithChildren> = () => {
   }
 
   return (
-    <div className="bg-primary-attention  drop-shadow-sm">
-      <nav className="lg:sticky  flex h-20    gap-11 justify-evenly items-center xxl:justify-center xxl:gap-20 ">
+    <div className="bg-primary-attention  drop-shadow-sm relative z-50">
+      <nav className="lg:sticky  flex h-20  gap-11 justify-evenly items-center xxl:justify-center xxl:gap-20 ">
         {navigations?.map((nav, index) => (
           <NavigationBarElement key={index} link={nav} title={navMap[nav]} index={index} />
         ))}

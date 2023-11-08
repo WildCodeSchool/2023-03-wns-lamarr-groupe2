@@ -6,7 +6,6 @@ import NotificationsPage from "./pages/notifications/NotificationsPage";
 import SettingsPage from "./pages/settings-account/SettingsPage";
 import ChallengePage from "./pages/challenge/ChallengePage";
 import CreateChallengePage from "./pages/creation-challenge/CreateChallengePage";
-import { HeaderBar } from "./components/HeaderBar";
 import NavBtn from "./components/NavBtn";
 import NavigationBar from "./components/NavigationBar/NavigationBar";
 import { ErrorPage } from "./pages/homepage/ErrorPage";
@@ -14,7 +13,6 @@ import Homepage from "./pages/homepage/Homepage";
 import useUserContext from "./features/contexts/UserContext";
 import CompanyGroupsPage from "./pages/teams/CompanyGroupsPage";
 import { isEmpty } from "remeda";
-import Footer from "./components/Footer";
 
 const AuthRoutes = () => {
   return (
@@ -91,7 +89,6 @@ const App = () => {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
-        {/*   <Footer /> */}
       </main>
     </div>
   );

@@ -32,7 +32,7 @@ const MyChallenges: FC<PropsWithChildren> = () => {
       </div>
 
       <ChallengeList />
-      {challenges?.length > 0 && <Link to="/challenges" className="text-tertiary-dark pt-2 text-main-p">
+      {challenges?.length > 3 && <Link to="/challenges" className="text-tertiary-dark pt-2 text-main-p">
         voir plus
       </Link>}
     </div>
