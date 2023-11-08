@@ -34,7 +34,7 @@ const App = () => {
   return isEmpty(user) ? (
     <AuthRoutes />
   ) : (
-    <div className="flex flex-col  w-screen border-2 h-screen min-h-screen max-w-screen max-w-full">
+    <div className="flex flex-col  w-screen h-screen min-h-screen max-w-screen max-w-full">
       {user.username && <NavigationBar />}
 
       <main className="flex flex-col flex-grow lg:flex-col h-full">

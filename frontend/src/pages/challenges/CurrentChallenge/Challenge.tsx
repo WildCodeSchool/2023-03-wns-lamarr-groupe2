@@ -60,7 +60,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   };
 
   return (
-    <div className="border-1 h-full w-full p-3 rounded-medium" >
+    <div className="border-1 w-full p-3 rounded-medium h-48 max-h-48" >
       <div className=" flex h-full justify-between " >
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">

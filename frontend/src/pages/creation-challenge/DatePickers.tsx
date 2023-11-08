@@ -52,7 +52,6 @@ const DatePickers: FC<DatePickersProps> = ({
       <img src={calendarIcon} alt="Calendar" className="h-12 w-12" />
 
       <div className=" flex gap-1 items-center pt-3">
-        <p className="hidden lg:block">DU :</p>
         <div className=" flex flex-col  items-center pt-3">
           <DatePicker
             selected={startDate}
@@ -73,7 +72,7 @@ const DatePickers: FC<DatePickersProps> = ({
       </div>
 
       <div className="flex gap-1  items-center  pt-3 xl:gap-6">
-        <p>AU :</p>
+        <p>AU </p>
         <div className=" flex flex-col  items-center pt-3">
           <DatePicker
             selected={endDate}
