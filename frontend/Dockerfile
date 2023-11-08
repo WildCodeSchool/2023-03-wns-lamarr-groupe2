@@ -1,15 +1,17 @@
-FROM node:14.17.3-alpine
+FROM node:lts-alpine
 
-RUN mkdir /app
+RUN mkdir app
+
 WORKDIR /app
 
-COPY package*.json ./
+COPY public public
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+COPY tsconfig.json ./
+COPY tailwind.config.js ./
 
 RUN npm install
 
-COPY tsconfig.json ./
-COPY tailwind.config.js ./
-COPY public public
 COPY src src
 
 CMD npm start

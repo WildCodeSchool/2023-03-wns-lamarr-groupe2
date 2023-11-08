@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { ApolloServer } from "apollo-server"
-import dataSource from "./dataSource"
-import { buildSchema } from "type-graphql"
+import { ApolloServer } from "apollo-server";
+import dataSource from "./dataSource";
+import { buildSchema } from "type-graphql";
 // import { join } from "path";
 import { AuthResolver } from "./resolvers/AuthResolver";
 import { ChallengeResolver } from "./resolvers/ChallengeResolver";
@@ -14,10 +14,8 @@ import dotenv from "dotenv";
 import { UserResolver } from "./resolvers/UserResolver";
 import { TagResolver } from "./resolvers/TagResolver";
 import { InvitationChallengeResolver } from "./resolvers/InvitationChallengeResolver";
-import { CommentResolver } from "./resolvers/CommentResolver"
 
-
-dotenv.config()
+dotenv.config();
 
 // const path = join(__dirname, "./models/*.ts");
 const start = async (): Promise<void> => {
@@ -32,7 +30,6 @@ const start = async (): Promise<void> => {
       UserResolver,
       TagResolver,
       InvitationChallengeResolver,
-      CommentResolver,
     ],
     authChecker: ({ context }) => {
       return context.user;
