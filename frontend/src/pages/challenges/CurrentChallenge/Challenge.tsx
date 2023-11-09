@@ -51,7 +51,7 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
       };
 
       importImage();
-    }, [timeLeft]);
+    }, []);
 
     return (
       <span className={`${colorIndicator(timeLeft)} flex gap-3`}>
