@@ -11,23 +11,29 @@ import { EcoAction } from "./EcoAction";
 import { User } from "./User";
 
 @ObjectType()
-@Entity({ name: "challenge_eco_action_list" })
-export class ChallengeEcoActionsList extends BaseEntity {
+@Entity({ name: "user_challenge_eco_action_list" })
+export class ChallengeEcoActionsListProof extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
   @Field(() => [User])
-  @ManyToOne(() => User, (user) => user.challengeEcoActionsList)
-  userId: User[];
+  @ManyToOne(() => User, (user) => user.challengeEcoActionsListProof)
+  user: User;
 
   @Field(() => [Challenge])
-  @ManyToOne(() => Challenge, (challenge) => challenge.challengeEcoActionsList)
-  challengeId: Challenge[];
+  @ManyToOne(
+    () => Challenge,
+    (challenge) => challenge.challengeEcoActionsListProof
+  )
+  challenge: Challenge;
 
   @Field(() => [EcoAction])
-  @ManyToOne(() => EcoAction, (ecoAction) => ecoAction.challengeEcoActionsList)
-  ecoActionId: EcoAction[];
+  @ManyToOne(
+    () => EcoAction,
+    (ecoAction) => ecoAction.challengeEcoActionsListProof
+  )
+  ecoAction: EcoAction;
 
   @Field()
   @Column({ default: false })

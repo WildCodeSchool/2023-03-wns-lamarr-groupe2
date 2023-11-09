@@ -14,7 +14,7 @@ import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
 import { Comment } from "./Comment";
-import { ChallengeEcoActionsList } from "./ChallengeActionsList";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
 
 export enum ChallengeStatus {
   COMING = "COMING",
@@ -139,10 +139,10 @@ export class Challenge extends BaseEntity {
   })
   comments: Comment[];
 
-  @Field(() => [ChallengeEcoActionsList])
+  @Field(() => [ChallengeEcoActionsListProof])
   @OneToMany(
-    () => ChallengeEcoActionsList,
-    (challengeEcoActionsList) => challengeEcoActionsList.challengeId
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.challenge
   )
-  challengeEcoActionsList: ChallengeEcoActionsList[];
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }

@@ -14,7 +14,7 @@ import { CompanyGroup } from "./CompanyGroup";
 import { Notification } from "./Notification";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { Comment } from "./Comment";
-import { ChallengeEcoActionsList } from "./ChallengeActionsList";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
 
 @ObjectType()
 @Entity()
@@ -148,11 +148,11 @@ export class User extends BaseEntity {
     }
   }
 
-  @Field(() => [ChallengeEcoActionsList])
+  @Field(() => [ChallengeEcoActionsListProof])
   @OneToMany(
-    () => ChallengeEcoActionsList,
-    (challengeEcoActionsList) => challengeEcoActionsList.userId,
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.user,
     { eager: true }
   )
-  challengeEcoActionsList: ChallengeEcoActionsList[];
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }

@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ObjectType, Field } from "type-graphql";
 import { Challenge } from "./Challenge";
-import { ChallengeEcoActionsList } from "./ChallengeActionsList";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
 
 @ObjectType()
 @Entity({ name: "eco_action" })
@@ -38,11 +38,11 @@ export class EcoAction extends BaseEntity {
   @ManyToMany(() => Challenge, (challengeId) => challengeId.id)
   authors: Promise<Challenge[]>;
 
-  @Field(() => [ChallengeEcoActionsList])
+  @Field(() => [ChallengeEcoActionsListProof])
   @OneToMany(
-    () => ChallengeEcoActionsList,
-    (challengeEcoActionsList) => challengeEcoActionsList.ecoActionId,
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.ecoAction,
     { eager: true }
   )
-  challengeEcoActionsList: ChallengeEcoActionsList[];
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }

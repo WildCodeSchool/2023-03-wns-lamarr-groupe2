@@ -4,7 +4,7 @@ import { Challenge, ChallengeStatus } from "../models/Challenge";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Tag } from "../models/Tag";
-import { ChallengeEcoActionsList } from "../models/ChallengeActionsList";
+import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -14,7 +14,6 @@ export class ChallengeResolver {
       relations: {
         creator: true,
         ecoActions: true,
-        challengeEcoActionsList: true,
         contenders: true,
         tags: true,
       }, // Ajoutez la relation "creator" pour récupérer le créateur du challenge
@@ -44,9 +43,6 @@ export class ChallengeResolver {
     const ecoActionList = await EcoAction.find({
       where: { id: In(ecoActions) },
     });
-    const challengeEcoActionsList = await ChallengeEcoActionsList.find({
-      where: { challengeId: In(ecoActions) },
-    });
     const tagList = await Tag.find({
       where: { id: In(tags) },
     });
@@ -63,11 +59,22 @@ export class ChallengeResolver {
     challenge.creator = user;
     challenge.tags = tagList;
     challenge.ecoActions = ecoActionList;
-    challenge.challengeEcoActionsList = challengeEcoActionsList;
     challenge.contenders = contenderList;
     challenge.isPublic = isPublic;
 
     await challenge.save();
+
+    // create ChallengeEcoActionsListProof entries for each user and eco action combination
+    for (const contender of contenderList) {
+      for (const ecoAction of ecoActionList) {
+        const entry = new ChallengeEcoActionsListProof();
+        entry.user = contender;
+        entry.challenge = challenge;
+        entry.ecoAction = ecoAction;
+        entry.ecoActionIsSelected = false; // Set the initial state
+        await entry.save();
+      }
+    }
 
     return challenge;
   }
@@ -144,6 +151,70 @@ export class ChallengeResolver {
     } else {
       throw new Error("You are not authorized to delete this challenge!");
     }
+
+    return true;
+  }
+
+  @Query(() => Boolean)
+  async getEcoActionSelectionStatus(
+    @Ctx() context: { user: User },
+    @Arg("challengeId") challengeId: number,
+    @Arg("ecoActionId") ecoActionId: number
+  ): Promise<boolean> {
+    const user = context.user;
+
+    const challenge = await Challenge.findOne({
+      relations: { challengeEcoActionsListProof: true },
+      where: { id: challengeId },
+    });
+
+    if (!challenge) {
+      throw new Error("Challenge not found!");
+    }
+
+    // Find the selection proof entry for the user and ecoAction concerned
+    const entry = challenge.challengeEcoActionsListProof.find(
+      (entry) => entry.user.id === user.id && entry.ecoAction.id === ecoActionId
+    );
+
+    if (!entry) {
+      throw new Error("Entry not found!");
+    }
+
+    return entry.ecoActionIsSelected;
+  }
+
+  @Mutation(() => Boolean)
+  async updateEcoActionStatus(
+    @Ctx() context: { user: User },
+    @Arg("challengeId") challengeId: number,
+    @Arg("ecoActionId") ecoActionId: number,
+    @Arg("isSelected") isSelected: boolean
+  ): Promise<boolean> {
+    const user = context.user;
+
+    // See if challenge exists, else return error
+    const challenge = await Challenge.findOne({
+      relations: { challengeEcoActionsListProof: true },
+      where: { id: challengeId },
+    });
+
+    if (!challenge) {
+      throw new Error("Challenge not found!");
+    }
+
+    // Find the current selection proof entry for the user and ecoAction concerned
+    const entry = challenge.challengeEcoActionsListProof.find(
+      (entry) => entry.user.id === user.id && entry.ecoAction.id === ecoActionId
+    );
+
+    if (!entry) {
+      throw new Error("Entry not found!");
+    }
+
+    // Update the ecoActionIsSelected status with the argument given
+    entry.ecoActionIsSelected = isSelected;
+    await entry.save();
 
     return true;
   }
