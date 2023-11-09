@@ -1,15 +1,17 @@
 import Profile from "./Profile";
 import NotificationsParameters from "./NotificationsParameters";
 import { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import React, { useState } from "react";
 import { UserInformations } from "../homepage/Inscription/InscriptionForm";
 import { userInformationsSchema } from "../../features/validators/userSchema";
 import { useToaster } from "../../features/hooks/useToaster";
 import useUserContext from "../../features/contexts/UserContext";
+import { ne } from "@faker-js/faker";
 import { passwordUpdateSchema } from "../../features/validators/passwordUpdateSchema";
 
 const SettingsPage = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isEditPassword, setIsEditPassword] = useState(false);
   const { user, updateUser, updatePassword } = useUserContext();
   const { notifyErrorUpdate } = useToaster();
 
@@ -17,10 +19,15 @@ const SettingsPage = () => {
     username: user?.username,
     email: user?.email,
   });
+
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
+  const [formErrors, setFormErrors] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const handleInputChange =
     (fieldName: string) => (event: { target: { value: string } }) => {
       const { value } = event.target;
@@ -55,6 +62,7 @@ const SettingsPage = () => {
       await userInformationsSchema.validate(userInformations, {
         abortEarly: false,
       });
+
       const userInformationsUpdate = {
         ...userInformations,
         oldPassword,
@@ -72,18 +80,14 @@ const SettingsPage = () => {
   };
 
   const handlePasswordModification = async (e: React.FormEvent | undefined) => {
-    try {
-      await passwordUpdateSchema.validate({
-        oldPassword,
-        newPassword,
-        confirmPassword,
-      });
+    const reset = () => {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    };
+    updatePassword(e!, { oldPassword, newPassword, confirmPassword }, reset);
 
-      updatePassword(e!, { oldPassword, newPassword, confirmPassword });
-    } catch (error) {
-      console.error(error);
-      notifyErrorUpdate();
-    }
+    setIsEdit((prev) => !prev);
   };
 
   return (
@@ -100,6 +104,8 @@ const SettingsPage = () => {
         handleInputChange={handleInputChange}
         setIsEdit={setIsEdit}
         isEdit={isEdit}
+        isEditPassword={isEditPassword}
+        setIsEditPassword={setIsEditPassword}
         handleModifications={handleModifications}
         handlePasswordModification={handlePasswordModification}
         oldPassword={oldPassword}
@@ -113,6 +119,8 @@ const SettingsPage = () => {
         handleInputChange={handleInputChange}
         setIsEdit={setIsEdit}
         isEdit={isEdit}
+        isEditPassword={isEditPassword}
+        setIsEditPassword={setIsEditPassword}
         handleModifications={handleModifications}
         handlePasswordModification={handlePasswordModification}
         oldPassword={oldPassword}

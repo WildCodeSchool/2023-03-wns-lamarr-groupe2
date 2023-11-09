@@ -60,7 +60,12 @@ export type UserContextType = {
   deleteUserAccount: () => void;
   updatePicture: (pictureChoice: string) => void;
   users: UserGlobal[];
-  updatePassword: (e: React.FormEvent, values: PasswordUpdateInputs) => void;
+  updatePassword: (
+    e: React.FormEvent,
+    values: PasswordUpdateInputs,
+    reset: () => void
+  ) => void;
+  errorMsg: string | null;
 };
 
 // Friends

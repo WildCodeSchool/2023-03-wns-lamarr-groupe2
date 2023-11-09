@@ -7,10 +7,12 @@ import { TUser } from "../../features/contexts/utils/types";
 import ProfileModale from "./ProfileModale";
 import modifyPic from "../../assets/icons/modifyPic.svg";
 import { ModalePictureChoice } from "./ModalePictureChoice";
+import useUserContext from "../../features/contexts/UserContext";
 
 export type SettingsPageParameters = {
   user: TUser;
   isEdit: boolean;
+  isEditPassword: boolean;
   handleModifications: (e: React.FormEvent | undefined) => Promise<void>;
   handlePasswordModification: (e: React.FormEvent | undefined) => Promise<void>;
   username: string;
@@ -22,11 +24,13 @@ export type SettingsPageParameters = {
     fieldName: string
   ) => (event: { target: { value: string } }) => void;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
+  setIsEditPassword: Dispatch<SetStateAction<boolean>>;
 };
 
 const Profile: FC<SettingsPageParameters> = ({
   user,
   isEdit,
+  //isEditPassword,
   handleModifications,
   handlePasswordModification,
   username,
@@ -36,7 +40,10 @@ const Profile: FC<SettingsPageParameters> = ({
   confirmPassword,
   handleInputChange,
   setIsEdit,
+  isEditPassword,
+  setIsEditPassword,
 }) => {
+  const { errorMsg } = useUserContext();
   const [isOpenModale, setIsOpenModale] = useState(false);
   const [isOpenPictureChoice, setOpenPictureChoice] = useState(false);
   const formattedString = (string: string, size: number) => {
@@ -113,7 +120,10 @@ const Profile: FC<SettingsPageParameters> = ({
               className="w-6 self-end pb-2  cursor-pointer"
               src={edit}
               alt="edit profile"
-              onClick={() => setIsEdit(true)}
+              onClick={() => {
+                setIsEdit(true);
+                setIsEditPassword(false);
+              }}
             />
           ) : null}
         </div>
@@ -141,81 +151,38 @@ const Profile: FC<SettingsPageParameters> = ({
           onSubmit={async (e) => {
             try {
               await handleModifications(e);
-              await handlePasswordModification(e);
+              console.log("handleModifications complete");
             } catch (err) {
               console.error(err);
             }
           }}
         >
-          <div className={`${isEdit ? "" : "flex"} items-center gap-3 lg:mt-5`}>
-            <p className={`${isEdit ? "hidden" : "block"}`}>pseudo: </p>
-            {isEdit ? (
-              <InputCustom
-                label="Pseudo"
-                name="username"
-                type="text"
-                value={username}
-                onChange={handleInputChange("username")}
-              />
-            ) : (
-              user.username
-            )}
-          </div>
-          <div className={`${isEdit ? "" : "flex"} items-center gap-3`}>
-            <p className={`${isEdit ? "hidden" : "block"}`}>email: </p>
-            {isEdit ? (
-              <InputCustom
-                label="Email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={handleInputChange("email")}
-              />
-            ) : (
-              user.email
-            )}
-          </div>
-          {isEdit && (
-            <div
-              className={`${
-                isEdit ? "" : "flex"
-              } items-center gap-3 mt-20 mb-10`}
-            >
-              <p className={`font-bold mb-5`}>Modifier mot de passe</p>
-              <p className={`${isEdit ? "hidden" : "block"}`}>
-                Mot de passe actuel:{" "}
-              </p>
-              <InputCustom
-                label="Mot de passe actuel"
-                type="password"
-                name="oldPassword"
-                value={oldPassword}
-                onChange={handleInputChange("oldPassword")}
-              />
-              <p className={`${isEdit ? "hidden" : "block"}`}>
-                Nouveau mot de passe:{" "}
-              </p>
-              <InputCustom
-                label="Nouveau mot de passe"
-                type="password"
-                name="newPassword"
-                value={newPassword}
-                onChange={handleInputChange("newPassword")}
-              />
-              <p className={`${isEdit ? "hidden" : "block"}`}>
-                Confirmez nouveau mot de passe:{" "}
-              </p>
-              <InputCustom
-                label="Confirmation nouveau mot de passe"
-                type="password"
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={handleInputChange("confirmPassword")}
-              />
-            </div>
+          {isEdit && !isEditPassword && (
+            <>
+              <div className="flex items-center gap-3 lg:mt-5">
+                <p className="block">pseudo: </p>
+                <InputCustom
+                  label="Pseudo"
+                  name="username"
+                  type="text"
+                  value={username}
+                  onChange={handleInputChange("username")}
+                />
+              </div>
+              <div className="flex items-center gap-7 lg:mt-5">
+                <p className="block">email: </p>
+                <InputCustom
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={handleInputChange("email")}
+                />
+              </div>
+            </>
           )}
           <div className="flex justify-center lg:hidden">
-            {isEdit ? (
+            {isEdit && !isEditPassword ? (
               <BtnCustom
                 styled="btnGood"
                 text="ENREGISTRER"
@@ -223,20 +190,76 @@ const Profile: FC<SettingsPageParameters> = ({
               />
             ) : null}
           </div>
-          {/* TO-DO : Vérifier sécurité si PWD à modifier
-                    <div className={`${isEdit ? '' : 'flex'} items-center gap-3`}>
-                        <p  className={`${isEdit ? 'hidden' : 'block'}`}>mot de passe: </p>
-                        {isEdit ? <InputCustom label="" name="password" type='password' value={password} onChange={handleInputChange('password')} /> : <span className="font-bold">*********</span>}
-                    </div>
-                */}
+        </form>
+
+        <form
+          className="flex flex-col gap-4 text-button mb-5 lg:mb-12"
+          onSubmit={async (e) => {
+            try {
+              await handlePasswordModification(e);
+              console.log("handlePasswordModification complete");
+            } catch (err) {
+              console.error(err);
+            }
+          }}
+        >
+          {isEditPassword && (
+            <>
+              <p className="font-bold mb-5">Modifier mot de passe</p>
+              <InputCustom
+                label="Mot de passe actuel"
+                type="password"
+                name="oldPassword"
+                placeholder="*******"
+                value={oldPassword}
+                onChange={handleInputChange("oldPassword")}
+              />
+              <InputCustom
+                label="Nouveau mot de passe"
+                type="password"
+                name="newPassword"
+                placeholder="*******"
+                value={newPassword}
+                onChange={handleInputChange("newPassword")}
+              />
+              <InputCustom
+                label="Confirmation nouveau mot de passe"
+                type="password"
+                name="confirmPassword"
+                placeholder="*******"
+                value={confirmPassword}
+                onChange={handleInputChange("confirmPassword")}
+              />
+              {errorMsg && (
+                <div className="text-color-red font-normal text-small-p mt-6 ml-1">
+                  {errorMsg}
+                </div>
+              )}
+            </>
+          )}
+          <div className="flex justify-center lg:hidden">
+            {isEditPassword ? (
+              <BtnCustom
+                styled="btnGood"
+                text="ENREGISTRER CHANGEMENT MOT DE PASSE"
+                onClick={handlePasswordModification}
+              />
+            ) : null}
+          </div>
         </form>
 
         <div className="hidden lg:block ">
-          {isEdit ? (
+          {isEdit && !isEditPassword ? (
             <BtnCustom
               styled="btnGood"
               text="ENREGISTRER"
               onClick={handleModifications}
+            />
+          ) : isEditPassword ? (
+            <BtnCustom
+              styled="btnGood"
+              text="ENREGISTRER CHANGEMENTS"
+              onClick={handlePasswordModification}
             />
           ) : (
             <BtnCustom
@@ -246,8 +269,14 @@ const Profile: FC<SettingsPageParameters> = ({
             />
           )}
           <div
+            onClick={() => setIsEditPassword(true)}
+            className="underline font-normal text-small-p mt-6 ml-1"
+          >
+            Modifier le mot de passe
+          </div>
+          <div
             onClick={() => console.log("TO - DO : Supprimer le cache")}
-            className=" hidden lg:block underline  font-normal text-small-p mt-6 ml-1"
+            className="underline font-normal text-small-p mt-6 ml-1"
           >
             Paramètres avancés
           </div>
