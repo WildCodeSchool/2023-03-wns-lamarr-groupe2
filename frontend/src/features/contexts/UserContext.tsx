@@ -17,6 +17,7 @@ import {
   LoginInformations,
   RegisterInformations,
   UpdatedUser,
+  PasswordUpdateInputs,
 } from "./utils/types";
 import { useToaster } from "../hooks/useToaster";
 import {
@@ -24,6 +25,7 @@ import {
   queryProfile,
   updateQuery,
   deleteQuery,
+  updatePasswordQuery,
   updatePictureQuery,
   queryUsers,
 } from "./utils/queries";
@@ -186,6 +188,48 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const updatePassword = async (
+    e: any,
+    passwordUpdateInputs: PasswordUpdateInputs
+  ) => {
+    e.preventDefault();
+    try {
+      const updatePassword = {
+        query: updatePasswordQuery,
+
+        variables: {
+          oldPassword: passwordUpdateInputs.oldPassword,
+          newPassword: passwordUpdateInputs.newPassword,
+          confirmPassword: passwordUpdateInputs.confirmPassword,
+        },
+      };
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(BACKEND_URL, updatePassword, config);
+      const responseData = response.data;
+
+      if (responseData.errors) {
+        throw new Error("There was an Error updating the password");
+      } else {
+        const getProfileQuery = {
+          query: queryProfile,
+        };
+
+        const getProfileResponse = await axios.post(
+          BACKEND_URL,
+          getProfileQuery,
+          config
+        );
+        setUser(getProfileResponse.data.data.getProfile);
+      }
+    } catch (error: any) {
+      console.error(error);
+      notifyErrorUpdate();
+    }
+  };
   // UpdatePicture
   const updatePicture = async (pictureChoice: string) => {
     try {
@@ -287,6 +331,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         register,
         updateUser,
         deleteUserAccount,
+        updatePassword,
         updatePicture,
         users,
       }}
