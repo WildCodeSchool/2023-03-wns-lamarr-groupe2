@@ -120,16 +120,7 @@ export class EcoActionResolver {
     @Arg("isSelected") isSelected: boolean
   ): Promise<boolean> {
     const user = context.user;
-
-    // // See if challenge exists, else return error
-    // const challenge = await Challenge.findOne({
-    //   relations: { challengeEcoActionsListProof: true },
-    //   where: { id: challengeId },
-    // });
-
-    // if (!challenge) {
-    //   throw new Error("Challenge not found!");
-    // }
+    if (!user) throw new Error("The user is not connected!");
 
     // Find the current selection proof entry for the user and ecoAction concerned
     const entry = await ChallengeEcoActionsListProof.findOne({
