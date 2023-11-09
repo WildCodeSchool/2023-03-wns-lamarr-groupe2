@@ -13,6 +13,8 @@
   "author": "Madeline Thomas, Morgan Mezaache, Jonathan Caillon, Carl Marion, Marion Lalonde",
   "license": "ISC",
   "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.9.0",
     "concurrently": "8.1.0",
     "husky": "^8.0.3"
   }
