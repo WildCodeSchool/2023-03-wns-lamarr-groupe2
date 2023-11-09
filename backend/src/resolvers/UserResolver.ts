@@ -45,8 +45,8 @@ export class UserResolver {
     }
 
     await existingUser.save();
-
     return existingUser;
+
   }
 
 @Mutation(() => User)
@@ -103,24 +103,28 @@ async updatePicture(
   ): Promise<User> {
     const user = context.user
 
-    if(!user) throw new Error(`The user is not connected`);
+    if(!user) throw new Error(`Utilisateur non connecté`);
 
     // Check if the user exists
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
 
-    if(!existingUser) throw new Error(`The user does not exists`);
+    if(!existingUser) throw new Error(`l'utilisateur n'existe pas`);
 
     //Verify old password with user's current password
     const valid = await argon2.verify(user.password, oldPassword);
+    const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{7,}$/
     if(!valid) {
-      throw new Error("Old password is incorrect");
+      throw new Error("Mot de passe actuel incorrect");
+    }
+    if(!newPassword.match(passwordRules)){
+      throw new Error("Votre mot de passe doit contenir 7 charactères, une majuscule, une minuscule et un chiffre")
     }
     if(newPassword === oldPassword) {
-      throw new Error("New password must be different from the current one!");
+      throw new Error("Le nouveau mot de passe doit être différent de l'actuel");
     }
     if(newPassword !== confirmPassword) {
-      throw new Error("Both passwords must be the same");
+      throw new Error("Le nouveau mot de passe et sa confirmation doivent être identiques");
     }
 
     existingUser.password = await argon2.hash(newPassword);

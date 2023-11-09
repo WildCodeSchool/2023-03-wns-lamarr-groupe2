@@ -16,7 +16,8 @@ import {
   TUser,
   LoginInformations,
   RegisterInformations,
-  UpdatedUser, PasswordUpdateInputs,
+  UpdatedUser,
+  PasswordUpdateInputs,
 } from "./utils/types";
 import { useToaster } from "../hooks/useToaster";
 import {
@@ -28,6 +29,7 @@ import {
   queryUsers,
   updatePasswordQuery,
 } from "./utils/queries";
+import { handleInputChange } from "react-select/dist/declarations/src/utils";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL ?? "";
 
@@ -35,6 +37,7 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [user, setUser] = useLocalStorage("user", {} as TUser);
   const [token, setToken] = useLocalStorage("token", "");
   const [users, setUsers] = useState<TUser[]>([]);
@@ -44,6 +47,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     notifyErrorConnexion,
     notifyErrorUpdate,
     notifyUpdate,
+    notifyPasswordChanged,
   } = useToaster();
   // Login
   const login = useCallback(
@@ -178,7 +182,9 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
           getProfileQuery,
           config
         );
-        setUser(getProfileResponse.data.data.getProfile);
+        const updatedUser = getProfileResponse.data.data.getProfile;
+        setUser(updatedUser);
+        console.log(`Username was updated: ${updatedUser.username}`);
         notifyUpdate();
       }
     } catch (error: any) {
@@ -187,8 +193,15 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const updatePassword = async (e: any, passwordUpdateInputs: PasswordUpdateInputs) => {
+  const updatePassword = async (
+    e: any,
+    passwordUpdateInputs: PasswordUpdateInputs,
+    reset: () => void
+  ) => {
+    setErrorMsg(null);
+    console.log("updatePassword function called");
     e.preventDefault();
+
     try {
       const updatePassword = {
         query: updatePasswordQuery,
@@ -201,28 +214,36 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
       };
 
       const config = {
-        headers: { Authorization: `Bearer ${token}`},
+        headers: { Authorization: `Bearer ${token}` },
       };
 
       const response = await axios.post(BACKEND_URL, updatePassword, config);
       const responseData = response.data;
-
-      if(responseData.errors) {
-        throw new Error('There was an Error updating the password');
-      }else{
+      console.log(responseData);
+      if (responseData.errors) {
+        setErrorMsg(
+          responseData.errors
+            .map((error: { message: string }) => error.message)
+            .join(",")
+        );
+      } else {
         const getProfileQuery = {
           query: queryProfile,
         };
 
-        const getProfileResponse = await axios.post(BACKEND_URL, getProfileQuery, config);
+        const getProfileResponse = await axios.post(
+          BACKEND_URL,
+          getProfileQuery,
+          config
+        );
         setUser(getProfileResponse.data.data.getProfile);
+        notifyPasswordChanged();
+        reset();
       }
     } catch (error: any) {
-      console.error(error);
-      notifyErrorUpdate();
+      console.error("error when updating the password", errorMsg);
     }
-  }
-
+  };
 
   // UpdatePicture
   const updatePicture = async (pictureChoice: string) => {
@@ -259,7 +280,6 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         setUser(getProfileResponse.data.data.getProfile);
       }
     } catch (error: any) {
-      console.error(error);
       notifyErrorUpdate();
     }
   };
@@ -328,6 +348,7 @@ export const UserContextProvider: FC<PropsWithChildren> = ({ children }) => {
         updatePicture,
         users,
         updatePassword,
+        errorMsg,
       }}
     >
       {children}

@@ -66,6 +66,10 @@ export const useToaster = () => {
   const notifyCreate = () => {
     showToast("Votre challenge est créé ");
   };
+
+  const notifyPasswordChanged = () => {
+    showToast("Mot de passe modifié avec succès! 🔒");
+  };
   return {
     notifyErrorConnexion,
     notifyErrorRegister,
@@ -80,5 +84,6 @@ export const useToaster = () => {
     notifyErrorGlobal,
     notifyCreateError,
     notifyCreate,
+    notifyPasswordChanged,
   };
 };
