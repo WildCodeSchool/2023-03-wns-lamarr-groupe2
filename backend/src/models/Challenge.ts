@@ -14,6 +14,7 @@ import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
 import { Comment } from "./Comment";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
 
 @ObjectType()
 @Entity()
@@ -135,4 +136,11 @@ export class Challenge extends BaseEntity {
     if (now < this.startAt) return "incoming";
     return "ongoing";
   }
+
+  @Field(() => [ChallengeEcoActionsListProof])
+  @OneToMany(
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.challenge
+  )
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }

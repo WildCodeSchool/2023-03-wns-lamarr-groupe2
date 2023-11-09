@@ -1,35 +1,34 @@
 services:
-        backend:
-                build: ./backend
-                ports:
-                        - 5000:5000
-                volumes:
-                        - ./backend/src:/app/src
-                env_file:
-                        - ./backend/.env
+  backend:
+    build: ./backend
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/src:/app/src
+    env_file:
+      - ./backend/.env
 
-        frontend:
-                build: ./frontend
-                ports:
-                        - 3000:3000
-                volumes:
-                        - ./frontend/src:/app/src
-                environment:
-                        - WDS_SOCKET_HOST=127.0.0.1
-                        - CHOKIDAR_USEPOLLING=true
-                        - WATCHPACK_POLLING=true
-                env_file:
-                        - ./frontend/.env
-        postgres:
-                image: postgres
-                restart: always
-                ports:
-                        - 5432:5432
-                environment:
-                        POSTGRES_PASSWORD: example
-
-        adminer:
-                image: adminer
-                restart: always
-                ports:
-                        - 8080:8080
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    env_file:
+      - ./frontend/.env
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

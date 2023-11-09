@@ -1,10 +1,11 @@
-import { Ctx, Arg, Mutation, Query, Int, Authorized } from "type-graphql";
+import { Ctx, Arg, Mutation, Query, Int } from "type-graphql";
 import { FindOneOptions, In } from "typeorm";
 import { Challenge } from "../models/Challenge";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Tag } from "../models/Tag";
 import { InvitationChallenge } from "../models/InvitationChallenge";
+import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -68,6 +69,19 @@ export class ChallengeResolver {
       newInvitation.challenge = challenge;
       await newInvitation.save();
     }
+
+    // Seulement pour le créateur
+    // create ChallengeEcoActionsListProof entries for each user and eco action combination
+
+    for (const ecoAction of ecoActionList) {
+      const entry = new ChallengeEcoActionsListProof();
+      entry.user = user;
+      entry.challenge = challenge;
+      entry.ecoAction = ecoAction;
+      entry.ecoActionIsSelected = false; // Set the initial state
+      await entry.save();
+    }
+
     return challenge;
   }
 
