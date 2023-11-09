@@ -70,16 +70,16 @@ export class ChallengeResolver {
       await newInvitation.save();
     }
 
+    // Seulement pour le créateur
     // create ChallengeEcoActionsListProof entries for each user and eco action combination
-    for (const contender of contenderList) {
-      for (const ecoAction of ecoActionList) {
-        const entry = new ChallengeEcoActionsListProof();
-        entry.user = contender;
-        entry.challenge = challenge;
-        entry.ecoAction = ecoAction;
-        entry.ecoActionIsSelected = false; // Set the initial state
-        await entry.save();
-      }
+
+    for (const ecoAction of ecoActionList) {
+      const entry = new ChallengeEcoActionsListProof();
+      entry.user = user;
+      entry.challenge = challenge;
+      entry.ecoAction = ecoAction;
+      entry.ecoActionIsSelected = false; // Set the initial state
+      await entry.save();
     }
 
     return challenge;
