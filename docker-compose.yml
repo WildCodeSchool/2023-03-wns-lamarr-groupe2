@@ -6,7 +6,7 @@ services:
                 volumes:
                         - ./backend/src:/app/src
                 env_file:
-                        - ./backend/.env        
+                        - ./backend/.env
 
         frontend:
                 build: ./frontend
@@ -18,6 +18,8 @@ services:
                         - WDS_SOCKET_HOST=127.0.0.1
                         - CHOKIDAR_USEPOLLING=true
                         - WATCHPACK_POLLING=true
+                env_file:
+                        - ./frontend/.env
         postgres:
                 image: postgres
                 restart: always
