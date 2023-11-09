@@ -32,17 +32,17 @@ const InputCustom: FC<InputCustomProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label title={label}>{label}</label>
+      <label htmlFor={name} title={label}>{label}</label>
       <input
+        id={name}
         readOnly={readOnly}
         type={type}
         name={name}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`p-2 border-primary-dark border-2  rounded-medium bg-element-bg ${
-          sendMessage && "pr-10"
-        }`}
+        className={`p-2 border-primary-dark border-2  rounded-medium bg-element-bg ${sendMessage && "pr-10"
+          }`}
         style={mode && searchStyle}
       />
     </div>

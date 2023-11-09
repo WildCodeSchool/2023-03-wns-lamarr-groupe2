@@ -8,10 +8,10 @@ const FriendsLeaderboard = () => {
   const { friends } = useFriendContext();
   const { user } = useUserContext();
   const sortedLeaderboard = [user, ...friends]?.sort(
-    (a, b) => b.points - a.points
+    (a, b) => b?.points - a?.points
   );
   const userPosition =
-    sortedLeaderboard.findIndex((member) => member.id === user.id) + 1;
+    sortedLeaderboard?.findIndex((member) => member?.id === user?.id) + 1;
 
   return (
     <div className="h-full flex flex-col w-full">
@@ -22,9 +22,9 @@ const FriendsLeaderboard = () => {
       <div className="w-full justify-center">
         <div className="border-b-1 mb-5">
           <LeaderboardElement
-            id={user.id}
-            username={user.username}
-            score={user.points ?? 0}
+            id={user?.id}
+            username={user?.username}
+            score={user?.points ?? 0}
             position={userPosition}
             picture={user?.picture}
             mode="header"

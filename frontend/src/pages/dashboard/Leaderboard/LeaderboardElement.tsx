@@ -20,14 +20,13 @@ const LeaderboardElement: FC<TLeaderboardElement> = ({
   mode,
 }) => {
   const { user } = useUserContext();
-  const isUser = user.id === id;
-  const ScoreOrZero = isUser ? user.points : score;
+  const isUser = user?.id === id;
+  const ScoreOrZero = isUser ? user?.points : score;
 
   return (
     <div
-      className={`mx-3 flex justify-between  items-center  ${
-        isUser && !mode && "border-y-1 bg-primary-attention"
-      } ${mode && "mb-5"}`}
+      className={`mx-3 flex justify-between  items-center  ${isUser && !mode && "border-y-1 bg-primary-attention"
+        } ${mode && "mb-5"}`}
     >
       <div className="w-1/12 text-secondary-title font-bold">{position}</div>
 

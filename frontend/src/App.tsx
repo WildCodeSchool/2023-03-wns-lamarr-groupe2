@@ -35,10 +35,10 @@ const App = () => {
     <AuthRoutes />
   ) : (
     <div className="flex flex-col-reverse lg:flex-row w-screen min-h-screen max-w-screen max-w-full">
-      {user.username && <NavigationBar />}
+      {user?.username && <NavigationBar />}
 
       <main className="flex flex-col flex-grow lg:flex-col">
-        {user.username && (
+        {user?.username && (
           <>
             <HeaderBar />
             {location.pathname !== "/" &&
