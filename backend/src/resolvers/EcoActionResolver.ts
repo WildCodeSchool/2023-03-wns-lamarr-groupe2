@@ -2,6 +2,7 @@ import { Arg, Ctx, Mutation, Query } from "type-graphql";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
 import { Challenge } from "../models/Challenge";
+import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
 
 export class EcoActionResolver {
   @Query(() => [EcoAction]) // Updated return type to an array of EcoAction
@@ -83,33 +84,32 @@ export class EcoActionResolver {
     return true;
   }
 
-  @Query(() => Boolean)
+  @Query(() => [ChallengeEcoActionsListProof])
   async getEcoActionSelectionStatus(
     @Ctx() context: { user: User },
-    @Arg("challengeId") challengeId: number,
-    @Arg("ecoActionId") ecoActionId: number
-  ): Promise<boolean> {
+    @Arg("challengeId") challengeId: number
+  ): Promise<ChallengeEcoActionsListProof[]> {
     const user = context.user;
 
-    const challenge = await Challenge.findOne({
-      relations: { challengeEcoActionsListProof: true },
-      where: { id: challengeId },
+    if (!user) throw new Error("The user is not connected!");
+
+    const ecoActionList = await ChallengeEcoActionsListProof.find({
+      relations: { ecoAction: true },
+      where: {
+        challenge: {
+          id: challengeId,
+        },
+        user: {
+          id: user.id,
+        },
+      },
     });
 
-    if (!challenge) {
-      throw new Error("Challenge not found!");
-    }
-
-    // Find the selection proof entry for the user and ecoAction concerned
-    const entry = challenge.challengeEcoActionsListProof.find(
-      (entry) => entry.user.id === user.id && entry.ecoAction.id === ecoActionId
-    );
-
-    if (!entry) {
+    if (!ecoActionList) {
       throw new Error("Entry not found!");
     }
 
-    return entry.ecoActionIsSelected;
+    return ecoActionList;
   }
 
   @Mutation(() => Boolean)
@@ -121,20 +121,31 @@ export class EcoActionResolver {
   ): Promise<boolean> {
     const user = context.user;
 
-    // See if challenge exists, else return error
-    const challenge = await Challenge.findOne({
-      relations: { challengeEcoActionsListProof: true },
-      where: { id: challengeId },
-    });
+    // // See if challenge exists, else return error
+    // const challenge = await Challenge.findOne({
+    //   relations: { challengeEcoActionsListProof: true },
+    //   where: { id: challengeId },
+    // });
 
-    if (!challenge) {
-      throw new Error("Challenge not found!");
-    }
+    // if (!challenge) {
+    //   throw new Error("Challenge not found!");
+    // }
 
     // Find the current selection proof entry for the user and ecoAction concerned
-    const entry = challenge.challengeEcoActionsListProof.find(
-      (entry) => entry.user.id === user.id && entry.ecoAction.id === ecoActionId
-    );
+    const entry = await ChallengeEcoActionsListProof.findOne({
+      relations: { challenge: true, user: true, ecoAction: true },
+      where: {
+        challenge: {
+          id: challengeId,
+        },
+        user: {
+          id: user.id,
+        },
+        ecoAction: {
+          id: ecoActionId,
+        },
+      },
+    });
 
     if (!entry) {
       throw new Error("Entry not found!");
@@ -142,6 +153,7 @@ export class EcoActionResolver {
 
     // Update the ecoActionIsSelected status with the argument given
     entry.ecoActionIsSelected = isSelected;
+
     await entry.save();
 
     return true;

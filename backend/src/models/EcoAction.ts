@@ -41,8 +41,7 @@ export class EcoAction extends BaseEntity {
   @Field(() => [ChallengeEcoActionsListProof])
   @OneToMany(
     () => ChallengeEcoActionsListProof,
-    (challengeEcoActionsListProof) => challengeEcoActionsListProof.ecoAction,
-    { eager: true }
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.ecoAction
   )
   challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }

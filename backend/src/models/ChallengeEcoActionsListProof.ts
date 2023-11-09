@@ -17,18 +17,18 @@ export class ChallengeEcoActionsListProof extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => [User])
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.challengeEcoActionsListProof)
   user: User;
 
-  @Field(() => [Challenge])
+  @Field(() => Challenge)
   @ManyToOne(
     () => Challenge,
     (challenge) => challenge.challengeEcoActionsListProof
   )
   challenge: Challenge;
 
-  @Field(() => [EcoAction])
+  @Field(() => EcoAction)
   @ManyToOne(
     () => EcoAction,
     (ecoAction) => ecoAction.challengeEcoActionsListProof

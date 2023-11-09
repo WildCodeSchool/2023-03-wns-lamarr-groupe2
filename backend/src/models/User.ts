@@ -151,8 +151,7 @@ export class User extends BaseEntity {
   @Field(() => [ChallengeEcoActionsListProof])
   @OneToMany(
     () => ChallengeEcoActionsListProof,
-    (challengeEcoActionsListProof) => challengeEcoActionsListProof.user,
-    { eager: true }
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.user
   )
   challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 }
