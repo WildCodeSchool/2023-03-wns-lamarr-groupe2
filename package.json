@@ -8,7 +8,8 @@
 		"dev": "concurrently -n front,back -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm --prefix ./frontend run start\" \"npm --prefix ./backend run dev\"",
 		"docker": "docker compose -f docker-compose.yml up",
 		"lint": "npm --prefix ./frontend run lint && npm --prefix ./backend run lint",
-		"fix": "npm --prefix ./frontend run fix && npm --prefix ./backend run fix"
+		"fix": "npm --prefix ./frontend run fix && npm --prefix ./backend run fix",
+		"test": "npm --prefix ./frontend run test && npm --prefix ./backend run test"
 	},
 	"author": "Madeline Thomas, Morgan Mezaache, Jonathan Caillon, Carl Marion, Marion Lalonde",
 	"license": "ISC",

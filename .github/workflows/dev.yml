@@ -10,9 +10,7 @@ jobs:
                 runs-on: ubuntu-latest
                 steps:
                         - name: Run backend tests
-                          run: |
-                                  cd backend
-                                  npm run test
+                          run: npm run test
 
         build-client:
                 runs-on: ubuntu-latest
