@@ -47,8 +47,7 @@ const ChallengePage = () => {
     currentChallenge,
     ecoActionSelectionStatus,
     getEcoActionSelectionStatus,
-    selectedTasks,
-    setSelectedTasks,
+    updateEcoActionSelectionStatus,
   } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
@@ -57,17 +56,6 @@ const ChallengePage = () => {
     ?.map((ecoAction) => (ecoAction.ecoActionIsSelected ? 1 : 0))
     .reduce((a: number, b: number) => a! + b!, 0);
   const [comment, setComment] = useState<string>("");
-
-  // const handleTask = (task: number) => {
-  //   const isTaskSelected = selectedTasks?.includes(task);
-  //   if (isTaskSelected) {
-  //     return setSelectedTasks(
-  //       selectedTasks?.filter((allTasks) => allTasks !== task)
-  //     );
-  //   } else {
-  //     return setSelectedTasks([...selectedTasks, task]);
-  //   }
-  // };
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
   getChallenge(parseInt(params.id!));
@@ -205,11 +193,17 @@ const ChallengePage = () => {
             <span>{nbrTaskSelected + "/" + nbrTask}</span>
           </div>
           <ul className="flex flex-col gap-6 py-4">
-            {ecoActionSelectionStatus?.map((ecoAction) => (
+            {ecoActionSelectionStatus?.map((ecoAction, index) => (
               <li
-                key={ecoAction?.id}
+                key={index}
                 className="flex"
-                onClick={() => console.log(ecoAction.id!)}
+                onClick={() =>
+                  updateEcoActionSelectionStatus(
+                    ecoAction.ecoAction.id!,
+                    currentChallenge?.id!,
+                    !ecoAction.ecoActionIsSelected
+                  )
+                }
               >
                 <RadioBtn isChoose={ecoAction.ecoActionIsSelected} />
                 <div className="relative flex flex-col md:flex-row md:gap-6 md:items-center w-2/3">

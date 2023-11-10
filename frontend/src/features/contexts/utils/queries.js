@@ -203,6 +203,10 @@ const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: 
   }
 }`;
 
+const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean!, $ecoActionId: Float!, $challengeId: Float!) {
+  updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
+}`;
+
 module.exports = {
   queryProfile,
   signUpQuery,
@@ -225,4 +229,5 @@ module.exports = {
   queryEcoActionSelectionStatus,
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
+  mutationEcoActionSelectionStatus,
 };

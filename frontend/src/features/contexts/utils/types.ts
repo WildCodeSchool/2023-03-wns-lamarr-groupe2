@@ -130,6 +130,11 @@ export type ChallengeContextType = {
   setSelectedTasks: React.Dispatch<React.SetStateAction<number[]>>;
   ecoActionSelectionStatus: TEcoActionsSelectionStatus[];
   getEcoActionSelectionStatus: (challengeId: number) => Promise<void>;
+  updateEcoActionSelectionStatus: (
+    ecoActionId: number,
+    challengeId: number,
+    isSelected: boolean
+  ) => Promise<void>;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {

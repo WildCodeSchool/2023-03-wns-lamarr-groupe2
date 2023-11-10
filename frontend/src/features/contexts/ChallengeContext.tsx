@@ -21,6 +21,7 @@ import {
   queryTags,
   queryTasks,
   queryEcoActionSelectionStatus,
+  mutationEcoActionSelectionStatus,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -167,6 +168,36 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
+  // Update ecoAction selection status
+  const updateEcoActionSelectionStatus = async (
+    ecoActionId: number,
+    challengeId: number,
+    isSelected: boolean
+  ) => {
+    try {
+      const updateEcoActionSelectionStatus = {
+        query: mutationEcoActionSelectionStatus,
+        variables: {
+          ecoActionId: ecoActionId,
+          challengeId: challengeId,
+          isSelected: isSelected,
+        },
+      };
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const response = await axios.post(
+        BACKEND_URL,
+        updateEcoActionSelectionStatus,
+        config
+      );
+      console.warn(response);
+      getEcoActionSelectionStatus(challengeId);
+    } catch (error) {
+      console.error("Error Updating Notification:", error);
+    }
+  };
+
   useEffect(() => {
     setTasks([]);
     setTags([]);
@@ -199,6 +230,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         setSelectedTasks,
         ecoActionSelectionStatus,
         getEcoActionSelectionStatus,
+        updateEcoActionSelectionStatus,
       }}
     >
       {children}
