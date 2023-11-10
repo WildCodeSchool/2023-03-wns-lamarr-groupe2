@@ -11,7 +11,7 @@ jobs:
                 steps:
                         - name: Run backend tests
                           run: |
-                                  cd backend
+                                  cd ./backend
                                   npm run test
 
         build-client:
