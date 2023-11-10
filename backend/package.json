@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "npx jest --detectOpenHandles ",
 		"start": "ts-node-dev src/index.ts",
 		"dev": "ts-node-dev --respawn src/index.ts",
 		"lint": "echo '----- Checking Backend...' && npx prettier --debug-check . && eslint --ext .js . && echo '----- Done!'",
