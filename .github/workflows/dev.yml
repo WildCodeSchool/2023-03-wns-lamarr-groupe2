@@ -15,10 +15,30 @@ jobs:
         backend-tests:
                 runs-on: ubuntu-latest
 
+                services:
+                        postgres_test:
+                                image: postgres
+                                ports:
+                                        - 5433:5432
+                                env:
+                                        POSTGRES_PASSWORD: example
+
                 steps:
                         - uses: actions/checkout@v2
 
                         - name: Run backend tests
+                          env:
+                                  BACKEND_PORT: 5000
+                                  FRONTEND_URL: http://localhost:3000
+                                  DB_TYPE: postgres
+                                  DB_HOST: postgres
+                                  DB_PORT: 5432
+                                  DB_USER: postgres
+                                  DB_PASSWORD: example
+                                  DB_NAME: postgres
+                                  JWT_SECRET: secret
+                                  JWT_TIMING: 1h
+
                           run: |
                                   cd backend
                                   npm install
