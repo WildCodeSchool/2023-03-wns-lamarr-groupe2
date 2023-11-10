@@ -20,6 +20,7 @@ jobs:
                         - name: Run backend tests
                           run: |
                                   cd backend
+                                  npm install
                                   npm run test
 
         build-client:
