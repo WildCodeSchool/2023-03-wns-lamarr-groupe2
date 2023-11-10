@@ -128,8 +128,16 @@ export type ChallengeContextType = {
   createAChallenge: (value: ChallengeInformations) => void;
   selectedTasks: number[];
   setSelectedTasks: React.Dispatch<React.SetStateAction<number[]>>;
+  ecoActionSelectionStatus: TEcoActionsSelectionStatus[];
+  getEcoActionSelectionStatus: (challengeId: number) => Promise<void>;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
   data: { viewer: Record<Key, { hits: ResponseType[] }> };
 }
+
+export type TEcoActionsSelectionStatus = {
+  id: number;
+  ecoAction: OptionType;
+  ecoActionIsSelected: boolean;
+};

@@ -171,6 +171,19 @@ const queryTags = `query Query {
   }
 }`;
 
+const queryEcoActionSelectionStatus = `query Query($challengeId: Float!) {
+  getEcoActionSelectionStatus(challengeId: $challengeId) {
+    ecoActionIsSelected
+    ecoAction {
+      id
+      label
+      points
+      need_proof
+      difficulty
+    }
+  }
+}`;
+
 const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
   createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
     title
@@ -209,6 +222,7 @@ module.exports = {
   queryChallenge,
   queryTasks,
   queryTags,
+  queryEcoActionSelectionStatus,
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
 };

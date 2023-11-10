@@ -14,6 +14,7 @@ import InputCustom from "../../components/InputCustom";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import ReactQuill from "react-quill";
 import moment from "moment";
+
 const challenge = {
   comments: [
     {
@@ -41,38 +42,46 @@ const ChallengePage = () => {
   //TO-DO : Logic edit / delete commentary
 
   const { user } = useUserContext();
-  const { getChallenge, currentChallenge, selectedTasks, setSelectedTasks } =
-    useChallengeContext();
+  const {
+    getChallenge,
+    currentChallenge,
+    ecoActionSelectionStatus,
+    getEcoActionSelectionStatus,
+    selectedTasks,
+    setSelectedTasks,
+  } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
   const nbrTask = currentChallenge?.ecoActions?.length;
+  const nbrTaskSelected = ecoActionSelectionStatus
+    ?.map((ecoAction) => (ecoAction.ecoActionIsSelected ? 1 : 0))
+    .reduce((a: number, b: number) => a! + b!, 0);
   const [comment, setComment] = useState<string>("");
 
-  // const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
-  const handleTask = (task: number) => {
-    const isTaskSelected = selectedTasks?.includes(task);
-    if (isTaskSelected) {
-      return setSelectedTasks(
-        selectedTasks?.filter((allTasks) => allTasks !== task)
-      );
-    } else {
-      return setSelectedTasks([...selectedTasks, task]);
-    }
-  };
+  // const handleTask = (task: number) => {
+  //   const isTaskSelected = selectedTasks?.includes(task);
+  //   if (isTaskSelected) {
+  //     return setSelectedTasks(
+  //       selectedTasks?.filter((allTasks) => allTasks !== task)
+  //     );
+  //   } else {
+  //     return setSelectedTasks([...selectedTasks, task]);
+  //   }
+  // };
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
   getChallenge(parseInt(params.id!));
+  getEcoActionSelectionStatus(parseInt(params.id!));
 
   //Calculate user score and points
-  const totalPoints = currentChallenge?.ecoActions
-    .map((ecoAction) => (ecoAction?.id ? ecoAction.points : 0))
+  const totalPoints = ecoActionSelectionStatus
+    ?.map((ecoAction) =>
+      ecoAction.ecoAction?.id ? ecoAction.ecoAction.points : 0
+    )
     .reduce((a, b) => a! + b!, 0);
 
-  const successPoints = (selectedTasks?.map(
-    (task) =>
-      currentChallenge?.ecoActions.map((ecoAction) =>
-        ecoAction?.id === task ? ecoAction.points : 0
-      )
+  const successPoints = (ecoActionSelectionStatus?.map((ecoAction) =>
+    ecoAction.ecoActionIsSelected ? ecoAction.ecoAction.points : 0
   ))
     .flatMap((task) => task)
     .reduce((a, b) => a! + b!, 0);
@@ -193,22 +202,27 @@ const ChallengePage = () => {
         <section className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <h2 className="uppercase text-primary-good">Étapes</h2>
-            <span>{selectedTasks?.length + "/" + nbrTask}</span>
+            <span>{nbrTaskSelected + "/" + nbrTask}</span>
           </div>
           <ul className="flex flex-col gap-6 py-4">
-            {currentChallenge?.ecoActions?.map((ecoAction) => (
+            {ecoActionSelectionStatus?.map((ecoAction) => (
               <li
-                key={ecoAction.id}
+                key={ecoAction?.id}
                 className="flex"
-                onClick={() => handleTask(ecoAction.id!)}
+                onClick={() => console.log(ecoAction.id!)}
               >
-                <RadioBtn isChoose={selectedTasks?.includes(ecoAction.id!)} />
+                <RadioBtn isChoose={ecoAction.ecoActionIsSelected} />
                 <div className="relative flex flex-col md:flex-row md:gap-6 md:items-center w-2/3">
-                  <p>{ecoAction?.label}</p>
+                  <p>{ecoAction.ecoAction.label}</p>
                   <div className="md:absolute right-0 flex gap-6">
-                    <DifficultyLevel selectedOption={ecoAction} small />
+                    <DifficultyLevel
+                      selectedOption={ecoAction.ecoAction}
+                      small
+                    />
                     <div>
-                      <span className="font-bold">{ecoAction?.points}</span>
+                      <span className="font-bold">
+                        {ecoAction.ecoAction?.points}
+                      </span>
                       <span className="font-thin text-small-p">pts</span>
                     </div>
                   </div>

@@ -17,8 +17,6 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const progress = Math.round(numberOfSelectedEcoActions / numberOfEcoActions); //TO-DO : Calculate progression (actions done / nbr of actions)
   const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
 
-  console.log(progress);
-
   const TimeLeft = () => {
     const [url, setUrl] = useState<string | undefined>(undefined);
 

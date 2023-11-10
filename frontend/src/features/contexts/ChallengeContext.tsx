@@ -10,6 +10,7 @@ import {
   ChallengeContextType,
   ChallengeInformations,
   TChallenge,
+  TEcoActionsSelectionStatus,
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
@@ -19,6 +20,7 @@ import {
   queryChallenges,
   queryTags,
   queryTasks,
+  queryEcoActionSelectionStatus,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -40,6 +42,9 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
   const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
+  const [ecoActionSelectionStatus, setEcoActionSelectionStatus] = useState<
+    TEcoActionsSelectionStatus[]
+  >([]);
   const { notifyCreate } = useToaster();
 
   const getChallenges = async () => {
@@ -119,6 +124,29 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
+  const getEcoActionSelectionStatus = async (challengeId: number) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(
+        BACKEND_URL,
+        {
+          query: queryEcoActionSelectionStatus,
+          variables: { challengeId: challengeId },
+        },
+        config
+      );
+      const EcoActionSelectionStatusData =
+        response.data.data.getEcoActionSelectionStatus;
+
+      setEcoActionSelectionStatus(EcoActionSelectionStatusData);
+    } catch (error) {
+      setEcoActionSelectionStatus([]);
+    }
+  };
+
   const createAChallenge = async (
     challengeInformations: ChallengeInformations
   ) => {
@@ -169,6 +197,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         tasks,
         selectedTasks,
         setSelectedTasks,
+        ecoActionSelectionStatus,
+        getEcoActionSelectionStatus,
       }}
     >
       {children}
