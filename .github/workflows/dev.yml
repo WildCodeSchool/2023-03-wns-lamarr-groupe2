@@ -21,6 +21,7 @@ jobs:
                         - name: Run backend tests
                           run: |
                                   cd backend
+                                  npm install
                                   npm run test
 
         # This workflow contains a single job called "build"
@@ -86,6 +87,7 @@ jobs:
 
         send_redeploy_webhook:
                 needs:
+                        - backend-tests
                         - build-client
                         - build-server
                 runs-on: ubuntu-latest
