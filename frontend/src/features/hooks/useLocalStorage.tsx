@@ -7,10 +7,14 @@ function getStorageValue(
 ) {
   /* We get the value in the localstorage
   then we convert it and send back at the defautl value */
-  const saved = localStorage.getItem(key);
-  if (saved === null) return;
-  const initial = saved && JSON.parse(saved);
-  return initial || defaultValue;
+  try {
+    const saved = localStorage.getItem(key);
+    const initial = saved && JSON.parse(saved);
+    return initial || defaultValue;
+  } catch (error) {
+    console.error(`Error parsing JSON for key '${key}':`, error);
+    return defaultValue;
+  }
 }
 
 const useLocalStorage = (

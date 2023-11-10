@@ -7,6 +7,6 @@ import { Notification } from "./Notification";
 @ChildEntity()
 export class InvitationChallenge extends Notification {
   @Field(() => Challenge)
-  @ManyToOne(() => Challenge, (challenge) => challenge.id)
+  @ManyToOne(() => Challenge, (challenge) => challenge.invitation)
   challenge: Challenge;
 }
