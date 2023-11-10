@@ -40,7 +40,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
   const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
-  const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
   const [ecoActionSelectionStatus, setEcoActionSelectionStatus] = useState<
@@ -226,8 +225,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         createAChallenge,
         tags,
         tasks,
-        selectedTasks,
-        setSelectedTasks,
         ecoActionSelectionStatus,
         getEcoActionSelectionStatus,
         updateEcoActionSelectionStatus,

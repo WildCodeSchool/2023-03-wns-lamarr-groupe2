@@ -126,8 +126,6 @@ export type ChallengeContextType = {
   tasks: OptionType[];
   tags: TTags[];
   createAChallenge: (value: ChallengeInformations) => void;
-  selectedTasks: number[];
-  setSelectedTasks: React.Dispatch<React.SetStateAction<number[]>>;
   ecoActionSelectionStatus: TEcoActionsSelectionStatus[];
   getEcoActionSelectionStatus: (challengeId: number) => Promise<void>;
   updateEcoActionSelectionStatus: (

@@ -6,15 +6,25 @@ import edit from "../../../assets/icons/edit.svg";
 import ProfilePicture from "../../../components/ProfilePicture";
 import { TChallenge } from "../../../features/contexts/utils/types";
 import useChallengeContext from "../../../features/contexts/ChallengeContext";
+import useUserContext from "../../../features/contexts/UserContext";
 
 export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
-  const userId = 1; // UserContext user.id
+  const { user } = useUserContext();
+  const { ecoActionSelectionStatus, getEcoActionSelectionStatus } =
+    useChallengeContext();
+  const userId = user.id;
   const isOwner = challenge?.creator?.id === userId;
-  const { selectedTasks } = useChallengeContext();
   const numberOfEcoActions = challenge.ecoActions?.length;
-  const numberOfSelectedEcoActions = selectedTasks.length;
-  const progress = Math.round(numberOfSelectedEcoActions / numberOfEcoActions); //TO-DO : Calculate progression (actions done / nbr of actions)
+  getEcoActionSelectionStatus(challenge.id);
+  //check if ecoAction is selected or not
+  const numberOfSelectedEcoActions = ecoActionSelectionStatus
+    ?.map((ecoAction) => (ecoAction.ecoActionIsSelected === true ? 1 : 0))
+    .reduce((a: number, b: number) => a + b, 0);
+  //progress calculation
+  const progress =
+    Math.round(numberOfSelectedEcoActions / numberOfEcoActions) * 100; //TO-DO : Calculate progression (actions done / nbr of actions)
+
   const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
 
   const TimeLeft = () => {

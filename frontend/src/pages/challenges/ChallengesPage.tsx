@@ -65,7 +65,7 @@ const ChallengesPage = () => {
           {challenges
             ? challenges?.map(
                 (challenge, index) =>
-                  challenge.creator.id != currentUser && (
+                  challenge.creator.id !== currentUser && (
                     <Challenge key={index} challenge={challenge} />
                   )
               )
