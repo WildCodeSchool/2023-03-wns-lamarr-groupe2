@@ -51,7 +51,7 @@ jobs:
                 steps:
                         - name: Run backend tests
                           run: cd ./backend
-                          run: npm run test
+                          run: npm test
 
                         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
                         - uses: actions/checkout@v2
