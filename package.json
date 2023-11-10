@@ -1,20 +1,22 @@
 {
-  "name": "echoes-of-future",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "setup": "npm i && npm --prefix ./frontend i --force && npm --prefix ./backend i",
-    "dev": "concurrently -n front,back -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm --prefix ./frontend run start\" \"npm --prefix ./backend run dev\"",
-    "docker": "docker compose -f docker-compose.yml up",
-    "lint": "npm --prefix ./frontend run lint && npm --prefix ./backend run lint",
-    "fix": "npm --prefix ./frontend run fix && npm --prefix ./backend run fix"
-  },
-  "author": "Madeline Thomas, Morgan Mezaache, Jonathan Caillon, Carl Marion, Marion Lalonde",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "8.1.0",
-    "husky": "^8.0.3"
-  },
-  "dependencies": {}
+	"name": "echoes-of-future",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"setup": "npm i && npm --prefix ./frontend i --force && npm --prefix ./backend i",
+		"dev": "concurrently -n front,back -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm --prefix ./frontend run start\" \"npm --prefix ./backend run dev\"",
+		"docker": "docker compose -f docker-compose.yml up",
+		"lint": "npm --prefix ./frontend run lint && npm --prefix ./backend run lint",
+		"fix": "npm --prefix ./frontend run fix && npm --prefix ./backend run fix"
+	},
+	"author": "Madeline Thomas, Morgan Mezaache, Jonathan Caillon, Carl Marion, Marion Lalonde",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/jest": "^29.5.8",
+		"concurrently": "8.1.0",
+		"husky": "^8.0.3",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.1.1"
+	}
 }

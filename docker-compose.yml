@@ -5,6 +5,8 @@ services:
                         - 5000:5000
                 volumes:
                         - ./backend/src:/app/src
+                env_file:
+                        - ./backend/.env
 
         frontend:
                 build: ./frontend
@@ -23,7 +25,13 @@ services:
                         - 5432:5432
                 environment:
                         POSTGRES_PASSWORD: example
-
+        postgres_test:
+                image: postgres
+                restart: always
+                ports:
+                        - 5433:5432
+                environment:
+                        POSTGRES_PASSWORD: example
         adminer:
                 image: adminer
                 restart: always

@@ -4,7 +4,10 @@ import { join } from "path"
 
 require("dotenv").config()
 const path = join(__dirname, "./models/*.ts")
-const DBport = process.env.DB_PORT != null ? parseInt(process.env.DB_PORT, 10) : undefined
+const DBport =
+	process.env.DB_PORT != null
+		? parseInt(process.env.DB_PORT, 10)
+		: undefined
 
 // We check if DB_PORT is a number
 if (typeof DBport === "number" && isNaN(DBport)) {
@@ -25,6 +28,20 @@ const dataSource = new DataSource({
 	database: process.env.DB_NAME,
 
 	synchronize: true,
+
+	entities: [path],
+})
+
+export const testDataSource = new DataSource({
+	type: "postgres",
+	host: "localhost",
+	port: 5433,
+	username: "postgres",
+	password: "example",
+	database: "postgres",
+
+	synchronize: true,
+	dropSchema: true,
 
 	entities: [path],
 })
