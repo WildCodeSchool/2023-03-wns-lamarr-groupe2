@@ -7,8 +7,11 @@ on:
 
 jobs:
         Run backend tests:
-                working-directory: ./backend
-                run: npm run test
+                runs-on: ubuntu-latest
+                steps:
+                        run: | 
+                        cd backend
+                        npm run test
 
         build-client:
                 runs-on: ubuntu-latest
