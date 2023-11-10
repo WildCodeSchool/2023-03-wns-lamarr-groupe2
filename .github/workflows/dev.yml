@@ -9,8 +9,16 @@ jobs:
         Run_backend_tests:
                 runs-on: ubuntu-latest
                 steps:
-                        - name: Run backend tests
-                          run: npm run test
+                - name: Checkout code
+                        uses: actions/checkout@v2
+
+                - name: Set up Node.js
+                        uses: actions/setup-node@v2
+                        with:
+                        node-version: "14"
+
+                - name: Run backend tests
+                        run: npm run test
 
         build-client:
                 runs-on: ubuntu-latest
