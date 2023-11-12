@@ -46,13 +46,12 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     TEcoActionsSelectionStatus[]
   >([]);
   const { notifyCreate } = useToaster();
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
 
   const getChallenges = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryChallenges },
@@ -67,15 +66,11 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   const getChallenge = async (challengeId: number) => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         {
           query: queryChallenge,
-          variables: { challengeId: challengeId },
+          variables: { challengeId },
         },
         config
       );
@@ -90,10 +85,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   const getTasks = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryTasks },
@@ -108,10 +99,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   const getTags = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryTags },
@@ -126,15 +113,11 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   const getEcoActionSelectionStatus = async (challengeId: number) => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         {
           query: queryEcoActionSelectionStatus,
-          variables: { challengeId: challengeId },
+          variables: { challengeId },
         },
         config
       );
@@ -151,9 +134,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     challengeInformations: ChallengeInformations
   ) => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
       const createChallenge = {
         query: mutationCreateChallenge,
         variables: challengeInformations,
@@ -181,9 +161,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           challengeId: challengeId,
           isSelected: isSelected,
         },
-      };
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
       };
       const response = await axios.post(
         BACKEND_URL,

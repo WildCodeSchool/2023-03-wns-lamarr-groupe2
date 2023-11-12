@@ -1,8 +1,6 @@
 import useUserContext from "../../features/contexts/UserContext";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import RadioBtn from "../../components/RadioBtn";
-import DifficultyLevel from "../../components/DifficultyLevel";
+import { useEffect, useState } from "react";
 import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import ChallengeLeaveModale from "./ChallengeLeaveModal";
@@ -14,6 +12,9 @@ import InputCustom from "../../components/InputCustom";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import ReactQuill from "react-quill";
 import moment from "moment";
+// import { ChallengeEcoActions } from "./ChallengeEcoActions";
+import DifficultyLevel from "../../components/DifficultyLevel";
+import RadioBtn from "../../components/RadioBtn";
 
 const challenge = {
   comments: [
@@ -51,15 +52,26 @@ const ChallengePage = () => {
   } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
-  const nbrTask = currentChallenge?.ecoActions?.length;
-  const nbrTaskSelected = ecoActionSelectionStatus
-    ?.map((ecoAction) => (ecoAction.ecoActionIsSelected ? 1 : 0))
-    .reduce((a: number, b: number) => a! + b!, 0);
   const [comment, setComment] = useState<string>("");
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
-  getChallenge(parseInt(params.id!));
-  getEcoActionSelectionStatus(parseInt(params.id!));
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getChallenge(parseInt(params.id!));
+      await getEcoActionSelectionStatus(parseInt(params.id!));
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [getChallenge, getEcoActionSelectionStatus, params.id]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  // getChallenge(parseInt(params.id!));
+  // getEcoActionSelectionStatus(currentChallenge?.id!);
 
   //Calculate user score and points
   const totalPoints = ecoActionSelectionStatus
@@ -77,6 +89,11 @@ const ChallengePage = () => {
   const formatDate = (date: string) => {
     return moment(date).format("LL");
   };
+
+  const nbrTask = currentChallenge?.ecoActions?.length;
+  const nbrTaskSelected = ecoActionSelectionStatus?.filter(
+    (ecoAction) => ecoAction.ecoActionIsSelected
+  ).length;
 
   /*  const handleComment = (e: any) => {
      e.preventDefault();
@@ -195,7 +212,7 @@ const ChallengePage = () => {
           <ul className="flex flex-col gap-6 py-4">
             {ecoActionSelectionStatus?.map((ecoAction, index) => (
               <li
-                key={index}
+                key={ecoAction.id}
                 className="flex"
                 onClick={() =>
                   updateEcoActionSelectionStatus(

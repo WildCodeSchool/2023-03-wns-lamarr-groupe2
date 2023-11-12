@@ -3,11 +3,39 @@ import BtnCustom from "../../components/BtnCustom";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import { Challenge } from "./CurrentChallenge/Challenge";
 import { formattedTimeLeft } from "./CurrentChallenge/time";
+import { useEffect } from "react";
 
 const ChallengesPage = () => {
   const navigate = useNavigate();
-  const { challenges } = useChallengeContext();
   const currentUser = 1; // UserContext user.id
+  const { challenges, getEcoActionSelectionStatus, ecoActionSelectionStatus } =
+    useChallengeContext();
+
+  useEffect(() => {
+    challenges.forEach((challenge) => {
+      getEcoActionSelectionStatus(challenge.id);
+    });
+  }, [
+    challenges,
+    ecoActionSelectionStatus,
+    currentUser,
+    getEcoActionSelectionStatus,
+  ]);
+  // Calculate progress for each challenge
+  const challengeWithProgress = challenges.map((challenge) => {
+    // Calculate the percentage of progress
+    const totalEcoActions = challenge.ecoActions.length;
+    const selectedEcoActions = ecoActionSelectionStatus.filter(
+      (status) => status.ecoActionIsSelected
+    );
+    const progressPercentage =
+      (selectedEcoActions.length / totalEcoActions) * 100 || 0;
+
+    return {
+      challenge: challenge,
+      progressPercentage,
+    };
+  });
 
   return (
     <div className="w-full">
@@ -24,10 +52,10 @@ const ChallengesPage = () => {
           </h3>
           <div className="grid grid-cols-2 gap-4">
             {challenges
-              ? challenges?.map((challenge, index) => {
+              ? challengeWithProgress?.map((challenge, index) => {
                   const timeLeft = formattedTimeLeft(
-                    challenge?.startAt,
-                    challenge?.endAt
+                    challenge?.challenge.startAt,
+                    challenge?.challenge.endAt
                   );
 
                   return (
@@ -43,10 +71,10 @@ const ChallengesPage = () => {
           <h3 className="flex items-center gap-4 mb-6">Historique :</h3>
           <div className="flex flex-col gap-4">
             {challenges
-              ? challenges?.map((challenge, index) => {
+              ? challengeWithProgress?.map((challenge, index) => {
                   const timeLeft = formattedTimeLeft(
-                    challenge?.startAt,
-                    challenge?.endAt
+                    challenge?.challenge.startAt,
+                    challenge?.challenge.endAt
                   );
 
                   return (
@@ -63,9 +91,9 @@ const ChallengesPage = () => {
         <h3 className="flex items-center gap-4 mt-4">TENDANCES :</h3>
         <div className="w-full flex flex-row gap-4 overflow-x-auto">
           {challenges
-            ? challenges?.map(
+            ? challengeWithProgress?.map(
                 (challenge, index) =>
-                  challenge.creator.id !== currentUser && (
+                  challenge.challenge.creator.id !== currentUser && (
                     <Challenge key={index} challenge={challenge} />
                   )
               )
