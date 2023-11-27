@@ -44,10 +44,10 @@ const ChallengePage = () => {
 
   const { user } = useUserContext();
   const {
-    getChallenge,
     currentChallenge,
-    ecoActionSelectionStatus,
+    getChallenge,
     getEcoActionSelectionStatus,
+    ecoActionSelectionStatus,
     updateEcoActionSelectionStatus,
   } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
@@ -81,7 +81,7 @@ const ChallengePage = () => {
     .reduce((a, b) => a! + b!, 0);
 
   const successPoints = (ecoActionSelectionStatus?.map((ecoAction) =>
-    ecoAction.ecoActionIsSelected ? ecoAction.ecoAction.points : 0
+    ecoAction?.ecoActionIsSelected ? ecoAction?.ecoAction?.points : 0
   ))
     .flatMap((task) => task)
     .reduce((a, b) => a! + b!, 0);
@@ -150,7 +150,7 @@ const ChallengePage = () => {
           <div className="hidden md:flex gap-6 mb-6">
             {currentChallenge?.tags.slice(0, 4).map((tag, index) => (
               <div
-                key={index}
+                key={tag.id}
                 className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}
               >
                 {tag?.label}
@@ -194,7 +194,7 @@ const ChallengePage = () => {
                 {currentChallenge?.contenders
                   ?.slice(0, 5)
                   ?.map((member, index) => (
-                    <div key={index} className="mr-[-15px]">
+                    <div key={member.id} className="mr-[-15px]">
                       <ProfilePicture url={member.picture} size="smallPic" />
                     </div>
                   ))}

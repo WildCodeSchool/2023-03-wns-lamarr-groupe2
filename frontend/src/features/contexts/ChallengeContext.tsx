@@ -2,8 +2,10 @@ import {
   FC,
   PropsWithChildren,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import {
@@ -46,11 +48,14 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     TEcoActionsSelectionStatus[]
   >([]);
   const { notifyCreate } = useToaster();
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  const config = useMemo(
+    () => ({
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+    [token]
+  );
 
-  const getChallenges = async () => {
+  const getChallenges = useCallback(async () => {
     try {
       const response = await axios.post(
         BACKEND_URL,
@@ -62,26 +67,29 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     } catch (error) {
       setChallenges([]);
     }
-  };
+  }, [config]);
 
-  const getChallenge = async (challengeId: number) => {
-    try {
-      const response = await axios.post(
-        BACKEND_URL,
-        {
-          query: queryChallenge,
-          variables: { challengeId },
-        },
-        config
-      );
+  const getChallenge = useCallback(
+    async (challengeId: number) => {
+      try {
+        const response = await axios.post(
+          BACKEND_URL,
+          {
+            query: queryChallenge,
+            variables: { challengeId },
+          },
+          config
+        );
 
-      const challengeData = response.data.data.getChallengeById;
+        const challengeData = response.data.data.getChallengeById;
 
-      setCurrentChallenge(challengeData);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
+        setCurrentChallenge(challengeData);
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    [config]
+  );
 
   const getTasks = async () => {
     try {
@@ -111,68 +119,71 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
-  const getEcoActionSelectionStatus = async (challengeId: number) => {
-    try {
-      const response = await axios.post(
-        BACKEND_URL,
-        {
-          query: queryEcoActionSelectionStatus,
-          variables: { challengeId },
-        },
-        config
-      );
-      const EcoActionSelectionStatusData =
-        response.data.data.getEcoActionSelectionStatus;
+  const getEcoActionSelectionStatus = useCallback(
+    async (challengeId: number) => {
+      try {
+        const response = await axios.post(
+          BACKEND_URL,
+          {
+            query: queryEcoActionSelectionStatus,
+            variables: { challengeId },
+          },
+          config
+        );
+        const EcoActionSelectionStatusData =
+          response.data.data.getEcoActionSelectionStatus;
 
-      setEcoActionSelectionStatus(EcoActionSelectionStatusData);
-    } catch (error) {
-      setEcoActionSelectionStatus([]);
-    }
-  };
+        setEcoActionSelectionStatus(EcoActionSelectionStatusData);
+      } catch (error) {
+        setEcoActionSelectionStatus([]);
+      }
+    },
+    [config]
+  );
 
-  const createAChallenge = async (
-    challengeInformations: ChallengeInformations
-  ) => {
-    try {
-      const createChallenge = {
-        query: mutationCreateChallenge,
-        variables: challengeInformations,
-      };
-      const response = await axios.post(BACKEND_URL, createChallenge, config);
-      console.warn(response);
-      notifyCreate();
-      getChallenges();
-    } catch (error) {
-      console.error("Error creating challenge", error);
-    }
-  };
+  const createAChallenge = useCallback(
+    async (challengeInformations: ChallengeInformations) => {
+      try {
+        const createChallenge = {
+          query: mutationCreateChallenge,
+          variables: challengeInformations,
+        };
+        const response = await axios.post(BACKEND_URL, createChallenge, config);
+        console.warn(response);
+        notifyCreate();
+        getChallenges();
+      } catch (error) {
+        console.error("Error creating challenge", error);
+      }
+    },
+    [config, getChallenges, notifyCreate]
+  );
 
   // Update ecoAction selection status
-  const updateEcoActionSelectionStatus = async (
-    ecoActionId: number,
-    challengeId: number,
-    isSelected: boolean
-  ) => {
-    try {
-      const updateEcoActionSelectionStatus = {
-        query: mutationEcoActionSelectionStatus,
-        variables: {
-          ecoActionId: ecoActionId,
-          challengeId: challengeId,
-          isSelected: isSelected,
-        },
-      };
-      const response = await axios.post(
-        BACKEND_URL,
-        updateEcoActionSelectionStatus,
-        config
-      );
-      console.warn(response);
-      getEcoActionSelectionStatus(challengeId);
-    } catch (error) {
-      console.error("Error Updating Notification:", error);
-    }
-  };
+  const updateEcoActionSelectionStatus = useCallback(
+    async (ecoActionId: number, challengeId: number, isSelected: boolean) => {
+      try {
+        const updateEcoActionSelectionStatus = {
+          query: mutationEcoActionSelectionStatus,
+          variables: {
+            ecoActionId: ecoActionId,
+            challengeId: challengeId,
+            isSelected: isSelected,
+          },
+        };
+        const response = await axios.post(
+          BACKEND_URL,
+          updateEcoActionSelectionStatus,
+          config
+        );
+        console.warn(response);
+        getEcoActionSelectionStatus(challengeId);
+      } catch (error) {
+        console.error("Error Updating Notification:", error);
+      }
+    },
+    [config, getEcoActionSelectionStatus]
+  );
 
   useEffect(() => {
     setTasks([]);

@@ -177,9 +177,8 @@ const queryEcoActionSelectionStatus = `query Query($challengeId: Float!) {
     ecoAction {
       id
       label
-      points
-      need_proof
       difficulty
+      points
     }
   }
 }`;

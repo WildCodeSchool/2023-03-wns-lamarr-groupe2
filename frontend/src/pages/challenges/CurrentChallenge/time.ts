@@ -1,14 +1,12 @@
 import dayjs from "dayjs";
 
 export const timeLeft = (start: string, end: string) => {
-  const startDate = dayjs(start);
   const endDate = dayjs(end);
 
   return endDate.diff(Date.now());
 };
 
 export const formattedTimeLeft = (start: string, end: string) => {
-  const startDate = dayjs(start);
   const endDate = dayjs(end);
 
   const timeLeft = endDate.diff(Date.now());

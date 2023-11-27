@@ -109,6 +109,7 @@ export type TChallenge = {
   tags: TTags[];
   contenders: TUser[];
   isPublic: boolean;
+  progressPercentage: number | 0;
 };
 
 export type ChallengeInformations = Pick<
