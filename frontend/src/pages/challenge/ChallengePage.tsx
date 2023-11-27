@@ -12,7 +12,6 @@ import InputCustom from "../../components/InputCustom";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import ReactQuill from "react-quill";
 import moment from "moment";
-// import { ChallengeEcoActions } from "./ChallengeEcoActions";
 import DifficultyLevel from "../../components/DifficultyLevel";
 import RadioBtn from "../../components/RadioBtn";
 
@@ -70,8 +69,6 @@ const ChallengePage = () => {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  // getChallenge(parseInt(params.id!));
-  // getEcoActionSelectionStatus(currentChallenge?.id!);
 
   //Calculate user score and points
   const totalPoints = ecoActionSelectionStatus

@@ -189,6 +189,55 @@ export class ChallengeResolver {
     return challenges;
   }
 
+  @Query(() => [Challenge]) // Retourne tous les challenge via l'id d'un user
+  async getMyChallenges(@Ctx() context: { user: User }): Promise<Challenge[]> {
+    const user = context.user;
+
+    if (!user) throw new Error(`The user doesn't exist`);
+
+    const myChallenges = await Challenge.find({
+      relations: {
+        creator: true,
+        ecoActions: true,
+        contenders: true,
+        tags: true,
+      },
+      where: {
+        contenders: {
+          id: user.id,
+        },
+      },
+    });
+
+    if (myChallenges == null) throw new Error("Challenge not found!");
+
+    return myChallenges;
+  }
+
+  //Update my Challenge progression
+  @Mutation(() => Challenge)
+  async updateMyChallengeProgress(
+    @Ctx() context: { user: User },
+    @Arg("id") challengeId: number,
+    @Arg("progress") progress: number
+  ): Promise<Challenge> {
+    const challenge = await Challenge.findOne({
+      where: {
+        id: challengeId,
+      },
+    });
+
+    // we check if the challenge exists
+    if (challenge == null) throw new Error("Challenge not found!");
+    if (progress !== null && progress !== undefined) {
+      challenge.progress = progress;
+    }
+
+    await challenge.save();
+
+    return challenge;
+  }
+
   @Query(() => Challenge)
   async getChallengeById(
     @Arg("challengeId") challengeId: number
