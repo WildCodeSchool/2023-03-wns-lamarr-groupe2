@@ -15,6 +15,7 @@ import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
 import { Comment } from "./Comment";
 import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
+import { MyChallenges } from "./MyChallenges";
 
 @ObjectType()
 @Entity()
@@ -144,7 +145,7 @@ export class Challenge extends BaseEntity {
   )
   challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 
-  @Field()
-  @Column()
-  progress: number;
+  @Field(() => [MyChallenges])
+  @OneToMany(() => MyChallenges, (myChallenges) => myChallenges.challenge)
+  myChallenges: MyChallenges[];
 }
