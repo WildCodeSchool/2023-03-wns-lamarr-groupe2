@@ -6,6 +6,7 @@ import { User } from "../models/User";
 import { Tag } from "../models/Tag";
 import { InvitationChallenge } from "../models/InvitationChallenge";
 import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
+import { MyChallenges } from "../models/MyChallenges";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -79,6 +80,14 @@ export class ChallengeResolver {
       entry.challenge = challenge;
       entry.ecoAction = ecoAction;
       entry.ecoActionIsSelected = false; // Set the initial state
+      await entry.save();
+    }
+
+    for (const user of contenderList) {
+      const entry = new MyChallenges();
+      entry.challenge = challenge;
+      entry.user = user;
+      entry.progress = 0;
       await entry.save();
     }
 
@@ -189,21 +198,21 @@ export class ChallengeResolver {
     return challenges;
   }
 
-  @Query(() => [Challenge]) // Retourne tous les challenge via l'id d'un user
-  async getMyChallenges(@Ctx() context: { user: User }): Promise<Challenge[]> {
+  @Query(() => [MyChallenges]) // Retourne tous les challenge via l'id d'un user
+  async getMyChallenges(
+    @Ctx() context: { user: User }
+  ): Promise<MyChallenges[]> {
     const user = context.user;
 
     if (!user) throw new Error(`The user doesn't exist`);
 
-    const myChallenges = await Challenge.find({
+    const myChallenges = await MyChallenges.find({
       relations: {
-        creator: true,
-        ecoActions: true,
-        contenders: true,
-        tags: true,
+        challenge: true,
+        user: true,
       },
       where: {
-        contenders: {
+        user: {
           id: user.id,
         },
       },
@@ -215,15 +224,21 @@ export class ChallengeResolver {
   }
 
   //Update my Challenge progression
-  @Mutation(() => Challenge)
+  @Mutation(() => Boolean)
   async updateMyChallengeProgress(
     @Ctx() context: { user: User },
-    @Arg("id") challengeId: number,
+    @Arg("challengeId") challengeId: number,
     @Arg("progress") progress: number
-  ): Promise<Challenge> {
-    const challenge = await Challenge.findOne({
+  ): Promise<boolean> {
+    const user = context.user;
+
+    const challenge = await MyChallenges.findOne({
+      relations: { challenge: true, user: true },
       where: {
-        id: challengeId,
+        challenge: {
+          id: challengeId,
+        },
+        user: { id: user.id },
       },
     });
 
@@ -235,7 +250,7 @@ export class ChallengeResolver {
 
     await challenge.save();
 
-    return challenge;
+    return true;
   }
 
   @Query(() => Challenge)
