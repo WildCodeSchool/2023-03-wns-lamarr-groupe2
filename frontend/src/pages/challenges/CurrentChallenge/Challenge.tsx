@@ -6,15 +6,21 @@ import ProfilePicture from "../../../components/ProfilePicture";
 import { TChallenge } from "../../../features/contexts/utils/types";
 import useUserContext from "../../../features/contexts/UserContext";
 import { TimeLeft } from "../../challenge/TimeLeft";
+import useChallengeContext from "../../../features/contexts/ChallengeContext";
 
 export const Challenge: FC<{
   challenge: TChallenge;
 }> = ({ challenge }) => {
   const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
   const { user } = useUserContext();
+  const { myChallenges } = useChallengeContext();
   const userId = user.id;
   const isOwner = challenge?.creator?.id === userId;
   const numberOfEcoActions = challenge.ecoActions?.length;
+
+  const currentChallengeProgress = myChallenges.find(
+    (myChallenge) => myChallenge.challenge.id === challenge.id
+  )?.progress;
 
   return (
     <div className="border-1 h-full max-h-[228px] md:min-w-[572px] lg:min-w-fit max-w-[572px] p-3 rounded-medium">
@@ -22,12 +28,12 @@ export const Challenge: FC<{
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">
             <h4 className="uppercase text-main-p font-bold truncate">
-              {challenge?.title}
+              {challenge.title}
             </h4>
-            {challenge?.contenders
+            {challenge.contenders
               .map((contender) => contender.id)
               .includes(user.id) && (
-              <ProgressionBar value={challenge.progress} />
+              <ProgressionBar value={currentChallengeProgress ?? 0} />
             )}
 
             <p className="text-main-p my-2 text-primary-dark">

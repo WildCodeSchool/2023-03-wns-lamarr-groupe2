@@ -134,7 +134,7 @@ export type ChallengeContextType = {
     challengeId: number,
     isSelected: boolean
   ) => Promise<void>;
-  myChallenges: TChallenge[];
+  myChallenges: TMyChallenge[];
   updateMyChallengeProgress: (
     challengeId: number,
     progress: number
@@ -149,4 +149,11 @@ export type TEcoActionsSelectionStatus = {
   id: number;
   ecoAction: OptionType;
   ecoActionIsSelected: boolean;
+};
+
+export type TMyChallenge = {
+  id: number;
+  user: TUser;
+  challenge: TChallenge;
+  progress: number | 0;
 };

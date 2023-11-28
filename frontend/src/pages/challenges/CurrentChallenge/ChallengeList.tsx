@@ -8,23 +8,24 @@ import { TChallenge } from "../../../features/contexts/utils/types";
 
 const ChallengeList = () => {
   const { user } = useUserContext();
-  const { myChallenges } = useChallengeContext();
+  const { myChallenges, challenges } = useChallengeContext();
 
   //Sort challenges
-
+  const myChallengesList = challenges.filter((challenge) =>
+    myChallenges.some(
+      (myChallenge) => myChallenge.challenge.id === challenge.id
+    )
+  );
   const sortedChallenges: TChallenge[] = useMemo(() => {
     return pipe(
-      myChallenges,
+      myChallengesList,
       filter((challenge: TChallenge) => {
-        const contenders = challenge.contenders || [];
-        return (
-          timeLeft(challenge.startAt, challenge.endAt) > 1 &&
-          contenders.some((contender) => contender.id === user.id)
-        );
+        return timeLeft(challenge.endAt) > 1;
       }),
-      sortBy((challenge) => challenge?.creator?.id !== user?.id)
+      sortBy((challenge) => challenge?.creator?.id !== user?.id),
+      sortBy((challenge) => new Date(challenge.endAt).getTime())
     );
-  }, [user, myChallenges]);
+  }, [user, myChallengesList]);
 
   return (
     <div className="h-full flex flex-col justify-around gap-4">

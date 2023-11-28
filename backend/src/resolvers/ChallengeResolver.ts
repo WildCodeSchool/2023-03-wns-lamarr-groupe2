@@ -84,7 +84,7 @@ export class ChallengeResolver {
       await entry.save();
     }
 
-    for (const user of contenderList) {
+    for (const user of challenge.contenders) {
       const entry = new MyChallenges();
       entry.challenge = challenge;
       entry.user = user;
@@ -208,10 +208,7 @@ export class ChallengeResolver {
     if (!user) throw new Error(`The user doesn't exist`);
 
     const myChallenges = await MyChallenges.find({
-      relations: {
-        challenge: true,
-        user: true,
-      },
+      relations: { challenge: true, user: true },
       where: {
         user: {
           id: user.id,

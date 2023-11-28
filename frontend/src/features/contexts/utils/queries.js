@@ -206,30 +206,19 @@ const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean
   updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
 }`;
 
-const mutationMyChallengeProgress = `mutation Mutation($challengeId: Float!, $progress: Float!) {
-  updateMyChallengeProgress(id: $challengeId, progress: $progress){
-    progress
-  }
+const mutationMyChallengeProgress = `mutation Mutation($progress: Float!, $challengeId: Float!) {
+  updateMyChallengeProgress(progress: $progress, challengeId: $challengeId)
 }`;
 
 const queryMyChallenges = `query Query {
   getMyChallenges {
-    id
     progress
-    title
-    ecoActions {
+    user {
       id
     }
-    endAt
-    startAt
-    contenders {
+    challenge {
       id
     }
-    creator {
-      id
-    }
-    status
-    isPublic
   }
 }`;
 

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export const timeLeft = (start: string, end: string) => {
+export const timeLeft = (end: string) => {
   const endDate = dayjs(end);
 
   return endDate.diff(Date.now());

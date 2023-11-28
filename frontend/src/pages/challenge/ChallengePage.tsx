@@ -74,7 +74,8 @@ const ChallengePage = () => {
     const fetchData = async () => {
       await getChallenge(parseInt(params.id!));
       await getEcoActionSelectionStatus(parseInt(params.id!));
-      updateMyChallengeProgress(currentChallenge?.id!, progress);
+      await updateMyChallengeProgress(parseInt(params.id!), progress);
+
       setIsLoading(false);
     };
 

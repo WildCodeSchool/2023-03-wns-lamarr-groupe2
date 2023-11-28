@@ -13,6 +13,7 @@ import {
   ChallengeInformations,
   TChallenge,
   TEcoActionsSelectionStatus,
+  TMyChallenge,
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
@@ -43,7 +44,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
-  const [myChallenges, setMyChallenges] = useState<TChallenge[]>([]);
+  const [myChallenges, setMyChallenges] = useState<TMyChallenge[]>([]);
   const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
@@ -168,7 +169,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           config
         );
         const EcoActionSelectionStatusData =
-          response.data.data.getEcoActionSelectionStatus;
+          await response.data.data.getEcoActionSelectionStatus;
 
         setEcoActionSelectionStatus(EcoActionSelectionStatusData);
       } catch (error) {
@@ -209,14 +210,17 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
             isSelected: isSelected,
           },
         };
-        await axios.post(BACKEND_URL, updateEcoActionSelectionStatus, config);
-
-        getEcoActionSelectionStatus(challengeId);
+        const response = await axios.post(
+          BACKEND_URL,
+          updateEcoActionSelectionStatus,
+          config
+        );
+        console.warn(response);
       } catch (error) {
         console.error("Error Updating ecoActionSelectionStatus:", error);
       }
     },
-    [config, getEcoActionSelectionStatus]
+    [config]
   );
 
   useEffect(() => {
@@ -250,8 +254,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         tags,
         tasks,
         ecoActionSelectionStatus,
-        getEcoActionSelectionStatus,
         updateEcoActionSelectionStatus,
+        getEcoActionSelectionStatus,
         myChallenges,
         updateMyChallengeProgress,
       }}
