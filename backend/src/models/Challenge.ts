@@ -145,6 +145,6 @@ export class Challenge extends BaseEntity {
   challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
 
   @Field()
-  @Column({ default: 0 })
+  @Column()
   progress: number;
 }

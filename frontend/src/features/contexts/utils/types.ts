@@ -109,7 +109,7 @@ export type TChallenge = {
   tags: TTags[];
   contenders: TUser[];
   isPublic: boolean;
-  progressPercentage: number | 0;
+  progress: number | 0;
 };
 
 export type ChallengeInformations = Pick<
@@ -133,6 +133,11 @@ export type ChallengeContextType = {
     ecoActionId: number,
     challengeId: number,
     isSelected: boolean
+  ) => Promise<void>;
+  myChallenges: TChallenge[];
+  updateMyChallengeProgress: (
+    challengeId: number,
+    progress: number
   ) => Promise<void>;
 };
 //Api Response

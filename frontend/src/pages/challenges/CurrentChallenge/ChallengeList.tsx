@@ -8,13 +8,13 @@ import { TChallenge } from "../../../features/contexts/utils/types";
 
 const ChallengeList = () => {
   const { user } = useUserContext();
-  const { challenges } = useChallengeContext();
+  const { myChallenges } = useChallengeContext();
 
   //Sort challenges
 
   const sortedChallenges: TChallenge[] = useMemo(() => {
     return pipe(
-      challenges,
+      myChallenges,
       filter((challenge: TChallenge) => {
         const contenders = challenge.contenders || [];
         return (
@@ -24,7 +24,7 @@ const ChallengeList = () => {
       }),
       sortBy((challenge) => challenge?.creator?.id !== user?.id)
     );
-  }, [user, challenges]);
+  }, [user, myChallenges]);
 
   return (
     <div className="h-full flex flex-col justify-around gap-4">

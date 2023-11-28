@@ -15,7 +15,6 @@ export const Challenge: FC<{
   const userId = user.id;
   const isOwner = challenge?.creator?.id === userId;
   const numberOfEcoActions = challenge.ecoActions?.length;
-  // Calculate progress for the current challenge
 
   return (
     <div className="border-1 h-full max-h-[228px] md:min-w-[572px] lg:min-w-fit max-w-[572px] p-3 rounded-medium">
@@ -25,7 +24,7 @@ export const Challenge: FC<{
             <h4 className="uppercase text-main-p font-bold truncate">
               {challenge?.title}
             </h4>
-            <ProgressionBar value={0} />
+            <ProgressionBar value={challenge.progress} />
             <p className="text-main-p my-2 text-primary-dark">
               Nb d'éco-gestes : {numberOfEcoActions ?? 0}
             </p>

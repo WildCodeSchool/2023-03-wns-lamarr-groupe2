@@ -219,7 +219,7 @@ export class ChallengeResolver {
   async updateMyChallengeProgress(
     @Ctx() context: { user: User },
     @Arg("id") challengeId: number,
-    @Arg("progress") progress: number
+    @Arg("progress", { nullable: false }) progress: number
   ): Promise<Challenge> {
     const challenge = await Challenge.findOne({
       where: {

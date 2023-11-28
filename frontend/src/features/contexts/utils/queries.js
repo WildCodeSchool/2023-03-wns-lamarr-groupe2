@@ -206,6 +206,33 @@ const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean
   updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
 }`;
 
+const mutationMyChallengeProgress = `mutation Mutation($challengeId: Float!, $progress: Float!) {
+  updateMyChallengeProgress(id: $challengeId, progress: $progress){
+    progress
+  }
+}`;
+
+const queryMyChallenges = `query Query {
+  getMyChallenges {
+    id
+    progress
+    title
+    ecoActions {
+      id
+    }
+    endAt
+    startAt
+    contenders {
+      id
+    }
+    creator {
+      id
+    }
+    status
+    isPublic
+  }
+}`;
+
 module.exports = {
   queryProfile,
   signUpQuery,
@@ -229,4 +256,6 @@ module.exports = {
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
   mutationEcoActionSelectionStatus,
+  mutationMyChallengeProgress,
+  queryMyChallenges,
 };

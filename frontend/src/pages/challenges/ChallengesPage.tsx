@@ -10,8 +10,6 @@ const ChallengesPage = () => {
   const user = useUserContext();
   const { challenges } = useChallengeContext();
 
-  // Calculate progress for each challenge
-
   return (
     <div className="w-full">
       <div className="flex flex-row w-full">

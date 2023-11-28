@@ -48,6 +48,7 @@ const ChallengePage = () => {
     getEcoActionSelectionStatus,
     ecoActionSelectionStatus,
     updateEcoActionSelectionStatus,
+    updateMyChallengeProgress,
   } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
@@ -55,16 +56,37 @@ const ChallengePage = () => {
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const formatDate = (date: string) => {
+    return moment(date).format("LL");
+  };
 
+  //Calculate progress
+  const numberOfEcoActions = currentChallenge?.ecoActions?.length;
+  const selectedEcoActions = ecoActionSelectionStatus.filter(
+    (item) => item.ecoActionIsSelected
+  );
+  const progress = Math.round(
+    (selectedEcoActions.length / numberOfEcoActions!) * 100
+  );
+
+  //init page with data
   useEffect(() => {
     const fetchData = async () => {
       await getChallenge(parseInt(params.id!));
       await getEcoActionSelectionStatus(parseInt(params.id!));
+      updateMyChallengeProgress(currentChallenge?.id!, progress);
       setIsLoading(false);
     };
 
     fetchData();
-  }, [getChallenge, getEcoActionSelectionStatus, params.id]);
+  }, [
+    currentChallenge?.id,
+    getChallenge,
+    getEcoActionSelectionStatus,
+    params.id,
+    progress,
+    updateMyChallengeProgress,
+  ]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -76,21 +98,31 @@ const ChallengePage = () => {
       ecoAction.ecoAction?.id ? ecoAction.ecoAction.points : 0
     )
     .reduce((a, b) => a! + b!, 0);
-
   const successPoints = (ecoActionSelectionStatus?.map((ecoAction) =>
     ecoAction?.ecoActionIsSelected ? ecoAction?.ecoAction?.points : 0
   ))
     .flatMap((task) => task)
     .reduce((a, b) => a! + b!, 0);
 
-  const formatDate = (date: string) => {
-    return moment(date).format("LL");
-  };
-
   const nbrTask = currentChallenge?.ecoActions?.length;
   const nbrTaskSelected = ecoActionSelectionStatus?.filter(
     (ecoAction) => ecoAction.ecoActionIsSelected
   ).length;
+
+  //Update selectedEcoAction & challenge progress
+  const updateData = async (item: {
+    id?: number;
+    ecoAction: any;
+    ecoActionIsSelected: boolean;
+  }) => {
+    await updateEcoActionSelectionStatus(
+      item.ecoAction.id!,
+      currentChallenge?.id!,
+      !item.ecoActionIsSelected
+    );
+    getEcoActionSelectionStatus(parseInt(params.id!));
+    await updateMyChallengeProgress(currentChallenge?.id!, progress);
+  };
 
   /*  const handleComment = (e: any) => {
      e.preventDefault();
@@ -211,13 +243,7 @@ const ChallengePage = () => {
               <li
                 key={ecoAction.id}
                 className="flex"
-                onClick={() =>
-                  updateEcoActionSelectionStatus(
-                    ecoAction.ecoAction.id!,
-                    currentChallenge?.id!,
-                    !ecoAction.ecoActionIsSelected
-                  )
-                }
+                onClick={() => updateData(ecoAction)}
               >
                 <RadioBtn isChoose={ecoAction.ecoActionIsSelected} />
                 <div className="relative flex flex-col md:flex-row md:gap-6 md:items-center w-2/3">

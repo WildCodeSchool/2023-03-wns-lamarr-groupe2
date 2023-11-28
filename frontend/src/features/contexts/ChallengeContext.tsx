@@ -24,6 +24,8 @@ import {
   queryTasks,
   queryEcoActionSelectionStatus,
   mutationEcoActionSelectionStatus,
+  queryMyChallenges,
+  mutationMyChallengeProgress,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -41,6 +43,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
+  const [myChallenges, setMyChallenges] = useState<TChallenge[]>([]);
   const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
@@ -68,6 +71,40 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       setChallenges([]);
     }
   }, [config]);
+
+  const getMyChallenges = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryMyChallenges },
+        config
+      );
+      const challengesData = response.data.data.getMyChallenges;
+      setMyChallenges(challengesData);
+    } catch (error) {
+      setMyChallenges([]);
+    }
+  }, [config]);
+
+  const updateMyChallengeProgress = useCallback(
+    async (challengeId: number, progress: number) => {
+      try {
+        const options = {
+          query: mutationMyChallengeProgress,
+          variables: {
+            challengeId: challengeId,
+            progress: progress,
+          },
+        };
+        await axios.post(BACKEND_URL, options, config);
+
+        getMyChallenges();
+      } catch (error) {
+        console.error("Error Updating challenge:", error);
+      }
+    },
+    [config, getMyChallenges]
+  );
 
   const getChallenge = useCallback(
     async (challengeId: number) => {
@@ -171,15 +208,11 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
             isSelected: isSelected,
           },
         };
-        const response = await axios.post(
-          BACKEND_URL,
-          updateEcoActionSelectionStatus,
-          config
-        );
-        console.warn(response);
+        await axios.post(BACKEND_URL, updateEcoActionSelectionStatus, config);
+
         getEcoActionSelectionStatus(challengeId);
       } catch (error) {
-        console.error("Error Updating Notification:", error);
+        console.error("Error Updating ecoActionSelectionStatus:", error);
       }
     },
     [config, getEcoActionSelectionStatus]
@@ -189,6 +222,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     setTasks([]);
     setTags([]);
     setChallenges([]);
+    setMyChallenges([]);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user]);
@@ -200,6 +234,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     getChallenges();
     getTasks();
     getTags();
+    getMyChallenges();
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -216,6 +251,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         ecoActionSelectionStatus,
         getEcoActionSelectionStatus,
         updateEcoActionSelectionStatus,
+        myChallenges,
+        updateMyChallengeProgress,
       }}
     >
       {children}
