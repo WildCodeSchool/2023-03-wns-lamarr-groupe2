@@ -189,11 +189,12 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         console.warn(response);
         notifyCreate();
         getChallenges();
+        getMyChallenges();
       } catch (error) {
         console.error("Error creating challenge", error);
       }
     },
-    [config, getChallenges, notifyCreate]
+    [config, getChallenges, getMyChallenges, notifyCreate]
   );
 
   // Update ecoAction selection status

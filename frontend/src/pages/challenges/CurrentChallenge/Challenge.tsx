@@ -24,7 +24,12 @@ export const Challenge: FC<{
             <h4 className="uppercase text-main-p font-bold truncate">
               {challenge?.title}
             </h4>
-            <ProgressionBar value={challenge.progress} />
+            {challenge?.contenders
+              .map((contender) => contender.id)
+              .includes(user.id) && (
+              <ProgressionBar value={challenge.progress} />
+            )}
+
             <p className="text-main-p my-2 text-primary-dark">
               Nb d'éco-gestes : {numberOfEcoActions ?? 0}
             </p>

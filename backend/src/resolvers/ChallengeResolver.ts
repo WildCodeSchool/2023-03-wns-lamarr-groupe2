@@ -34,7 +34,8 @@ export class ChallengeResolver {
     @Arg("isPublic") isPublic: boolean,
     @Arg("ecoActions", () => [Int], { validate: false }) ecoActions: number[],
     @Arg("tags", () => [Int], { validate: false }) tags: number[],
-    @Arg("contenders", () => [Int], { validate: false }) contenders: number[]
+    @Arg("contenders", () => [Int], { validate: false }) contenders: number[],
+    @Arg("progress") progress: number
   ): Promise<Challenge> {
     const user = context.user;
     if (!user) throw new Error(`The user is not connected`);
@@ -59,6 +60,7 @@ export class ChallengeResolver {
     challenge.ecoActions = ecoActionList;
     challenge.contenders = [user];
     challenge.isPublic = isPublic;
+    challenge.progress = 0;
     await challenge.save();
 
     for (const receiver of contenderList) {
