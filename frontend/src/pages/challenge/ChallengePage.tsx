@@ -55,6 +55,7 @@ const ChallengePage = () => {
   const [comment, setComment] = useState<string>("");
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
+  const paramsId = params.id ?? "";
   const [isLoading, setIsLoading] = useState(true);
   const formatDate = (date: string) => {
     return moment(date).format("LL");
@@ -72,9 +73,10 @@ const ChallengePage = () => {
   //init page with data
   useEffect(() => {
     const fetchData = async () => {
-      await getChallenge(parseInt(params.id!));
-      await getEcoActionSelectionStatus(parseInt(params.id!));
-      await updateMyChallengeProgress(parseInt(params.id!), progress);
+      if (!paramsId) return;
+      await getChallenge(parseInt(paramsId));
+      await getEcoActionSelectionStatus(parseInt(paramsId));
+      await updateMyChallengeProgress(parseInt(paramsId), progress);
 
       setIsLoading(false);
     };
@@ -84,7 +86,7 @@ const ChallengePage = () => {
     currentChallenge?.id,
     getChallenge,
     getEcoActionSelectionStatus,
-    params.id,
+    paramsId,
     progress,
     updateMyChallengeProgress,
   ]);
@@ -121,7 +123,7 @@ const ChallengePage = () => {
       currentChallenge?.id!,
       !item.ecoActionIsSelected
     );
-    getEcoActionSelectionStatus(parseInt(params.id!));
+    getEcoActionSelectionStatus(parseInt(paramsId));
     await updateMyChallengeProgress(currentChallenge?.id!, progress);
   };
 
