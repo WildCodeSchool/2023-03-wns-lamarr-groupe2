@@ -7,6 +7,7 @@ import { TChallenge } from "../../../features/contexts/utils/types";
 import useUserContext from "../../../features/contexts/UserContext";
 import { TimeLeft } from "../../challenge/TimeLeft";
 import useChallengeContext from "../../../features/contexts/ChallengeContext";
+import { formattedTimeLeft } from "./time";
 
 export const Challenge: FC<{
   challenge: TChallenge;
@@ -22,13 +23,19 @@ export const Challenge: FC<{
     (myChallenge) => myChallenge.challenge.id === challenge.id
   )?.progress;
 
+  const timeLeft = formattedTimeLeft(challenge?.endAt);
+
   return (
-    <div className="border-1 h-full max-h-[228px] md:min-w-[572px] lg:min-w-fit max-w-[572px] p-3 rounded-medium">
+    <div
+      className={`border-1 w-full p-3 rounded-medium h-48 max-h-48 ${
+        timeLeft.done && "grayscale pointer-events-none"
+      }`}
+    >
       <div className=" flex h-full justify-between ">
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">
-            <h4 className="uppercase text-main-p font-bold truncate">
-              {challenge.title}
+            <h4 className="uppercase text-main-p font-bold truncate lg:max-w-[500px] xl:max-w-[800px]">
+              {challenge?.title}
             </h4>
             {challenge.contenders
               .map((contender) => contender.id)
@@ -43,7 +50,7 @@ export const Challenge: FC<{
           <TimeLeft challenge={challenge} />
         </div>
 
-        <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-between  items-end lg:items-end lg:justify-between">
+        <div>
           <div className="lg:flex">
             {isOwner && (
               <img
@@ -61,7 +68,7 @@ export const Challenge: FC<{
           {/* TO-DO : make simething like the maquet */}
           <div className="flex">
             {challMember?.slice(0, 3)?.map((member, index) => (
-              <div key={index} className="mr-[-10px]">
+              <div key={index} className="mr-[-10px] py-8">
                 <ProfilePicture /* url={member.picture} */ size="smallPic" />
               </div>
             ))}

@@ -6,7 +6,7 @@ export const timeLeft = (end: string) => {
   return endDate.diff(Date.now());
 };
 
-export const formattedTimeLeft = (start: string, end: string) => {
+export const formattedTimeLeft = (end: string) => {
   const endDate = dayjs(end);
 
   const timeLeft = endDate.diff(Date.now());
