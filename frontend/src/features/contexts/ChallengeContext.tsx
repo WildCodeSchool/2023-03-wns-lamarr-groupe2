@@ -2,22 +2,31 @@ import {
   FC,
   PropsWithChildren,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import {
   ChallengeContextType,
   ChallengeInformations,
   TChallenge,
+  TEcoActionsSelectionStatus,
+  TMyChallenge,
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
 import {
   mutationCreateChallenge,
+  queryChallenge,
   queryChallenges,
   queryTags,
   queryTasks,
+  queryEcoActionSelectionStatus,
+  mutationEcoActionSelectionStatus,
+  queryMyChallenges,
+  mutationMyChallengeProgress,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -35,16 +44,23 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
+  const [myChallenges, setMyChallenges] = useState<TMyChallenge[]>([]);
+  const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
+  const [ecoActionSelectionStatus, setEcoActionSelectionStatus] = useState<
+    TEcoActionsSelectionStatus[]
+  >([]);
   const { notifyCreate } = useToaster();
+  const config = useMemo(
+    () => ({
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+    [token]
+  );
 
-  const getChallenges = async () => {
+  const getChallenges = useCallback(async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryChallenges },
@@ -55,15 +71,66 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     } catch (error) {
       setChallenges([]);
     }
-  };
+  }, [config]);
 
-  console.log(challenges);
+  const getMyChallenges = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryMyChallenges },
+        config
+      );
+      const challengesData = response.data.data.getMyChallenges;
+      setMyChallenges(challengesData);
+    } catch (error) {
+      setMyChallenges([]);
+    }
+  }, [config]);
+
+  const updateMyChallengeProgress = useCallback(
+    async (challengeId: number, progress: number) => {
+      try {
+        const options = {
+          query: mutationMyChallengeProgress,
+          variables: {
+            challengeId: challengeId,
+            progress: progress,
+          },
+        };
+        await axios.post(BACKEND_URL, options, config);
+
+        getMyChallenges();
+      } catch (error) {
+        console.error("Error Updating challenge:", error);
+      }
+    },
+    [config, getMyChallenges]
+  );
+
+  const getChallenge = useCallback(
+    async (challengeId: number) => {
+      try {
+        const response = await axios.post(
+          BACKEND_URL,
+          {
+            query: queryChallenge,
+            variables: { challengeId },
+          },
+          config
+        );
+
+        const challengeData = response.data.data.getChallengeById;
+
+        setCurrentChallenge(challengeData);
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+    [config]
+  );
+
   const getTasks = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryTasks },
@@ -78,10 +145,6 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 
   const getTags = async () => {
     try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
       const response = await axios.post(
         BACKEND_URL,
         { query: queryTags },
@@ -94,30 +157,77 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     }
   };
 
-  const createAChallenge = async (
-    challengeInformations: ChallengeInformations
-  ) => {
-    try {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-      const createChallenge = {
-        query: mutationCreateChallenge,
-        variables: challengeInformations,
-      };
-      const response = await axios.post(BACKEND_URL, createChallenge, config);
-      console.warn(response);
-      notifyCreate();
-      getChallenges();
-    } catch (error) {
-      console.error("Error creating challenge", error);
-    }
-  };
+  const getEcoActionSelectionStatus = useCallback(
+    async (challengeId: number) => {
+      try {
+        const response = await axios.post(
+          BACKEND_URL,
+          {
+            query: queryEcoActionSelectionStatus,
+            variables: { challengeId },
+          },
+          config
+        );
+        const EcoActionSelectionStatusData =
+          await response.data.data.getEcoActionSelectionStatus;
+
+        setEcoActionSelectionStatus(EcoActionSelectionStatusData);
+      } catch (error) {
+        setEcoActionSelectionStatus([]);
+      }
+    },
+    [config]
+  );
+
+  const createAChallenge = useCallback(
+    async (challengeInformations: ChallengeInformations) => {
+      try {
+        const createChallenge = {
+          query: mutationCreateChallenge,
+          variables: challengeInformations,
+        };
+        const response = await axios.post(BACKEND_URL, createChallenge, config);
+        console.warn(response);
+        notifyCreate();
+        getChallenges();
+        getMyChallenges();
+      } catch (error) {
+        console.error("Error creating challenge", error);
+      }
+    },
+    [config, getChallenges, getMyChallenges, notifyCreate]
+  );
+
+  // Update ecoAction selection status
+  const updateEcoActionSelectionStatus = useCallback(
+    async (ecoActionId: number, challengeId: number, isSelected: boolean) => {
+      try {
+        const updateEcoActionSelectionStatus = {
+          query: mutationEcoActionSelectionStatus,
+          variables: {
+            ecoActionId: ecoActionId,
+            challengeId: challengeId,
+            isSelected: isSelected,
+          },
+        };
+        const response = await axios.post(
+          BACKEND_URL,
+          updateEcoActionSelectionStatus,
+          config
+        );
+        console.warn(response);
+      } catch (error) {
+        console.error("Error Updating ecoActionSelectionStatus:", error);
+      }
+    },
+    [config]
+  );
 
   useEffect(() => {
     setTasks([]);
     setTags([]);
     setChallenges([]);
+    setMyChallenges([]);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user]);
@@ -129,6 +239,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     getChallenges();
     getTasks();
     getTags();
+    getMyChallenges();
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -137,9 +248,16 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     <ChallengeContext.Provider
       value={{
         challenges,
+        currentChallenge,
+        getChallenge,
         createAChallenge,
         tags,
         tasks,
+        ecoActionSelectionStatus,
+        updateEcoActionSelectionStatus,
+        getEcoActionSelectionStatus,
+        myChallenges,
+        updateMyChallengeProgress,
       }}
     >
       {children}

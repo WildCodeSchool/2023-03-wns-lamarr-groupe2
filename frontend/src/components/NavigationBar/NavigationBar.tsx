@@ -1,5 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { NavigationBarElement } from "./NavigationBarElement";
+import { HeaderBar } from "../HeaderBar";
+import { useLocation, useNavigate, useNavigation, useParams } from "react-router-dom";
 
 const NavigationBar: FC<PropsWithChildren> = () => {
   const navigations = [
@@ -7,15 +9,24 @@ const NavigationBar: FC<PropsWithChildren> = () => {
     "scores",
     "challenges",
     "notifications",
-    /*  "settings", */
   ] as const;
 
+  const navMap = {
+    "dashboard": "Espace personnel",
+    "scores": "Mes amis",
+    "notifications": "Notifications",
+    "challenges": "Mes challenges"
+
+  }
+
+
   return (
-    <div className=" border bg-primary-attention flex-auto lg:max-w-[96px] max-h-[80px] lg:max-h-full">
-      <nav className="lg:sticky lg:top-0 lg:flex-col lg:w-24 min-w-[96px] flex h-20  lg:justify-start lg:gap-20 gap-11 lg:pt-5 justify-evenly items-center">
+    <div className="bg-primary-attention  drop-shadow-sm relative z-50">
+      <nav className="lg:sticky  flex h-20  gap-11 justify-evenly items-center xxl:justify-center xxl:gap-20 ">
         {navigations?.map((nav, index) => (
-          <NavigationBarElement key={index} link={nav} index={index} />
+          <NavigationBarElement key={index} link={nav} title={navMap[nav]} index={index} />
         ))}
+        <HeaderBar />
       </nav>
     </div>
   );
