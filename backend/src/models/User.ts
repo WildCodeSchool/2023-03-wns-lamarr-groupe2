@@ -15,6 +15,7 @@ import { Notification } from "./Notification";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { Comment } from "./Comment";
 import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
+import { MyChallenges } from "./MyChallenges";
 
 @ObjectType()
 @Entity()
@@ -154,4 +155,8 @@ export class User extends BaseEntity {
     (challengeEcoActionsListProof) => challengeEcoActionsListProof.user
   )
   challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
+
+  @Field(() => [MyChallenges])
+  @OneToMany(() => MyChallenges, (myChallenges) => myChallenges.user)
+  myChallenges: MyChallenges[];
 }

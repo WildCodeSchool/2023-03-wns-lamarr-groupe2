@@ -30,7 +30,7 @@ export const ProgressionBar: React.FC<ProgressionBarProps> = ({
       <div
         className={`h-[14px] max-w-[119px] ${
           !size && "md:h-[30px] md:max-w-[275px]"
-        } ${colorClass} pr-2`}
+        } ${colorClass} pr-2 rounded-r-rounder`}
         style={{ width: `${value}%` }}
       >
         <p

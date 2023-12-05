@@ -4,6 +4,7 @@ import attention from "../../assets/icons/attention.svg";
 import useChallengeContext from "../../features/contexts/ChallengeContext";
 import { ChallengeInformations } from "../../features/contexts/utils/types";
 import { isEmpty } from "remeda";
+import { useNavigate } from "react-router-dom";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
@@ -12,6 +13,7 @@ type ModaleProps = {
 
 const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
   const { createAChallenge } = useChallengeContext();
+  const navigate = useNavigate();
 
   const formattedState: ChallengeInformations = {
     title: state?.title,
@@ -31,6 +33,7 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
   const handlePublishChallenge = () => {
     createAChallenge(formattedState);
     setIsOpenModale((prev) => !prev);
+    navigate("/");
   };
 
   return (

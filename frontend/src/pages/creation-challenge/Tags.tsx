@@ -37,7 +37,7 @@ const Tags: FC<TagsProps> = ({
   const primaryAttention = `#FFCB66`;
 
   return (
-    <div className="mt-12 w-full">
+    <div className="mt-12 w-96 lg:w-72 xl:w-96">
       <label className="uppercase" title="visibility">
         TAGS
       </label>
