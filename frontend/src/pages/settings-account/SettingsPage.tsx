@@ -1,15 +1,18 @@
 import Profile from "./Profile";
 import NotificationsParameters from "./NotificationsParameters";
 import { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import React, { useState } from "react";
 import { UserInformations } from "../homepage/Inscription/InscriptionForm";
 import { userInformationsSchema } from "../../features/validators/userSchema";
 import { useToaster } from "../../features/hooks/useToaster";
 import useUserContext from "../../features/contexts/UserContext";
+import { ne } from "@faker-js/faker";
+import { passwordUpdateSchema } from "../../features/validators/passwordUpdateSchema";
 
 const SettingsPage = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const { user, updateUser } = useUserContext();
+  const [isEditPassword, setIsEditPassword] = useState(false);
+  const { user, updateUser, updatePassword } = useUserContext();
   const { notifyErrorUpdate } = useToaster();
 
   const [userInformations, setUserInformations] = useState({
@@ -17,17 +20,39 @@ const SettingsPage = () => {
     email: user?.email,
   });
 
+  const [oldPassword, setOldPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [formErrors, setFormErrors] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const handleInputChange =
     (fieldName: string) => (event: { target: { value: string } }) => {
       const { value } = event.target;
-      setUserInformations(
-        (
-          prevUserInformations: Pick<UserInformations, "username" | "email">
-        ) => ({
-          ...prevUserInformations,
-          [fieldName]: value,
-        })
-      );
+      switch (fieldName) {
+        case "username":
+        case "email":
+          setUserInformations(
+            (
+              prevUserInformations: Pick<UserInformations, "username" | "email">
+            ) => ({
+              ...prevUserInformations,
+              [fieldName]: value,
+            })
+          );
+          break;
+        case "oldPassword":
+          setOldPassword(value);
+          break;
+        case "newPassword":
+          setNewPassword(value);
+          break;
+        case "confirmPassword":
+          setConfirmPassword(value);
+          break;
+      }
     };
 
   const { email, username } = userInformations;
@@ -37,13 +62,32 @@ const SettingsPage = () => {
       await userInformationsSchema.validate(userInformations, {
         abortEarly: false,
       });
-      const userInformationsUpdate = userInformations;
+
+      const userInformationsUpdate = {
+        ...userInformations,
+        oldPassword,
+        newPassword,
+      };
       updateUser(e!, userInformationsUpdate);
       setIsEdit((prev) => !prev);
     } catch {
       notifyErrorUpdate();
       setUserInformations({ username: user?.username, email: user?.email });
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     }
+  };
+
+  const handlePasswordModification = async (e: React.FormEvent | undefined) => {
+    const reset = () => {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    };
+    updatePassword(e!, { oldPassword, newPassword, confirmPassword }, reset);
+
+    setIsEdit((prev) => !prev);
   };
 
   return (
@@ -61,7 +105,13 @@ const SettingsPage = () => {
           handleInputChange={handleInputChange}
           setIsEdit={setIsEdit}
           isEdit={isEdit}
+          isEditPassword={isEditPassword}
+          setIsEditPassword={setIsEditPassword}
           handleModifications={handleModifications}
+          handlePasswordModification={handlePasswordModification}
+          oldPassword={oldPassword}
+          newPassword={newPassword}
+          confirmPassword={confirmPassword}
         />
         <NotificationsParameters
           user={user}
@@ -70,7 +120,13 @@ const SettingsPage = () => {
           handleInputChange={handleInputChange}
           setIsEdit={setIsEdit}
           isEdit={isEdit}
+          isEditPassword={isEditPassword}
+          setIsEditPassword={setIsEditPassword}
           handleModifications={handleModifications}
+          handlePasswordModification={handlePasswordModification}
+          oldPassword={oldPassword}
+          newPassword={newPassword}
+          confirmPassword={confirmPassword}
         />
       </div>
     </div>
