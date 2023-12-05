@@ -13,6 +13,7 @@ import {
   ChallengeInformations,
   TChallenge,
   TEcoActionsSelectionStatus,
+  TMyChallenge,
 } from "./utils/types";
 import useUserContext from "./UserContext";
 import axios from "axios";
@@ -24,6 +25,8 @@ import {
   queryTasks,
   queryEcoActionSelectionStatus,
   mutationEcoActionSelectionStatus,
+  queryMyChallenges,
+  mutationMyChallengeProgress,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -41,6 +44,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
 }) => {
   const { token, user } = useUserContext();
   const [challenges, setChallenges] = useState<TChallenge[]>([]);
+  const [myChallenges, setMyChallenges] = useState<TMyChallenge[]>([]);
   const [currentChallenge, setCurrentChallenge] = useState<TChallenge>();
   const [tasks, setTasks] = useState<OptionType[]>([]);
   const [tags, setTags] = useState<TTags[]>([]);
@@ -68,6 +72,40 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
       setChallenges([]);
     }
   }, [config]);
+
+  const getMyChallenges = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        BACKEND_URL,
+        { query: queryMyChallenges },
+        config
+      );
+      const challengesData = response.data.data.getMyChallenges;
+      setMyChallenges(challengesData);
+    } catch (error) {
+      setMyChallenges([]);
+    }
+  }, [config]);
+
+  const updateMyChallengeProgress = useCallback(
+    async (challengeId: number, progress: number) => {
+      try {
+        const options = {
+          query: mutationMyChallengeProgress,
+          variables: {
+            challengeId: challengeId,
+            progress: progress,
+          },
+        };
+        await axios.post(BACKEND_URL, options, config);
+
+        getMyChallenges();
+      } catch (error) {
+        console.error("Error Updating challenge:", error);
+      }
+    },
+    [config, getMyChallenges]
+  );
 
   const getChallenge = useCallback(
     async (challengeId: number) => {
@@ -131,7 +169,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           config
         );
         const EcoActionSelectionStatusData =
-          response.data.data.getEcoActionSelectionStatus;
+          await response.data.data.getEcoActionSelectionStatus;
 
         setEcoActionSelectionStatus(EcoActionSelectionStatusData);
       } catch (error) {
@@ -152,11 +190,12 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         console.warn(response);
         notifyCreate();
         getChallenges();
+        getMyChallenges();
       } catch (error) {
         console.error("Error creating challenge", error);
       }
     },
-    [config, getChallenges, notifyCreate]
+    [config, getChallenges, getMyChallenges, notifyCreate]
   );
 
   // Update ecoAction selection status
@@ -177,18 +216,18 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           config
         );
         console.warn(response);
-        getEcoActionSelectionStatus(challengeId);
       } catch (error) {
-        console.error("Error Updating Notification:", error);
+        console.error("Error Updating ecoActionSelectionStatus:", error);
       }
     },
-    [config, getEcoActionSelectionStatus]
+    [config]
   );
 
   useEffect(() => {
     setTasks([]);
     setTags([]);
     setChallenges([]);
+    setMyChallenges([]);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user]);
@@ -200,6 +239,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     getChallenges();
     getTasks();
     getTags();
+    getMyChallenges();
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -214,8 +254,10 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         tags,
         tasks,
         ecoActionSelectionStatus,
-        getEcoActionSelectionStatus,
         updateEcoActionSelectionStatus,
+        getEcoActionSelectionStatus,
+        myChallenges,
+        updateMyChallengeProgress,
       }}
     >
       {children}

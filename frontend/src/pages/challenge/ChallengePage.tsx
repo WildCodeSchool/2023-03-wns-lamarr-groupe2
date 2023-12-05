@@ -48,23 +48,48 @@ const ChallengePage = () => {
     getEcoActionSelectionStatus,
     ecoActionSelectionStatus,
     updateEcoActionSelectionStatus,
+    updateMyChallengeProgress,
   } = useChallengeContext();
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
   const [comment, setComment] = useState<string>("");
   const [isOpenModale, setIsOpenModale] = useState(false);
   const params = useParams();
+  const paramsId = params.id ?? "";
   const [isLoading, setIsLoading] = useState(true);
+  const formatDate = (date: string) => {
+    return moment(date).format("LL");
+  };
 
+  //Calculate progress
+  const numberOfEcoActions = currentChallenge?.ecoActions?.length;
+  const selectedEcoActions = ecoActionSelectionStatus.filter(
+    (item) => item.ecoActionIsSelected
+  );
+  const progress = Math.round(
+    (selectedEcoActions.length / numberOfEcoActions!) * 100
+  );
+
+  //init page with data
   useEffect(() => {
     const fetchData = async () => {
-      await getChallenge(parseInt(params.id!));
-      await getEcoActionSelectionStatus(parseInt(params.id!));
+      if (!paramsId) return;
+      await getChallenge(parseInt(paramsId));
+      await getEcoActionSelectionStatus(parseInt(paramsId));
+      await updateMyChallengeProgress(parseInt(paramsId), progress);
+
       setIsLoading(false);
     };
 
     fetchData();
-  }, [getChallenge, getEcoActionSelectionStatus, params.id]);
+  }, [
+    currentChallenge?.id,
+    getChallenge,
+    getEcoActionSelectionStatus,
+    paramsId,
+    progress,
+    updateMyChallengeProgress,
+  ]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -76,21 +101,31 @@ const ChallengePage = () => {
       ecoAction.ecoAction?.id ? ecoAction.ecoAction.points : 0
     )
     .reduce((a, b) => a! + b!, 0);
-
   const successPoints = (ecoActionSelectionStatus?.map((ecoAction) =>
     ecoAction?.ecoActionIsSelected ? ecoAction?.ecoAction?.points : 0
   ))
     .flatMap((task) => task)
     .reduce((a, b) => a! + b!, 0);
 
-  const formatDate = (date: string) => {
-    return moment(date).format("LL");
-  };
-
   const nbrTask = currentChallenge?.ecoActions?.length;
   const nbrTaskSelected = ecoActionSelectionStatus?.filter(
     (ecoAction) => ecoAction.ecoActionIsSelected
   ).length;
+
+  //Update selectedEcoAction & challenge progress
+  const updateData = async (item: {
+    id?: number;
+    ecoAction: any;
+    ecoActionIsSelected: boolean;
+  }) => {
+    await updateEcoActionSelectionStatus(
+      item.ecoAction.id!,
+      currentChallenge?.id!,
+      !item.ecoActionIsSelected
+    );
+    getEcoActionSelectionStatus(parseInt(paramsId));
+    await updateMyChallengeProgress(currentChallenge?.id!, progress);
+  };
 
   /*  const handleComment = (e: any) => {
      e.preventDefault();
@@ -99,8 +134,8 @@ const ChallengePage = () => {
    }; */
 
   return (
-    <div className="flex max-w-full w-full">
-      <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
+    <div className="mainScreen">
+      <div className=" flex flex-col gap-12 max-w-[1139px] w-full">
         {/* Challenge informations */}
         <section className="flex flex-col gap-2">
           <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
@@ -161,7 +196,7 @@ const ChallengePage = () => {
 
               <p>
                 {!isShowingMore &&
-                currentChallenge?.description.length! > 150 ? (
+                  currentChallenge?.description.length! > 150 ? (
                   <ReactQuill
                     value={currentChallenge?.description?.slice(0, 150) + "…"}
                     readOnly={true}
@@ -211,13 +246,7 @@ const ChallengePage = () => {
               <li
                 key={ecoAction.id}
                 className="flex"
-                onClick={() =>
-                  updateEcoActionSelectionStatus(
-                    ecoAction.ecoAction.id!,
-                    currentChallenge?.id!,
-                    !ecoAction.ecoActionIsSelected
-                  )
-                }
+                onClick={() => updateData(ecoAction)}
               >
                 <RadioBtn isChoose={ecoAction.ecoActionIsSelected} />
                 <div className="relative flex flex-col md:flex-row md:gap-6 md:items-center w-2/3">
@@ -245,31 +274,30 @@ const ChallengePage = () => {
           <ul className=" md:hidden flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                  <div
-                    className={`${
-                      index + 1 === challenge.comments.length ? "" : "border-b"
+                <div
+                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                    key={comment?.id}
-                  >
-                    <div className="w-full flex">
-                      <div>
-                        <span className="font-bold">{comment.firstname} </span>
-                        <span>, le (20/09/23)</span>
-                      </div>
-                      {comment?.userId === user.id ? (
-                        <div className="flex">
-                          <button type="button">
-                            <img src={edit} alt="modify comment" />
-                          </button>
-                          <button type="button">
-                            <img src={trash} alt="delete comment" />
-                          </button>
-                        </div>
-                      ) : null}
+                  key={comment?.id}
+                >
+                  <div className="w-full flex">
+                    <div>
+                      <span className="font-bold">{comment.firstname} </span>
+                      <span>, le (20/09/23)</span>
                     </div>
-                    <p className="italic py-1">{comment.content}</p>
+                    {comment?.userId === user.id ? (
+                      <div className="flex">
+                        <button type="button">
+                          <img src={edit} alt="modify comment" />
+                        </button>
+                        <button type="button">
+                          <img src={trash} alt="delete comment" />
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
-                ))
+                  <p className="italic py-1">{comment.content}</p>
+                </div>
+              ))
               : null}
           </ul>
           <form /* onSubmit={handleComment} */ className="relative mt-6">
@@ -287,19 +315,18 @@ const ChallengePage = () => {
           <ul className=" hidden md:flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                  <div
-                    className={`${
-                      index + 1 === challenge.comments.length ? "" : "border-b"
+                <div
+                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                    key={comment?.id}
-                  >
-                    <div className="w-full ">
-                      <span className="font-bold">{comment.firstname} </span>
-                      <span>, le (20/09/23)</span>
-                    </div>
-                    <p className="italic py-1">{comment.content}</p>
+                  key={comment?.id}
+                >
+                  <div className="w-full ">
+                    <span className="font-bold">{comment.firstname} </span>
+                    <span>, le (20/09/23)</span>
                   </div>
-                ))
+                  <p className="italic py-1">{comment.content}</p>
+                </div>
+              ))
               : null}
           </ul>
         </section>

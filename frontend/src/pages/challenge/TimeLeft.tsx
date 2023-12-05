@@ -4,7 +4,7 @@ import { TChallenge } from "../../features/contexts/utils/types";
 
 export const TimeLeft: FC<{ challenge: TChallenge }> = ({ challenge }) => {
   const [url, setUrl] = useState<string | undefined>(undefined);
-  const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
+  const timeLeft = formattedTimeLeft(challenge?.endAt);
   const colorIndicator = (timeLeft: any, type?: "clock") => {
     if (Object.keys(timeLeft)[0] === "done") {
       return type ? "done" : "text-black";

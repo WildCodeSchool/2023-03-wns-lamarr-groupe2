@@ -35,7 +35,8 @@ export class ChallengeResolver {
     @Arg("isPublic") isPublic: boolean,
     @Arg("ecoActions", () => [Int], { validate: false }) ecoActions: number[],
     @Arg("tags", () => [Int], { validate: false }) tags: number[],
-    @Arg("contenders", () => [Int], { validate: false }) contenders: number[]
+    @Arg("contenders", () => [Int], { validate: false }) contenders: number[],
+    @Arg("progress") progress: number
   ): Promise<Challenge> {
     const user = context.user;
     if (!user) throw new Error(`The user is not connected`);
@@ -83,7 +84,7 @@ export class ChallengeResolver {
       await entry.save();
     }
 
-    for (const user of contenderList) {
+    for (const user of challenge.contenders) {
       const entry = new MyChallenges();
       entry.challenge = challenge;
       entry.user = user;
@@ -207,10 +208,7 @@ export class ChallengeResolver {
     if (!user) throw new Error(`The user doesn't exist`);
 
     const myChallenges = await MyChallenges.find({
-      relations: {
-        challenge: true,
-        user: true,
-      },
+      relations: { challenge: true, user: true },
       where: {
         user: {
           id: user.id,

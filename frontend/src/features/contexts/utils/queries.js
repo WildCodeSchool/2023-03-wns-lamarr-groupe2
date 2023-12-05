@@ -184,7 +184,7 @@ const queryEcoActionSelectionStatus = `query Query($challengeId: Float!) {
 }`;
 
 const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
-  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
+  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title, progress:0) {
     title
     description
     isPublic
@@ -204,6 +204,22 @@ const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: 
 
 const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean!, $ecoActionId: Float!, $challengeId: Float!) {
   updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
+}`;
+
+const mutationMyChallengeProgress = `mutation Mutation($progress: Float!, $challengeId: Float!) {
+  updateMyChallengeProgress(progress: $progress, challengeId: $challengeId)
+}`;
+
+const queryMyChallenges = `query Query {
+  getMyChallenges {
+    progress
+    user {
+      id
+    }
+    challenge {
+      id
+    }
+  }
 }`;
 
 module.exports = {
@@ -229,4 +245,6 @@ module.exports = {
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
   mutationEcoActionSelectionStatus,
+  mutationMyChallengeProgress,
+  queryMyChallenges,
 };

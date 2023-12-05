@@ -14,7 +14,7 @@ const FriendsLeaderboard = () => {
     sortedLeaderboard.findIndex((member) => member.id === user.id) + 1;
 
   return (
-    <div className="h-full flex flex-col w-full">
+    <div className="h-full flex flex-col w-full xl:min-w-[390px]">
       <div className="flex items-center px-5 pt-6 w-full justify-center lg:gap-6 mb-4">
         <h3>CLASSEMENT</h3>
         <img src={leaderboardIcon} alt="leaderboard" />
