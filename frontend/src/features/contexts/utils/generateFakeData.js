@@ -73,7 +73,7 @@ async function generateAndAddCreator() {
     {
       firstname: "Carl",
       lastname: "Marion",
-      email: "carl@test.com",
+      email: "carlo@test.com",
       password: FIXED_PASSWORD,
       username: "Carl",
     },

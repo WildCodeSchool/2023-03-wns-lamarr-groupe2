@@ -6,6 +6,8 @@ import { UserInformations } from "../homepage/Inscription/InscriptionForm";
 import { userInformationsSchema } from "../../features/validators/userSchema";
 import { useToaster } from "../../features/hooks/useToaster";
 import useUserContext from "../../features/contexts/UserContext";
+import { ne } from "@faker-js/faker";
+import { passwordUpdateSchema } from "../../features/validators/passwordUpdateSchema";
 
 const SettingsPage = () => {
   const [isEdit, setIsEdit] = useState(false);

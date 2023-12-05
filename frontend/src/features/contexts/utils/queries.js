@@ -43,6 +43,7 @@ email
 }
 }`;
 
+
 const updatePictureQuery = `mutation UpdatePicture($picture: String) {
   updatePicture(picture: $picture) {
     picture 
@@ -235,6 +236,7 @@ module.exports = {
   signUpQuery,
   querySignIn,
   updateQuery,
+  updatePasswordQuery,
   deleteQuery,
   updatePasswordQuery,
   updatePictureQuery,
