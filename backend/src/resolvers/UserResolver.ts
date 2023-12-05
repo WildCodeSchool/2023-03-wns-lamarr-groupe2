@@ -35,7 +35,7 @@ export class UserResolver {
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
     if (!existingUser) throw new Error("User not found!");
-
+console.log(existingUser);
     // Update username and email if provided
     if (username !== null && username !== undefined) {
       existingUser.username = username;
@@ -73,7 +73,8 @@ async updatePicture(
   return existingUser;
 }
 
-// Mutation to delete an User
+  // Mutation to delete an User
+
   @Mutation(() => Boolean)
   async deleteUser(@Ctx() context: { user: User }): Promise<boolean> {
     const user = context.user;
@@ -92,7 +93,6 @@ async updatePicture(
     return true;
   }
 
-
   // Mutation to update user's password
   @Mutation(() => User)
   async updatePassword(
@@ -109,7 +109,9 @@ async updatePicture(
     const options: FindOneOptions<User> = { where: { id: user.id } };
     const existingUser = await User.findOne(options);
 
-    if(!existingUser) throw new Error(`l'utilisateur n'existe pas`);
+
+    if(!existingUser) throw new Error(`L'utilisateur n'existe pas`);
+
 
     //Verify old password with user's current password
     const valid = await argon2.verify(user.password, oldPassword);
@@ -118,7 +120,9 @@ async updatePicture(
       throw new Error("Mot de passe actuel incorrect");
     }
     if(!newPassword.match(passwordRules)){
-      throw new Error("Votre mot de passe doit contenir 7 charactères, une majuscule, une minuscule et un chiffre")
+
+      throw new Error("Pour être valide,votre mot de passe doit contenir 7 charactères, une majuscule, une minuscule et un chiffre")
+
     }
     if(newPassword === oldPassword) {
       throw new Error("Le nouveau mot de passe doit être différent de l'actuel");

@@ -231,7 +231,7 @@ const Profile: FC<SettingsPageParameters> = ({
                 onChange={handleInputChange("confirmPassword")}
               />
               {errorMsg && (
-                <div className="text-color-red font-normal text-small-p mt-6 ml-1">
+                <div className="text-primary-danger font-normal text-main-p mt-6 ml-1">
                   {errorMsg}
                 </div>
               )}

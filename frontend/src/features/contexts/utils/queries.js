@@ -41,7 +41,8 @@ updatePassword(oldPassword: $oldPassword, newPassword: $newPassword, confirmPass
 username
 email
 }
-}`
+}`;
+
 
 const updatePictureQuery = `mutation UpdatePicture($picture: String) {
   updatePicture(picture: $picture) {
@@ -237,6 +238,7 @@ module.exports = {
   updateQuery,
   updatePasswordQuery,
   deleteQuery,
+  updatePasswordQuery,
   updatePictureQuery,
   queryFriends,
   deleteFriend,
