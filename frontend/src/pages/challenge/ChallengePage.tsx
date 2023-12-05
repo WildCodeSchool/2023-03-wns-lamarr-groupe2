@@ -1,7 +1,6 @@
 import useUserContext from "../../features/contexts/UserContext";
-import { useState } from "react";
-import RadioBtn from "../../components/RadioBtn";
-import DifficultyLevel from "../../components/DifficultyLevel";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ProfilePicture from "../../components/ProfilePicture";
 import BtnCustom from "../../components/BtnCustom";
 import ChallengeLeaveModale from "./ChallengeLeaveModal";
@@ -10,36 +9,14 @@ import send from "../../assets/icons/sendmessage.svg";
 import trash from "../../assets/icons/trash.svg";
 import edit from "../../assets/icons/edit.svg";
 import InputCustom from "../../components/InputCustom";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
+import ReactQuill from "react-quill";
+import moment from "moment";
+// import { ChallengeEcoActions } from "./ChallengeEcoActions";
+import DifficultyLevel from "../../components/DifficultyLevel";
+import RadioBtn from "../../components/RadioBtn";
+
 const challenge = {
-  id: 7,
-  title: "Ut aspernatur unde veniam amet.",
-  description:
-    "Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.Ut odio voluptate cum id quisquam dolore. Corporis quia similique.",
-  ecoActions: [
-    {
-      id: 8,
-      label: "Réduire le plastique",
-      points: 40,
-      need_proof: false,
-      difficulty: 2,
-    },
-    {
-      id: 9,
-      label: "Soutenir les fermes bio",
-      points: 80,
-      need_proof: false,
-      difficulty: 4,
-    },
-  ],
-  creatorId: 3,
-  tags: [
-    {
-      id: 1,
-      label: "consommation",
-    },
-    { id: 2, label: "environnement" },
-  ],
-  contenders: [1, 3, 4, 5],
   comments: [
     {
       id: 1,
@@ -60,39 +37,63 @@ const challenge = {
 };
 
 const ChallengePage = () => {
-  //TO-DO : Query the challenge (maybe add some property to the queyr to get exactly parameters we need (example contenders : id + image))
-  //TO-DO : Calculate user score and remaining points
-  //TO-DO : Select a task will create or update the user score
-  //TO-DO : Contenders : query contenders by their ID and replace pictures
-  //TO-DO : Replace values
-  //TO-DO : Remove fake Challenge const when done
-
   /* Later */
   //TO-DO : Get comments
+  //TO-DO : Remove fake Challenge const when done
   //TO-DO : Logic edit / delete commentary
 
   const { user } = useUserContext();
-  const isUserChallengeCreator = user.id === challenge.creatorId;
+  const {
+    currentChallenge,
+    getChallenge,
+    getEcoActionSelectionStatus,
+    ecoActionSelectionStatus,
+    updateEcoActionSelectionStatus,
+  } = useChallengeContext();
+  const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
-  const nbrTask = challenge?.ecoActions?.length;
   const [comment, setComment] = useState<string>("");
-
-  const [selectedTasks, setSelectedTasks] = useState<number[]>([]);
-  const handleTask = (task: number) => {
-    const isTaskSelected = selectedTasks?.includes(task);
-    if (isTaskSelected) {
-      return setSelectedTasks(
-        selectedTasks?.filter((allTasks) => allTasks !== task)
-      );
-    } else {
-      return setSelectedTasks([...selectedTasks, task]);
-    }
-  };
   const [isOpenModale, setIsOpenModale] = useState(false);
-  /* const formatDate = (date: string) => {
-    //TO-DO : format Date
-    return;
-  }; */
+  const params = useParams();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getChallenge(parseInt(params.id!));
+      await getEcoActionSelectionStatus(parseInt(params.id!));
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [getChallenge, getEcoActionSelectionStatus, params.id]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  // getChallenge(parseInt(params.id!));
+  // getEcoActionSelectionStatus(currentChallenge?.id!);
+
+  //Calculate user score and points
+  const totalPoints = ecoActionSelectionStatus
+    ?.map((ecoAction) =>
+      ecoAction.ecoAction?.id ? ecoAction.ecoAction.points : 0
+    )
+    .reduce((a, b) => a! + b!, 0);
+
+  const successPoints = (ecoActionSelectionStatus?.map((ecoAction) =>
+    ecoAction?.ecoActionIsSelected ? ecoAction?.ecoAction?.points : 0
+  ))
+    .flatMap((task) => task)
+    .reduce((a, b) => a! + b!, 0);
+
+  const formatDate = (date: string) => {
+    return moment(date).format("LL");
+  };
+
+  const nbrTask = currentChallenge?.ecoActions?.length;
+  const nbrTaskSelected = ecoActionSelectionStatus?.filter(
+    (ecoAction) => ecoAction.ecoActionIsSelected
+  ).length;
 
   /*  const handleComment = (e: any) => {
      e.preventDefault();
@@ -105,12 +106,19 @@ const ChallengePage = () => {
       <div className=" flex flex-col gap-12 max-w-[1139px] w-full p-6 md:p-12">
         {/* Challenge informations */}
         <section className="flex flex-col gap-2">
+          <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
+            <p>
+              {successPoints}
+              <span className="font-thin text-small-p">pts</span>
+            </p>
+          </div>
           <div className="flex flex-col md:flex-row md:space-x-6 md:items-center">
             <h2
               className={`uppercase ${isUserChallengeCreator ? "-mr-4" : ""} `}
             >
-              titre du challenge
+              {currentChallenge?.title}
             </h2>
+
             {isUserChallengeCreator ? (
               <>
                 <p className="text-small-p md:hidden">
@@ -123,22 +131,29 @@ const ChallengePage = () => {
                 />
               </>
             ) : null}
+
             <div className="hidden md:flex justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
               <p>
-                (64) <span className="font-thin text-small-p">pts</span>
+                {successPoints}
+                <span className="font-thin text-small-p">pts</span>
               </p>
             </div>
             <p className="italic font-thin text-small-p hidden md:block">
-              encore (46) pts à obtenir
+              encore {totalPoints! - successPoints!} pts à obtenir
             </p>
           </div>
+          <p className="font-thin text-small-p">
+            Début: {formatDate(currentChallenge?.startAt!)} Fin :
+            {formatDate(currentChallenge?.endAt!)}
+          </p>
+
           <div className="hidden md:flex gap-6 mb-6">
-            {challenge?.tags.slice(0, 4).map((tag, index) => (
+            {currentChallenge?.tags.slice(0, 4).map((tag, index) => (
               <div
-                key={index}
+                key={tag.id}
                 className={`bg-primary-attention  px-2 customBorder rounded-none gap-4 flex justify-center items-center `}
               >
-                {tag?.label}{" "}
+                {tag?.label}
               </div>
             ))}
           </div>
@@ -146,29 +161,44 @@ const ChallengePage = () => {
           <div className=" w-full md:flex  gap-16">
             <div className="w-2/3 ">
               <h2 className="uppercase text-primary-good">description</h2>
-              <p className="">
-                {isShowingMore
-                  ? challenge?.description
-                  : challenge?.description?.slice(0, 150) + "…"}
-                <span
-                  className="font-bold"
-                  onClick={() => setIsShowingMore((prev) => !prev)}
-                >
-                  {isShowingMore ? "voir moins" : "voir plus"}
-                </span>
+
+              <p>
+                {!isShowingMore &&
+                currentChallenge?.description.length! > 150 ? (
+                  <ReactQuill
+                    value={currentChallenge?.description?.slice(0, 150) + "…"}
+                    readOnly={true}
+                    theme={"bubble"}
+                  />
+                ) : (
+                  <ReactQuill
+                    value={currentChallenge?.description}
+                    readOnly={true}
+                    theme={"bubble"}
+                  />
+                )}
+                {currentChallenge?.description.length! > 150 && (
+                  <span
+                    className="font-bold"
+                    onClick={() => setIsShowingMore((prev) => !prev)}
+                  >
+                    {isShowingMore ? "voir moins" : "voir plus"}
+                  </span>
+                )}
               </p>
             </div>
 
             <div className="hidden md:block w-1/3">
               <h2 className="uppercase text-primary-good">Participants</h2>
               <div className="flex mt-2">
-                {challenge.contenders?.slice(0, 5)?.map((member, index) => (
-                  <div key={index} className="mr-[-15px]">
-                    <ProfilePicture
-                      /* url={member.picture} */ size="smallPic"
-                    />
-                  </div>
-                ))}
+                {currentChallenge?.contenders
+                  ?.slice(0, 5)
+                  ?.map((member, index) => (
+                    <div key={member.id} className="mr-[-15px]">
+                      <ProfilePicture url={member.picture} size="smallPic" />
+                    </div>
+                  ))}
+                {currentChallenge?.contenders.length! > 5 && "voir tous"}
               </div>
             </div>
           </div>
@@ -177,23 +207,33 @@ const ChallengePage = () => {
         <section className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <h2 className="uppercase text-primary-good">Étapes</h2>
-            <span>{selectedTasks?.length + "/" + nbrTask}</span>
+            <span>{nbrTaskSelected + "/" + nbrTask}</span>
           </div>
           <ul className="flex flex-col gap-6 py-4">
-            {challenge.ecoActions?.map((ecoAction) => (
+            {ecoActionSelectionStatus?.map((ecoAction, index) => (
               <li
                 key={ecoAction.id}
                 className="flex"
-                onClick={() => handleTask(ecoAction.id)}
+                onClick={() =>
+                  updateEcoActionSelectionStatus(
+                    ecoAction.ecoAction.id!,
+                    currentChallenge?.id!,
+                    !ecoAction.ecoActionIsSelected
+                  )
+                }
               >
-                <RadioBtn isChoose={selectedTasks?.includes(ecoAction.id)} />
+                <RadioBtn isChoose={ecoAction.ecoActionIsSelected} />
                 <div className="relative flex flex-col md:flex-row md:gap-6 md:items-center w-2/3">
-                  <p>{ecoAction?.label}</p>
+                  <p>{ecoAction.ecoAction.label}</p>
                   <div className="md:absolute right-0 flex gap-6">
-                    {" "}
-                    <DifficultyLevel selectedOption={ecoAction} small />{" "}
+                    <DifficultyLevel
+                      selectedOption={ecoAction.ecoAction}
+                      small
+                    />
                     <div>
-                      <span className="font-bold">{ecoAction?.points}</span>{" "}
+                      <span className="font-bold">
+                        {ecoAction.ecoAction?.points}
+                      </span>
                       <span className="font-thin text-small-p">pts</span>
                     </div>
                   </div>
@@ -201,14 +241,6 @@ const ChallengePage = () => {
               </li>
             ))}
           </ul>
-
-          <div className="flex w-full justify-center">
-            <div className=" flex md:hidden justify-center items-center bg-primary-attention w-24 h-12 rounded-small font-bold text-secondary-title">
-              <p>
-                (64) <span className="font-thin text-small-p">pts</span>
-              </p>
-            </div>
-          </div>
         </section>
         {/* Commentary section */}
         <section className="">
@@ -216,30 +248,31 @@ const ChallengePage = () => {
           <ul className=" md:hidden flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                <div
-                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
+                  <div
+                    className={`${
+                      index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                  key={comment?.id}
-                >
-                  <div className="w-full flex">
-                    <div>
-                      <span className="font-bold">{comment.firstname} </span>
-                      <span>, le (20/09/23)</span>
-                    </div>
-                    {comment?.userId === user.id ? (
-                      <div className="flex">
-                        <button type="button">
-                          <img src={edit} alt="modify comment" />
-                        </button>
-                        <button type="button">
-                          <img src={trash} alt="delete comment" />
-                        </button>
+                    key={comment?.id}
+                  >
+                    <div className="w-full flex">
+                      <div>
+                        <span className="font-bold">{comment.firstname} </span>
+                        <span>, le (20/09/23)</span>
                       </div>
-                    ) : null}
+                      {comment?.userId === user.id ? (
+                        <div className="flex">
+                          <button type="button">
+                            <img src={edit} alt="modify comment" />
+                          </button>
+                          <button type="button">
+                            <img src={trash} alt="delete comment" />
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                    <p className="italic py-1">{comment.content}</p>
                   </div>
-                  <p className="italic py-1">{comment.content}</p>
-                </div>
-              ))
+                ))
               : null}
           </ul>
           <form /* onSubmit={handleComment} */ className="relative mt-6">
@@ -257,18 +290,19 @@ const ChallengePage = () => {
           <ul className=" hidden md:flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                <div
-                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
+                  <div
+                    className={`${
+                      index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                  key={comment?.id}
-                >
-                  <div className="w-full ">
-                    <span className="font-bold">{comment.firstname} </span>
-                    <span>, le (20/09/23)</span>
+                    key={comment?.id}
+                  >
+                    <div className="w-full ">
+                      <span className="font-bold">{comment.firstname} </span>
+                      <span>, le (20/09/23)</span>
+                    </div>
+                    <p className="italic py-1">{comment.content}</p>
                   </div>
-                  <p className="italic py-1">{comment.content}</p>
-                </div>
-              ))
+                ))
               : null}
           </ul>
         </section>

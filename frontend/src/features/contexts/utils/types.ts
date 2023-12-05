@@ -100,6 +100,7 @@ export type NotificationContextType = {
 
 export type TChallenge = {
   id: number;
+  creator: TUser;
   title: string;
   description: string;
   startAt: string;
@@ -108,6 +109,7 @@ export type TChallenge = {
   tags: TTags[];
   contenders: TUser[];
   isPublic: boolean;
+  progressPercentage: number | 0;
 };
 
 export type ChallengeInformations = Pick<
@@ -119,12 +121,27 @@ export type ChallengeInformations = Pick<
   ecoActions: number[];
 };
 export type ChallengeContextType = {
+  getChallenge: (challengeId: number) => Promise<void>;
+  currentChallenge: TChallenge | undefined;
   challenges: TChallenge[];
   tasks: OptionType[];
   tags: TTags[];
   createAChallenge: (value: ChallengeInformations) => void;
+  ecoActionSelectionStatus: TEcoActionsSelectionStatus[];
+  getEcoActionSelectionStatus: (challengeId: number) => Promise<void>;
+  updateEcoActionSelectionStatus: (
+    ecoActionId: number,
+    challengeId: number,
+    isSelected: boolean
+  ) => Promise<void>;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
   data: { viewer: Record<Key, { hits: ResponseType[] }> };
 }
+
+export type TEcoActionsSelectionStatus = {
+  id: number;
+  ecoAction: OptionType;
+  ecoActionIsSelected: boolean;
+};

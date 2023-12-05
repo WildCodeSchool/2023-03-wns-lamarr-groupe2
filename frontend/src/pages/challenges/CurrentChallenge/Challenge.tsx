@@ -1,72 +1,21 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { ProgressionBar } from "../../../components/ProgressionBar";
 import NavBtn from "../../../components/NavBtn";
-import { formattedTimeLeft } from "./time";
 import edit from "../../../assets/icons/edit.svg";
 import ProfilePicture from "../../../components/ProfilePicture";
-export type EcoAction = {
-  id: number;
-  name: string;
-  description: string;
-  points: number;
-  need_proof: boolean;
-};
+import { TChallenge } from "../../../features/contexts/utils/types";
+import useUserContext from "../../../features/contexts/UserContext";
+import { TimeLeft } from "../../challenge/TimeLeft";
 
-export type TChallenge = {
-  id: number;
-  name: string;
-  actions: EcoAction[];
-  startAt: string;
-  endAt: string;
-  creator: number;
-};
-
-export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
+export const Challenge: FC<{
+  challenge: TChallenge;
+}> = ({ challenge }) => {
   const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
-  const userId = 1; // UserContext user.id
-  const isOwner = challenge.creator === userId;
-  const progress = 70; //TO-DO : Calculate progression (actions done / nbr of actions)
-
-  const TimeLeft = () => {
-    const timeLeft = formattedTimeLeft(challenge?.startAt, challenge?.endAt);
-    const [url, setUrl] = useState<string | undefined>(undefined);
-
-    const colorIndicator = (timeLeft: any, type?: "clock") => {
-      if (Object.keys(timeLeft)[0] === "H") {
-        return type ? "danger" : "text-primary-danger";
-      }
-      if (Object.keys(timeLeft)[0] === "M") {
-        return type ? "attention" : "text-primary-attention";
-      }
-      return type ? "good" : "text-primary-good";
-    };
-
-    useEffect(() => {
-      const importImage = async () => {
-        try {
-          const image = await import(
-            `../../../assets/icons/clock/clock-${colorIndicator(
-              timeLeft,
-              "clock"
-            )}.svg`
-          );
-          setUrl(image.default);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      importImage();
-    }, [timeLeft]);
-
-    return (
-      <span className={`${colorIndicator(timeLeft)} flex gap-3`}>
-        {" "}
-        <img src={url} alt="clock" /> {Object.values(timeLeft)}{" "}
-        {Object.keys(timeLeft)}{" "}
-      </span>
-    );
-  };
+  const { user } = useUserContext();
+  const userId = user.id;
+  const isOwner = challenge?.creator?.id === userId;
+  const numberOfEcoActions = challenge.ecoActions?.length;
+  // Calculate progress for the current challenge
 
   return (
     <div className="border-1 h-full max-h-[228px] md:min-w-[572px] lg:min-w-fit max-w-[572px] p-3 rounded-medium">
@@ -74,15 +23,14 @@ export const Challenge: FC<{ challenge: TChallenge }> = ({ challenge }) => {
         <div className="flex flex-col  w-9/12">
           <div className="flex-grow">
             <h4 className="uppercase text-main-p font-bold truncate">
-              {challenge?.name}
+              {challenge?.title}
             </h4>
-            <ProgressionBar value={progress} />
+            <ProgressionBar value={0} />
             <p className="text-main-p my-2 text-primary-dark">
-              {" "}
-              Nb d'éco-gestes : {challenge?.actions.length}
+              Nb d'éco-gestes : {numberOfEcoActions ?? 0}
             </p>
           </div>
-          <TimeLeft />
+          <TimeLeft challenge={challenge} />
         </div>
 
         <div className=" flex flex-col  lg:flex lg:flex-col  w-3/12 justify-between  items-end lg:items-end lg:justify-between">

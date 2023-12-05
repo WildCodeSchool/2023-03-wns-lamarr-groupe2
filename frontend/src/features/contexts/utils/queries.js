@@ -126,6 +126,9 @@ const queryFriendList = `query UsersWithUnreadNotifications {
 const queryChallenges = `query GetAllChallenges {
   getAllChallenges {
     id
+    creator {
+      id
+    }
     title
     description
     isPublic
@@ -149,6 +152,8 @@ const queryChallenges = `query GetAllChallenges {
   }
 }`;
 
+const queryChallenge = `query GetChallengeById ($challengeId: Float!) { getChallengeById(challengeId: $challengeId) {id creator {id} title description isPublic startAt endAt ecoActions {id label points need_proof difficulty} tags {id label} contenders {id username picture}}}`;
+
 const queryTasks = `query Query {
   getAllEcoActions {
     id
@@ -163,6 +168,18 @@ const queryTags = `query Query {
   getAllTags {
     id
     label
+  }
+}`;
+
+const queryEcoActionSelectionStatus = `query Query($challengeId: Float!) {
+  getEcoActionSelectionStatus(challengeId: $challengeId) {
+    ecoActionIsSelected
+    ecoAction {
+      id
+      label
+      difficulty
+      points
+    }
   }
 }`;
 
@@ -185,6 +202,10 @@ const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: 
   }
 }`;
 
+const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean!, $ecoActionId: Float!, $challengeId: Float!) {
+  updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
+}`;
+
 module.exports = {
   queryProfile,
   signUpQuery,
@@ -201,8 +222,11 @@ module.exports = {
   sendNotifications,
   queryFriendList,
   queryChallenges,
+  queryChallenge,
   queryTasks,
   queryTags,
+  queryEcoActionSelectionStatus,
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
+  mutationEcoActionSelectionStatus,
 };
