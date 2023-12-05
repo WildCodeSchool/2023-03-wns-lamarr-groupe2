@@ -8,7 +8,7 @@ const NotificationsParameters: FC<SettingsPageParameters> = () => {
   const [isOpenModale, setIsOpenModale] = useState(false);
 
   return (
-    <div className="flex-1">
+    <div className="">
       <div className="w-fit gap-9 flex pr-1">
         <h3 className="font-bold text-primary-good uppercase">
           <span className="hidden lg:inline">Paramètres </span>Notifications

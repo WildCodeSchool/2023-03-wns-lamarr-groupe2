@@ -89,42 +89,44 @@ const SettingsPage = () => {
   };
 
   return (
-    <div
-      className="flex flex-col lg:flex-row w-full lg:gap-28  justify-start lg:px-10 p-3
+    <div className="mainScreen">
+      <div
+        className="flex flex-col lg:flex-row w-full lg:justify-center  p-3
   "
-    >
-      <Toaster reverseOrder={false} position="top-center" />
+      >
+        <Toaster reverseOrder={false} position="top-center" />
 
-      <Profile
-        user={user}
-        username={username}
-        email={email}
-        handleInputChange={handleInputChange}
-        setIsEdit={setIsEdit}
-        isEdit={isEdit}
-        isEditPassword={isEditPassword}
-        setIsEditPassword={setIsEditPassword}
-        handleModifications={handleModifications}
-        handlePasswordModification={handlePasswordModification}
-        oldPassword={oldPassword}
-        newPassword={newPassword}
-        confirmPassword={confirmPassword}
-      />
-      <NotificationsParameters
-        user={user}
-        username={username}
-        email={email}
-        handleInputChange={handleInputChange}
-        setIsEdit={setIsEdit}
-        isEdit={isEdit}
-        isEditPassword={isEditPassword}
-        setIsEditPassword={setIsEditPassword}
-        handleModifications={handleModifications}
-        handlePasswordModification={handlePasswordModification}
-        oldPassword={oldPassword}
-        newPassword={newPassword}
-        confirmPassword={confirmPassword}
-      />
+        <Profile
+          user={user}
+          username={username}
+          email={email}
+          handleInputChange={handleInputChange}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          isEditPassword={isEditPassword}
+          setIsEditPassword={setIsEditPassword}
+          handleModifications={handleModifications}
+          handlePasswordModification={handlePasswordModification}
+          oldPassword={oldPassword}
+          newPassword={newPassword}
+          confirmPassword={confirmPassword}
+        />
+        <NotificationsParameters
+          user={user}
+          username={username}
+          email={email}
+          handleInputChange={handleInputChange}
+          setIsEdit={setIsEdit}
+          isEdit={isEdit}
+          isEditPassword={isEditPassword}
+          setIsEditPassword={setIsEditPassword}
+          handleModifications={handleModifications}
+          handlePasswordModification={handlePasswordModification}
+          oldPassword={oldPassword}
+          newPassword={newPassword}
+          confirmPassword={confirmPassword}
+        />
+      </div>
     </div>
   );
 };

@@ -1,17 +1,15 @@
 import dayjs from "dayjs";
 
-export const timeLeft = (start: string, end: string) => {
-  const startDate = dayjs(start);
+export const timeLeft = (end: string) => {
   const endDate = dayjs(end);
 
-  return endDate.diff(startDate);
+  return endDate.diff(Date.now());
 };
 
-export const formattedTimeLeft = (start: string, end: string) => {
-  const startDate = dayjs(start);
+export const formattedTimeLeft = (end: string) => {
   const endDate = dayjs(end);
 
-  const timeLeft = endDate.diff(startDate);
+  const timeLeft = endDate.diff(Date.now());
 
   const days = Math.floor(timeLeft / (24 * 60 * 60 * 1000));
 
