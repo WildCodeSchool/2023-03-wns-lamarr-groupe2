@@ -1,7 +1,6 @@
 import { Arg, Ctx, Mutation, Query } from "type-graphql";
 import { EcoAction } from "../models/EcoAction";
 import { User } from "../models/User";
-import { Challenge } from "../models/Challenge";
 import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
 
 export class EcoActionResolver {

@@ -6,6 +6,7 @@ import { User } from "../models/User";
 import { Tag } from "../models/Tag";
 import { InvitationChallenge } from "../models/InvitationChallenge";
 import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
+import { MyChallenges } from "../models/MyChallenges";
 
 export class ChallengeResolver {
   @Query(() => [Challenge]) // Updated return type to an array of Challenge
@@ -34,7 +35,8 @@ export class ChallengeResolver {
     @Arg("isPublic") isPublic: boolean,
     @Arg("ecoActions", () => [Int], { validate: false }) ecoActions: number[],
     @Arg("tags", () => [Int], { validate: false }) tags: number[],
-    @Arg("contenders", () => [Int], { validate: false }) contenders: number[]
+    @Arg("contenders", () => [Int], { validate: false }) contenders: number[],
+    @Arg("progress") progress: number
   ): Promise<Challenge> {
     const user = context.user;
     if (!user) throw new Error(`The user is not connected`);
@@ -79,6 +81,14 @@ export class ChallengeResolver {
       entry.challenge = challenge;
       entry.ecoAction = ecoAction;
       entry.ecoActionIsSelected = false; // Set the initial state
+      await entry.save();
+    }
+
+    for (const user of challenge.contenders) {
+      const entry = new MyChallenges();
+      entry.challenge = challenge;
+      entry.user = user;
+      entry.progress = 0;
       await entry.save();
     }
 
@@ -187,6 +197,58 @@ export class ChallengeResolver {
     if (challenges == null) throw new Error("Challenge not found!");
 
     return challenges;
+  }
+
+  @Query(() => [MyChallenges]) // Retourne tous les challenge via l'id d'un user
+  async getMyChallenges(
+    @Ctx() context: { user: User }
+  ): Promise<MyChallenges[]> {
+    const user = context.user;
+
+    if (!user) throw new Error(`The user doesn't exist`);
+
+    const myChallenges = await MyChallenges.find({
+      relations: { challenge: true, user: true },
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
+
+    if (myChallenges == null) throw new Error("Challenge not found!");
+
+    return myChallenges;
+  }
+
+  //Update my Challenge progression
+  @Mutation(() => Boolean)
+  async updateMyChallengeProgress(
+    @Ctx() context: { user: User },
+    @Arg("challengeId") challengeId: number,
+    @Arg("progress") progress: number
+  ): Promise<boolean> {
+    const user = context.user;
+
+    const challenge = await MyChallenges.findOne({
+      relations: { challenge: true, user: true },
+      where: {
+        challenge: {
+          id: challengeId,
+        },
+        user: { id: user.id },
+      },
+    });
+
+    // we check if the challenge exists
+    if (challenge == null) throw new Error("Challenge not found!");
+    if (progress !== null && progress !== undefined) {
+      challenge.progress = progress;
+    }
+
+    await challenge.save();
+
+    return true;
   }
 
   @Query(() => Challenge)

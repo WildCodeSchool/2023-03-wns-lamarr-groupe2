@@ -13,6 +13,7 @@ import { IsNumber } from "class-validator";
 import { InvitationChallenge } from "../models/InvitationChallenge";
 import { Challenge } from "../models/Challenge";
 import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
+import { MyChallenges } from "../models/MyChallenges";
 
 @InputType()
 export class InvitationChallengeInput {
@@ -121,6 +122,14 @@ export class InvitationChallengeResolver {
           entry.challenge = challenge;
           entry.ecoAction = ecoAction;
           entry.ecoActionIsSelected = false; // Set the initial state
+          await entry.save();
+        }
+
+        for (const user of challenge.contenders) {
+          const entry = new MyChallenges();
+          entry.challenge = challenge;
+          entry.user = user;
+          entry.progress = 0;
           await entry.save();
         }
       }

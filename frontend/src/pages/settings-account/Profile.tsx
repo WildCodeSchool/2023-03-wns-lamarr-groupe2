@@ -61,7 +61,7 @@ const Profile: FC<SettingsPageParameters> = ({
   };
 
   return (
-    <section className="lg:flex-1 w-full lg:w-max lg:max-w-[457px]">
+    <section className="md:w-2/6">
       {/* Mobile Header */}
       <div className="lg:hidden  flex w-full justify-center pr-5">
         <div className="w-fit pr-4 relative">

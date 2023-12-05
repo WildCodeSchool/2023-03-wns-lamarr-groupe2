@@ -11,7 +11,7 @@ import { EcoAction } from "./EcoAction";
 import { User } from "./User";
 
 @ObjectType()
-@Entity({ name: "user_challenge_eco_action_list" })
+@Entity({ name: "user_challenge_eco_action_status" })
 export class ChallengeEcoActionsListProof extends BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()
