@@ -42,7 +42,7 @@ export class AuthResolver {
       where: { email },
     });
     if (userFoundByEmail == null) {
-      throw new Error("Invalid credentials");
+      throw new Error("User doesn't exist");
     }
 
     // We check if the password is valid

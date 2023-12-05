@@ -15,6 +15,7 @@ const HeaderBarNotification = () => {
   const [isHovered, setIsHovered] = useState<SetStateAction<void> | boolean>(
     isOneNotificationUnread
   );
+  const [isTextVisible, setIsTextVisible] = useState(false);
 
   useEffect(() => {
     setIsHovered(isOneNotificationUnread);
@@ -22,10 +23,12 @@ const HeaderBarNotification = () => {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    setTimeout(() => setIsTextVisible(true), 400);
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setIsTextVisible(false);
   };
 
   return (
@@ -34,12 +37,12 @@ const HeaderBarNotification = () => {
       onMouseLeave={handleMouseLeave}
       className={`${
         isHovered ? "h-44" : "h-5"
-      } ease-in duration-300 w-16 bg-primary-attention border-b border-x drop-shadow-notification rounded-b-[50px] absolute right-40 top-[4.5rem] hidden lg:block`}
+      } cursor-pointer ease-in duration-300 w-16 bg-primary-attention border-b border-x drop-shadow-notification rounded-b-[10px] absolute right-40 top-[4.5rem] hidden lg:block`}
     >
       <div
         className={`${
-          isHovered ? "overflow-visible opacity-100" : "overflow-hidden"
-        } cursor-pointer w-100 rotate-90 pl-7 font-bold transition-opacity duration-500 ease-out opacity-0 h-5`}
+          isTextVisible ? "overflow-visible opacity-100" : "overflow-hidden"
+        } cursor-pointer w-100 rotate-90 pl-7 ml-1 font-bold transition-opacity duration-0 ease-out opacity-0 h-5`}
         onClick={() => navigate("/notifications")}
       >
         NOTIFICATIONS
