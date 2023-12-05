@@ -13,12 +13,9 @@ import { User } from "./User";
 import { InvitationChallenge } from "./InvitationChallenge";
 import { EcoAction } from "./EcoAction";
 import { Tag } from "./Tag";
-
-export enum ChallengeStatus {
-  COMING = "COMING",
-  PROGRESS = "PROGRESS",
-  FINISHED = "FINISHED",
-}
+import { Comment } from "./Comment";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
+import { MyChallenges } from "./MyChallenges";
 
 @ObjectType()
 @Entity()
@@ -85,10 +82,6 @@ export class Challenge extends BaseEntity {
   })
   ecoActions: EcoAction[];
 
-  @Field()
-  @Column({ nullable: false, default: ChallengeStatus.COMING })
-  challenge_status: ChallengeStatus;
-
   @Field(() => [Tag], { nullable: true })
   @ManyToMany(() => Tag, (tag) => tag.id)
   @JoinTable({
@@ -126,8 +119,33 @@ export class Challenge extends BaseEntity {
   contenders: User[];
 
   @Field(() => [InvitationChallenge])
-  @OneToMany(() => InvitationChallenge, (invitation) => invitation.id, {
+  @OneToMany(() => InvitationChallenge, (invitation) => invitation.challenge, {
     cascade: true,
   })
   invitation: InvitationChallenge[];
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.challenge_id, {
+    cascade: true,
+  })
+  comments: Comment[];
+
+  @Field(() => String)
+  get status(): string {
+    const now = new Date();
+    if (now > this.endAt) return "finished";
+    if (now < this.startAt) return "incoming";
+    return "ongoing";
+  }
+
+  @Field(() => [ChallengeEcoActionsListProof])
+  @OneToMany(
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.challenge
+  )
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
+
+  @Field(() => [MyChallenges])
+  @OneToMany(() => MyChallenges, (myChallenges) => myChallenges.challenge)
+  myChallenges: MyChallenges[];
 }

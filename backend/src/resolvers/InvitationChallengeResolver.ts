@@ -12,6 +12,8 @@ import { User } from "../models/User";
 import { IsNumber } from "class-validator";
 import { InvitationChallenge } from "../models/InvitationChallenge";
 import { Challenge } from "../models/Challenge";
+import { ChallengeEcoActionsListProof } from "../models/ChallengeEcoActionsListProof";
+import { MyChallenges } from "../models/MyChallenges";
 
 @InputType()
 export class InvitationChallengeInput {
@@ -86,6 +88,7 @@ export class InvitationChallengeResolver {
       relations: {
         challenge: {
           contenders: true,
+          ecoActions: true,
         },
       },
       where: {
@@ -105,12 +108,30 @@ export class InvitationChallengeResolver {
     invitation.isUnread = isUnread;
     await invitation.save();
 
+    // Mise a jour du challenge et des ecoAction du user
     if (status === true) {
       const challenge = invitation.challenge;
 
       if (!challenge.contenders.includes(user)) {
         challenge.contenders.push(user);
         challenge.save();
+
+        for (const ecoAction of challenge.ecoActions) {
+          const entry = new ChallengeEcoActionsListProof();
+          entry.user = user;
+          entry.challenge = challenge;
+          entry.ecoAction = ecoAction;
+          entry.ecoActionIsSelected = false; // Set the initial state
+          await entry.save();
+        }
+
+        for (const user of challenge.contenders) {
+          const entry = new MyChallenges();
+          entry.challenge = challenge;
+          entry.user = user;
+          entry.progress = 0;
+          await entry.save();
+        }
       }
     }
 

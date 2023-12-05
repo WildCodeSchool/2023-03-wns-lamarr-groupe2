@@ -134,6 +134,9 @@ const queryFriendList = `query UsersWithUnreadNotifications {
 const queryChallenges = `query GetAllChallenges {
   getAllChallenges {
     id
+    creator {
+      id
+    }
     title
     description
     isPublic
@@ -157,6 +160,8 @@ const queryChallenges = `query GetAllChallenges {
   }
 }`;
 
+const queryChallenge = `query GetChallengeById ($challengeId: Float!) { getChallengeById(challengeId: $challengeId) {id creator {id} title description isPublic startAt endAt ecoActions {id label points need_proof difficulty} tags {id label} contenders {id username picture}}}`;
+
 const queryTasks = `query Query {
   getAllEcoActions {
     id
@@ -174,8 +179,20 @@ const queryTags = `query Query {
   }
 }`;
 
+const queryEcoActionSelectionStatus = `query Query($challengeId: Float!) {
+  getEcoActionSelectionStatus(challengeId: $challengeId) {
+    ecoActionIsSelected
+    ecoAction {
+      id
+      label
+      difficulty
+      points
+    }
+  }
+}`;
+
 const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: [Int!]!, $ecoActions: [Int!]!, $isPublic: Boolean!, $endAt: String!, $startAt: String!, $description: String!, $title: String!) {
-  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title) {
+  createChallenge(contenders: $contenders, tags: $tags, ecoActions: $ecoActions, isPublic: $isPublic, endAt: $endAt, startAt: $startAt, description: $description, title: $title, progress:0) {
     title
     description
     isPublic
@@ -188,6 +205,26 @@ const mutationCreateChallenge = `mutation Mutation($contenders: [Int!]!, $tags: 
       id
     }
     tags {
+      id
+    }
+  }
+}`;
+
+const mutationEcoActionSelectionStatus = `mutation Mutation($isSelected: Boolean!, $ecoActionId: Float!, $challengeId: Float!) {
+  updateEcoActionStatus(isSelected: $isSelected, ecoActionId: $ecoActionId, challengeId: $challengeId)
+}`;
+
+const mutationMyChallengeProgress = `mutation Mutation($progress: Float!, $challengeId: Float!) {
+  updateMyChallengeProgress(progress: $progress, challengeId: $challengeId)
+}`;
+
+const queryMyChallenges = `query Query {
+  getMyChallenges {
+    progress
+    user {
+      id
+    }
+    challenge {
       id
     }
   }
@@ -210,8 +247,13 @@ module.exports = {
   sendNotifications,
   queryFriendList,
   queryChallenges,
+  queryChallenge,
   queryTasks,
   queryTags,
+  queryEcoActionSelectionStatus,
   mutationCreateChallenge,
   updateChallengeInvitationNotification,
+  mutationEcoActionSelectionStatus,
+  mutationMyChallengeProgress,
+  queryMyChallenges,
 };

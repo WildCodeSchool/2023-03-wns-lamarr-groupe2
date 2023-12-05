@@ -13,7 +13,9 @@ import { Challenge } from "./Challenge";
 import { CompanyGroup } from "./CompanyGroup";
 import { Notification } from "./Notification";
 import { InvitationChallenge } from "./InvitationChallenge";
-import { isNotEmpty } from "class-validator";
+import { Comment } from "./Comment";
+import { ChallengeEcoActionsListProof } from "./ChallengeEcoActionsListProof";
+import { MyChallenges } from "./MyChallenges";
 
 @ObjectType()
 @Entity()
@@ -93,15 +95,22 @@ export class User extends BaseEntity {
   challenge: Challenge[];
 
   // creator
-  @Field(() => [Challenge])
+  @Field(() => Challenge)
   @OneToMany(() => Challenge, (challengeId) => challengeId.creator)
-  createdChallenges: Challenge[];
+  createdChallenges: Challenge;
 
   @Field(() => [Notification])
-  @OneToMany(() => Notification, (notification) => notification.receiver, {
+  @ManyToMany(() => Notification, (notification) => notification.receiver, {
     cascade: true,
   })
+  @JoinTable()
   receivedNotifications: Notification[];
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.sender, {
+    cascade: true,
+  })
+  comments: Comment[];
 
   @Field(() => [Notification])
   @OneToMany(() => Notification, (notification) => notification.sender, {
@@ -109,4 +118,45 @@ export class User extends BaseEntity {
   })
   @JoinTable()
   sentNotifications: Notification[];
+
+  @Field(() => InvitationChallenge)
+  @ManyToMany(() => InvitationChallenge, (invitation) => invitation.receiver, {
+    cascade: true,
+  })
+  @JoinTable({
+    name: "received_invitation", // table name for the junction table of this relation
+    joinColumn: {
+      name: "userId",
+      referencedColumnName: "id",
+    },
+    inverseJoinColumn: {
+      name: "challenge_invitation",
+      referencedColumnName: "id",
+    },
+  })
+  receivedChallengeInvitation: InvitationChallenge[];
+
+  async addFriend(friend: User): Promise<void> {
+    if (!this.friend) {
+      this.friend = [];
+    }
+
+    if (
+      !this.friend.some((existingFriend) => existingFriend.id === friend.id)
+    ) {
+      this.friend.push(friend);
+      await this.save();
+    }
+  }
+
+  @Field(() => [ChallengeEcoActionsListProof])
+  @OneToMany(
+    () => ChallengeEcoActionsListProof,
+    (challengeEcoActionsListProof) => challengeEcoActionsListProof.user
+  )
+  challengeEcoActionsListProof: ChallengeEcoActionsListProof[];
+
+  @Field(() => [MyChallenges])
+  @OneToMany(() => MyChallenges, (myChallenges) => myChallenges.user)
+  myChallenges: MyChallenges[];
 }

@@ -15,7 +15,7 @@
     @apply bg-primary-danger font-button font-bold rounded-small py-3 px-2  max-w-[270px] text-button;
   }
   .btnAttention {
-    @apply bg-primary-attention font-button font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[270px] text-button;
+    @apply bg-primary-attention font-button font-bold rounded-small drop-shadow-lg py-3 px-2 max-w-[300px] text-button;
   }
   .small {
     @apply rounded-rounder py-3 px-6  w-36;
@@ -56,8 +56,12 @@
   }
 
   .screen {
-    @apply flex flex-grow lg:px-6 lg:py-8;
+    @apply  flex xxl:justify-center w-full 
   }
+  .mainScreen {
+    @apply  xxl:min-h-[95vh]  p-12 flex gap-20 xxl:justify-around xxl:bg-main-bg xxl:drop-shadow-2xl  w-full xxl:max-w-screen-xxl h-full
+  }
+
 }
 
 /* Quill  */

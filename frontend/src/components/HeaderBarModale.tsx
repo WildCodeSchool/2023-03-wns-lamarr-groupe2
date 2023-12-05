@@ -33,7 +33,7 @@ export const HeaderBarModale: FC<HeaderBarModaleProps> = ({
   return (
     <div
       onMouseLeave={() => setShowModale(false)}
-      className="absolute right-10 top-20 z-[99] w-60 h-28"
+      className="absolute right-[9%] top-20 z-[99] w-60 h-28"
       style={modaleStyle}
     >
       <div className=" flex w-44 flex-col justify-center h-full">
