@@ -196,7 +196,7 @@ const ChallengePage = () => {
 
               <p>
                 {!isShowingMore &&
-                  currentChallenge?.description.length! > 150 ? (
+                currentChallenge?.description.length! > 150 ? (
                   <ReactQuill
                     value={currentChallenge?.description?.slice(0, 150) + "…"}
                     readOnly={true}
@@ -274,30 +274,31 @@ const ChallengePage = () => {
           <ul className=" md:hidden flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                <div
-                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
+                  <div
+                    className={`${
+                      index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                  key={comment?.id}
-                >
-                  <div className="w-full flex">
-                    <div>
-                      <span className="font-bold">{comment.firstname} </span>
-                      <span>, le (20/09/23)</span>
-                    </div>
-                    {comment?.userId === user.id ? (
-                      <div className="flex">
-                        <button type="button">
-                          <img src={edit} alt="modify comment" />
-                        </button>
-                        <button type="button">
-                          <img src={trash} alt="delete comment" />
-                        </button>
+                    key={comment?.id}
+                  >
+                    <div className="w-full flex">
+                      <div>
+                        <span className="font-bold">{comment.firstname} </span>
+                        <span>, le (20/09/23)</span>
                       </div>
-                    ) : null}
+                      {comment?.userId === user.id ? (
+                        <div className="flex">
+                          <button type="button">
+                            <img src={edit} alt="modify comment" />
+                          </button>
+                          <button type="button">
+                            <img src={trash} alt="delete comment" />
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                    <p className="italic py-1">{comment.content}</p>
                   </div>
-                  <p className="italic py-1">{comment.content}</p>
-                </div>
-              ))
+                ))
               : null}
           </ul>
           <form /* onSubmit={handleComment} */ className="relative mt-6">
@@ -315,18 +316,19 @@ const ChallengePage = () => {
           <ul className=" hidden md:flex flex-col gap-6 pt-2">
             {!isEmpty(challenge?.comments)
               ? challenge.comments?.map((comment, index) => (
-                <div
-                  className={`${index + 1 === challenge.comments.length ? "" : "border-b"
+                  <div
+                    className={`${
+                      index + 1 === challenge.comments.length ? "" : "border-b"
                     }`}
-                  key={comment?.id}
-                >
-                  <div className="w-full ">
-                    <span className="font-bold">{comment.firstname} </span>
-                    <span>, le (20/09/23)</span>
+                    key={comment?.id}
+                  >
+                    <div className="w-full ">
+                      <span className="font-bold">{comment.firstname} </span>
+                      <span>, le (20/09/23)</span>
+                    </div>
+                    <p className="italic py-1">{comment.content}</p>
                   </div>
-                  <p className="italic py-1">{comment.content}</p>
-                </div>
-              ))
+                ))
               : null}
           </ul>
         </section>
@@ -335,7 +337,10 @@ const ChallengePage = () => {
           <BtnCustom
             styled="btnDanger"
             text="Abandonner"
-            onClick={() => setIsOpenModale((prev) => !prev)}
+            onClick={() => {
+              console.log(isOpenModale.valueOf());
+              setIsOpenModale((prev) => !prev);
+            }}
           />
         </div>
       </div>
