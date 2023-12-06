@@ -43,7 +43,6 @@ email
 }
 }`;
 
-
 const updatePictureQuery = `mutation UpdatePicture($picture: String) {
   updatePicture(picture: $picture) {
     picture 
@@ -219,6 +218,10 @@ const mutationMyChallengeProgress = `mutation Mutation($progress: Float!, $chall
   updateMyChallengeProgress(progress: $progress, challengeId: $challengeId)
 }`;
 
+const mutationAbandonChallenge = `mutation Mutation($challengeId: Float!) {
+abandonChallenge(challengeId: $challengeId)
+}`;
+
 const queryMyChallenges = `query Query {
   getMyChallenges {
     progress
@@ -258,4 +261,5 @@ module.exports = {
   mutationEcoActionSelectionStatus,
   mutationMyChallengeProgress,
   queryMyChallenges,
+  mutationAbandonChallenge,
 };

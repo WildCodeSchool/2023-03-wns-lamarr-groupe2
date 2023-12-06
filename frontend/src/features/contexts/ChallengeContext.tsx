@@ -27,6 +27,7 @@ import {
   mutationEcoActionSelectionStatus,
   queryMyChallenges,
   mutationMyChallengeProgress,
+  mutationAbandonChallenge,
 } from "./utils/queries";
 import { isEmpty } from "remeda";
 import { useToaster } from "../hooks/useToaster";
@@ -129,6 +130,21 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     [config]
   );
 
+  const abandonChallenge = useCallback(
+    async (challengeId: number) => {
+      try {
+        await axios.post(
+          BACKEND_URL,
+          { query: mutationAbandonChallenge },
+          config
+        );
+        await getMyChallenges();
+      } catch (error) {
+        console.error("Error abandoning challenge", error);
+      }
+    },
+    [config, getMyChallenges]
+  );
   const getTasks = async () => {
     try {
       const response = await axios.post(
@@ -258,6 +274,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         getEcoActionSelectionStatus,
         myChallenges,
         updateMyChallengeProgress,
+        abandonChallenge,
       }}
     >
       {children}

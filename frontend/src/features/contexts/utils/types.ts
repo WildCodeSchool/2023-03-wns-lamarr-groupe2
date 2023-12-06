@@ -152,6 +152,7 @@ export type ChallengeContextType = {
     challengeId: number,
     progress: number
   ) => Promise<void>;
+  abandonChallenge: (challengeId: number) => Promise<boolean>;
 };
 //Api Response
 export interface ApiReponse<ResponseType, Key extends string> {
