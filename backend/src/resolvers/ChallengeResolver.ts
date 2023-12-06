@@ -146,6 +146,30 @@ export class ChallengeResolver {
     return challenge;
   }
 
+  // Create a mutation that's deleting a challenge for a given user when the user decides to abandon it
+  @Mutation(() => Boolean)
+    async abandonChallenge(
+        @Ctx() context: {user: User},
+        @Arg("challengeId") challengeId: number
+    ): Promise<boolean> {
+    const user = context.user;
+
+    // Fetch the user's challenge
+    const userChallenge = await MyChallenges.findOne({
+      where: {
+        user: {id: user.id},
+        challenge: {id: challengeId},
+      }
+    });
+    if(userChallenge == null) {
+      throw new Error("User's challenge not found");
+    }
+    await userChallenge.remove();
+    return true;
+  }
+
+
+
   // create a mutation to delete a challenge and only the creator of the challenge or an admin can delete it. If the creator is not the user who is logged in, we throw an error
   @Mutation(() => Boolean)
   async deleteChallenge(
@@ -178,7 +202,7 @@ export class ChallengeResolver {
       where: { id: friendId },
     });
 
-    if (!friend) throw new Error(`The user doesn't exist or is not a friend`);
+    if (friend == null) throw new Error(`The user doesn't exist or is not a friend`);
 
     const challenges = await Challenge.find({
       relations: {
@@ -221,7 +245,7 @@ export class ChallengeResolver {
     return myChallenges;
   }
 
-  //Update my Challenge progression
+  // Update my Challenge progression
   @Mutation(() => Boolean)
   async updateMyChallengeProgress(
     @Ctx() context: { user: User },
