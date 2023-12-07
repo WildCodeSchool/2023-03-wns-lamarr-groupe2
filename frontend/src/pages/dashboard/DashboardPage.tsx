@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
 import DashboardPageModale from "./DashboardPageModale";
 import FriendsLeaderboard from "./Leaderboard/FriendsLeaderboard";
 import MyChallenges from "./MyChallenges";
@@ -6,10 +6,14 @@ import MyChallenges from "./MyChallenges";
 
 export default function DashboardPage() {
   //  const isUserGotTeams = true; // userContext check need comany be not null back
+  const { isLoading } = useChallengeContext();
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="mainScreen">
-
       <div className="flex justify-center gap-20 w-full">
         <MyChallenges />
         {/*   {isUserGotTeams && (
@@ -20,7 +24,8 @@ export default function DashboardPage() {
         <DashboardPageModale />
         <div className="border rounded-medium hidden h-3/4  lg:flex ">
           <FriendsLeaderboard />
-        </div></div>
+        </div>
+      </div>
     </section>
   );
 }

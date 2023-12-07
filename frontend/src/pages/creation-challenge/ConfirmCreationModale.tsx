@@ -12,7 +12,7 @@ type ModaleProps = {
 };
 
 const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
-  const { createAChallenge } = useChallengeContext();
+  const { createAChallenge, setIsLoading } = useChallengeContext();
   const navigate = useNavigate();
 
   const formattedState: ChallengeInformations = {
@@ -34,6 +34,7 @@ const RemoveFriendModale: FC<ModaleProps> = ({ setIsOpenModale, state }) => {
     createAChallenge(formattedState);
     setIsOpenModale((prev) => !prev);
     navigate("/");
+    setIsLoading(true);
   };
 
   return (

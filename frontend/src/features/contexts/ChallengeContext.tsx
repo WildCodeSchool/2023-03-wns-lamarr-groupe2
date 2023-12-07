@@ -51,6 +51,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
   const [ecoActionSelectionStatus, setEcoActionSelectionStatus] = useState<
     TEcoActionsSelectionStatus[]
   >([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const { notifyCreate } = useToaster();
   const config = useMemo(
     () => ({
@@ -189,8 +191,10 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         const response = await axios.post(BACKEND_URL, createChallenge, config);
         console.warn(response);
         notifyCreate();
-        getChallenges();
-        getMyChallenges();
+
+        await getChallenges();
+        await getMyChallenges();
+        setIsLoading(false);
       } catch (error) {
         console.error("Error creating challenge", error);
       }
@@ -216,6 +220,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           config
         );
         console.warn(response);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error Updating ecoActionSelectionStatus:", error);
       }
@@ -240,6 +245,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
     getTasks();
     getTags();
     getMyChallenges();
+    setIsLoading(false);
     /* react-hooks/exhaustive-deps bug ? he wants to make infinite loop */
     /* eslint-disable-next-line */
   }, [user, token]);
@@ -258,6 +264,8 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         getEcoActionSelectionStatus,
         myChallenges,
         updateMyChallengeProgress,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}
