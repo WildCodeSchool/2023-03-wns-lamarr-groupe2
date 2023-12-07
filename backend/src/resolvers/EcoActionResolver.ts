@@ -102,6 +102,7 @@ export class EcoActionResolver {
           id: user.id,
         },
       },
+      order: { id: "ASC" },
     });
 
     if (!ecoActionList) {
