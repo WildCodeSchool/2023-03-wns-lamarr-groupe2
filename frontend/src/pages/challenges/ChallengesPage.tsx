@@ -52,7 +52,6 @@ const ChallengesPage = () => {
                         <Challenge key={index} challenge={challenge} />
                       )
                   )}
-                  <h3 className="lg:hidden">Historique</h3>
                   {myChallengesList.map(
                     (challenge, index) =>
                       isChallengeDone(challenge) && (
