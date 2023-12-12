@@ -12,7 +12,7 @@ import { formattedTimeLeft } from "./time";
 export const Challenge: FC<{
   challenge: TChallenge;
 }> = ({ challenge }) => {
-  const challMember = [1, 2, 3]; // TO-DO : Get the list of chall members (not only teams)
+  const challMember = challenge.contenders.slice(0, 3); // TO-DO : Get the list of chall members (not only teams)
   const { user } = useUserContext();
   const { myChallenges } = useChallengeContext();
   const userId = user.id;
@@ -66,8 +66,8 @@ export const Challenge: FC<{
           </div>
 
           {/* TO-DO : make simething like the maquet */}
-          <div className="flex">
-            {challMember?.slice(0, 3)?.map((member, index) => (
+          <div className="flex p-3 justify-end">
+            {challMember?.map((member, index) => (
               <div key={index} className="mr-[-10px] py-8">
                 <ProfilePicture /* url={member.picture} */ size="smallPic" />
               </div>

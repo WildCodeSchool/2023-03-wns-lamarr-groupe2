@@ -6,7 +6,7 @@ import useChallengeContext from "../../features/contexts/ChallengeContext";
 
 const MyChallenges: FC<PropsWithChildren> = () => {
   const navigate = useNavigate();
-  const { myChallenges, challenges } = useChallengeContext();
+  const { myChallenges, challenges, isLoading } = useChallengeContext();
 
   const myChallengesList = challenges.filter((challenge) =>
     myChallenges.some(
@@ -17,6 +17,10 @@ const MyChallenges: FC<PropsWithChildren> = () => {
   const [isFiltered, setIsFiltered] = useState(
     myChallengesList.length === 0 ? false : true
   );
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="h-full flex flex-col  w-full">
