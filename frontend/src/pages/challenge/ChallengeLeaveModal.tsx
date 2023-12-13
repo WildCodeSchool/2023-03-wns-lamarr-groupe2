@@ -1,16 +1,32 @@
 import { Dispatch, SetStateAction, FC } from "react";
 import BtnCustom from "../../components/BtnCustom";
 import attention from "../../assets/icons/attention.svg";
+import { useContext } from "react";
+import useChallengeContext from "../../features/contexts/ChallengeContext";
+import { useNavigate } from "react-router-dom";
+import { useToaster } from "../../features/hooks/useToaster";
 
 type ModaleProps = {
   setIsOpenModale: Dispatch<SetStateAction<boolean>>;
+  challengeId?: number;
 };
 
-const ChallengeLeaveModale: FC<ModaleProps> = ({ setIsOpenModale }) => {
-  //TO-DO : Mutation to delete user from challenge
-
-  const handleLeaveChallenge = () => {
-    //TO-DO : leaveChallenge(id)
+const ChallengeLeaveModale: FC<ModaleProps> = ({
+  setIsOpenModale,
+  challengeId,
+}) => {
+  const navigate = useNavigate();
+  const { abandonChallenge } = useChallengeContext();
+  const handleLeaveChallenge = async () => {
+    if (challengeId !== undefined) {
+      const success = await abandonChallenge(challengeId);
+      if (success) {
+        console.log("Challenge abandonned successfully");
+      } else {
+        console.log("Failed to abandon the challenge");
+      }
+    }
+    navigate("/challenges");
     setIsOpenModale((prev) => !prev);
   };
 

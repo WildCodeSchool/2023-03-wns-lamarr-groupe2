@@ -14,6 +14,9 @@ import ReactQuill from "react-quill";
 import moment from "moment";
 import DifficultyLevel from "../../components/DifficultyLevel";
 import RadioBtn from "../../components/RadioBtn";
+import challengeLeaveModal from "./ChallengeLeaveModal";
+import challengeContext from "../../features/contexts/ChallengeContext";
+import { TChallenge } from "../../features/contexts/utils/types";
 
 const challenge = {
   comments: [
@@ -42,6 +45,7 @@ const ChallengePage = () => {
   //TO-DO : Logic edit / delete commentary
 
   const { user } = useUserContext();
+  const userId = user.id;
   const {
     currentChallenge,
     getChallenge,
@@ -50,6 +54,7 @@ const ChallengePage = () => {
     updateEcoActionSelectionStatus,
     updateMyChallengeProgress,
   } = useChallengeContext();
+  const isOwner = currentChallenge?.creator?.id === userId;
   const isUserChallengeCreator = user.id === currentChallenge?.creator.id;
   const [isShowingMore, setIsShowingMore] = useState(false);
   const [comment, setComment] = useState<string>("");
@@ -226,11 +231,13 @@ const ChallengePage = () => {
                 {currentChallenge?.contenders
                   ?.slice(0, 5)
                   ?.map((member, index) => (
-                    <div key={member.id} className="mr-[-15px]">
+                    <div
+                      key={member.id}
+                      className="mr-[-15px] group relative cursor-pointer"
+                    >
                       <ProfilePicture url={member.picture} size="smallPic" />
                     </div>
                   ))}
-                {currentChallenge?.contenders.length! > 5 && "voir tous"}
               </div>
             </div>
           </div>
@@ -332,20 +339,36 @@ const ChallengePage = () => {
               : null}
           </ul>
         </section>
-        {/* Leave Challenge */}
-        <div className="flex w-full justify-center">
-          <BtnCustom
-            styled="btnDanger"
-            text="Abandonner"
-            onClick={() => {
-              console.log(isOpenModale.valueOf());
-              setIsOpenModale((prev) => !prev);
-            }}
-          />
-        </div>
+        {/* Leave or suppress challenge depending on ownership */}
+        {isOwner ? (
+          <div className="flex w-full justify-center">
+            <BtnCustom
+              styled="btnDanger"
+              text="Supprimer Challenge"
+              onClick={() => {
+                console.log(isOpenModale.valueOf());
+                setIsOpenModale((prev) => !prev);
+              }}
+            />
+          </div>
+        ) : (
+          <div className="flex w-full justify-center">
+            <BtnCustom
+              styled="btnDanger"
+              text="Abandonner"
+              onClick={() => {
+                console.log(isOpenModale.valueOf());
+                setIsOpenModale((prev) => !prev);
+              }}
+            />
+          </div>
+        )}
       </div>
       {isOpenModale ? (
-        <ChallengeLeaveModale setIsOpenModale={setIsOpenModale} />
+        <ChallengeLeaveModale
+          setIsOpenModale={setIsOpenModale}
+          challengeId={currentChallenge?.id}
+        />
       ) : null}
     </div>
   );

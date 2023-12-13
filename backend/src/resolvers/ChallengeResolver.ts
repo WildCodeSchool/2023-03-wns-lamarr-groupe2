@@ -163,6 +163,7 @@ export class ChallengeResolver {
     });
     if(userChallenge == null) {
       throw new Error("User's challenge not found");
+
     }
     await userChallenge.remove();
     return true;

@@ -73,6 +73,7 @@ export const Challenge: FC<{
               </div>
             ))}
           </div>
+          {isOwner && <div className="text-primary-good">Créateur</div>}
         </div>
       </div>
     </div>

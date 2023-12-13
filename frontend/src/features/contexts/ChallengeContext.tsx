@@ -52,7 +52,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
   const [ecoActionSelectionStatus, setEcoActionSelectionStatus] = useState<
     TEcoActionsSelectionStatus[]
   >([]);
-  const { notifyCreate } = useToaster();
+  const { notifyCreate, notifyAbandonChallenge } = useToaster();
   const config = useMemo(
     () => ({
       headers: { Authorization: `Bearer ${token}` },
@@ -100,7 +100,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
         };
         await axios.post(BACKEND_URL, options, config);
 
-        getMyChallenges();
+        await getMyChallenges();
       } catch (error) {
         console.error("Error Updating challenge:", error);
       }
@@ -131,7 +131,7 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
   );
 
   const abandonChallenge = useCallback(
-    async (challengeId: number) => {
+    async (challengeId: number): Promise<boolean> => {
       try {
         await axios.post(
           BACKEND_URL,
@@ -139,8 +139,11 @@ export const ChallengeContextProvider: FC<PropsWithChildren> = ({
           config
         );
         await getMyChallenges();
+        notifyAbandonChallenge();
+        return true;
       } catch (error) {
         console.error("Error abandoning challenge", error);
+        return false;
       }
     },
     [config, getMyChallenges]

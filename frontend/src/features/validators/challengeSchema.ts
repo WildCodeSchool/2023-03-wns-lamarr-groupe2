@@ -13,7 +13,7 @@ export const challengeSchema = yup.object().shape({
     .string()
     .required("La description doit faire entre 100 et 1000 caractères.")
     .min(100, "La description doit être supérieure à 100 caractères.")
-    .max(1000, "La description être inférieure à 1000 caractères."),
+    .max(1000, "La description doit être inférieure à 1000 caractères."),
   startDate: yup.date().nullable().required("Une date est manquante"),
   endDate: yup.date().nullable().required("Une date est manquante"),
   tasksToDo: yup
